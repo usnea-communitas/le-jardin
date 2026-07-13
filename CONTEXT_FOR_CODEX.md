@@ -114,11 +114,19 @@ divokých bylin, podzimní hrabání listí.
 
 ### 4.7 Season gates — naučné minihry (11 kusů)
 Při přepnutí sezóny se otevře „brána" s minihrou vybranou podle toho, co hráč má v zahradě
-(nikdy stejná 2× po sobě, vždy jde přeskočit, výhra = +1 share + ponaučení):
-mulč (timer), roztřiď kompost, postav hügel (pořadí vrstev), chytej déšť, preserve rush (těžší),
-aphid patrol (berušky), nectar bridge (včela), zimní úkryty, guild pexeso, seed harvest,
-true/myth kvíz. Logika: `applySeason → pickGate → startGate → gateTick/gateAct → gateResolve →
-gateFinish`, view v `buildGateView()`, definice v `gateDefs()`.
+(nejméně hrané mají přednost, vždy jde přeskočit, dokončení = +1 share + přenositelné ponaučení).
+Od verze **v58** jsou všechny minihry přepracované jako jednotné „Garden challenges": nejdřív krátké
+příběhové zadání a princip, potom praktická volba s okamžitou vysvětlující zpětnou vazbou a nakonec
+shrnutí naučené dovednosti. Nejsou v nich časovače ani reflexní klikání a chyba hráče úlohu neukončí —
+hráč dostane vodítko a může své řešení opravit.
+
+Aktuálních 11 výzev: záchrana půdní vláhy (priorita záhonů podle vlhkosti), vyvážený kompost
+(2 greens + 2 browns, bez kontaminace), vrstvení hügelkultury, návrh cesty dešťové vody, plán zimní
+spíže, obnova přirozené rovnováhy proti mšicím, třísezónní kalendář nektaru, přiřazení zimních
+úkrytů, doplnění funkčních guild, výběr zdravého a suchého osiva a scénářové systémové rozhodování.
+Logika: `applySeason → pickGate → startGate (brief) → gateBegin → gateAct → gateResolve → gateFinish`,
+view v `buildGateView()`, definice v `gateDefs()`. Na localhostu je instance pro automatické testy
+dostupná jako `window.__PERMAGARDEN_APP__`; na produkční doméně se tento hook nevytváří.
 
 ### 4.8 Wildlife kvízy / speciální eventy
 Občas po přidání prvku speciální event („ve vedlejší zahradě se objevil ježek — odpověz na

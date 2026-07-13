@@ -413,7 +413,7 @@ button:focus-visible{outline:2.5px solid #C99A3C;outline-offset:2px;border-radiu
           </div>
         </section>
       </sc-for>
-      <div title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v57</span></div>
+      <div title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v58</span></div>
     </div>
 
     <!-- CENTER: garden + sharing table -->
@@ -601,51 +601,82 @@ button:focus-visible{outline:2.5px solid #C99A3C;outline-offset:2px;border-radiu
             </sc-if>
 
             <sc-if value="{{ gateVisible }}" hint-placeholder-val="{{ false }}">
-              <div sc-camel-on-click="{{ gateView.stop }}" style="position:absolute;inset:0;z-index:70;background:rgba(44,53,37,.45);backdrop-filter:blur(3px);display:grid;place-items:center">
-                <div data-pg-dialog="gate" role="dialog" aria-modal="true" aria-label="Season gate on the way to {{ gateView.target }}: {{ gateView.title }}" tabindex="-1" style="width:min(600px,94%);max-height:96%;overflow-y:auto;background:#FBF8F1;border:2px solid #CFE0AC;border-radius:20px;padding:17px 19px;box-shadow:0 30px 70px -24px rgba(20,35,10,.7);animation:floatIn .35s ease">
-                  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px">
-                    <div style="display:flex;align-items:center;gap:9px">
-                      <span style="font-size:23px">{{ gateView.emoji }}</span>
-                      <div>
-                        <div style="font-size:9px;font-weight:700;color:#8A7E66;letter-spacing:.12em;text-transform:uppercase">Season gate · on the way to {{ gateView.target }}</div>
-                        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;color:#2C3525;line-height:1.1">{{ gateView.title }}</div>
+              <div sc-camel-on-click="{{ gateView.stop }}" style="position:fixed;inset:0;z-index:700;background:rgba(35,45,30,.58);backdrop-filter:blur(5px);display:grid;place-items:center;padding:10px">
+                <div data-pg-dialog="gate" role="dialog" aria-modal="true" aria-label="Garden challenge on the way to {{ gateView.target }}: {{ gateView.title }}" tabindex="-1" style="width:min(680px,96%);max-height:96%;overflow-y:auto;background:#FBF8F1;border:1.5px solid #D7E3BC;border-radius:26px;padding:20px 22px 18px;box-shadow:0 34px 90px -26px rgba(15,28,10,.82);animation:floatIn .35s ease">
+                  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px">
+                    <div style="display:flex;align-items:center;gap:12px;min-width:0">
+                      <span style="width:48px;height:48px;flex:0 0 48px;border-radius:15px;background:linear-gradient(145deg,#EDF4DE,#DCE9C7);box-shadow:inset 0 0 0 1px #CFE0AC;display:grid;place-items:center;font-size:27px">{{ gateView.emoji }}</span>
+                      <div style="min-width:0">
+                        <div style="font-size:9px;font-weight:800;color:#7C8D66;letter-spacing:.15em;text-transform:uppercase;margin-bottom:3px">Garden challenge · {{ gateView.target }} {{ gateView.seasonEmoji }}</div>
+                        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;color:#2C3525;line-height:1.08">{{ gateView.title }}</div>
                       </div>
                     </div>
-                    <span style="font-size:11px;font-weight:700;color:#5E7E4A;background:#EAF1DC;padding:3px 10px;border-radius:16px;white-space:nowrap">{{ gateView.progressText }}</span>
+                    <span style="font-size:10.5px;font-weight:800;color:#5E7E4A;background:#EDF4DE;border:1px solid #D7E3BC;padding:5px 10px;border-radius:16px;white-space:nowrap">{{ gateView.principle }}</span>
                   </div>
-                  <div style="font-size:12px;color:#6E6552;line-height:1.45;margin-bottom:10px">{{ gateView.prompt }}</div>
-                  <sc-if value="{{ gateView.hasTimer }}" hint-placeholder-val="{{ false }}">
-                    <div style="height:6px;border-radius:4px;background:#E4DAC4;overflow:hidden;margin-bottom:10px"><div style="{{ gateView.timerStyle }}"></div></div>
-                  </sc-if>
-                  <div sc-camel-on-click="{{ gateView.onBoardClick }}" sc-camel-on-pointer-move="{{ gateView.onBoardMove }}" style="{{ gateView.boardStyle }}">
-                    <sc-for list="{{ gateView.tiles }}" as="t" hint-placeholder-count="0">
-                      <div sc-camel-on-click="{{ t.onClick }}" title="{{ t.title }}" style="{{ t.style }}">
-                        <sc-if value="{{ t.art }}" hint-placeholder-val="{{ false }}"><span style="{{ t.artStyle }}">{{ t.art }}</span></sc-if>
-                        <sc-if value="{{ t.label }}" hint-placeholder-val="{{ false }}"><span style="{{ t.labelStyle }}">{{ t.label }}</span></sc-if>
+
+                  <sc-if value="{{ gateView.briefing }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:relative;overflow:hidden;background:linear-gradient(135deg,#F5F0E3,#EAF1DA);border:1px solid #DDD5C1;border-radius:20px;padding:24px 25px 22px;text-align:center">
+                      <div style="position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.38);right:-42px;top:-70px"></div>
+                      <div style="font-size:10px;font-weight:800;color:#9B7A3C;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px">Why the garden needs you</div>
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;line-height:1.45;color:#3A432F;max-width:540px;margin:0 auto 18px">{{ gateView.story }}</div>
+                      <div style="background:rgba(255,253,246,.82);border:1px solid #E4DAC4;border-radius:14px;padding:12px 15px;text-align:left;max-width:550px;margin:0 auto">
+                        <div style="font-size:9px;font-weight:800;color:#8A7E66;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px">Your mission</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#514A3C">{{ gateView.prompt }}</div>
                       </div>
-                    </sc-for>
-                  </div>
-                  <sc-if value="{{ gateView.hasButtons }}" hint-placeholder-val="{{ false }}">
-                    <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">
-                      <sc-for list="{{ gateView.buttons }}" as="gb" hint-placeholder-count="0">
-                        <button sc-camel-on-click="{{ gb.onClick }}" style="{{ gb.style }}" style-hover="transform:translateY(-1px)">{{ gb.label }}</button>
+                    </div>
+                    <div style="display:flex;justify-content:center;margin-top:14px">
+                      <button sc-camel-on-click="{{ gateView.onBegin }}" style="background:#5E7E4A;border:none;color:#F7F1E3;font-family:inherit;font-weight:800;font-size:13px;padding:11px 25px;border-radius:12px;cursor:pointer;box-shadow:0 8px 18px -12px rgba(48,76,32,.7)">Start challenge →</button>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ gateView.inChallenge }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:#F5F0E3;border-radius:12px;padding:8px 11px;margin-bottom:10px">
+                      <div style="font-size:11.5px;color:#5F584A;line-height:1.35">{{ gateView.prompt }}</div>
+                      <span style="font-size:10.5px;font-weight:800;color:#5E7E4A;white-space:nowrap">{{ gateView.progressText }}</span>
+                    </div>
+                    <sc-if value="{{ gateView.hasFeedback }}" hint-placeholder-val="{{ false }}">
+                      <div role="status" aria-live="polite" style="{{ gateView.feedbackStyle }}">{{ gateView.feedback }}</div>
+                    </sc-if>
+                    <sc-if value="{{ gateView.hasTimer }}" hint-placeholder-val="{{ false }}">
+                      <div style="height:6px;border-radius:4px;background:#E4DAC4;overflow:hidden;margin-bottom:10px"><div style="{{ gateView.timerStyle }}"></div></div>
+                    </sc-if>
+                    <div sc-camel-on-click="{{ gateView.onBoardClick }}" sc-camel-on-pointer-move="{{ gateView.onBoardMove }}" style="{{ gateView.boardStyle }}">
+                      <sc-for list="{{ gateView.tiles }}" as="t" hint-placeholder-count="0">
+                        <div sc-camel-on-click="{{ t.onClick }}" sc-camel-on-key-down="{{ t.onKeyDown }}" role="{{ t.role }}" tabindex="{{ t.tabIndex }}" aria-label="{{ t.title }}" title="{{ t.title }}" style="{{ t.style }}">
+                          <sc-if value="{{ t.art }}" hint-placeholder-val="{{ false }}"><span style="{{ t.artStyle }}">{{ t.art }}</span></sc-if>
+                          <sc-if value="{{ t.label }}" hint-placeholder-val="{{ false }}"><span style="{{ t.labelStyle }}">{{ t.label }}</span></sc-if>
+                          <sc-if value="{{ t.note }}" hint-placeholder-val="{{ false }}"><span style="{{ t.noteStyle }}">{{ t.note }}</span></sc-if>
+                        </div>
                       </sc-for>
                     </div>
+                    <sc-if value="{{ gateView.hasButtons }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">
+                        <sc-for list="{{ gateView.buttons }}" as="gb" hint-placeholder-count="0">
+                          <button sc-camel-on-click="{{ gb.onClick }}" style="{{ gb.style }}" style-hover="transform:translateY(-1px)">
+                            <span style="display:block">{{ gb.label }}</span>
+                            <sc-if value="{{ gb.note }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:9.5px;font-weight:600;opacity:.78;margin-top:2px">{{ gb.note }}</span></sc-if>
+                          </button>
+                        </sc-for>
+                      </div>
+                    </sc-if>
                   </sc-if>
+
                   <sc-if value="{{ gateView.showResult }}" hint-placeholder-val="{{ false }}">
                     <div style="{{ gateView.resultStyle }}">
-                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:15px;margin-bottom:4px">{{ gateView.resultTitle }}</div>
-                      <div style="font-size:12px;line-height:1.5">{{ gateView.lesson }}</div>
+                      <div style="width:54px;height:54px;border-radius:50%;margin:0 auto 10px;background:#EAF1DA;display:grid;place-items:center;font-size:28px">{{ gateView.resultEmoji }}</div>
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;margin-bottom:6px">{{ gateView.resultTitle }}</div>
+                      <div style="font-size:12.5px;line-height:1.55">{{ gateView.lesson }}</div>
+                      <div style="margin-top:10px;padding-top:9px;border-top:1px solid rgba(94,126,74,.2);font-size:10.5px;font-weight:700;color:#6D7E5C">Skill practised · {{ gateView.skill }}</div>
                     </div>
-                    <div style="display:flex;gap:8px;justify-content:center;margin-top:12px">
+                    <div style="display:flex;gap:8px;justify-content:center;margin-top:13px">
                       <sc-if value="{{ gateView.canRetry }}" hint-placeholder-val="{{ false }}">
                         <button sc-camel-on-click="{{ gateView.onRetry }}" style="background:#fff;border:1.5px solid #CBBFA4;color:#5A5240;font-weight:700;font-size:12px;padding:9px 16px;border-radius:10px;cursor:pointer;font-family:inherit">↻ Try again</button>
                       </sc-if>
-                      <button sc-camel-on-click="{{ gateView.onFinish }}" style="background:#5E7E4A;border:none;color:#F2E9D2;font-weight:700;font-size:12.5px;padding:9px 20px;border-radius:10px;cursor:pointer;font-family:inherit">{{ gateView.continueLabel }}</button>
+                      <button sc-camel-on-click="{{ gateView.onFinish }}" style="background:#5E7E4A;border:none;color:#F2E9D2;font-weight:800;font-size:12.5px;padding:10px 21px;border-radius:11px;cursor:pointer;font-family:inherit">{{ gateView.continueLabel }}</button>
                     </div>
                   </sc-if>
-                  <sc-if value="{{ gateView.playing }}" hint-placeholder-val="{{ false }}">
-                    <div style="text-align:center;margin-top:9px"><button sc-camel-on-click="{{ gateView.onFinish }}" style="background:none;border:none;color:#A99E86;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:underline">Skip minigame →</button></div>
+                  <sc-if value="{{ gateView.canSkip }}" hint-placeholder-val="{{ false }}">
+                    <div style="text-align:center;margin-top:10px"><button sc-camel-on-click="{{ gateView.onFinish }}" style="background:none;border:none;color:#A99E86;font-size:10.5px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:underline">Skip this challenge →</button></div>
                   </sc-if>
                 </div>
               </div>
@@ -1756,6 +1787,7 @@ class Component extends DCLogic {
   componentDidMount(){
     const boot=document.getElementById('pg-boot');if(boot){boot.remove();}
     const bootStyle=document.getElementById('pg-boot-style');if(bootStyle){bootStyle.remove();}
+    if(location.hostname==='localhost'||location.hostname==='127.0.0.1'){window.__PERMAGARDEN_APP__=this;}
     this._esc=(e)=>{
       if(e.key!=='Escape'){return;}
       if(this.state.gate||this.state.visit){return;}
@@ -1804,6 +1836,7 @@ class Component extends DCLogic {
     setTimeout(()=>this.syncDialogAccess(),0);
   }
   componentWillUnmount(){
+    if(window.__PERMAGARDEN_APP__===this){delete window.__PERMAGARDEN_APP__;}
     window.removeEventListener('keydown',this._esc);
     window.removeEventListener('keydown',this._focusTrap);
     document.removeEventListener('pointerdown',this._downCap,true);
@@ -2471,79 +2504,125 @@ class Component extends DCLogic {
     if(this._gd){return this._gd;}
     const has=(st,t)=>st.placed.some(p=>p.type===t);
     this._gd={
-      mulch:{title:'Cover the beds',emoji:'🌾',timed:true,
+      mulch:{title:'Soil moisture rescue',emoji:'🌾',principle:'Observe & conserve',
         avail:(st,k)=>has(st,'mulch')&&k!=='Winter',
-        lesson:'A mulch blanket keeps water in the soil — bare beds lose their moisture within hours of sun.',
-        prompt:'The sun is drying the garden! Click every bare bed to tuck it under mulch before the moisture runs out.',
-        init:()=>({patches:[{x:16,y:28},{x:40,y:60},{x:62,y:24},{x:82,y:56},{x:26,y:80},{x:72,y:82}].map(p=>({x:p.x,y:p.y,c:false})),m:100}),
-        tick:(d)=>{d.m-=0.8;if(d.patches.every(p=>p.c)){return 'won';}if(d.m<=0){return 'lost';}}},
-      compost:{title:'Sort the compost',emoji:'♻️',
+        story:'A hot afternoon is coming. You have four barrows of mulch and six bare beds, so observation matters before action.',
+        prompt:'Read the moisture tags and protect the four thirsty beds first. Beds above 50% can wait until the next barrow arrives.',
+        skill:'reading soil moisture and prioritising water',
+        lesson:'Mulch shades soil, slows evaporation and feeds soil life. In a real garden every bare bed deserves cover; when materials are scarce, protect the driest soil first.',
+        init:()=>({patches:[
+          {x:17,y:31,m:24,need:true},{x:50,y:29,m:68,need:false},{x:83,y:31,m:38,need:true},
+          {x:17,y:73,m:31,need:true},{x:50,y:71,m:72,need:false},{x:83,y:73,m:45,need:true}
+        ].map(p=>({...p,c:false})),mist:0,feedback:null,feedbackGood:false})},
+      compost:{title:'Feed the compost',emoji:'♻️',principle:'Turn waste into fertility',
         avail:(st,k)=>has(st,'compost'),
-        lesson:'Compost loves greens, browns and shells — but no meat, glass or plastic. Keep it vegetarian and clean.',
-        prompt:'The kitchen bucket just arrived. Decide for each item: does it feed the compost, or does it go to the bin?',
-        init:()=>({i:0,ok:0,items:this.shuf([{t:'Banana peel',img:'mg-banana',ok:1},{t:'Egg shells',img:'mg-eggshell',ok:1},{t:'Plastic bag',img:'mg-plastic',ok:0},{t:'Coffee grounds',img:'mg-coffee',ok:1},{t:'Glass jar',img:'mg-jar',ok:0},{t:'Dry leaves',img:'mg-leaves',ok:1},{t:'Cooked meat',img:'mg-chicken',ok:0},{t:'Grass clippings',img:'mg-grass',ok:1},{t:'Plain cardboard',img:'mg-cardboard',ok:1}])})},
-      hugel:{title:'Build the hügel',emoji:'🪵',
+        story:'The heap has gone cold and soggy. It needs a balanced meal — fresh nitrogen-rich greens plus dry, carbon-rich browns.',
+        prompt:'Choose exactly four ingredients: two greens and two browns. Leave contaminants out, then build the pile.',
+        skill:'balancing carbon, nitrogen, air and moisture',
+        lesson:'A lively compost pile mixes roughly equal loose volumes of fresh greens and dry browns. Plastic and cooked meat do not belong in a simple community compost.',
+        init:()=>({selected:[],mist:0,feedback:null,feedbackGood:false,items:this.shuf([
+          {t:'Banana peel',img:'mg-banana',cat:'green'},{t:'Coffee grounds',img:'mg-coffee',cat:'green'},
+          {t:'Grass clippings',img:'mg-grass',cat:'green'},{t:'Dry leaves',img:'mg-leaves',cat:'brown'},
+          {t:'Plain cardboard',img:'mg-cardboard',cat:'brown'},{t:'Small branches',img:'mg-branches',cat:'brown'},
+          {t:'Plastic bag',img:'mg-plastic',cat:'out'},{t:'Cooked meat',img:'mg-chicken',cat:'out'}
+        ])})},
+      hugel:{title:'Build a living sponge',emoji:'🪵',principle:'Stack functions',
         avail:(st,k)=>has(st,'hugel'),
-        lesson:'A hügel bed is lasagne for the soil: wood at the heart stores water for years, compost on top feeds the roots.',
-        prompt:'Stack the hügelkultur bed from the ground up — what goes first, what goes last?',
-        init:()=>({order:['logs','branches','leaves','compost','soil'],opts:this.shuf(['logs','branches','leaves','compost','soil']),placed:[],mist:0})},
-      rain:{title:'Catch the rain',emoji:'💧',timed:true,
+        story:'A wind-fallen tree can become a raised bed instead of waste. The order of the layers decides whether it stores water or dries out.',
+        prompt:'Build from the ground up. Choose the next layer and watch the mound become a long-term water sponge.',
+        skill:'building a layered hügelkultur bed',
+        lesson:'Large wood forms the reservoir, branches fill the gaps, leaves add carbon, compost feeds the bed and topsoil gives roots a safe start.',
+        init:()=>({order:['logs','branches','leaves','compost','soil'],opts:this.shuf(['logs','branches','leaves','compost','soil']),placed:[],mist:0,feedback:null,feedbackGood:false})},
+      rain:{title:'Guide every drop',emoji:'💧',principle:'Slow, spread & sink',
         avail:(st,k)=>has(st,'rain')&&(k==='Spring'||k==='Summer'),
-        lesson:'Every roof is a small river — a barrel catches it for the dry weeks ahead.',
-        prompt:'A shower is passing! Move the barrel with your mouse and catch at least 7 of the 10 raindrops.',
-        init:()=>({t:0,drops:[],sp:0,c:0,miss:0,bx:50}),
-        tick:(d)=>{d.t++;if(d.t%6===0&&d.sp<10){d.drops=[...d.drops,{x:8+Math.random()*84,y:-2}];d.sp++;}
-          d.drops=d.drops.map(dr=>({x:dr.x,y:dr.y+3.2})).filter(dr=>{if(dr.y>=72&&dr.y<=95&&Math.abs(dr.x-d.bx)<=11){d.c++;return false;}if(dr.y>96){d.miss++;return false;}return true;});
-          if(d.sp>=10&&d.drops.length===0){return d.c>=7?'won':'lost';}}},
-      kitchen:{title:'Preserve rush',emoji:'🫙',timed:true,
+        story:'The next shower should fill more than a barrel. A good water system catches clean roof water and gives the overflow somewhere useful to go.',
+        prompt:'Complete the water journey in the right order, from the roof edge to soil that can absorb the overflow.',
+        skill:'designing a safe rainwater chain',
+        lesson:'Guide roof water through a gutter and leaf screen, store it in a covered barrel, then send overflow to a planted swale where it can soak into the soil.',
+        init:()=>({order:['gutter','screen','barrel','swale'],opts:this.shuf(['gutter','screen','barrel','swale']),placed:[],mist:0,feedback:null,feedbackGood:false})},
+      kitchen:{title:'Plan the winter pantry',emoji:'🫙',principle:'Store surplus wisely',
         avail:(st,k)=>has(st,'kitchen'),
-        lesson:'Preserving matches the method to the food: jam the fruit, dry the herbs, ferment the cabbage, cellar the roots — and share the greens while they’re fresh.',
-        prompt:'Harvest crates are coming in fast! Pick the right preservation for each one before it spoils — you need 7 of 9.',
-        init:()=>({i:0,ok:0,t:22,items:this.shuf(['cherries','apples','cabbage','herbs','leafy','potatoes','roots','apples','cherries'])}),
-        tick:(d)=>{d.t--;if(d.t<=0){d.i++;d.t=22;if(d.i>=d.items.length){return (d.ok||0)>=7?'won':'lost';}}}},
-      ladybug:{title:'Aphid patrol',emoji:'🐞',timed:true,
+        story:'The harvest table is overflowing, but every crop keeps best in a different way. A thoughtful pantry carries summer abundance into winter.',
+        prompt:'Choose the best use or preservation method for each crate. A wrong choice reveals a clue, so you can rethink it.',
+        skill:'matching crops to low-energy preservation',
+        lesson:'Jam fruit, dry apples and herbs, ferment cabbage, cellar roots and share tender leaves while they are fresh. Diversity in the pantry reduces waste.',
+        init:()=>({i:0,mist:0,feedback:null,feedbackGood:false,items:this.shuf(['cherries','apples','cabbage','herbs','leafy','roots'])})},
+      ladybug:{title:'Restore the balance',emoji:'🐞',principle:'Work with living systems',
         avail:(st,k)=>this.activeOf(st.placed).has('ladybug')&&k!=='Winter',
-        lesson:'One ladybug eats dozens of aphids a day — habitat beats pesticide every time.',
-        prompt:'Aphids are landing on the greens! Click a leaf to send a ladybug to clean it. Keep the patch alive until sunset — lose 2 leaves and the bed is done.',
-        init:()=>({t:0,leaves:[0,0,0,0,0,0].map(()=>({a:0,w:false}))}),
-        tick:(d)=>{d.t++;if(d.t%5===0){const alive=d.leaves.map((l,i)=>l.w?-1:i).filter(i=>i>=0);if(alive.length){const i=alive[Math.floor(Math.random()*alive.length)];const l={...d.leaves[i]};l.a++;if(l.a>=6){l.w=true;}d.leaves=d.leaves.map((q,j)=>j===i?l:q);}}
-          if(d.leaves.filter(l=>l.w).length>=2){return 'lost';}if(d.t>=150){return 'won';}}},
-      bee:{title:'Nectar bridge',emoji:'🐝',
+        story:'Aphids have appeared on the young leaves. The goal is not to erase every insect, but to rebuild the relationships that keep outbreaks in check.',
+        prompt:'Select the three actions that support ladybugs, hoverflies and other natural predators, then restore balance.',
+        skill:'choosing habitat-based pest management',
+        lesson:'Flowering plants feed adult predators, hollow stems offer shelter and patient observation gives them time to respond. Broad pesticides break this balance.',
+        init:()=>({selected:[],mist:0,feedback:null,feedbackGood:false,actions:this.shuf([
+          {k:'flowers',label:'Plant nectar flowers',icon:'🌼',ok:true},
+          {k:'stems',label:'Keep hollow stems',icon:'🪵',ok:true},
+          {k:'observe',label:'Observe for a few days',icon:'👀',ok:true},
+          {k:'spray',label:'Use broad pesticide',icon:'🧴',ok:false},
+          {k:'strip',label:'Clear every wild corner',icon:'🧹',ok:false},
+          {k:'bare',label:'Leave soil bare',icon:'☀️',ok:false}
+        ])})},
+      bee:{title:'Keep the nectar flowing',emoji:'🐝',principle:'Design through time',
         avail:(st,k)=>this.activeOf(st.placed).has('bee')&&k!=='Winter',
-        lesson:'Bees fly flower to flower like stepping stones — plant nectar bridges and the whole garden gets pollinated.',
-        prompt:'The bee must cross the whole garden, but the flowers are too far apart. Click the meadow to plant 3 flower patches as stepping stones, then release her!',
-        init:()=>({placed:[],beeX:6})},
-      shelter:{title:'Who sleeps where?',emoji:'❄️',
+        story:'A colourful flower bed can still leave pollinators hungry if everything blooms in the same month. The missing dimension is time.',
+        prompt:'Build a three-season nectar calendar. Match one plant to spring, summer and autumn so food never disappears.',
+        skill:'planning continuous flowering across seasons',
+        lesson:'Willow catkins feed early pollinators, borage carries them through summer and ivy flowers provide vital late nectar in autumn.',
+        init:()=>({i:0,mist:0,feedback:null,feedbackGood:false,slots:[
+          {season:'Spring',emoji:'🌸',answer:'willow'},{season:'Summer',emoji:'☀️',answer:'borage'},{season:'Autumn',emoji:'🍂',answer:'ivy'}
+        ],plants:this.shuf([{k:'willow',label:'Willow catkins'},{k:'borage',label:'Borage flowers'},{k:'ivy',label:'Ivy flowers'}]),placed:[]})},
+      shelter:{title:'Make room for winter',emoji:'❄️',principle:'Fair share for wildlife',
         avail:(st,k)=>k==='Winter',
-        lesson:'Wildlife works for the garden all season — winter shelter is their wage. Leave leaves, stems and hollows standing.',
-        prompt:'Frost is coming tonight. Click an animal, then click its winter home to tuck it in.',
-        init:()=>({sel:null,matched:{},mist:0})},
-      pexeso:{title:'Guild pairs',emoji:'✦',
+        story:'The first hard frost is tonight. Each small garden worker needs a different kind of quiet, dry or living refuge.',
+        prompt:'Find the most suitable winter home for each animal. The clues are in how they live and feed.',
+        skill:'providing diverse overwintering habitat',
+        lesson:'Leaf piles shelter hedgehogs, hollow stems protect ladybugs, active compost buffers worms and dense woody corners hold butterfly chrysalises.',
+        init:()=>({i:0,mist:0,feedback:null,feedbackGood:false,matched:[],animals:[
+          {k:'hedgehog',name:'Hedgehog',home:'leaves'},{k:'ladybug',name:'Ladybug',home:'stems'},
+          {k:'worm',name:'Earthworm',home:'compost'},{k:'butterfly',name:'Butterfly chrysalis',home:'woody'}
+        ],homes:[
+          {k:'leaves',label:'Deep leaf pile',note:'dry and undisturbed'},{k:'stems',label:'Hollow stems',note:'many tiny cavities'},
+          {k:'compost',label:'Active compost',note:'moist and frost-buffered'},{k:'woody',label:'Dense woody corner',note:'sheltered stems and bark'}
+        ]})},
+      pexeso:{title:'Complete the guild',emoji:'✦',principle:'Connect, don’t collect',
         avail:(st,k)=>(st.discovered||[]).length>=2,
-        lesson:'Guild partners feed, shade and guard each other — plant companions, not rows.',
-        prompt:'Flip the cards and match each element with its guild partner — the pairs you’ve already discovered in your own garden.',
+        story:'A guild is more than two nearby objects: each partner should solve a need for the other and create a useful relationship.',
+        prompt:'For each familiar garden element, choose the partner that completes a working guild you have already discovered.',
+        skill:'designing relationships between garden elements',
+        lesson:'Strong guilds connect needs and yields: heat, water, shelter, food, learning or pest control. The relationship is the design.',
         init:(st)=>{const defs=this.guildDefs.filter(gd=>(st.discovered||[]).indexOf(gd.key)>=0).slice(0,3);
-          const cards=this.shuf(defs.reduce((a,gd)=>a.concat([{g:gd.key,t:gd.types[0],name:gd.name},{g:gd.key,t:gd.types[1],name:gd.name}]),[]));
-          return {cards:cards,open:[],found:{},flips:0,lock:false,pairs:defs.length};}},
-      seeds:{title:'Seed harvest',emoji:'🌰',
+          const all=this.guildDefs.map(gd=>gd.types[1]);
+          const qs=defs.map(gd=>({g:gd.key,name:gd.name,base:gd.types[0],answer:gd.types[1],why:gd.why,
+            opts:this.shuf([gd.types[1]].concat(this.shuf(all.filter(t=>t!==gd.types[1])).slice(0,2)))}));
+          return {i:0,qs:qs,mist:0,feedback:null,feedbackGood:false,matched:[]};}},
+      seeds:{title:'Choose tomorrow’s seeds',emoji:'🌰',principle:'Save what thrives',
         avail:(st,k)=>has(st,'seedbank')&&k==='Autumn',
-        lesson:'Seeds are saved from the most mature plants — a seed bank is next year’s garden in a jar.',
-        prompt:'The seed bank needs stock for the swap! Pick only the fully mature plants — young ones aren’t ready. Two wrong picks and the batch is spoiled.',
-        init:()=>{const crops=['potato','root','leafy','cabbage','herb'];
-          return {tiles:this.shuf(crops.map(c=>({crop:c,ripe:true})).concat(this.shuf(crops).slice(0,4).map(c=>({crop:c,ripe:false})))),got:0,mist:0};}},
-      quiz:{title:'True or myth?',emoji:'💡',
+        story:'The seed library needs resilient, clean seed — not simply the biggest handful. Maturity, dryness and plant health all matter.',
+        prompt:'Inspect each seed batch and decide whether to store it, wait for better conditions, or reject it.',
+        skill:'reading seed maturity, dryness and health',
+        lesson:'Save seed from healthy, mature plants once it is fully dry. Wait after rain or while seeds are green; reject diseased material so the problem is not carried into next year.',
+        init:()=>({i:0,mist:0,feedback:null,feedbackGood:false,items:[
+          {crop:'herb',stage:3,title:'Dry herb seed heads',clue:'Brown, crisp and from the healthiest plant',answer:'save'},
+          {crop:'leafy',stage:1,title:'Green lettuce seed heads',clue:'Soft, green and still filling',answer:'wait'},
+          {crop:'cabbage',stage:3,title:'Pods after morning rain',clue:'Mature, but damp to the touch',answer:'wait'},
+          {crop:'root',stage:3,title:'Spotted seed batch',clue:'Dry, but the parent plant had mildew',answer:'reject'},
+          {crop:'cabbage',stage:3,title:'Clean cabbage pods',clue:'Papery, dry and fully mature',answer:'save'}
+        ]})},
+      quiz:{title:'Read the garden',emoji:'💡',principle:'Observe before acting',
         avail:(st,k)=>true,
-        lesson:'Permaculture is observation first — the garden usually already knows the answer.',
-        prompt:'Three quick statements from the gardeners’ bench — which are true and which are myths?',
-        init:(st)=>{const pool=[
-          {c:has(st,'mulch'),q:'Bare soil holds water better than mulched soil.',a:false,exp:'Myth — mulch shades the soil and cuts evaporation dramatically.'},
-          {c:true,q:'Digging the beds every year keeps the soil healthy.',a:false,exp:'Myth — digging breaks the fungal networks; no-dig feeds the soil from the top.'},
-          {c:has(st,'compost'),q:'Cooked meat belongs in a home compost.',a:false,exp:'Myth — it attracts rats; keep home compost vegetarian.'},
-          {c:has(st,'rain'),q:'A rain barrel can bridge dry weeks for young beds.',a:true,exp:'True — stored roof water is exactly the buffer seedlings need.'},
-          {c:has(st,'bughotel'),q:'Ladybugs overwinter in hollow stems and bug hotels.',a:true,exp:'True — they sleep in dry cavities all winter long.'},
-          {c:true,q:'A hedgehog eats slugs.',a:true,exp:'True — one hedgehog patrols a whole garden of slugs every night.'},
-          {c:has(st,'hugel'),q:'Buried logs in a hügel bed steal water from plants.',a:false,exp:'Myth — rotting wood soaks up water like a sponge and releases it in drought.'}
-        ].filter(q=>q.c);return {i:0,ok:0,qs:this.shuf(pool).slice(0,3),rev:null};}}
+        story:'The garden rarely presents a neat true-or-false question. It presents a situation, several possible actions and a need to notice the whole system.',
+        prompt:'Work through three garden situations. Choose the response that solves today’s problem without creating tomorrow’s.',
+        skill:'systems thinking in everyday garden decisions',
+        lesson:'Permaculture decisions favour observation, soil cover, living relationships, low disturbance and sharing surplus. The best answer usually solves more than one problem.',
+        init:()=>({i:0,mist:0,feedback:null,feedbackGood:false,qs:this.shuf([
+          {icon:'☀️',q:'Three hot, dry days are forecast and the young beds are wilting.',answer:'deep',exp:'Deep morning watering plus mulch reaches roots and slows evaporation.',opts:[
+            {k:'sprinkle',label:'Lightly sprinkle at noon',note:'a little every day'},{k:'deep',label:'Water deeply in the morning',note:'then renew the mulch'},{k:'dig',label:'Dig the beds open',note:'let air reach the roots'}]},
+          {icon:'🌱',q:'You want a new bed on lawn without damaging the soil web.',answer:'layer',exp:'Cardboard, compost and mulch suppress grass while feeding soil from above.',opts:[
+            {k:'layer',label:'Layer cardboard, compost & mulch',note:'plant through the surface'},{k:'rotavate',label:'Rotavate the soil twice',note:'break it into a fine tilth'},{k:'strip',label:'Strip away and discard the turf',note:'remove the living top layer'}]},
+          {icon:'🐌',q:'Slugs are nibbling new seedlings after a wet week.',answer:'balance',exp:'Protect young plants while strengthening habitat for birds, beetles and hedgehogs.',opts:[
+            {k:'poison',label:'Scatter poison everywhere',note:'remove every slug'},{k:'balance',label:'Protect seedlings & invite predators',note:'treat the cause and the symptom'},{k:'clear',label:'Clear all shelter from the garden',note:'leave nowhere to hide'}]},
+          {icon:'🧺',q:'The garden has more fresh greens than your group can eat today.',answer:'share',exp:'Share tender produce now and preserve sturdier surplus for later.',opts:[
+            {k:'leave',label:'Leave it all unharvested',note:'hope it keeps'},{k:'share',label:'Share fresh & preserve the rest',note:'turn surplus into community'},{k:'bin',label:'Put the surplus in the bin',note:'start again next week'}]}
+        ]).slice(0,3)})}
     };
     return this._gd;
   }
@@ -2558,8 +2637,13 @@ class Component extends DCLogic {
     const def=this.gateDefs()[key];
     const d=def.init(this.state,target);
     clearInterval(this._gateIv);
-    this.setState({gate:{key:key,target:target,status:'play',d:d},toast:null,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null});
-    if(def.timed){this._gateIv=setInterval(()=>this.gateTick(),120);}
+    this.setState({gate:{key:key,target:target,status:'brief',d:d},toast:null,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null});
+  }
+  gateBegin(){
+    const g=this.state.gate;if(!g||g.status!=='brief'){return;}
+    const def=this.gateDefs()[g.key];
+    this.setState(s=>({gate:{...s.gate,status:'play'}}));
+    if(def&&def.timed){this._gateIv=setInterval(()=>this.gateTick(),120);}
   }
   gateTick(){
     const g=this.state.gate;if(!g||g.status!=='play'){return;}
@@ -2589,130 +2673,178 @@ class Component extends DCLogic {
     setTimeout(()=>this._applySeasonNow(t),0);
   }
   buildGateView(){
-    const st=this.state,g=st.gate;
-    const none={visible:false,title:'',emoji:'',target:'',prompt:'',progressText:'',tiles:[],buttons:[],hasButtons:false,hasTimer:false,timerStyle:{},boardStyle:{display:'none'},showResult:false,playing:false,lesson:'',resultTitle:'',resultStyle:{},canRetry:false,continueLabel:'',onFinish:null,onRetry:null,stop:null,onBoardClick:null,onBoardMove:null};
+    const g=this.state.gate;
+    const none={visible:false,title:'',emoji:'',target:'',seasonEmoji:'',principle:'',story:'',prompt:'',progressText:'',tiles:[],buttons:[],hasButtons:false,hasTimer:false,timerStyle:{},boardStyle:{display:'none'},briefing:false,inChallenge:false,showResult:false,canSkip:false,hasFeedback:false,feedback:'',feedbackStyle:{},lesson:'',skill:'',resultEmoji:'',resultTitle:'',resultStyle:{},canRetry:false,continueLabel:'',onBegin:null,onFinish:null,onRetry:null,stop:null,onBoardClick:null,onBoardMove:null};
     if(!g){return none;}
     const def=this.gateDefs()[g.key];if(!def){return none;}
-    const d=g.d;
+    const d=g.d,play=g.status==='play',brief=g.status==='brief',done=g.status==='won'||g.status==='lost';
     const abs=(x,y,w,h)=>({position:'absolute',left:x+'%',top:y+'%',transform:'translate(-50%,-50%)',width:w+'px',height:h+'px'});
-    const btn=(bg)=>({background:bg,border:'none',color:'#F7F1E3',fontWeight:'700',fontSize:'12.5px',padding:'10px 15px',borderRadius:'10px',cursor:'pointer',fontFamily:'inherit',transition:'transform .12s'});
+    const btn=(bg='#5E7E4A',wide=false)=>({background:bg,border:'none',color:'#F7F1E3',fontWeight:'800',fontSize:'12px',lineHeight:'1.15',padding:'10px 14px',minWidth:wide?'150px':'auto',borderRadius:'11px',cursor:'pointer',fontFamily:'inherit',transition:'transform .12s, box-shadow .12s',boxShadow:'0 7px 14px -12px rgba(35,50,25,.7)'});
+    const paleBtn=(wide=false)=>({background:'#FFFDF6',border:'1.5px solid #D8CEB8',color:'#4F493C',fontWeight:'800',fontSize:'12px',lineHeight:'1.15',padding:'10px 13px',minWidth:wide?'150px':'auto',borderRadius:'11px',cursor:'pointer',fontFamily:'inherit',transition:'transform .12s, border-color .12s'});
+    const nameOf=(type)=>((this.catalog[type]||{}).name||type.replace(/^crop_/,''));
     let tiles=[],buttons=[],timerPct=null,timerColor='#6FA0C8',onBoardClick=null,onBoardMove=null,progressText='';
-    const boardStyle={position:'relative',height:'250px',background:'linear-gradient(180deg,#EAF1DA,#DCE8C6)',borderRadius:'14px',border:'1px solid #D7E3BC',overflow:'hidden'};
-    const play=g.status==='play';
+    const boardStyle={position:'relative',height:'250px',background:'linear-gradient(180deg,#EEF4E2,#DFEACD)',borderRadius:'17px',border:'1px solid #D3E0BA',overflow:'hidden'};
+
     if(g.key==='mulch'){
-      timerPct=d.m;progressText=d.patches.filter(p=>p.c).length+'/6 covered';
-      tiles=d.patches.map((p,i)=>({
-        onClick:(p.c||!play)?null:((e)=>{e.stopPropagation();this.gateAct(d2=>{d2.patches=d2.patches.map((q,j)=>j===i?{...q,c:true}:q);if(d2.patches.every(q=>q.c)){return 'won';}});}),
-        title:p.c?'Mulched!':'Bare bed — click to cover',
-        style:{...abs(p.x,p.y,66,52),borderRadius:'46%',cursor:(p.c||!play)?'default':'pointer',background:p.c?'transparent':'radial-gradient(ellipse at 50% 38%,#C29C68,#9E7947)',boxShadow:p.c?'none':'inset 0 0 0 2px #8A6B3F',display:'grid',placeItems:'center'},
-        art:p.c?this.gimg('obj-mulch'):null,artStyle:{width:'58px',height:'46px',display:'block'}}));
+      const covered=d.patches.filter(p=>p.c).length;
+      progressText=covered+'/4 protected'+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='252px';boardStyle.background='linear-gradient(180deg,#F1E6C9,#E3D1A8)';
+      tiles=d.patches.map((p,i)=>{
+        const click=(p.c||!play)?null:((e)=>{e.stopPropagation();this.gateAct(d2=>{
+          const q=d2.patches[i];
+          if(!q.need){d2.mist=(d2.mist||0)+1;d2.feedback='This bed still holds '+q.m+'% moisture. Protect the beds below 50% first.';d2.feedbackGood=false;return;}
+          d2.patches=d2.patches.map((x,j)=>j===i?{...x,c:true}:x);
+          d2.feedback='Good observation — '+q.m+'% means this bed is already under water stress.';d2.feedbackGood=true;
+          if(d2.patches.filter(x=>x.c).length>=4){return 'won';}
+        });});
+        return {onClick:click,title:p.c?'Protected with mulch':'Bed moisture '+p.m+' percent',
+          style:{...abs(p.x,p.y,118,88),border:'1.5px solid '+(p.c?'#7E9A55':'#B28A58'),borderRadius:'26px 26px 34px 34px',cursor:click?'pointer':'default',background:p.c?'#E7E0C3':'radial-gradient(ellipse at 50% 42%,#B88A55,#8F6840)',boxShadow:p.c?'0 8px 15px -13px #34451f':'inset 0 0 0 3px rgba(92,61,31,.12),0 8px 16px -13px #4b321b',display:'grid',placeItems:'center'},
+          art:p.c?this.gimg('obj-mulch'):null,artStyle:{width:'78px',height:'62px',display:'block'},
+          label:p.c?'✓ covered':p.m+'%',labelStyle:{position:'absolute',left:'50%',top:p.c?'75%':'40%',transform:'translate(-50%,-50%)',fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:p.c?'10px':'19px',fontWeight:'800',color:p.c?'#49623A':'#FFF8E8',whiteSpace:'nowrap'},
+          note:p.c?null:(p.m<50?'thirsty':'still moist'),noteStyle:{position:'absolute',left:'50%',top:'67%',transform:'translateX(-50%)',fontSize:'9px',fontWeight:'800',letterSpacing:'.08em',textTransform:'uppercase',color:'#F7E8CB'}};
+      });
     } else if(g.key==='compost'){
-      const cur=d.items[Math.min(d.i,d.items.length-1)];
-      progressText='item '+Math.min(d.i+1,d.items.length)+'/'+d.items.length+' · '+(d.ok||0)+' right';
-      boardStyle.height='190px';
-      tiles=[{style:{...abs(50,40,200,118),background:'#FFFDF6',border:'1px solid #EBE2D0',borderRadius:'16px',display:'grid',placeItems:'center',boxShadow:'0 10px 22px -14px rgba(60,50,30,.5)'},art:this.gimg(cur.img),artStyle:{width:'96px',height:'96px',display:'block',animation:'pop .3s ease'}},
-        {style:{...abs(50,83,240,28),display:'grid',placeItems:'center'},label:cur.t,labelStyle:{fontFamily:"'Bricolage Grotesque',sans-serif",fontWeight:'800',fontSize:'16px',color:'#2C3525'}}];
-      const act=(choice)=>()=>this.gateAct(d2=>{const c2=d2.items[d2.i];if(!c2){return;}if((c2.ok===1)===(choice===1)){d2.ok=(d2.ok||0)+1;}d2.i++;if(d2.i>=d2.items.length){return (d2.ok||0)>=7?'won':'lost';}});
-      buttons=[{label:'♻️ Compost it',onClick:act(1),style:btn('#5E7E4A')},{label:'🗑️ Bin it',onClick:act(0),style:btn('#8A6B5A')}];
+      const selected=d.selected||[];
+      progressText=selected.length+'/4 chosen'+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='268px';boardStyle.background='linear-gradient(180deg,#F3ECDD,#E7DDC7)';
+      const pos=[[12.5,29],[37.5,29],[62.5,29],[87.5,29],[12.5,73],[37.5,73],[62.5,73],[87.5,73]];
+      tiles=d.items.map((it,i)=>{const sel=selected.indexOf(i)>=0;const click=!play?null:((e)=>{e.stopPropagation();this.gateAct(d2=>{const on=(d2.selected||[]).indexOf(i)>=0;d2.selected=on?d2.selected.filter(x=>x!==i):(d2.selected.length<4?[...d2.selected,i]:d2.selected);d2.feedback=null;});});return {
+        onClick:click,title:(sel?'Remove ':'Choose ')+it.t,
+        style:{...abs(pos[i][0],pos[i][1],116,104),border:'2px solid '+(sel?'#6E924F':'#E1D5BE'),borderRadius:'15px',cursor:click?'pointer':'default',background:sel?'#EDF4DE':'#FFFDF6',boxShadow:sel?'0 0 0 3px rgba(110,146,79,.13)':'0 8px 17px -15px rgba(50,40,25,.6)',display:'grid',placeItems:'center'},
+        art:this.gimg(it.img),artStyle:{position:'absolute',top:'9px',left:'31px',width:'54px',height:'54px',display:'block'},
+        label:it.t,labelStyle:{position:'absolute',left:'7px',right:'7px',bottom:'9px',textAlign:'center',fontSize:'10.5px',lineHeight:'1.15',fontWeight:'800',color:'#4A4337'},
+        note:sel?'✓':null,noteStyle:{position:'absolute',right:'6px',top:'5px',width:'18px',height:'18px',borderRadius:'50%',background:'#6E924F',color:'#fff',display:'grid',placeItems:'center',fontSize:'11px',fontWeight:'900'}};});
+      buttons=[{label:'Build this compost pile',note:'2 greens + 2 browns',style:btn('#5E7E4A',true),onClick:()=>this.gateAct(d2=>{
+        const chosen=(d2.selected||[]).map(i=>d2.items[i]);
+        if(chosen.length!==4){d2.mist++;d2.feedback='Choose exactly four ingredients before building the pile.';d2.feedbackGood=false;return;}
+        if(chosen.some(x=>x.cat==='out')){d2.mist++;d2.feedback='One chosen item is a contaminant. Keep plastic and cooked meat out of this simple compost.';d2.feedbackGood=false;return;}
+        const greens=chosen.filter(x=>x.cat==='green').length,browns=chosen.filter(x=>x.cat==='brown').length;
+        if(greens!==2||browns!==2){d2.mist++;d2.feedback='The pile needs balance: two moist greens and two dry browns.';d2.feedbackGood=false;return;}
+        return 'won';
+      })}];
     } else if(g.key==='hugel'){
-      const L={logs:['Logs & trunks','mg-logs'],branches:['Branches & twigs','mg-branches'],leaves:['Leaves & straw','mg-strawleaves'],compost:['Compost','mg-compost'],soil:['Topsoil & plants','mg-soil']};
-      progressText=d.placed.length+'/5 layers · '+(d.mist||0)+' slips';
-      tiles=d.placed.map((k2,idx)=>({style:{position:'absolute',left:'22%',width:'56%',bottom:(4+idx*15)+'%',height:'16%',animation:'pop .3s ease'},art:this.gimg(L[k2][1]),artStyle:{width:'100%',height:'100%',display:'block'}}));
-      buttons=d.opts.filter(k2=>d.placed.indexOf(k2)<0).map(k2=>({label:L[k2][0],onClick:()=>this.gateAct(d2=>{const need=d2.order[d2.placed.length];if(k2===need){d2.placed=[...d2.placed,k2];if(d2.placed.length>=5){return 'won';}}else{d2.mist=(d2.mist||0)+1;}}),style:btn('#8A6B3F')}));
+      const L={logs:{name:'Logs & trunks',img:'mg-logs',note:'large water reservoir'},branches:{name:'Branches & twigs',img:'mg-branches',note:'fill the large gaps'},leaves:{name:'Leaves & straw',img:'mg-strawleaves',note:'carbon-rich blanket'},compost:{name:'Finished compost',img:'mg-compost',note:'nutrients near roots'},soil:{name:'Topsoil & plants',img:'mg-soil',note:'living growing layer'}};
+      progressText=d.placed.length+'/5 layers'+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='260px';boardStyle.background='linear-gradient(180deg,#DDEBCB 0 56%,#C9A875 56% 100%)';
+      tiles=d.placed.map((k,idx)=>({title:L[k].name,style:{position:'absolute',left:(22+idx*3)+'%',width:(56-idx*6)+'%',bottom:(5+idx*16)+'%',height:'18%',animation:'pop .25s ease'},art:this.gimg(L[k].img),artStyle:{width:'100%',height:'100%',display:'block'}}));
+      if(d.placed.length<5){tiles.push({title:'Next layer',style:{position:'absolute',left:(22+d.placed.length*3)+'%',width:(56-d.placed.length*6)+'%',bottom:(5+d.placed.length*16)+'%',height:'14%',border:'2px dashed rgba(90,80,55,.28)',borderRadius:'50%',display:'grid',placeItems:'center'},label:'next layer?',labelStyle:{fontSize:'10px',fontWeight:'800',color:'#7F725D'}});}
+      buttons=d.opts.filter(k=>d.placed.indexOf(k)<0).map(k=>({label:L[k].name,note:L[k].note,style:paleBtn(true),onClick:()=>this.gateAct(d2=>{
+        const need=d2.order[d2.placed.length];
+        if(k!==need){d2.mist++;d2.feedback='Not yet. '+L[need].name+' comes next because it will '+L[need].note+'.';d2.feedbackGood=false;return;}
+        d2.placed=[...d2.placed,k];d2.feedback='Yes — '+L[k].name.toLowerCase()+' '+L[k].note+'.';d2.feedbackGood=true;
+        if(d2.placed.length>=5){return 'won';}
+      })}));
     } else if(g.key==='rain'){
-      progressText='caught '+(d.c||0)+'/10 · missed '+(d.miss||0);
-      onBoardMove=play?((e)=>{const r=e.currentTarget.getBoundingClientRect();const x=((e.clientX-r.left)/r.width)*100;this.gateAct(d2=>{d2.bx=Math.max(8,Math.min(92,x));});}):null;
-      tiles=(d.drops||[]).map((dr,i)=>({style:{...abs(dr.x,dr.y,16,22),pointerEvents:'none'},art:this.gimg('mg-drop'),artStyle:{width:'100%',height:'100%',display:'block'}}));
-      tiles.push({style:{position:'absolute',left:(d.bx||50)+'%',bottom:'2px',transform:'translateX(-50%)',width:'62px',height:'74px',pointerEvents:'none'},art:this.gimg('obj-rain'),artStyle:{width:'100%',height:'100%',display:'block'}});
+      const S={gutter:{label:'Gutter',icon:'⌁',note:'collect from the roof'},screen:{label:'Leaf screen',icon:'🍂',note:'keep debris out'},barrel:{label:'Covered barrel',icon:'🛢️',note:'store clean water'},swale:{label:'Planted swale',icon:'🌿',note:'soak overflow into soil'}};
+      progressText=d.placed.length+'/4 links complete'+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='235px';boardStyle.background='linear-gradient(180deg,#DCECF2,#EFF3DF 72%,#C7D7A6 72%)';
+      const chain=['roof'].concat(d.placed);const xpos=[10,30,50,70,90];
+      tiles=[{title:'Roof catchment',style:{...abs(xpos[0],47,92,94),display:'grid',placeItems:'center'},label:'🏠',labelStyle:{fontSize:'42px'},note:'ROOF',noteStyle:{position:'absolute',bottom:'3px',fontSize:'9px',fontWeight:'900',color:'#687568'}}];
+      d.order.forEach((k,i)=>{const filled=chain[i+1]===k;tiles.push({title:filled?S[k].label:'Empty water-chain step',style:{...abs(xpos[i+1],47,102,92),background:filled?'rgba(255,253,246,.9)':'rgba(255,255,255,.35)',border:filled?'1.5px solid #8DB07A':'2px dashed rgba(83,109,78,.28)',borderRadius:'16px',display:'grid',placeItems:'center'},label:filled?S[k].icon:'?',labelStyle:{fontSize:filled?'30px':'22px',fontWeight:'800',color:'#8AA081'},note:filled?S[k].label:'',noteStyle:{position:'absolute',bottom:'8px',left:'4px',right:'4px',textAlign:'center',fontSize:'9.5px',fontWeight:'800',color:'#4F6048'}});if(i<4){tiles.push({title:'Water flows onward',style:{position:'absolute',left:(19+i*20)+'%',top:'47%',width:'20px',height:'18px',display:'grid',placeItems:'center'},label:'→',labelStyle:{fontSize:'17px',fontWeight:'900',color:'#6FA0C8'}});}});
+      buttons=d.opts.filter(k=>d.placed.indexOf(k)<0).map(k=>({label:S[k].icon+' '+S[k].label,note:S[k].note,style:paleBtn(true),onClick:()=>this.gateAct(d2=>{
+        const need=d2.order[d2.placed.length];
+        if(k!==need){d2.mist++;d2.feedback='Water cannot jump there yet. First add the '+S[need].label.toLowerCase()+': it will '+S[need].note+'.';d2.feedbackGood=false;return;}
+        d2.placed=[...d2.placed,k];d2.feedback='Connected: '+S[k].label+' will '+S[k].note+'.';d2.feedbackGood=true;
+        if(d2.placed.length>=4){return 'won';}
+      })}));
     } else if(g.key==='kitchen'){
-      const cur=d.items[Math.min(d.i,d.items.length-1)];
-      const meta=this.produceMeta[cur];
-      timerPct=(d.t/22)*100;timerColor='#C99A3C';
-      progressText='crate '+Math.min(d.i+1,d.items.length)+'/'+d.items.length+' · '+(d.ok||0)+' right';
-      boardStyle.height='170px';
-      tiles=[{style:{...abs(50,42,100,92),display:'grid',placeItems:'center'},art:this.gimg(meta.img),artStyle:{width:'84px',height:'76px',display:'block',animation:'pop .3s ease'}},
-        {style:{...abs(50,85,240,24),display:'grid',placeItems:'center'},label:meta.name,labelStyle:{fontFamily:"'Bricolage Grotesque',sans-serif",fontWeight:'800',fontSize:'15px',color:'#2C3525'}}];
-      const act=(m)=>()=>this.gateAct(d2=>{const c2=d2.items[d2.i];if(!c2){return;}if(this.GATE_PRESERVE[c2]===m){d2.ok=(d2.ok||0)+1;}d2.i++;d2.t=22;if(d2.i>=d2.items.length){return (d2.ok||0)>=7?'won':'lost';}});
-      buttons=[['jam','🫙 Jam'],['dry','☀️ Dry'],['ferment','🧂 Ferment'],['cellar','🕳 Cellar'],['fresh','🎁 Share fresh']].map(m=>({label:m[1],onClick:act(m[0]),style:btn('#B5882F')}));
+      const cur=d.items[Math.min(d.i,d.items.length-1)],meta=this.produceMeta[cur];
+      const methods={jam:['🫙 Jam','cook fruit for long storage'],dry:['☀️ Dry','remove moisture with sun or air'],ferment:['🧂 Ferment','use salt and helpful microbes'],cellar:['🕳 Cellar','keep cool, dark and ventilated'],fresh:['🎁 Share fresh','use tender harvest today']};
+      const why={cherries:'Cherries make a bright preserve when cooked as jam.',apples:'Apple slices dry well and keep with very little energy.',cabbage:'Salt and time turn cabbage into a stable ferment.',herbs:'Gentle air-drying keeps their fragrance.',leafy:'Tender leaves lose quality quickly, so share them fresh.',roots:'Cool, dark storage keeps roots firm for months.'};
+      progressText='crate '+(d.i+1)+'/'+d.items.length+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='210px';boardStyle.background='linear-gradient(180deg,#F4E8CF,#E8D5AE)';
+      tiles=[{title:meta.name,style:{...abs(50,43,190,150),background:'rgba(255,253,246,.82)',border:'1px solid #E1D2B3',borderRadius:'22px',display:'grid',placeItems:'center',boxShadow:'0 14px 24px -22px #4a3520'},art:this.gimg(meta.img),artStyle:{position:'absolute',top:'16px',left:'49px',width:'92px',height:'82px',display:'block',animation:'pop .25s ease'},label:meta.name,labelStyle:{position:'absolute',bottom:'24px',left:'8px',right:'8px',textAlign:'center',fontFamily:"'Bricolage Grotesque',sans-serif",fontWeight:'800',fontSize:'16px',color:'#3F382D'},note:'What will keep this harvest useful?',noteStyle:{position:'absolute',bottom:'8px',left:'8px',right:'8px',textAlign:'center',fontSize:'9.5px',color:'#8A775D'}}];
+      buttons=Object.keys(methods).map(k=>({label:methods[k][0],note:methods[k][1],style:paleBtn(true),onClick:()=>this.gateAct(d2=>{
+        const crop=d2.items[d2.i],answer=this.GATE_PRESERVE[crop];
+        if(k!==answer){d2.mist++;d2.feedback=why[crop]+' Try a different method.';d2.feedbackGood=false;return;}
+        d2.feedback='Exactly. '+why[crop];d2.feedbackGood=true;d2.i++;
+        if(d2.i>=d2.items.length){return 'won';}
+      })}));
     } else if(g.key==='ladybug'){
-      const spots=[[18,28],[50,22],[82,30],[22,72],[54,76],[84,70]];
-      const secs=Math.max(0,Math.ceil((150-(d.t||0))*0.12));
-      timerPct=100-((d.t||0)/150*100);timerColor='#6E924F';
-      progressText=secs+'s to sunset · '+d.leaves.filter(l=>l.w).length+' wilted';
-      tiles=d.leaves.map((l,i)=>({
-        onClick:(l.w||!play)?null:((e)=>{e.stopPropagation();this.gateAct(d2=>{d2.leaves=d2.leaves.map((q,j)=>j===i?{...q,a:0}:q);});}),
-        title:l.w?'Wilted…':(l.a>0?l.a+' aphids — click to send a ladybug':'Healthy leaf'),
-        style:{...abs(spots[i][0],spots[i][1],72,60),cursor:(l.w||!play)?'default':'pointer',display:'grid',placeItems:'center'},
-        art:this.gimg(l.w?'mg-wiltedleaf':(l.a>0?'mg-aphidleaf':'crop-leafy-2')),artStyle:{width:'62px',height:'56px',display:'block'},
-        label:l.w?'✖':(l.a>0?'●'.repeat(Math.min(l.a,6)):null),
-        labelStyle:{position:'absolute',top:'-5px',right:'-3px',fontSize:'11px',letterSpacing:'1px',color:'#3E4A22',background:'rgba(255,253,246,.92)',borderRadius:'8px',padding:'1px 5px',fontWeight:'700'}}));
+      const selected=d.selected||[];
+      progressText=selected.length+'/3 actions chosen'+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='252px';boardStyle.background='radial-gradient(circle at 50% 48%,#ECF3D9,#D8E7BE)';
+      const pos=[[17,29],[50,29],[83,29],[17,73],[50,73],[83,73]];
+      tiles=d.actions.map((a,i)=>{const sel=selected.indexOf(a.k)>=0;const click=!play?null:((e)=>{e.stopPropagation();this.gateAct(d2=>{const on=d2.selected.indexOf(a.k)>=0;d2.selected=on?d2.selected.filter(x=>x!==a.k):(d2.selected.length<3?[...d2.selected,a.k]:d2.selected);d2.feedback=null;});});return {onClick:click,title:(sel?'Remove ':'Choose ')+a.label,style:{...abs(pos[i][0],pos[i][1],154,92),background:sel?'#FFF9DD':'rgba(255,253,246,.88)',border:'2px solid '+(sel?'#C99A3C':'#D9E2C4'),borderRadius:'16px',display:'grid',placeItems:'center',cursor:click?'pointer':'default',boxShadow:sel?'0 0 0 3px rgba(201,154,60,.12)':'0 8px 16px -15px #394c2d'},label:a.icon,labelStyle:{position:'absolute',top:'11px',fontSize:'28px'},note:a.label,noteStyle:{position:'absolute',bottom:'12px',left:'8px',right:'8px',textAlign:'center',fontSize:'10.5px',lineHeight:'1.15',fontWeight:'800',color:'#46513B'}};});
+      buttons=[{label:'Restore the balance',note:'check the three habitat actions',style:btn('#6E924F',true),onClick:()=>this.gateAct(d2=>{
+        if(d2.selected.length!==3){d2.mist++;d2.feedback='Choose three actions before checking the plan.';d2.feedbackGood=false;return;}
+        const bad=d2.actions.find(a=>d2.selected.indexOf(a.k)>=0&&!a.ok);
+        if(bad){d2.mist++;d2.feedback=bad.label+' removes habitat or harms helpful insects. Swap it for an action that rebuilds the food web.';d2.feedbackGood=false;return;}
+        return 'won';
+      })}];
     } else if(g.key==='bee'){
-      const base=[{x:8,y:62},{x:26,y:56},{x:60,y:64},{x:92,y:58}];
-      progressText=(3-(d.placed||[]).length)+' flowers left to plant';
-      boardStyle.cursor=(play&&(d.placed||[]).length<3)?'copy':'default';
-      onBoardClick=(play&&(d.placed||[]).length<3)?((e)=>{const r=e.currentTarget.getBoundingClientRect();const x=((e.clientX-r.left)/r.width)*100;const y=Math.max(30,Math.min(86,((e.clientY-r.top)/r.height)*100));if(x<4||x>96){return;}this.gateAct(d2=>{if((d2.placed||[]).length>=3){return;}d2.placed=[...(d2.placed||[]),{x:x,y:y}];});}):null;
-      tiles=base.map(f=>({style:{...abs(f.x,f.y,44,44),pointerEvents:'none'},art:this.gimg('mg-flower'),artStyle:{width:'100%',height:'100%',display:'block'}}));
-      (d.placed||[]).forEach((f,i)=>{tiles.push({onClick:play?((e)=>{e.stopPropagation();this.gateAct(d2=>{d2.placed=d2.placed.filter((_,j)=>j!==i);});}):null,title:'Remove this flower',style:{...abs(f.x,f.y,44,44),cursor:'pointer',borderRadius:'50%',boxShadow:'0 0 0 2px #C99A3C'},art:this.gimg('mg-flower'),artStyle:{width:'100%',height:'100%',display:'block'}});});
-      tiles.push({style:{...abs(Math.min(d.beeX||6,92),34,40,40),pointerEvents:'none',transition:'left 1.4s ease'},art:this.gimg('bug-bee'),artStyle:{width:'100%',height:'100%',display:'block',animation:'bob 1.6s ease-in-out infinite'}});
-      buttons=[{label:'🐝 Release the bee',onClick:()=>this.gateAct(d2=>{const xs=[8,26,60,92].concat((d2.placed||[]).map(p=>p.x)).sort((a,b)=>a-b);let cur=xs[0];if(cur>16){d2.beeX=6;return 'lost';}for(let i=1;i<xs.length;i++){if(xs[i]-cur<=20){cur=xs[i];}}d2.beeX=Math.min(cur,92);return cur>=88?'won':'lost';}),style:btn('#C99A3C')}];
+      const cur=d.slots[Math.min(d.i,d.slots.length-1)];
+      progressText=d.placed.length+'/3 seasons connected'+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='230px';boardStyle.background='linear-gradient(90deg,#EAF2D9 0 33.33%,#F7EBC7 33.33% 66.66%,#F0D9B8 66.66%)';
+      d.slots.forEach((s,i)=>{const plant=d.plants.find(p=>p.k===d.placed[i]);tiles.push({title:s.season+' nectar slot',style:{position:'absolute',left:(i*33.33)+'%',top:'0',width:'33.34%',height:'100%',borderRight:i<2?'1px solid rgba(100,100,65,.16)':'none',display:'grid',placeItems:'center'},label:s.emoji,labelStyle:{position:'absolute',top:'18px',fontSize:'26px'},note:plant?plant.label:(i===d.i?'choose for '+s.season:'waiting'),noteStyle:{position:'absolute',left:'8px',right:'8px',bottom:'23px',textAlign:'center',fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:plant?'13px':'11px',fontWeight:'800',color:plant?'#3E5432':'#8A846F'}});if(plant){tiles.push({title:plant.label,style:{...abs(16.66+i*33.33,51,64,64),display:'grid',placeItems:'center'},art:this.gimg('mg-flower'),artStyle:{width:'58px',height:'58px',display:'block',animation:'pop .3s ease'}});}});
+      tiles.push({title:'Pollinator',style:{position:'absolute',left:(10+d.placed.length*30)+'%',top:'18%',width:'42px',height:'42px',transition:'left .4s ease',pointerEvents:'none'},art:this.gimg('bug-bee'),artStyle:{width:'100%',height:'100%',display:'block',animation:'bob 1.8s ease-in-out infinite'}});
+      buttons=d.plants.filter(p=>d.placed.indexOf(p.k)<0).map(p=>({label:'🌼 '+p.label,style:paleBtn(true),onClick:()=>this.gateAct(d2=>{
+        const slot=d2.slots[d2.i];
+        if(p.k!==slot.answer){d2.mist++;d2.feedback=p.label+' does not fill the '+slot.season.toLowerCase()+' gap. Look for a plant known for that season.';d2.feedbackGood=false;return;}
+        d2.placed=[...d2.placed,p.k];d2.feedback=p.label+' keeps nectar available in '+slot.season.toLowerCase()+'.';d2.feedbackGood=true;d2.i++;
+        if(d2.i>=d2.slots.length){return 'won';}
+      })}));
     } else if(g.key==='shelter'){
-      const A=[['hedgehog',18],['ladybug',40],['worm',62],['butterfly',84]];
-      const S=[['mulch','Leaf & mulch pile',18],['bughotel','Bug hotel',40],['compost','Compost heap',62],['hugel','Hügel wild corner',84]];
-      const MAP={hedgehog:'mulch',ladybug:'bughotel',worm:'compost',butterfly:'hugel'};
-      progressText=Object.keys(d.matched||{}).length+'/4 tucked in · '+(d.mist||0)+' tries';
-      tiles=A.map(a=>{const k2=a[0],done=(d.matched||{})[k2];return {
-        onClick:(done||!play)?null:((e)=>{e.stopPropagation();this.gateAct(d2=>{d2.sel=k2;});}),
-        title:done?'Sleeping snug':'Click, then click their winter home',
-        style:{...abs(a[1],26,58,58),cursor:(done||!play)?'default':'pointer',borderRadius:'16px',background:d.sel===k2?'#FBF3DC':'#FFFDF6',boxShadow:d.sel===k2?'0 0 0 2.5px #C99A3C':'0 0 0 1px #EBE2D0',display:'grid',placeItems:'center',opacity:done?'.4':'1'},
-        art:(this.winterBugs&&this.winterBugs[k2])||this.critters[k2],artStyle:{width:'44px',height:'44px',display:'block'},
-        label:done?'💤':null,labelStyle:{position:'absolute',top:'-7px',right:'-7px',fontSize:'13px'}};});
-      S.forEach(s2=>{tiles.push({
-        onClick:play?((e)=>{e.stopPropagation();this.gateAct(d2=>{if(!d2.sel||((d2.matched||{})[d2.sel])){return;}if(MAP[d2.sel]===s2[0]){d2.matched={...(d2.matched||{}),[d2.sel]:true};d2.sel=null;if(Object.keys(d2.matched).length>=4){return 'won';}}else{d2.mist=(d2.mist||0)+1;d2.sel=null;}});}):null,
-        title:s2[1],
-        style:{...abs(s2[2],72,76,72),cursor:'pointer',borderRadius:'14px',background:'#FFFDF6',boxShadow:'0 0 0 1px #EBE2D0',display:'grid',placeItems:'center'},
-        art:this.gimg('wobj-'+s2[0]),artStyle:{width:'58px',height:'52px',display:'block'}});});
+      const cur=d.animals[Math.min(d.i,d.animals.length-1)];
+      progressText=d.matched.length+'/4 safely housed'+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='220px';boardStyle.background='linear-gradient(180deg,#E8EEF0,#DCE5E5 60%,#D7D4C1 60%)';
+      tiles=[{title:cur.name,style:{...abs(50,39,150,132),background:'rgba(255,255,255,.62)',border:'1px solid #CFDADB',borderRadius:'50%',display:'grid',placeItems:'center'},art:(this.winterBugs&&this.winterBugs[cur.k])||this.critters[cur.k],artStyle:{width:'92px',height:'92px',display:'block',animation:'bob 2.6s ease-in-out infinite'},label:cur.name,labelStyle:{position:'absolute',left:'8px',right:'8px',bottom:'7px',textAlign:'center',fontWeight:'800',fontSize:'11px',color:'#4C5A58'}}];
+      d.matched.forEach((m,i)=>{tiles.push({title:m.animal+' is sheltered',style:{position:'absolute',left:(18+i*21)+'%',bottom:'8px',width:'18%',height:'34px',background:'rgba(255,253,246,.8)',borderRadius:'10px',display:'grid',placeItems:'center'},label:'✓ '+m.animal,labelStyle:{fontSize:'8.5px',fontWeight:'800',color:'#5E7E4A',textAlign:'center'}});});
+      buttons=d.homes.map(h=>({label:h.label,note:h.note,style:paleBtn(true),onClick:()=>this.gateAct(d2=>{
+        const animal=d2.animals[d2.i];
+        if(h.k!==animal.home){d2.mist++;d2.feedback=h.label+' is useful habitat, but not the best match for this '+animal.name.toLowerCase()+'.';d2.feedbackGood=false;return;}
+        d2.matched=[...d2.matched,{animal:animal.name,home:h.label}];d2.feedback=animal.name+' now has '+h.label.toLowerCase()+' for winter.';d2.feedbackGood=true;d2.i++;
+        if(d2.i>=d2.animals.length){return 'won';}
+      })}));
     } else if(g.key==='pexeso'){
-      progressText=(d.flips||0)+' flips · '+Object.keys(d.found||{}).length+'/'+d.pairs+' pairs';
-      const pos=d.cards.length<=4?[[28,30],[72,30],[28,74],[72,74]]:[[20,30],[50,30],[80,30],[20,74],[50,74],[80,74]];
-      tiles=d.cards.map((c2,i)=>{
-        const up=(d.open||[]).indexOf(i)>=0||(d.found||{})[c2.g];
-        return {
-          onClick:(up||d.lock||!play)?null:((e)=>{e.stopPropagation();this.gateAct(d2=>{if(d2.lock||(d2.open||[]).indexOf(i)>=0){return;}d2.open=[...(d2.open||[]),i];if(d2.open.length===2){d2.flips=(d2.flips||0)+1;const a2=d2.cards[d2.open[0]],b2=d2.cards[d2.open[1]];if(a2.g===b2.g){d2.found={...(d2.found||{}),[a2.g]:true};d2.open=[];if(Object.keys(d2.found).length>=d2.pairs){return 'won';}}else{d2.lock=true;setTimeout(()=>this.gateAct(d3=>{d3.open=[];d3.lock=false;}),800);}}});}),
-          title:up?c2.name:'Flip',
-          style:{...abs(pos[i][0],pos[i][1],66,74),cursor:(up||!play)?'default':'pointer',borderRadius:'14px',background:up?'#FFFDF6':'linear-gradient(160deg,#87A45F,#6E924F)',boxShadow:'0 0 0 1px #D7E3BC, 0 8px 16px -10px rgba(60,50,30,.5)',display:'grid',placeItems:'center'},
-          art:up?this.sprites[c2.t]:null,artStyle:{width:'50px',height:'50px',display:'block'},
-          label:up?null:'🍃',labelStyle:{fontSize:'22px'}};});
+      const q=d.qs[Math.min(d.i,d.qs.length-1)];
+      progressText=d.matched.length+'/'+d.qs.length+' guilds completed'+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='220px';boardStyle.background='linear-gradient(135deg,#EEF3E2,#E5E1CE)';
+      tiles=[{title:nameOf(q.base),style:{...abs(34,47,150,150),background:'#FFFDF6',border:'1.5px solid #D6DFC3',borderRadius:'24px',display:'grid',placeItems:'center',boxShadow:'0 12px 22px -20px #334526'},art:this.sprites[q.base],artStyle:{position:'absolute',top:'18px',left:'35px',width:'80px',height:'80px',display:'block'},label:nameOf(q.base),labelStyle:{position:'absolute',bottom:'18px',left:'8px',right:'8px',textAlign:'center',fontSize:'12px',fontWeight:'800',color:'#44503A'}},{title:'Choose a guild partner',style:{...abs(66,47,150,150),background:'rgba(255,253,246,.42)',border:'2px dashed #BFCBAA',borderRadius:'24px',display:'grid',placeItems:'center'},label:'+',labelStyle:{fontSize:'36px',fontWeight:'500',color:'#8FA079'},note:'Which partner completes\n'+q.name+'?',noteStyle:{position:'absolute',left:'10px',right:'10px',bottom:'22px',whiteSpace:'pre-line',textAlign:'center',fontSize:'10px',fontWeight:'800',lineHeight:'1.25',color:'#6C755F'}}];
+      buttons=q.opts.map(k=>({label:nameOf(k),style:paleBtn(true),onClick:()=>this.gateAct(d2=>{
+        const cur=d2.qs[d2.i];
+        if(k!==cur.answer){d2.mist++;d2.feedback=nameOf(k)+' can be useful, but it does not complete this relationship. '+cur.why;d2.feedbackGood=false;return;}
+        d2.matched=[...d2.matched,cur.g];d2.feedback='Guild completed: '+cur.name+'. '+cur.why;d2.feedbackGood=true;d2.i++;
+        if(d2.i>=d2.qs.length){return 'won';}
+      })}));
     } else if(g.key==='seeds'){
-      const pos=[[20,24],[50,22],[80,26],[20,54],[50,52],[80,56],[20,84],[50,82],[80,86]];
-      progressText=(d.got||0)+'/5 seed heads · '+(d.mist||0)+'/2 slips';
-      tiles=d.tiles.map((t2,i)=>({
-        onClick:(t2.done||!play)?null:((e)=>{e.stopPropagation();this.gateAct(d2=>{const arr=d2.tiles.slice();const it={...arr[i]};if(it.done){return;}it.done=true;arr[i]=it;d2.tiles=arr;if(it.ripe){d2.got=(d2.got||0)+1;if(d2.got>=5){return 'won';}}else{d2.mist=(d2.mist||0)+1;if(d2.mist>=2){return 'lost';}}});}),
-        title:t2.done?(t2.ripe?'Seeds saved!':'Too young…'):'Is this one ready for seed?',
-        style:{...abs(pos[i][0],pos[i][1],62,62),cursor:(t2.done||!play)?'default':'pointer',display:'grid',placeItems:'center',opacity:t2.done?(t2.ripe?'.35':'.6'):'1',filter:(t2.done&&!t2.ripe)?'saturate(.4)':'none'},
-        art:this.gimg('crop-'+t2.crop+'-'+(t2.ripe?3:1)),artStyle:{width:'56px',height:'56px',display:'block'},
-        label:t2.done?(t2.ripe?'✔':'✖'):null,
-        labelStyle:{position:'absolute',top:'-4px',right:'-4px',fontWeight:'800',color:t2.ripe?'#5E7E4A':'#B5613A',background:'rgba(255,253,246,.95)',borderRadius:'8px',padding:'0 5px'}}));
+      const cur=d.items[Math.min(d.i,d.items.length-1)];
+      const actions={save:['🌰 Store in seed bank','mature, dry and healthy'],wait:['⏳ Wait & dry','not ready for safe storage'],reject:['♻️ Reject this batch','do not carry disease forward']};
+      progressText='batch '+(d.i+1)+'/'+d.items.length+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='220px';boardStyle.background='linear-gradient(180deg,#EEE8D4,#DFD3B5)';
+      tiles=[{title:cur.title,style:{...abs(34,49,170,168),background:'rgba(255,253,246,.82)',border:'1px solid #DACEB1',borderRadius:'22px',display:'grid',placeItems:'center'},art:this.gimg('crop-'+cur.crop+'-'+cur.stage),artStyle:{position:'absolute',top:'18px',left:'45px',width:'80px',height:'80px',display:'block'},label:cur.title,labelStyle:{position:'absolute',left:'10px',right:'10px',bottom:'24px',textAlign:'center',fontWeight:'800',fontSize:'12px',color:'#4B4436'}},{title:'Seed clues',style:{...abs(69,49,190,138),background:'rgba(245,240,225,.9)',border:'1px dashed #C8B996',borderRadius:'18px',display:'grid',placeItems:'center',padding:'12px',boxSizing:'border-box'},label:'OBSERVATION',labelStyle:{position:'absolute',top:'18px',fontSize:'9px',letterSpacing:'.14em',fontWeight:'900',color:'#9A8258'},note:cur.clue,noteStyle:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'14px',fontWeight:'800',lineHeight:'1.35',color:'#4A4538',textAlign:'center'}}];
+      buttons=Object.keys(actions).map(k=>({label:actions[k][0],note:actions[k][1],style:paleBtn(true),onClick:()=>this.gateAct(d2=>{
+        const batch=d2.items[d2.i];
+        if(k!==batch.answer){d2.mist++;d2.feedback='Look again: '+batch.clue.toLowerCase()+'. Choose the action that protects next year’s seed quality.';d2.feedbackGood=false;return;}
+        d2.feedback=k==='save'?'Ready: this seed is mature, dry and healthy.':(k==='wait'?'Right — maturity is not enough; seed must also be dry.':'Right — disease is not a trait to save.');d2.feedbackGood=true;d2.i++;
+        if(d2.i>=d2.items.length){return 'won';}
+      })}));
     } else if(g.key==='quiz'){
       const q=d.qs[Math.min(d.i,d.qs.length-1)];
-      progressText='question '+Math.min(d.i+1,d.qs.length)+'/'+d.qs.length+' · '+(d.ok||0)+' right';
-      boardStyle.height='150px';
-      tiles=[{style:{...abs(50,d.rev?32:50,320,90),display:'grid',placeItems:'center',textAlign:'center'},label:q.q,labelStyle:{fontFamily:"'Bricolage Grotesque',sans-serif",fontWeight:'800',fontSize:'15.5px',color:'#2C3525',lineHeight:'1.3'}}];
-      if(d.rev){tiles.push({style:{...abs(50,76,330,46),display:'grid',placeItems:'center',textAlign:'center'},label:(d.rev.correct?'✔ ':'✖ ')+d.rev.exp,labelStyle:{fontSize:'11.5px',color:d.rev.correct?'#3E5A33':'#8A5A3A',lineHeight:'1.35',fontWeight:'600'}});}
-      const act=(ans)=>()=>this.gateAct(d2=>{if(d2.rev){return;}const q2=d2.qs[d2.i];const ok2=(q2.a===ans);if(ok2){d2.ok=(d2.ok||0)+1;}d2.rev={correct:ok2,exp:q2.exp};setTimeout(()=>this.gateAct(d3=>{d3.rev=null;d3.i++;if(d3.i>=d3.qs.length){return (d3.ok||0)>=Math.max(1,d3.qs.length-1)?'won':'lost';}}),1600);});
-      buttons=[{label:'👍 True',onClick:act(true),style:btn('#5E7E4A')},{label:'🌀 Myth',onClick:act(false),style:btn('#8A6B5A')}];
+      progressText='situation '+(d.i+1)+'/'+d.qs.length+((d.mist||0)?' · '+d.mist+' rethink'+(d.mist===1?'':'s'):'');
+      boardStyle.height='190px';boardStyle.background='radial-gradient(circle at 50% 45%,#F7F2E5,#E7EED8)';
+      tiles=[{title:'Garden situation',style:{...abs(50,49,500,138),display:'grid',placeItems:'center',textAlign:'center'},label:q.icon,labelStyle:{position:'absolute',top:'8px',fontSize:'36px'},note:q.q,noteStyle:{position:'absolute',left:'25px',right:'25px',bottom:'21px',fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'16px',fontWeight:'800',lineHeight:'1.35',color:'#35412D',textAlign:'center'}}];
+      buttons=q.opts.map(o=>({label:o.label,note:o.note,style:paleBtn(true),onClick:()=>this.gateAct(d2=>{
+        const cur=d2.qs[d2.i];
+        if(o.k!==cur.answer){d2.mist++;d2.feedback='That may react to the symptom, but it creates another problem. '+cur.exp;d2.feedbackGood=false;return;}
+        d2.feedback='Good systems thinking. '+cur.exp;d2.feedbackGood=true;d2.i++;
+        if(d2.i>=d2.qs.length){return 'won';}
+      })}));
     }
-    const se=this.seasonDefs[g.target]?this.seasonDefs[g.target].emoji:'';
-    return {visible:true,title:def.title,emoji:def.emoji,target:g.target,prompt:def.prompt,progressText:progressText,
+
+    tiles=tiles.map(t=>{const h=t.onClick;return {...t,title:t.title||'',role:h?'button':'presentation',tabIndex:h?'0':'-1',onKeyDown:h?((e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();h(e);}}):null};});
+    const seasonEmoji=this.seasonDefs[g.target]?this.seasonDefs[g.target].emoji:'';
+    return {visible:true,title:def.title,emoji:def.emoji,target:g.target,seasonEmoji:seasonEmoji,principle:def.principle,story:def.story,prompt:def.prompt,progressText:progressText,
       tiles:tiles,buttons:play?buttons:[],hasButtons:play&&buttons.length>0,
-      hasTimer:play&&timerPct!=null,
-      timerStyle:{height:'100%',width:Math.max(0,Math.min(100,timerPct||0))+'%',background:timerColor,borderRadius:'4px',transition:'width .12s linear'},
+      hasTimer:play&&timerPct!=null,timerStyle:{height:'100%',width:Math.max(0,Math.min(100,timerPct||0))+'%',background:timerColor,borderRadius:'4px',transition:'width .12s linear'},
       boardStyle:boardStyle,onBoardClick:onBoardClick,onBoardMove:onBoardMove,
-      playing:play,showResult:!play,lesson:def.lesson,
-      resultTitle:g.status==='won'?'✨ Well done — the neighbours send +1 share!':'🌱 Not this time — the garden teaches gently.',
-      resultStyle:{marginTop:'12px',background:g.status==='won'?'#EDF4DE':'#F6EFE0',border:'1px solid '+(g.status==='won'?'#CFE0AC':'#E6DCC6'),borderRadius:'12px',padding:'11px 13px',color:'#3A4A2E',textAlign:'center'},
-      canRetry:g.status==='lost',
-      continueLabel:'Continue to '+g.target+' '+se,
-      onFinish:()=>this.gateFinish(),onRetry:()=>this.gateRetry(),
+      briefing:brief,inChallenge:play,showResult:done,canSkip:brief||play,
+      hasFeedback:play&&!!d.feedback,feedback:d.feedback||'',feedbackStyle:{marginBottom:'10px',padding:'8px 11px',borderRadius:'10px',background:d.feedbackGood?'#EDF4DE':'#FFF1D9',border:'1px solid '+(d.feedbackGood?'#CFE0AC':'#E8CF9E'),color:d.feedbackGood?'#456137':'#7B5A2E',fontSize:'11px',fontWeight:'700',lineHeight:'1.35'},
+      lesson:def.lesson,skill:def.skill,resultEmoji:g.status==='won'?'🌿':'🌱',
+      resultTitle:g.status==='won'?'Challenge complete — +1 community share':'The garden invites another try',
+      resultStyle:{marginTop:'4px',background:g.status==='won'?'linear-gradient(145deg,#F2F6E8,#E4EFD3)':'#F6EFE0',border:'1px solid '+(g.status==='won'?'#CFE0AC':'#E6DCC6'),borderRadius:'18px',padding:'20px 22px',color:'#3A4A2E',textAlign:'center'},
+      canRetry:g.status==='lost',continueLabel:'Continue to '+g.target+' '+seasonEmoji,
+      onBegin:()=>this.gateBegin(),onFinish:()=>this.gateFinish(),onRetry:()=>this.gateRetry(),
       stop:(e)=>{if(e&&e.stopPropagation){e.stopPropagation();}}};
   }
   applySeason(k){
