@@ -1,39 +1,32 @@
-# Permaculture Garden - Le Jardin
+# Permaculture Garden — Le Jardin
 
-Staticka edukacni hra pro Vercel / GitHub Pages / Netlify.
+Statická edukativní hra o permakulturní zahradě, sezónnosti a ekonomice sdílení.
 
-## Dulezite pro Vercel
+## Zdroj a build
 
-Do GitHub repozitare nahraj **obsah teto slozky primo do korene repozitare**:
+Hlavní editovatelný zdroj je `Permaculture Garden v2.dc.html`. Produkční `index.html` ani
+`game.fragment.html` se neupravují ručně:
 
-- `index.html`
-- `assets/`
-- `README.md`
-- `vercel.json`
+```powershell
+node scripts/build.mjs
+node scripts/check.mjs
+```
 
-Slozka `assets/` je povinna. Pokud se nahraje jen `index.html`, hra se sice spusti, ale vsechny herni obrazky budou rozbite a dole se objevi opakovane `[bundle] error`.
+Build vytvoří malou okamžitou načítací stránku `index.html` a herní obsah
+`game.fragment.html`. React/DC runtime je lokálně v `vendor/`, fonty v `assets/fonts/` a herní
+obrázky v `assets/*.webp`.
 
-## Vercel nastaveni
+## Lokální test
 
-Pri importu projektu na Vercelu:
-
-- Framework Preset: `Other`
-- Build Command: prazdne
-- Output Directory: prazdne nebo `.`
-- Install Command: prazdne
-
-Pokud mas v repozitari jeste nadrazenou slozku, nastav ve Vercelu `Root Directory` na slozku, ktera obsahuje `index.html` a `assets/`.
-
-## Lokalni test
-
-V teto slozce spust:
-
-```bash
+```powershell
 python -m http.server 8787 --bind 127.0.0.1
 ```
 
-Pak otevri:
+Potom otevři `http://127.0.0.1:8787/`.
 
-```text
-http://localhost:8787/
-```
+## Nasazení
+
+GitHub repozitář je propojený s Vercel projektem. Produkce se nasadí automaticky po sloučení do
+větve `main`. Framework preset je `Other`, bez vlastního Build Commandu; nasazuje se commitnutý
+kořenový `index.html` a `game.fragment.html` spolu s `assets/`, `vendor/` a `favicon.ico`. Do
+projektu nepřidávat `vercel.json`.
