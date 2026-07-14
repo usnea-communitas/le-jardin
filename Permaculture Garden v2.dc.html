@@ -1092,7 +1092,7 @@ button:focus-visible{outline:2.5px solid #C99A3C;outline-offset:2px;border-radiu
   <sc-if value="{{ storyVisible }}" hint-placeholder-val="{{ false }}">
     <div class="{{ storyClass }}" data-pg-dialog="story" role="dialog" aria-modal="true" aria-label="The Garden Is Waiting — opening story" tabindex="-1">
       <sc-for list="{{ storyFrames }}" as="sf" hint-placeholder-count="7">
-        <img src="{{ sf.src }}" alt="" aria-hidden="true" class="pg-story-frame" style="{{ sf.style }}" decoding="async">
+        <img sc-camel-src="{{ sf.src }}" alt="" aria-hidden="true" class="pg-story-frame" style="{{ sf.style }}" decoding="async">
       </sc-for>
       <div class="pg-story-vignette"></div>
       <div class="pg-story-grain"></div>
