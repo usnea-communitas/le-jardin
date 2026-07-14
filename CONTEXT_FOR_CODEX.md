@@ -1,7 +1,7 @@
 # Permaculture Garden — kompletní kontext pro Codex
 
 > Předávací dokument. Vysvětluje **co** hra je, **jak** je postavená a **proč** jsme jednotlivé
-> věci implementovali. Aktuální verze: **v60**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
+> věci implementovali. Aktuální verze: **v61**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
 > (needituj bundle `index.html` — ten se generuje).
 
 ---
@@ -156,7 +156,17 @@ hotový, tlačítko u skóre vygeneruje **přehledovou kartu/certifikát** (jmé
 zvířata, co udělal dobře + co zlepšit, **zmenšenina zahrady**) — lze ho uložit jako samostatný
 SVG obrázek nebo vytisknout.
 
-### 4.10 Zvuk
+### 4.10 Vizuální návaznost onboarding → hra
+Od **v61** používá hlavní herní rozhraní stejný vizuální jazyk jako filmový úvod: hluboký
+lesní rám s velmi jemným podkladem Menet, teplé krémové glass panely, větší zaoblení a měkké
+stíny, šalvějové a zlaté akcenty a tmavá průsvitná horní lišta. Záměrně se neměnila herní
+architektura ani třísloupcové rozložení — skin sjednocuje příběh, onboarding a herní plochu,
+aniž by narušil mapu, mechaniky nebo hustotu informací. Třídy začínají `pg-game-*`, společné
+panely používají `pg-panel`; hlavní tokeny a skin jsou ve scoped CSS pod `.pg-game-shell`.
+Příběh má v horní liště samostatné viditelné tlačítko **Play story**; otazník zůstává jen pro
+stručný návod. Přehrání z horní lišty se po skončení vrací přímo do hry.
+
+### 4.11 Zvuk
 Od **v60** se nepoužívají procedurální oscilátory ani Web Audio tóny. Celý zvuk je postavený na
 organických MP3 nahrávkách v `assets/audio/`:
 - `story/`: 7 vypravěčských scén, 65s akustická hudební linka a smyčkovatelná zahradní atmosféra
@@ -203,7 +213,7 @@ Uživatel nasazuje **GitHub → Vercel**. Pravidla (od 2026-07-09):
 4. Vercel nasazuje větev `main` automaticky jako statický web.
 5. **NEPŘIDÁVAT `vercel.json`** (výslovný pokyn — ruší starší pravidlo).
 
-Verze se značí v patičce palety (`v60`, …) a bumpuje při každém významném vydání.
+Verze se značí v patičce palety (`v61`, …) a bumpuje při každém významném vydání.
 
 ---
 
