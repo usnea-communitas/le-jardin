@@ -1,7 +1,7 @@
 # Permaculture Garden — kompletní kontext pro Codex
 
 > Předávací dokument. Vysvětluje **co** hra je, **jak** je postavená a **proč** jsme jednotlivé
-> věci implementovali. Aktuální verze: **v57**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
+> věci implementovali. Aktuální verze: **v59**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
 > (needituj bundle `index.html` — ten se generuje).
 
 ---
@@ -34,7 +34,8 @@ odložené na samostatnou fázi/projekt — desktop je hotový a odladěný.
   **logická třída** `class Component extends DCLogic { … }` (plain JS, chová se jako React
   class component: `state`, `setState`, `renderVals()`, lifecycle).
 - `renderVals()` vrací všechny hodnoty, které template konzumuje. Veškerá herní logika je tam.
-- **Styly jsou inline** (žádné CSS třídy kromě pár `@keyframes`/resetů v `<helmet>`).
+- Herní UI používá převážně inline styly. Samostatný filmový úvod má kvůli animacím sadu
+  izolovaných tříd s prefixem `pg-story-*` v `<helmet>`.
 - Produkční `index.html` je malá okamžitá načítací obrazovka; po prvním vykreslení načte
   `game.fragment.html`, lokální `vendor/` skripty a fonty v `assets/fonts/`. Starší pomalé
   rozbalování celé aplikace v prohlížeči už se nepoužívá. Obrázky zůstávají jako relativní
@@ -43,7 +44,7 @@ odložené na samostatnou fázi/projekt — desktop je hotový a odladěný.
 ### Persistence
 `localStorage` klíč `permagarden_v2`. Ukládá se `placed`, `shares`, `budget`, `given`, `pool`,
 `goodwill`, `discovered`, `awarded`, `basket`, `materials`, `guests`, `visitsDone`,
-`gatesPlayed`, `harvestEver`, `season` atd. **Sezóna se při čerstvém spuštění resetuje na léto**
+`gatesPlayed`, `harvestEver`, `season`, `storySeen`, `introSeen` atd. **Sezóna se při čerstvém spuštění resetuje na léto**
 (default), ale při obnovení stránky v témž sezení se zachová naposledy zvolená.
 
 ---
@@ -132,8 +133,23 @@ dostupná jako `window.__PERMAGARDEN_APP__`; na produkční doméně se tento ho
 Občas po přidání prvku speciální event („ve vedlejší zahradě se objevil ježek — odpověz na
 otázku / vyhraj minihru a přijde k tobě"). 10 wildlife kvízů s obrázky.
 
-### 4.9 Onboarding + certifikát
-Jemný krokový průvodce: Soil → Water → Food → Shelter → Sharing → Guild → Harvest. Když je hráč
+### 4.9 Filmový storytellingový úvod + onboarding + certifikát
+Od verze **v59** před onboardingem běží přibližně minutový hybridní malovaný úvod
+**„The Garden Is Waiting“**. Zahrada v Menet vypráví v první osobě sedm kapitol: tiché místo,
+život pod půdou, nerovnováha, příchod mladých lidí, první permakulturní změny, živá síť vztahů
+a osobní pozvání hráče. Každá kapitola má samostatný obraz v `assets/story/story-01-*.webp` až
+`story-07-*.webp`, jemný Ken Burns pohyb, prolínačku, vždy viditelné anglické titulky a procedurální
+ambientní tóny přes Web Audio. Ovládání: pause/resume, mute, předchozí/další kapitola, kapitoly
+v tečkách a skip. Poslední CTA **Enter the garden** se rozpustí do původního onboardingu.
+
+Nový hráč vidí story jednou a potom onboarding. Starší save bez `storySeen` uvidí story jednou,
+ale jeho herní postup zůstane zachován; pokud už onboarding absolvoval, vrátí se po filmu rovnou
+do hry. V onboardingu je **Replay “The Garden Is Waiting”** a přehrání se potom vrátí zpět do
+onboardingu. Stav je oddělený (`story`, `storySeen`, `storyStarted`, `storyScene`, `storyPaused`,
+`storyLeaving`, `storyToIntro`, `intro`, `introSeen`), aby se modal visibility nezaměňovala za
+dokončení. `prefers-reduced-motion` vypíná filmové animace, obsah i ovládání zůstávají dostupné.
+
+Potom následuje jemný krokový průvodce: Soil → Water → Food → Shelter → Sharing → Guild → Harvest. Když je hráč
 hotový, tlačítko u skóre vygeneruje **přehledovou kartu/certifikát** (jméno, skóre, získaná
 zvířata, co udělal dobře + co zlepšit, **zmenšenina zahrady**) — lze ho uložit jako samostatný
 SVG obrázek nebo vytisknout.
@@ -147,6 +163,8 @@ bez zvuku. Mute tlačítko.
 ## 5. Asset pipeline (DŮLEŽITÉ pro Codex)
 
 - **Všechny herní assety jsou `assets/*.webp`.** Nikdy nepřidávej zpět PNG.
+- Filmové scény jsou optimalizované 1600×900 WebP v `assets/story/`; zdrojové PNG generace nejsou
+  součástí produkčního projektu.
 - Vznikly z malovaných sprite-sheetů (Codex je generuje) → nařezané skriptem v Claude
   (flood-fill / component-based odstranění krémového pozadí #F2EBD9, ořez na bounding box,
   export `canvas → webp q≈0.9`).
@@ -171,16 +189,13 @@ Uživatel nasazuje **GitHub → Vercel**. Pravidla (od 2026-07-09):
 4. Vercel nasazuje větev `main` automaticky jako statický web.
 5. **NEPŘIDÁVAT `vercel.json`** (výslovný pokyn — ruší starší pravidlo).
 
-Verze se značí v patičce palety (`v57`, …) a bumpuje při každém významném vydání.
+Verze se značí v patičce palety (`v59`, …) a bumpuje při každém významném vydání.
 
 ---
 
 ## 7. Otevřené úkoly / budoucí vize
 
 **Hned:**
-- **Krátká edukativní storytellingová animace/video před onboardingem.** Má hráče uvést do
-  většího příběhu zahrady v Menet, vytvořit emoční motivaci a plynule ho předat do hry. Koncept,
-  scénář, vizuální styl a způsob integrace vytvoříme společně s Martinem v další fázi.
 - **Výměna cvičné mapy za skutečnou z Menet** (Francie) — až uživatel dodá podklad. Vymění se
   jen podklad plácku, pozice prvků zůstanou.
 
@@ -199,7 +214,8 @@ vyhodnocení, kde hráči potřebují více didaktického vedení.
 - Needituj kořenový `index.html` ani `game.fragment.html` ručně — přegenerují se ze zdroje přes
   `scripts/build.mjs`.
 - Nezaváděj PNG assety ani `vercel.json`.
-- Zachovej inline styly (žádné globální CSS třídy) — jinak se rozbije streamované vykreslování.
+- Zachovej inline styly pro hlavní herní UI. U filmového úvodu používej jen existující izolovaný
+  namespace `pg-story-*`; nevytvářej neomezené globální selektory.
 - Ekonomika je vyladěná (shares neklesnou do záporu při normální hře) — při změně cen/barteru
   otestovat delší průchod.
 - Drag&drop řešen přes pointer eventy kvůli kompatibilitě napříč prohlížeči (Edge/macOS) —
