@@ -1,7 +1,7 @@
 # Permaculture Garden — kompletní kontext pro Codex
 
 > Předávací dokument. Vysvětluje **co** hra je, **jak** je postavená a **proč** jsme jednotlivé
-> věci implementovali. Aktuální verze: **v59**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
+> věci implementovali. Aktuální verze: **v60**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
 > (needituj bundle `index.html` — ten se generuje).
 
 ---
@@ -138,8 +138,10 @@ Od verze **v59** před onboardingem běží přibližně minutový hybridní mal
 **„The Garden Is Waiting“**. Zahrada v Menet vypráví v první osobě sedm kapitol: tiché místo,
 život pod půdou, nerovnováha, příchod mladých lidí, první permakulturní změny, živá síť vztahů
 a osobní pozvání hráče. Každá kapitola má samostatný obraz v `assets/story/story-01-*.webp` až
-`story-07-*.webp`, jemný Ken Burns pohyb, prolínačku, vždy viditelné anglické titulky a procedurální
-ambientní tóny přes Web Audio. Ovládání: pause/resume, mute, předchozí/další kapitola, kapitoly
+`story-07-*.webp`, jemný Ken Burns pohyb, prolínačku a vždy viditelné anglické titulky.
+Od **v60** má každá kapitola samostatné anglické vyprávění hlasem ElevenLabs
+**„The Garden of Menet“** (`Ks7JQ2YMsS1TBefsBD27`), souvislou organickou hudbu a terénní
+atmosféru francouzské venkovské zahrady. Ovládání: pause/resume, mute, předchozí/další kapitola, kapitoly
 v tečkách a skip. Poslední CTA **Enter the garden** se rozpustí do původního onboardingu.
 
 Nový hráč vidí story jednou a potom onboarding. Starší save bez `storySeen` uvidí story jednou,
@@ -155,14 +157,26 @@ zvířata, co udělal dobře + co zlepšit, **zmenšenina zahrady**) — lze ho 
 SVG obrázek nebo vytisknout.
 
 ### 4.10 Zvuk
-Jemné měkké tóny (příchod zvířete, objevení guildy, pozitivní zvuk). Běžné klikání na mapu je
-bez zvuku. Mute tlačítko.
+Od **v60** se nepoužívají procedurální oscilátory ani Web Audio tóny. Celý zvuk je postavený na
+organických MP3 nahrávkách v `assets/audio/`:
+- `story/`: 7 vypravěčských scén, 65s akustická hudební linka a smyčkovatelná zahradní atmosféra
+- `game/`: měkké dřevo/list pro UI, semínko a půda při sázení, voda, kompost, stavba, sklizeň,
+  sdílení, vznik guildy, odměna, čtyři roční období a samostatné přirozené zvuky živočichů
+- hlasitost je normalizovaná (`-16 LUFS` voice, `-23` music, `-32` ambience, `-20` game SFX),
+  hudba je pod hlasem a rychlé opakování efektů se throttluje
+- pause/resume drží pozici hlasu, hudby i atmosféry; mute časovou osu nezastaví a po odmutování
+  se vyprávění neopakuje od začátku
+
+Zdrojové prompty a reprodukovatelná výroba jsou v `scripts/generate-audio.ps1`; finální
+normalizace v `scripts/normalize-audio.ps1`. ElevenLabs API klíč patří pouze do lokálního `.env`,
+je v `.gitignore` a nikdy se necommitne ani neposílá do Vercelu.
 
 ---
 
 ## 5. Asset pipeline (DŮLEŽITÉ pro Codex)
 
-- **Všechny herní assety jsou `assets/*.webp`.** Nikdy nepřidávej zpět PNG.
+- **Všechny obrazové herní assety jsou `assets/*.webp`.** Nikdy nepřidávej zpět PNG. Zvuk je MP3
+  pod `assets/audio/`.
 - Filmové scény jsou optimalizované 1600×900 WebP v `assets/story/`; zdrojové PNG generace nejsou
   součástí produkčního projektu.
 - Vznikly z malovaných sprite-sheetů (Codex je generuje) → nařezané skriptem v Claude
@@ -189,7 +203,7 @@ Uživatel nasazuje **GitHub → Vercel**. Pravidla (od 2026-07-09):
 4. Vercel nasazuje větev `main` automaticky jako statický web.
 5. **NEPŘIDÁVAT `vercel.json`** (výslovný pokyn — ruší starší pravidlo).
 
-Verze se značí v patičce palety (`v59`, …) a bumpuje při každém významném vydání.
+Verze se značí v patičce palety (`v60`, …) a bumpuje při každém významném vydání.
 
 ---
 

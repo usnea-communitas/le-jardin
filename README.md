@@ -14,7 +14,16 @@ node scripts/check.mjs
 
 Build vytvoří malou okamžitou načítací stránku `index.html` a herní obsah
 `game.fragment.html`. React/DC runtime je lokálně v `vendor/`, fonty v `assets/fonts/` a herní
-obrázky v `assets/*.webp`.
+obrázky v `assets/*.webp`. Organické vyprávění, hudba a herní efekty jsou v `assets/audio/`.
+
+Volitelná regenerace zvuku používá lokální, Git-em ignorovaný `ELEVENLABS_API_KEY` v `.env`:
+
+```powershell
+.\scripts\generate-audio.ps1
+.\scripts\normalize-audio.ps1
+```
+
+Klíč se nikdy necommitne ani nenasazuje do Vercelu; hra při běhu používá jen hotové MP3 soubory.
 
 ## Lokální test
 

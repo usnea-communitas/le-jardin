@@ -454,7 +454,7 @@ button:focus-visible{outline:2.5px solid #C99A3C;outline-offset:2px;border-radiu
           </div>
         </section>
       </sc-for>
-      <div title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v59</span></div>
+      <div title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v60</span></div>
     </div>
 
     <!-- CENTER: garden + sharing table -->
@@ -1892,19 +1892,20 @@ class Component extends DCLogic {
   _n=0;_g=0;
   STORE='permagarden_v2';
   storyScenes=[
-    {src:'assets/story/story-01-menet.webp',location:'Menet · Early morning',chapter:'01 · A quiet place',title:'At the edge of Menet',caption:'I rest beneath the hills and the wide French sky.',ms:7600,position:'50% 48%'},
-    {src:'assets/story/story-02-soil.webp',location:'Beneath the garden',chapter:'02 · Hidden life',title:'Quiet does not mean empty',caption:'Beneath the soil, roots are searching — and a thousand small lives are waiting.',ms:8800,position:'50% 54%'},
-    {src:'assets/story/story-03-imbalance.webp',location:'The garden · Dry summer',chapter:'03 · What is missing',title:'Sunlight is not enough',caption:'Bare soil loses its water. Lonely plants struggle. Surplus disappears when nothing is shared.',ms:9400,position:'50% 52%'},
-    {src:'assets/story/story-04-arrival.webp',location:'The garden gate',chapter:'04 · A beginning',title:'Then young hands arrived',caption:'Not with a perfect plan, but with questions, seeds — and the courage to begin.',ms:8800,position:'50% 50%'},
-    {src:'assets/story/story-05-transformation.webp',location:'After the rain',chapter:'05 · Small changes',title:'Every part found a purpose',caption:'Rain was caught. Mulch cooled the soil. Flowers called pollinators home. Yesterday’s waste became tomorrow’s growth.',ms:9800,position:'50% 50%'},
-    {src:'assets/story/story-06-web.webp',location:'Le Jardin · Late summer',chapter:'06 · The living web',title:'I became more than a garden',caption:'A web of relationships — between soil and water, wildlife and people, harvest and generosity.',ms:9200,position:'50% 50%'},
-    {src:'assets/story/story-07-invitation.webp',location:'Your place in the garden',chapter:'07 · The invitation',title:'Now I need another pair of eyes',caption:'Yours. Listen closely. Notice what is missing. Help every part find its place — and help me come alive.',ms:0,position:'50% 52%'}
+    {src:'assets/story/story-01-menet.webp',voice:'assets/audio/story/narration-01.mp3',location:'Menet · Early morning',chapter:'01 · A quiet place',title:'At the edge of Menet',caption:'I rest beneath the hills and the wide French sky.',ms:7640,position:'50% 48%'},
+    {src:'assets/story/story-02-soil.webp',voice:'assets/audio/story/narration-02.mp3',location:'Beneath the garden',chapter:'02 · Hidden life',title:'Quiet does not mean empty',caption:'Beneath the soil, roots are searching — and a thousand small lives are waiting.',ms:10200,position:'50% 54%'},
+    {src:'assets/story/story-03-imbalance.webp',voice:'assets/audio/story/narration-03.mp3',location:'The garden · Dry summer',chapter:'03 · What is missing',title:'Sunlight is not enough',caption:'Bare soil loses its water. Lonely plants struggle. Surplus disappears when nothing is shared.',ms:12280,position:'50% 52%'},
+    {src:'assets/story/story-04-arrival.webp',voice:'assets/audio/story/narration-04.mp3',location:'The garden gate',chapter:'04 · A beginning',title:'Then young hands arrived',caption:'Not with a perfect plan, but with questions, seeds — and the courage to begin.',ms:9640,position:'50% 50%'},
+    {src:'assets/story/story-05-transformation.webp',voice:'assets/audio/story/narration-05.mp3',location:'After the rain',chapter:'05 · Small changes',title:'Every part found a purpose',caption:'Rain was caught. Mulch cooled the soil. Flowers called pollinators home. Yesterday’s waste became tomorrow’s growth.',ms:10920,position:'50% 50%'},
+    {src:'assets/story/story-06-web.webp',voice:'assets/audio/story/narration-06.mp3',location:'Le Jardin · Late summer',chapter:'06 · The living web',title:'I became more than a garden',caption:'A web of relationships — between soil and water, wildlife and people, harvest and generosity.',ms:10040,position:'50% 50%'},
+    {src:'assets/story/story-07-invitation.webp',voice:'assets/audio/story/narration-07.mp3',location:'Your place in the garden',chapter:'07 · The invitation',title:'Now I need another pair of eyes',caption:'Yours. Listen closely. Notice what is missing. Help every part find its place — and help me come alive.',ms:0,position:'50% 52%'}
   ];
 
   componentDidMount(){
     const boot=document.getElementById('pg-boot');if(boot){boot.remove();}
     const bootStyle=document.getElementById('pg-boot-style');if(bootStyle){bootStyle.remove();}
     if(location.hostname==='localhost'||location.hostname==='127.0.0.1'){window.__PERMAGARDEN_APP__=this;}
+    this.preloadAudio();
     this._esc=(e)=>{
       if(e.key!=='Escape'){return;}
       if(this.state.story){return;}
@@ -1964,47 +1965,54 @@ class Component extends DCLogic {
     clearTimeout(this._tt);
     clearTimeout(this._storyTimer);
     clearTimeout(this._storyExitTimer);
+    this.stopAllAudio();
     if(this._certificateUrl){URL.revokeObjectURL(this._certificateUrl);this._certificateUrl=null;}
     this.clearDialogIsolation(false);
   }
-  clearStoryTimer(){ clearTimeout(this._storyTimer); this._storyTimer=null; }
-  armStory(){
+  clearStoryTimer(){ clearTimeout(this._storyTimer); this._storyTimer=null; this._storyDeadline=0; }
+  armStory(delay){
     this.clearStoryTimer();
     const s=this.state, def=this.storyScenes[s.storyScene];
-    if(!s.story||!s.storyStarted||s.storyPaused||s.storyLeaving||!def||!def.ms){return;}
-    this._storyTimer=setTimeout(()=>this.nextStory(),def.ms);
+    const ms=(delay!=null)?delay:(def&&def.ms);
+    if(!s.story||!s.storyStarted||s.storyPaused||s.storyLeaving||!def||!ms){return;}
+    this._storyRemaining=ms;
+    this._storyDeadline=Date.now()+ms;
+    this._storyTimer=setTimeout(()=>{this._storyRemaining=0;this.nextStory();},ms);
   }
   beginStory(){
     this.clearStoryTimer();
     this.setState({storyStarted:true,storyScene:0,storyPaused:false,storyLeaving:false},()=>{
-      this.storySound(0);
+      this.storySound(0,true);
       this.armStory();
     });
   }
-  goStory(index){
+  goStory(index,seekBed=true){
     const i=Math.max(0,Math.min(this.storyScenes.length-1,index));
     const paused=!!this.state.storyPaused;
     this.clearStoryTimer();
     this.setState({storyScene:i},()=>{
-      this.storySound(i);
-      if(!paused){this.armStory();}
+      this.storySound(i,seekBed);
+      if(paused){this.pauseStoryAudio();}else{this.armStory();}
     });
   }
   nextStory(){
     if(this.state.storyScene>=this.storyScenes.length-1){return;}
-    this.goStory(this.state.storyScene+1);
+    this.goStory(this.state.storyScene+1,false);
   }
   previousStory(){ this.goStory(this.state.storyScene-1); }
   toggleStoryPause(){
     if(this.state.storyPaused){
-      this.setState({storyPaused:false},()=>{this.storySound(this.state.storyScene);this.armStory();});
+      this.setState({storyPaused:false},()=>{this.resumeStoryAudio();this.armStory(this._storyRemaining||undefined);});
     }else{
-      this.clearStoryTimer();
+      this._storyRemaining=this._storyDeadline?Math.max(250,this._storyDeadline-Date.now()):0;
+      clearTimeout(this._storyTimer);this._storyTimer=null;this._storyDeadline=0;
+      this.pauseStoryAudio();
       this.setState({storyPaused:true});
     }
   }
   finishStory(soft=true){
     this.clearStoryTimer();
+    this.stopStoryAudio();
     const close=()=>this.setState(s=>({story:false,storySeen:true,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,intro:!!s.storyToIntro,storyToIntro:false}));
     if(!soft){close();return;}
     this.setState({storyLeaving:true,storyPaused:true,storySeen:true},()=>{
@@ -2014,24 +2022,11 @@ class Component extends DCLogic {
   }
   replayStory(returnToIntro=false){
     this.clearStoryTimer();
+    this.stopStoryAudio();
     clearTimeout(this._storyExitTimer);
     this.setState({story:true,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!!returnToIntro,intro:false,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null});
   }
-  storySound(scene){
-    const roots=[174.6,146.8,130.8,196,220,164.8,261.6];
-    this.snd(c=>{
-      const root=roots[scene]||174.6;
-      this.hum(c,{f:root,v:.010,dur:5.8});
-      this.hum(c,{f:root*1.5,t:.08,v:.006,dur:5.4});
-      if(scene===0){this.pluck(c,{f:523.25,t:.18,v:.022,dur:1.8});this.pluck(c,{f:659.25,t:.65,v:.018,dur:2});}
-      else if(scene===1){this.pluck(c,{f:392,f2:261.6,t:.22,v:.018,dur:2.4});this.hum(c,{f:82.4,t:.35,v:.009,dur:4.8});}
-      else if(scene===2){this.pluck(c,{f:220,f2:164.8,t:.18,v:.021,dur:2.2});}
-      else if(scene===3){[392,493.9,587.3].forEach((f,i)=>this.pluck(c,{f:f,t:.22+i*.2,v:.018,dur:1.8}));}
-      else if(scene===4){[659.25,784,880].forEach((f,i)=>this.pluck(c,{f:f,t:.18+i*.34,v:.016,dur:1.35}));}
-      else if(scene===5){[523.25,659.25,784,1046.5].forEach((f,i)=>this.pluck(c,{f:f,t:.18+i*.25,v:.016,dur:1.7}));}
-      else if(scene===6){this.pluck(c,{f:659.25,t:.18,v:.019,dur:2.4});this.pluck(c,{f:987.8,t:.7,v:.014,dur:2.8});}
-    });
-  }
+  storySound(scene,seekBed=true){ this.playStoryScene(scene,seekBed); }
   activeDialogKey(st=this.state){
     if(st.story){return 'story';}
     if(st.showSummary){return 'summary';}
@@ -2187,7 +2182,8 @@ class Component extends DCLogic {
         setTimeout(()=>this.playGuild(),150);
       }
       if(st.placed.length>prevPlaced.length){
-        this.playPop();
+        const planted=st.placed.find(p=>!prevPlaced.some(q=>q.id===p.id));
+        if(planted){this.playPlacement(planted.type);}else{this.playPop();}
         const before=this.activeOf(prevPlaced), after=this.activeOf(st.placed);
         const arrivedKeys=this.wildlife.filter(w=>after.has(w.key)&&!before.has(w.key)).map(w=>w.key);
         arrivedKeys.slice(0,3).forEach((k,i)=>setTimeout(()=>this.playSpecies(k),380+i*520));
@@ -2424,7 +2420,7 @@ class Component extends DCLogic {
       return {...s,cherryPicks:left,harvestEver:true,basket:{...(s.basket||{}),cherries:((s.basket||{}).cherries||0)+1},
         toast:'🍒 Cherries picked! '+(left>0?(left+' ripe clusters still on the tree.'):'The tree is picked clean — share them fresh or preserve them as jam.')};
     });
-    this.playSparkle();
+    this.playHarvest();
   }
   harvestApples(id,e){
     if(e&&e.stopPropagation){ e.stopPropagation(); }
@@ -2433,7 +2429,7 @@ class Component extends DCLogic {
     this.setState(s=>({...s,placed:s.placed.map(q=>q.id===id?{...q,appleReady:false}:q),harvestEver:true,
       basket:{...(s.basket||{}),apples:((s.basket||{}).apples||0)+3},
       toast:'🍎 Apples harvested (+3) — share them fresh or dry them in the kitchen.'}));
-    this.playSparkle();
+    this.playHarvest();
   }
   harvestCrop(id,e){
     if(e&&e.stopPropagation){ e.stopPropagation(); }
@@ -2449,7 +2445,7 @@ class Component extends DCLogic {
     this.setState(s=>({...s,placed:s.placed.filter(q=>q.id!==id),selectedPlacedId:null,harvestEver:true,
       basket:{...(s.basket||{}),[cd.produce]:((s.basket||{})[cd.produce]||0)+cd.yieldN},
       toast:'🧺 '+this.catalog[p.type].name+' harvested (+'+cd.yieldN+') — share fresh, or preserve in the garden kitchen.'}));
-    this.playSparkle();
+    this.playHarvest();
   }
   preserveProduce(k){
     const r=this.recipes[k];
@@ -2480,7 +2476,7 @@ class Component extends DCLogic {
       ns=this.applyMilestones(ns);
       return ns;
     });
-    this.playSparkle();
+    this.playGive();
   }
   giveToTable(){
     if(this.state.giveMode){ this.setState({giveMode:false,toast:null}); return; }
@@ -2598,76 +2594,81 @@ class Component extends DCLogic {
     });
     this.playPop();
   }
-  flash(text){ this.setState({toast:text}); this.snd(c=>{this.pluck(c,{f:196,v:.045,dur:.5});this.pluck(c,{f:174.6,t:.16,v:.04,dur:.55});}); }
-  ac(){ if(!this._ac){ try{this._ac=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return null;} } if(this._ac&&this._ac.state==='suspended'){ this._ac.resume(); } return this._ac; }
-  snd(fn){ if(this.state.muted){ return; } const c=this.ac(); if(!c){ return; } try{fn(c);}catch(e){} }
-  chain(c){
-    if(!this._out||this._outCtx!==c){
-      const master=c.createGain(); master.gain.value=.5;
-      const lp=c.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=1700; lp.Q.value=.2;
-      master.connect(lp); lp.connect(c.destination);
-      const dl=c.createDelay(1); dl.delayTime.value=.27;
-      const fb=c.createGain(); fb.gain.value=.3;
-      const wet=c.createGain(); wet.gain.value=.24;
-      lp.connect(dl); dl.connect(fb); fb.connect(dl); dl.connect(wet); wet.connect(c.destination);
-      this._out=master; this._outCtx=c;
-    }
-    return this._out;
+  audioFiles={
+    ui:'assets/audio/game/ui-soft.mp3',warning:'assets/audio/game/warning.mp3',plant:'assets/audio/game/plant.mp3',water:'assets/audio/game/water.mp3',compost:'assets/audio/game/compost.mp3',build:'assets/audio/game/build.mp3',harvest:'assets/audio/game/harvest.mp3',reward:'assets/audio/game/reward.mp3',guild:'assets/audio/game/guild.mp3',give:'assets/audio/game/give.mp3',bird:'assets/audio/game/bird.mp3',bee:'assets/audio/game/bee.mp3',butterfly:'assets/audio/game/butterfly.mp3',hedgehog:'assets/audio/game/hedgehog.mp3',worm:'assets/audio/game/worm.mp3',ladybug:'assets/audio/game/ladybug.mp3',beetle:'assets/audio/game/beetle.mp3',mushroom:'assets/audio/game/mushroom.mp3',seasonSpring:'assets/audio/game/season-spring.mp3',seasonSummer:'assets/audio/game/season-summer.mp3',seasonAutumn:'assets/audio/game/season-autumn.mp3',seasonWinter:'assets/audio/game/season-winter.mp3'
+  };
+  preloadAudio(){
+    if(this._audioCache){return;}
+    this._audioCache={};this._activeSfx=new Set();this._lastSound={};
+    Object.keys(this.audioFiles).forEach(k=>{const a=new Audio(this.audioFiles[k]);a.preload='auto';this._audioCache[k]=a;});
+    this._storyVoiceCache=this.storyScenes.map(d=>{const a=new Audio(d.voice);a.preload='auto';return a;});
+    this.ensureStoryAudio();
   }
-  pluck(c,o){
-    const out=this.chain(c);
-    const f=o.f||440, t=o.t||0, v=(o.v!=null?o.v:.06), dur=o.dur||.9, now=c.currentTime+t;
-    [[1,1],[2,.32],[2.98,.1]].forEach(p=>{
-      const osc=c.createOscillator(), g=c.createGain();
-      osc.type='sine';
-      osc.frequency.setValueAtTime(f*p[0],now);
-      if(o.f2){ osc.frequency.exponentialRampToValueAtTime(o.f2*p[0],now+dur*.7); }
-      const pv=v*p[1], pd=(p[0]===1?dur:dur*.38);
-      g.gain.setValueAtTime(0,now);
-      g.gain.linearRampToValueAtTime(pv,now+.025);
-      g.gain.exponentialRampToValueAtTime(.0004,now+pd);
-      osc.connect(g); g.connect(out);
-      osc.start(now); osc.stop(now+pd+.05);
-    });
+  playSound(key,options={}){
+    if(this.state.muted){return null;}
+    this.preloadAudio();
+    const base=this._audioCache[key];if(!base){return null;}
+    const now=Date.now(), throttle=(options.throttle!=null)?options.throttle:70;
+    if(this._lastSound[key]&&now-this._lastSound[key]<throttle){return null;}
+    this._lastSound[key]=now;
+    const a=base.cloneNode(true);a.volume=(options.volume!=null)?options.volume:.55;a.muted=!!this.state.muted;
+    this._activeSfx.add(a);
+    const clean=()=>{if(this._activeSfx){this._activeSfx.delete(a);}};
+    a.addEventListener('ended',clean,{once:true});a.addEventListener('error',clean,{once:true});
+    const p=a.play();if(p&&p.catch){p.catch(clean);}
+    return a;
   }
-  hum(c,o){
-    const out=this.chain(c);
-    const f=o.f||160, t=o.t||0, v=o.v||.03, dur=o.dur||.7, now=c.currentTime+t;
-    [f,f*1.017].forEach(ff=>{
-      const osc=c.createOscillator(), g=c.createGain();
-      osc.type='triangle';
-      osc.frequency.setValueAtTime(ff,now);
-      osc.frequency.linearRampToValueAtTime(ff*1.07,now+dur*.5);
-      osc.frequency.linearRampToValueAtTime(ff*.97,now+dur);
-      g.gain.setValueAtTime(0,now);
-      g.gain.linearRampToValueAtTime(v,now+.07);
-      g.gain.exponentialRampToValueAtTime(.0005,now+dur);
-      osc.connect(g); g.connect(out);
-      osc.start(now); osc.stop(now+dur+.05);
-    });
+  ensureStoryAudio(){
+    if(!this._storyMusic){this._storyMusic=new Audio('assets/audio/story/intro-music.mp3');this._storyMusic.preload='auto';this._storyMusic.volume=.42;}
+    if(!this._storyAmbience){this._storyAmbience=new Audio('assets/audio/story/garden-ambience.mp3');this._storyAmbience.preload='auto';this._storyAmbience.loop=true;this._storyAmbience.volume=.35;}
   }
-  playSpecies(key){
-    const P=(c,o)=>this.pluck(c,o);
-    const S={
-      bird:(c)=>{P(c,{f:1318.5,v:.04,dur:.35});P(c,{f:1568,t:.14,v:.035,dur:.35});P(c,{f:1318.5,t:.29,v:.03,dur:.45});},
-      bee:(c)=>this.hum(c,{f:150,v:.032,dur:.75}),
-      butterfly:(c)=>{P(c,{f:880,v:.028,dur:.5});P(c,{f:1174.7,t:.17,v:.026,dur:.6});},
-      hedgehog:(c)=>{P(c,{f:146.8,v:.05,dur:.3});P(c,{f:164.8,t:.16,v:.045,dur:.3});P(c,{f:146.8,t:.32,v:.04,dur:.4});},
-      worm:(c)=>P(c,{f:392,f2:130.8,v:.04,dur:.5}),
-      ladybug:(c)=>{P(c,{f:1046.5,v:.032,dur:.25});P(c,{f:1318.5,t:.11,v:.028,dur:.35});},
-      beetle:(c)=>{P(c,{f:523.25,v:.032,dur:.2});P(c,{f:466.2,t:.12,v:.028,dur:.28});},
-      winecap:(c)=>P(c,{f:440,f2:220,v:.038,dur:.6}),
-      oyster:(c)=>P(c,{f:392,f2:196,v:.038,dur:.6}),
-      field:(c)=>P(c,{f:494,f2:247,v:.038,dur:.6})
-    };
-    if(S[key]){ this.snd(S[key]); }
+  storyCue(scene){let t=0;for(let i=0;i<scene;i++){t+=(this.storyScenes[i].ms||0)/1000;}return t;}
+  seekAudio(a,time){
+    const set=()=>{try{a.currentTime=Math.max(0,Math.min(time,Math.max(0,(a.duration||time+.1)-.05)));}catch(_){}};
+    if(a.readyState>=1){set();}else{a.addEventListener('loadedmetadata',set,{once:true});}
   }
-  playPop(){ this.snd(c=>{this.pluck(c,{f:659.25,v:.032,dur:.4});this.pluck(c,{f:784,t:.09,v:.028,dur:.5});}); }
-  playThud(){ this.snd(c=>this.pluck(c,{f:220,v:.04,dur:.45})); }
-  playGuild(){ this.snd(c=>{[523.25,659.25,784,1046.5].forEach((f,i)=>this.pluck(c,{f:f,t:i*.13,v:.045,dur:.9}));this.pluck(c,{f:1318.5,t:.56,v:.035,dur:1.1});}); }
-  playSparkle(){ this.snd(c=>{[784,880,1046.5,1318.5].forEach((f,i)=>this.pluck(c,{f:f,t:i*.09,v:.038,dur:.7}));}); }
-  playGive(){ this.snd(c=>{this.pluck(c,{f:261.6,v:.042,dur:1});this.pluck(c,{f:392,t:.06,v:.038,dur:1});this.pluck(c,{f:523.25,t:.15,v:.032,dur:1.1});}); }
-  playDing(){ this.snd(c=>this.pluck(c,{f:880,v:.036,dur:.6})); }
+  playStoryScene(scene,seekBed=true){
+    this.ensureStoryAudio();
+    const def=this.storyScenes[scene];if(!def){return;}
+    if(this._storyVoice){this._storyVoice.pause();}
+    if(seekBed){const cue=this.storyCue(scene);this.seekAudio(this._storyMusic,cue);this.seekAudio(this._storyAmbience,cue%30);}
+    [this._storyMusic,this._storyAmbience].forEach(a=>{a.muted=!!this.state.muted;const p=a.play();if(p&&p.catch){p.catch(()=>{});}});
+    const voice=new Audio(def.voice);voice.preload='auto';voice.volume=.95;voice.muted=!!this.state.muted;this._storyVoice=voice;
+    const p=voice.play();if(p&&p.catch){p.catch(()=>{});}
+  }
+  pauseStoryAudio(){[this._storyMusic,this._storyAmbience,this._storyVoice].forEach(a=>{if(a){a.pause();}});}
+  resumeStoryAudio(){
+    [this._storyMusic,this._storyAmbience,this._storyVoice].forEach(a=>{if(a&&(!a.duration||a.currentTime<a.duration)){const p=a.play();if(p&&p.catch){p.catch(()=>{});}}});
+  }
+  stopStoryAudio(){
+    [this._storyMusic,this._storyAmbience,this._storyVoice].forEach(a=>{if(a){a.pause();try{a.currentTime=0;}catch(_){}}});
+    this._storyVoice=null;
+  }
+  syncAudioMute(){
+    const muted=!!this.state.muted;
+    [this._storyMusic,this._storyAmbience,this._storyVoice].forEach(a=>{if(a){a.muted=muted;}});
+    if(this._activeSfx){this._activeSfx.forEach(a=>{a.muted=muted;});}
+  }
+  stopAllAudio(){
+    this.stopStoryAudio();
+    if(this._activeSfx){this._activeSfx.forEach(a=>{a.pause();});this._activeSfx.clear();}
+  }
+  flash(text){this.setState({toast:text});this.playSound('warning',{volume:.5,throttle:120});}
+  playPlacement(type){
+    if(type==='rain'||type==='birdbath'){this.playSound('water',{volume:.62});return;}
+    if(type==='compost'||type==='mulch'){this.playSound('compost',{volume:.58});return;}
+    if(this.cropDefs[type]||['appletree','hugel','herbspiral','pollinator','seedbank'].indexOf(type)>=0){this.playSound('plant',{volume:.58});return;}
+    this.playSound('build',{volume:.58});
+  }
+  playSpecies(key){const k=(key==='winecap'||key==='oyster'||key==='field')?'mushroom':key;this.playSound(k,{volume:.48,throttle:30});}
+  playPop(){this.playSound('ui',{volume:.34});}
+  playThud(){this.playSound('warning',{volume:.52,throttle:120});}
+  playGuild(){this.playSound('guild',{volume:.58});}
+  playSparkle(){this.playSound('reward',{volume:.54});}
+  playGive(){this.playSound('give',{volume:.58});}
+  playDing(){this.playSound('ui',{volume:.32});}
+  playHarvest(){this.playSound('harvest',{volume:.62});}
+  playSeason(k){this.playSound('season'+k,{volume:.52,throttle:200});}
   removeSelected(){
     const id=this.state.selectedPlacedId;if(!id)return;
     const p=this.state.placed.find(x=>x.id===id);if(!p)return;
@@ -3089,6 +3090,7 @@ class Component extends DCLogic {
       }
       return ns;
     });
+    this.playSeason(k);
     if(sparkle){ setTimeout(()=>this.playSparkle(),250); }
     clearTimeout(this._flashT); this._flashT=setTimeout(()=>{ if(this.state.seasonFlash&&this.state.seasonFlash.k===k) this.setState({seasonFlash:null}); },1150);
     clearTimeout(this._seasonT);
@@ -3521,7 +3523,7 @@ class Component extends DCLogic {
       onOpenIntro:()=>this.setState({intro:true,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null}),
       muted:!!st.muted,soundOn:!st.muted,
       soundButtonLabel:st.muted?'Turn sound on':'Mute garden sounds',
-      onToggleMute:()=>{const wasMuted=this.state.muted;this.setState({muted:!wasMuted},()=>{if(wasMuted){if(this.state.story&&this.state.storyStarted){this.storySound(this.state.storyScene);}else{this.playDing();}}});},
+      onToggleMute:()=>{const wasMuted=this.state.muted;this.setState({muted:!wasMuted},()=>{this.syncAudioMute();if(wasMuted&&!this.state.story){this.playDing();}});},
       shares:st.shares,budget:st.budget,given:st.given,nextAt:nextAt,
       givenLabel:(st.given<6?('Sharing '+st.given+' / 6 · garden goal'):(st.given>=30?('Given '+st.given+' · full circle 🌿'):('Given '+st.given+' / '+nextAt+' · next return'))),
       givenBarStyle:{width:givenPct+'%',height:'100%',background:'linear-gradient(90deg,#8FB565,#5E7E4A)',borderRadius:'4px',transition:'width .5s'},

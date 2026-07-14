@@ -10,7 +10,7 @@ const open = fragment.indexOf('<script type="text/x-dc"');
 const start = fragment.indexOf(">", open) + 1;
 const end = fragment.indexOf("</script>", start);
 if (open < 0 || start < 1 || end < 0) {
-  throw new Error("The game script was not found in index.html.");
+  throw new Error("The game script was not found in game.fragment.html.");
 }
 
 const gameScript = fragment.slice(start, end);
@@ -22,7 +22,7 @@ for (const match of production.matchAll(/(?:src|href)="([^"]+)"/g)) {
   const ref = match[1];
   if (!ref.includes("{{") && !/^(?:https?:|data:|#)/.test(ref)) localRefs.add(ref);
 }
-for (const match of production.matchAll(/assets\/[a-zA-Z0-9._/-]+\.webp/g)) {
+for (const match of production.matchAll(/assets\/[a-zA-Z0-9._/-]+\.(?:webp|mp3|woff2)/g)) {
   localRefs.add(match[0]);
 }
 
