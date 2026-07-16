@@ -394,10 +394,21 @@ html,body{margin:0;padding:0}
   --pg-gold:#d2aa59;
   isolation:isolate;
   color:#2f3b2a!important;
-  background:
-    radial-gradient(circle at 48% -12%,rgba(255,255,255,.9),transparent 47%),
-    linear-gradient(145deg,#f6f1e7,#e9e0cf)!important;
+  background:#e9e0cf!important;
 }
+.pg-game-ambient{
+  position:absolute;inset:0;z-index:0;
+  width:100%;height:100%;object-fit:cover;object-position:center 52%;
+  pointer-events:none;opacity:.34;
+  filter:saturate(.76) sepia(.06) brightness(.88) contrast(.96);
+}
+.pg-game-ambient-wash{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 48% -12%,rgba(255,252,244,.7),transparent 48%),
+    linear-gradient(145deg,rgba(246,241,231,.67),rgba(229,220,201,.76));
+}
+.pg-game-main{position:relative;z-index:1}
 .pg-game-header{
   border-bottom:1px solid rgba(239,232,208,.14)!important;
   background:linear-gradient(90deg,rgba(18,29,18,.9),rgba(34,48,30,.82),rgba(18,29,18,.9))!important;
@@ -489,6 +500,8 @@ html,body{margin:0;padding:0}
 .pg-reflection-block{background:#fffdf6;border:1px solid #e8ddc6;border-radius:13px;padding:10px 12px;margin-bottom:9px}
 .pg-game-shell [style*="color:#A99E86"],.pg-game-shell [style*="rgb(169, 158, 134)"],.pg-game-shell [style*="color:#9A8F77"],.pg-game-shell [style*="rgb(154, 143, 119)"],.pg-game-shell [style*="color:#8A7E66"],.pg-game-shell [style*="rgb(138, 126, 102)"],.pg-game-shell .pg-footer-note{color:#6F6552!important}
 @media (prefers-reduced-motion: reduce){
+  .pg-game-ambient{display:none}
+  .pg-game-ambient-wash{background:radial-gradient(circle at 48% -12%,rgba(255,255,255,.9),transparent 47%),linear-gradient(145deg,#f6f1e7,#e9e0cf)}
   .pg-game-shell,.pg-game-shell *,.pg-game-shell *::before,.pg-game-shell *::after{scroll-behavior:auto!important}
   .pg-game-shell *,.pg-game-shell *::before,.pg-game-shell *::after{animation-delay:0s!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-delay:0s!important;transition-duration:.001ms!important}
 }
@@ -507,6 +520,12 @@ html,body{margin:0;padding:0}
 </style>
 </helmet>
 <div class="pg-game-shell" style="height:100vh;display:flex;flex-direction:column;font-family:'Hanken Grotesk',sans-serif;color:#2C3525;background:#F3EEE3;overflow:hidden;position:relative">
+
+  <video class="pg-game-ambient" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline" preload="metadata" poster="assets/story/story-01-menet.webp" aria-hidden="true" tabindex="-1">
+    <source src="assets/video/garden-ambient-loop.webm" type="video/webm">
+    <source src="assets/video/garden-ambient-loop.mp4" type="video/mp4">
+  </video>
+  <div class="pg-game-ambient-wash" aria-hidden="true"></div>
 
   <header class="pg-game-header" style="display:flex;justify-content:center;border-bottom:1px solid #E7DECB;background:#FBF8F1;flex:none;z-index:5">
     <div class="pg-header-inner" style="display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;max-width:1720px;padding:11px clamp(14px,1.4vw,22px);min-width:0">
