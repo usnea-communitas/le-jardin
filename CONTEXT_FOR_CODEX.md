@@ -166,8 +166,10 @@ panely používají `pg-panel`; hlavní tokeny a skin jsou ve scoped CSS pod `.p
 Příběh má v horní liště samostatné viditelné tlačítko **Play story**; otazník zůstává jen pro
 stručný návod. Přehrání z horní lišty se po skončení vrací přímo do hry.
 
-Od **v62** je velké pozadí kolem panelů znovu neutrální teplá béžová. Tmavě zelená fotografie
-Menet byla odstraněna; finální podobu atmosférického pozadí vybereme později z více návrhů.
+Od **v64** běží kolem panelů čistá, lokálně zesmyčkovaná 10s video scéna Menet z Klingu
+(`assets/video/garden-ambient-loop.*`). Video se zobrazuje v původních barvách a ostrosti — bez
+béžového překryvu, průhlednosti, barevného filtru nebo rozmazání. Při `prefers-reduced-motion`
+se místo pohybu zobrazí čistý statický první obraz.
 
 ### 4.11 Zvuk
 Od **v60** se nepoužívají procedurální oscilátory ani Web Audio tóny. Celý zvuk je postavený na
@@ -221,6 +223,11 @@ Verze se značí v patičce palety (`v62`, …) a bumpuje při každém významn
 ---
 
 ## 7. Otevřené úkoly / budoucí vize
+
+**Příští společná pracovní relace (plán na 2026-07-18):**
+- doplnit krátké namluvené promluvy zahrady během hry, nejen v onboardingu; použít stejný
+  ElevenLabs **Voice 1**, předem vyrenderované MP3, titulky, respektování mute a jemné ztišení hudby
+- dál sjednotit herní design s poetickým vizuálním jazykem úvodního onboardingu
 
 **Hned:**
 - **Výměna cvičné mapy za skutečnou z Menet** (Francie) — až uživatel dodá podklad. Vymění se
