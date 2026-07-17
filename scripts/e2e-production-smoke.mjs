@@ -39,6 +39,14 @@ const dismissGarden = async () => {
   if (await button.isVisible().catch(() => false)) await button.click();
 };
 
+const dismissGardenReflections = async () => {
+  for (let i = 0; i < 12; i += 1) {
+    const button = page.getByRole('button', { name: /Continue tending/i });
+    if (await button.isVisible().catch(() => false)) await button.click();
+    await page.waitForTimeout(450);
+  }
+};
+
 const dismissArrivals = async () => {
   for (let i = 0; i < 4; i += 1) {
     const welcome = page.getByRole('button', { name: /Keep observing|Continue observing|Welcome to the garden|Welcome all|Welcome them in/i }).first();
@@ -81,6 +89,7 @@ try {
   await page.waitForTimeout(220);
   await dismissGarden();
   check(await page.getByText('Turn to the next season', { exact: false }).first().isVisible(), 'production records a genuine surplus gift');
+  await dismissGardenReflections();
 
   await page.getByRole('button', { name: /Advance to/i }).click();
   const gate = page.locator('[data-pg-dialog="gate"]');

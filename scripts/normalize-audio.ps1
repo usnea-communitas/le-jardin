@@ -1,3 +1,7 @@
+param(
+  [switch]$GardenVoiceOnly
+)
+
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $audioRoot = (Resolve-Path (Join-Path $root 'assets/audio')).Path
@@ -19,8 +23,21 @@ function Normalize-Audio {
   Write-Host "Normalized $(Split-Path $resolved -Leaf) to $TargetLufs LUFS"
 }
 
-Get-ChildItem -LiteralPath (Join-Path $audioRoot 'story') -Filter 'narration-*.mp3' -File |
-  ForEach-Object { Normalize-Audio -Path $_.FullName -TargetLufs -16 }
+if (-not $GardenVoiceOnly) {
+  Get-ChildItem -LiteralPath (Join-Path $audioRoot 'story') -Filter 'narration-*.mp3' -File |
+    ForEach-Object { Normalize-Audio -Path $_.FullName -TargetLufs -16 }
+}
+
+$gardenVoiceDir = Join-Path $audioRoot 'garden-voice'
+if (Test-Path -LiteralPath $gardenVoiceDir) {
+  Get-ChildItem -LiteralPath $gardenVoiceDir -Filter '*.mp3' -File |
+    ForEach-Object { Normalize-Audio -Path $_.FullName -TargetLufs -16 }
+}
+
+if ($GardenVoiceOnly) {
+  Write-Host 'Garden voice loudness normalization complete.'
+  return
+}
 
 Normalize-Audio -Path (Join-Path $audioRoot 'story/intro-music.mp3') -TargetLufs -23
 Normalize-Audio -Path (Join-Path $audioRoot 'story/garden-ambience.mp3') -TargetLufs -32

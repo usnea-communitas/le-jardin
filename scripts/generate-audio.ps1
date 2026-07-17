@@ -17,7 +17,8 @@ $jsonHeaders = @{ 'xi-api-key' = $apiKey; 'Content-Type' = 'application/json' }
 
 $storyDir = Join-Path $root 'assets/audio/story'
 $gameDir = Join-Path $root 'assets/audio/game'
-New-Item -ItemType Directory -Force -Path $storyDir, $gameDir | Out-Null
+$gardenVoiceDir = Join-Path $root 'assets/audio/garden-voice'
+New-Item -ItemType Directory -Force -Path $storyDir, $gameDir, $gardenVoiceDir | Out-Null
 
 function Invoke-AudioGeneration {
   param(
@@ -56,6 +57,36 @@ for ($i = 0; $i -lt $scenes.Count; $i++) {
     seed = 240517
   }
   $file = Join-Path $storyDir ('narration-{0:d2}.mp3' -f ($i + 1))
+  $uri = "https://api.elevenlabs.io/v1/text-to-speech/$($voice.voice_id)?output_format=mp3_44100_128"
+  Invoke-AudioGeneration -Uri $uri -Body $body -OutFile $file
+}
+
+# Short, deliberately rare in-game lines spoken by the same saved Voice 1 as
+# the opening story. File names match gardenVoiceFiles in the canonical game.
+$gardenLines = @(
+  @{ Name = 'milestone-soil'; Text = '[softly] Feed me first. Everything visible begins with the life beneath.' },
+  @{ Name = 'milestone-water'; Text = '[gently] Rain should not rush away. Give it somewhere useful to pause.' },
+  @{ Name = 'milestone-food'; Text = '[warmly] Let one place feed roots, leaves, fruit - and the people who tend me.' },
+  @{ Name = 'milestone-shelter'; Text = '[with quiet wonder] Leave a little room for lives you may never see at first.' },
+  @{ Name = 'milestone-share'; Text = '[warmly] What leaves my gate is not lost. It becomes someone else''s beginning.' },
+  @{ Name = 'guild-discovered'; Text = '[with growing wonder] You looked between the elements. That is where my strongest design lives.' },
+  @{ Name = 'reflection-three'; Text = '[reflective] I can feel soil, water and food beginning to answer one another. Resilience grows in the conversation between them.' },
+  @{ Name = 'reflection-share'; Text = '[warmly] You made room for lives you may never meet, then let one gift continue beyond my gate.' },
+  @{ Name = 'season-spring'; Text = '[softly, with new hope] The frost has loosened its hold. New companions arrive carefully, and last year''s rain rises through the soil.' },
+  @{ Name = 'season-summer'; Text = '[warmly] My leaves are full of light. Water, shade and many kinds of flower decide whether abundance can keep its balance.' },
+  @{ Name = 'season-autumn'; Text = '[reflective] Fruit, leaves and seed are arriving together. What is shared, stored or returned now will shape the quiet months.' },
+  @{ Name = 'season-winter'; Text = '[almost a whisper] I have drawn my energy inward. Beneath cover and bark, many lives wait without becoming absent.' },
+  @{ Name = 'ending'; Text = '[with quiet gratitude] You did not finish me. You helped me become able to continue - through another season, another visitor and another gift.' }
+)
+
+foreach ($line in $gardenLines) {
+  $body = @{
+    text = $line.Text
+    model_id = 'eleven_v3'
+    language_code = 'en'
+    seed = 240517
+  }
+  $file = Join-Path $gardenVoiceDir ($line.Name + '.mp3')
   $uri = "https://api.elevenlabs.io/v1/text-to-speech/$($voice.voice_id)?output_format=mp3_44100_128"
   Invoke-AudioGeneration -Uri $uri -Body $body -OutFile $file
 }

@@ -1,7 +1,7 @@
 # Permaculture Garden — kompletní kontext pro Codex
 
 > Předávací dokument. Vysvětluje **co** hra je, **jak** je postavená a **proč** jsme jednotlivé
-> věci implementovali. Aktuální verze: **v62**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
+> věci implementovali. Aktuální verze: **v67**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
 > (needituj bundle `index.html` — ten se generuje).
 
 ---
@@ -44,7 +44,7 @@ odložené na samostatnou fázi/projekt — desktop je hotový a odladěný.
 ### Persistence
 `localStorage` klíč `permagarden_v2`. Ukládá se `placed`, `shares`, `budget`, `given`, `pool`,
 `goodwill`, `discovered`, `awarded`, `basket`, `materials`, `guests`, `visitsDone`,
-`gatesPlayed`, `harvestEver`, `season`, `storySeen`, `introSeen` atd. **Sezóna se při čerstvém spuštění resetuje na léto**
+`gatesPlayed`, `harvestEver`, `season`, `storySeen`, `introSeen`, `guildVoicePlayed` atd. **Sezóna se při čerstvém spuštění resetuje na léto**
 (default), ale při obnovení stránky v témž sezení se zachová naposledy zvolená.
 
 ---
@@ -174,16 +174,41 @@ se místo pohybu zobrazí čistý statický první obraz.
 Od **v65** už horní lišta není tmavá: používá světlé krémové onboardingové sklo, šalvějovou
 typografii a ovládání a jemné zlaté zvýraznění tlačítka příběhu.
 
+Od **v66** je hra sjednocená podle společného Lovable + Picsart design labu: teplé papírové povrchy,
+jemná botanická linková kresba, serifová hierarchie pro příběhové okamžiky a jedna osmičlenná rodina
+SVG ikon (`assets/ui/icons/`) pro půdu, vodu, potravní síť, habitat, fair share, guildy, sezóny a hlas
+zahrady. Čtyři malované obrazy v `assets/season-passages/` se používají pouze v season gates a
+filmových mezikrocích; nenahrazují čistou Kling video smyčku kolem panelů.
+
+Hlas zahrady má tři registry: (1) neblokující šeptání nad mapou s automatickým zavřením a krátkým
+replay oknem, (2) zaslouženou reflexní kartu po důležitých milnících a (3) vzácný celoplošný filmový
+moment po dokončení změny sezóny. Vždy mluví v první osobě, přítomném čase, jedním krátkým dechem,
+bez kárání. Text zůstává dostupný při mute i při případné chybě zvuku.
+
+Od **v67** je v `gardenVoiceFiles` zapojeno 13 hotových anglických replik hlasem ElevenLabs
+**The Garden of Menet / Voice 1**: první péče o půdu, vodu, potravu a habitat; první komunitní dar;
+první objevená guilda; reflexe po třech vrstvách a po fair-share milníku; jarní, letní, podzimní a
+zimní filmový přechod; a zasloužené dokončení zahrady. První guilda se pamatuje přes
+`guildVoicePlayed`, takže hlas neopakuje každou další kombinaci. Sezónní titulky přesně odpovídají
+nahrávce. Délka ztišení hudby se řídí skutečnou délkou hlasu a zavření karty hlas okamžitě a čistě
+ukončí.
+
 ### 4.11 Zvuk
 Od **v60** se nepoužívají procedurální oscilátory ani Web Audio tóny. Celý zvuk je postavený na
 organických MP3 nahrávkách v `assets/audio/`:
 - `story/`: 7 vypravěčských scén, 65s akustická hudební linka a smyčkovatelná zahradní atmosféra
 - `game/`: měkké dřevo/list pro UI, semínko a půda při sázení, voda, kompost, stavba, sklizeň,
   sdílení, vznik guildy, odměna, čtyři roční období a samostatné přirozené zvuky živočichů
+- `game-v2/`: vybrané a normalizované Picsart/Kling fyzické foley a ElevenLabs hero cues pro
+  garden voice, guild a změnu sezóny
+- `music/`: tři odlišné Lyria vrstvy — klidná zahrada, season gate a závěrečná reflexe; načítají se
+  jen jako metadata a mezi režimy se prolínají
+- `garden-voice/`: 13 finálních replik Voice 1 a strojově čitelný `manifest.json` s přesnými titulky
 - hlasitost je normalizovaná (`-16 LUFS` voice, `-23` music, `-32` ambience, `-20` game SFX),
   hudba je pod hlasem a rychlé opakování efektů se throttluje
 - pause/resume drží pozici hlasu, hudby i atmosféry; mute časovou osu nezastaví a po odmutování
   se vyprávění neopakuje od začátku
+- při Garden Speaks cue se aktivní hudební vrstva automaticky ztiší a potom plynule vrátí
 
 Zdrojové prompty a reprodukovatelná výroba jsou v `scripts/generate-audio.ps1`; finální
 normalizace v `scripts/normalize-audio.ps1`. ElevenLabs API klíč patří pouze do lokálního `.env`,
@@ -226,11 +251,6 @@ Verze se značí v patičce palety (`v62`, …) a bumpuje při každém významn
 ---
 
 ## 7. Otevřené úkoly / budoucí vize
-
-**Příští společná pracovní relace (plán na 2026-07-18):**
-- doplnit krátké namluvené promluvy zahrady během hry, nejen v onboardingu; použít stejný
-  ElevenLabs **Voice 1**, předem vyrenderované MP3, titulky, respektování mute a jemné ztišení hudby
-- dál sjednotit herní design s poetickým vizuálním jazykem úvodního onboardingu
 
 **Hned:**
 - **Výměna cvičné mapy za skutečnou z Menet** (Francie) — až uživatel dodá podklad. Vymění se

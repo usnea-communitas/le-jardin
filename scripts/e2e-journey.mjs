@@ -33,6 +33,19 @@ const dismissGarden = async () => {
   const button = page.getByRole('button', { name: "Dismiss the garden's message" });
   if (await button.isVisible().catch(() => false)) await button.click();
 };
+const dismissGardenReflections = async () => {
+  // Reflection cards wait until whispers and other garden moments are quiet.
+  // Poll long enough to catch that intentional delayed entrance.
+  for (let i = 0; i < 12; i += 1) {
+    const button = page.getByRole('button', { name: /Continue tending/i });
+    if (await button.isVisible().catch(() => false)) {
+      await button.click();
+      await page.waitForTimeout(500);
+      continue;
+    }
+    await page.waitForTimeout(450);
+  }
+};
 const dismissArrivals = async () => {
   for (let i = 0; i < 4; i += 1) {
     const welcome = page.getByRole('button', { name: /Keep observing|Continue observing|Welcome to the garden|Welcome all|Welcome them in/i }).first();
@@ -103,9 +116,11 @@ try {
   await dismissGarden();
   check(await textVisible('Turn to the next season'), 'sharing a genuine harvest surplus advances the journey');
   check(await textVisible('Camille will add cherries'), 'the gift reaches a fitting community character with a distinct response');
+  await dismissGardenReflections();
 
   await page.getByRole('button', { name: /Advance to/i }).click();
   check(await textVisible('Garden challenge'), 'a seasonal transition opens a contextual garden challenge');
+  check(await page.locator('.pg-gate-hero img').isVisible(), 'the seasonal challenge opens with its Menet passage artwork');
   await page.evaluate(() => {
     const app = window.__PERMAGARDEN_APP__;
     if (!app || !app.state.gate) throw new Error('Gate instance unavailable');
@@ -114,6 +129,9 @@ try {
   await page.waitForTimeout(200);
   check(await textVisible('What remains'), 'winning a minigame explains what learning remains and when its physical effect applies');
   await page.getByRole('button', { name: /Continue to/i }).click();
+  await page.waitForTimeout(250);
+  check(await page.getByRole('button', { name: /Enter (Spring|Summer|Autumn|Winter)/i }).isVisible(), 'a rare cinematic Garden Speaks moment marks the completed season change');
+  await page.getByRole('button', { name: /Enter (Spring|Summer|Autumn|Winter)/i }).click();
   await page.waitForTimeout(250);
   await dismissGarden();
   check(await textVisible('The garden is ready to reflect'), 'all six acts unlock the ending');

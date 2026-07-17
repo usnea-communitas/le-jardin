@@ -21,9 +21,13 @@ Volitelná regenerace zvuku používá lokální, Git-em ignorovaný `ELEVENLABS
 ```powershell
 .\scripts\generate-audio.ps1
 .\scripts\normalize-audio.ps1
+# Jen nové repliky zahrady:
+.\scripts\normalize-audio.ps1 -GardenVoiceOnly
 ```
 
 Klíč se nikdy necommitne ani nenasazuje do Vercelu; hra při běhu používá jen hotové MP3 soubory.
+Třináct finálních replik Voice 1 je v `assets/audio/garden-voice/`; jejich přesné titulky a mapování
+udržuje `manifest.json`.
 
 ## Lokální test
 

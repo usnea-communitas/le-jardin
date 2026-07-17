@@ -1,0 +1,21 @@
+{
+  "voice": "The Garden of Menet",
+  "source": "ElevenLabs Voice 1",
+  "model": "eleven_v3",
+  "language": "en",
+  "files": [
+    { "id": "soil", "file": "milestone-soil.mp3", "text": "Feed me first. Everything visible begins with the life beneath." },
+    { "id": "water", "file": "milestone-water.mp3", "text": "Rain should not rush away. Give it somewhere useful to pause." },
+    { "id": "food", "file": "milestone-food.mp3", "text": "Let one place feed roots, leaves, fruit — and the people who tend me." },
+    { "id": "shelter", "file": "milestone-shelter.mp3", "text": "Leave a little room for lives you may never see at first." },
+    { "id": "share", "file": "milestone-share.mp3", "text": "What leaves my gate is not lost. It becomes someone else’s beginning." },
+    { "id": "guild-discovered", "file": "guild-discovered.mp3", "text": "You looked between the elements. That is where my strongest design lives." },
+    { "id": "reflection-three", "file": "reflection-three.mp3", "text": "I can feel soil, water and food beginning to answer one another. Resilience grows in the conversation between them." },
+    { "id": "reflection-share", "file": "reflection-share.mp3", "text": "You made room for lives you may never meet, then let one gift continue beyond my gate." },
+    { "id": "cinematic-spring", "file": "season-spring.mp3", "text": "The frost has loosened its hold. New companions arrive carefully, and last year’s rain rises through the soil." },
+    { "id": "cinematic-summer", "file": "season-summer.mp3", "text": "My leaves are full of light. Water, shade and many kinds of flower decide whether abundance can keep its balance." },
+    { "id": "cinematic-autumn", "file": "season-autumn.mp3", "text": "Fruit, leaves and seed are arriving together. What is shared, stored or returned now will shape the quiet months." },
+    { "id": "cinematic-winter", "file": "season-winter.mp3", "text": "I have drawn my energy inward. Beneath cover and bark, many lives wait without becoming absent." },
+    { "id": "ending", "file": "ending.mp3", "text": "You did not finish me. You helped me become able to continue — through another season, another visitor and another gift." }
+  ]
+}
