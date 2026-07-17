@@ -171,6 +171,9 @@ Od **v64** běží kolem panelů čistá, lokálně zesmyčkovaná 10s video sc�
 béžového překryvu, průhlednosti, barevného filtru nebo rozmazání. Při `prefers-reduced-motion`
 se místo pohybu zobrazí čistý statický první obraz.
 
+Od **v65** už horní lišta není tmavá: používá světlé krémové onboardingové sklo, šalvějovou
+typografii a ovládání a jemné zlaté zvýraznění tlačítka příběhu.
+
 ### 4.11 Zvuk
 Od **v60** se nepoužívají procedurální oscilátory ani Web Audio tóny. Celý zvuk je postavený na
 organických MP3 nahrávkách v `assets/audio/`:
