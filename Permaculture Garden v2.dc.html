@@ -582,6 +582,67 @@ html,body{margin:0;padding:0}
 .pg-gate-story{font:italic 17px/1.48 Georgia,'Times New Roman',serif!important;font-weight:400!important;color:#35422f!important}
 .pg-summary-dialog{background:linear-gradient(165deg,#fffaf0,#eee3cd)!important;border:1px solid rgba(117,89,48,.38)!important;border-radius:25px!important;box-shadow:0 34px 86px -28px rgba(16,24,13,.88)!important}
 .pg-summary-dialog:before{content:"";position:absolute;right:-25px;top:-23px;width:190px;height:190px;background:url("assets/ui/ornaments/corner-canopy.svg") center/contain no-repeat;opacity:.09;pointer-events:none}
+/* ===== v68 · one visual world — refined from the Lovable/Picsart desktop concept ===== */
+.pg-game-shell{padding:10px!important}
+.pg-game-header{
+  width:100%;max-width:1680px;margin:0 auto;
+  border:1px solid rgba(255,255,255,.58)!important;border-bottom-color:rgba(104,80,47,.2)!important;
+  border-radius:20px 20px 0 0;overflow:hidden;
+}
+.pg-header-inner{padding:10px 15px!important}
+.pg-brand-mark{width:38px!important;height:38px!important;border-radius:12px!important}
+.pg-brand-title{font-size:19px!important}
+.pg-brand-subtitle{font-size:8.5px!important}
+.pg-game-main{
+  max-width:1680px!important;gap:10px!important;padding:10px!important;
+  border:1px solid rgba(255,255,255,.34);border-top:0;border-radius:0 0 20px 20px;
+  box-shadow:0 28px 72px -32px rgba(7,14,7,.86);
+}
+.pg-game-sidebar{gap:10px!important;padding-right:2px!important}
+.pg-game-center{gap:10px!important}
+.pg-panel,.pg-journey-card{
+  border-radius:14px!important;border-color:rgba(112,88,53,.24)!important;
+  box-shadow:0 17px 36px -29px rgba(11,20,10,.9),0 2px 5px rgba(48,39,24,.08),inset 0 1px rgba(255,255,255,.72)!important;
+}
+.pg-palette-section,.pg-right-panel,.pg-community-panel{border-radius:14px!important}
+.pg-palette-section{padding:12px!important}
+.pg-right-panel{padding:13px 14px!important}
+.pg-community-panel{padding:11px 13px!important}
+.pg-map-panel{border-radius:17px!important;border-color:rgba(102,78,44,.3)!important}
+.pg-map-toolbar{min-height:50px!important;padding:10px 16px 8px!important}
+.pg-map-toolbar:after{width:112px;height:48px;opacity:.09}
+.pg-map-title{font-size:17px!important}
+.pg-plot{
+  inset:0 11px 11px 11px!important;border-radius:12px!important;isolation:isolate;
+  background:
+    linear-gradient(180deg,rgba(255,246,210,.04) 0%,rgba(30,53,25,.08) 48%,rgba(19,38,19,.2) 100%),
+    url("assets/story/story-07-invitation.webp") center 58%/cover no-repeat!important;
+  box-shadow:inset 0 0 0 1px rgba(244,235,204,.2),inset 0 30px 76px -44px rgba(18,33,16,.82),inset 0 -28px 58px -38px rgba(4,12,5,.9),0 16px 28px -23px rgba(12,22,11,.9)!important;
+}
+.pg-plot-grid{opacity:.18;mix-blend-mode:screen}
+.pg-garden-path{opacity:.14;mix-blend-mode:screen}
+.pg-element-chip{min-height:50px;border-radius:11px!important;background:rgba(255,252,244,.88)!important}
+.pg-soft-card,.pg-context-note,.pg-next-step{
+  background:linear-gradient(145deg,rgba(250,246,234,.94),rgba(239,231,212,.9))!important;
+  border:1px solid rgba(113,89,56,.17)!important;border-radius:11px!important;
+}
+.pg-market-card,.pg-inventory-row,.pg-material-chip,.pg-community-memory{
+  background:rgba(255,252,245,.9)!important;border:1px solid rgba(114,90,57,.17)!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.7),0 7px 15px -16px rgba(39,31,19,.85);
+}
+.pg-market-card{border-radius:10px!important}
+.pg-inventory-row,.pg-material-chip,.pg-community-memory{border-radius:9px!important}
+.pg-give-zone{background:rgba(250,244,226,.7)!important;border-width:1px!important}
+.pg-header-pill{padding:5px 10px!important}
+.pg-header-progress>div{height:5px!important}
+.pg-header-story{min-height:32px;padding-right:12px}
+.pg-garden-whisper{bottom:17px;width:min(610px,88%);padding:10px 12px}
+.pg-footer-note{padding-left:3px!important}
+@media (max-width:1100px){
+  .pg-game-shell{padding:0!important}
+  .pg-game-header,.pg-game-main{border-radius:0}
+  .pg-game-main{border-left:0;border-right:0;border-bottom:0}
+}
 @keyframes pgCineIn{from{opacity:0}to{opacity:1}}
 @keyframes pgCineDrift{from{transform:scale(1.025)}to{transform:scale(1.075)}}
 @media (prefers-reduced-motion: reduce){
@@ -686,7 +747,7 @@ html,body{margin:0;padding:0}
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v67</span>
+      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v68</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
@@ -722,7 +783,7 @@ html,body{margin:0;padding:0}
           <div data-plot="1" class="pg-plot {{ plotClass }}" role="region" tabindex="0" aria-label="{{ plotAriaLabel }}" sc-camel-on-key-down="{{ onMapKeyDown }}" sc-camel-on-drag-enter="{{ onMapDragOver }}" sc-camel-on-drag-over="{{ onMapDragOver }}" sc-camel-on-drop="{{ onMapDrop }}" sc-camel-on-click="{{ onMapClick }}" style="position:absolute;inset:0 14px 14px 14px;border-radius:14px;overflow:hidden;background:radial-gradient(42% 32% at 24% 28%,rgba(219,235,176,.9),transparent 70%),radial-gradient(38% 30% at 76% 62%,rgba(148,182,106,.55),transparent 70%),radial-gradient(30% 24% at 60% 14%,rgba(219,235,176,.7),transparent 70%),linear-gradient(162deg,#C6DB9F 0%,#AECB84 55%,#9CBE72 100%);box-shadow:inset 0 0 0 1px rgba(90,110,60,.28),inset 0 18px 44px -22px rgba(40,60,20,.5)">
 
             <sc-if value="{{ gridVisible }}" hint-placeholder-val="{{ true }}">
-              <svg sc-camel-view-box="0 0 100 100" sc-camel-preserve-aspect-ratio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block">
+              <svg class="pg-plot-grid" sc-camel-view-box="0 0 100 100" sc-camel-preserve-aspect-ratio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block">
                 <g stroke="rgba(80,100,50,.16)" stroke-width="1" vector-effect="non-scaling-stroke">
                   <line x1="32.8" y1="30" x2="-31" y2="101" vector-effect="non-scaling-stroke" opacity=".55"></line>
                   <line x1="36.1" y1="30" x2="-15" y2="101" vector-effect="non-scaling-stroke" opacity=".7"></line>
@@ -781,7 +842,7 @@ html,body{margin:0;padding:0}
             </sc-for>
 
             <!-- winding path from entrance -->
-            <svg sc-camel-view-box="0 0 100 100" sc-camel-preserve-aspect-ratio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+            <svg class="pg-garden-path" sc-camel-view-box="0 0 100 100" sc-camel-preserve-aspect-ratio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
               <path d="M50 100 C 50 84, 46 74, 49 62 C 52 52, 50 46, 49 40" stroke="#D9C9A4" stroke-width="7" fill="none" stroke-linecap="round" opacity=".75"></path>
               <path d="M50 100 C 50 84, 46 74, 49 62 C 52 52, 50 46, 49 40" stroke="#CBB88E" stroke-width="7" fill="none" stroke-linecap="round" opacity=".4" stroke-dasharray="1.5 6"></path>
             </svg>
@@ -1072,7 +1133,7 @@ html,body{margin:0;padding:0}
           </div>
         </div>
         <div style="display:flex;gap:9px;overflow-x:auto;padding-bottom:2px;min-height:74px">
-          <div data-give-target="1" role="button" tabindex="0" aria-label="Give a garden element to the community" sc-camel-on-click="{{ onGiveToTable }}" sc-camel-on-key-down="{{ onGiveToTableKeyDown }}" title="Drag a garden element here — or click me, then click an element on the plot" style="{{ giveZoneStyle }}" style-hover="border-color:#B5882F;background:#FBF3DC">
+          <div class="pg-give-zone" data-give-target="1" role="button" tabindex="0" aria-label="Give a garden element to the community" sc-camel-on-click="{{ onGiveToTable }}" sc-camel-on-key-down="{{ onGiveToTableKeyDown }}" title="Drag a garden element here — or click me, then click an element on the plot" style="{{ giveZoneStyle }}" style-hover="border-color:#B5882F;background:#FBF3DC">
             <span style="width:34px;height:34px;display:block;animation:bob 2.8s ease-in-out infinite;pointer-events:none">
               <svg sc-camel-view-box="0 0 48 48" width="34" height="34" fill="none">
                 <rect x="15.5" y="20" width="4.2" height="12" rx="2.1" fill="#C99356"></rect>
@@ -1090,7 +1151,7 @@ html,body{margin:0;padding:0}
             <span style="font-size:9.5px;font-weight:700;color:#8A6A1F;line-height:1.25">Give to<br>the community</span>
           </div>
           <sc-for list="{{ marketView }}" as="o" hint-placeholder-count="0">
-            <div style="flex:none;width:178px;background:#fff;border:1px solid #EBE2D0;border-radius:12px;padding:9px;display:flex;gap:9px;align-items:flex-start;animation:floatIn .3s ease">
+            <div class="pg-market-card" style="flex:none;width:178px;background:#fff;border:1px solid #EBE2D0;border-radius:12px;padding:9px;display:flex;gap:9px;align-items:flex-start;animation:floatIn .3s ease">
               <div style="width:44px;height:44px;flex:none;border-radius:10px;background:#F1F4E6;display:grid;place-items:center;overflow:hidden">{{ o.art }}</div>
               <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
                 <div style="display:flex;align-items:center;gap:5px"><span style="{{ o.personStyle }}">{{ o.personInitial }}</span><span title="{{ o.personRole }}" style="font-size:9.5px;font-weight:800;color:#6C755F">{{ o.person }}</span></div>
@@ -1109,7 +1170,7 @@ html,body{margin:0;padding:0}
         <sc-if value="{{ communityMemoryVisible }}" hint-placeholder-val="{{ false }}">
           <div style="border-top:1px solid #EFE7D6;padding-top:8px;display:flex;gap:7px;overflow-x:auto">
             <sc-for list="{{ communityMemoryView }}" as="cm" hint-placeholder-count="2">
-              <div style="flex:0 0 auto;max-width:250px;display:flex;align-items:flex-start;gap:7px;background:#F7F2E7;border-radius:10px;padding:7px 9px">
+              <div class="pg-community-memory" style="flex:0 0 auto;max-width:250px;display:flex;align-items:flex-start;gap:7px;background:#F7F2E7;border-radius:10px;padding:7px 9px">
                 <span style="{{ cm.personStyle }}">{{ cm.personInitial }}</span><span style="font-size:10px;line-height:1.35;color:#6B6253">{{ cm.text }}</span>
               </div>
             </sc-for>
@@ -1135,7 +1196,7 @@ html,body{margin:0;padding:0}
             </div>
           </div>
         </div>
-        <div style="background:#F4F0E5;border:1px solid #E7DECB;border-radius:10px;padding:7px 9px;font-size:10.5px;line-height:1.45;color:#675F50">
+        <div class="pg-context-note" style="background:#F4F0E5;border:1px solid #E7DECB;border-radius:10px;padding:7px 9px;font-size:10.5px;line-height:1.45;color:#675F50">
           Inspired by the real community garden in Menet. Camille, Noa, Léa, Malik, Anaïs and Baptiste are fictional composite characters in this learning story.<br>
           <span style="color:#536849;font-weight:650">“Shares” are a game token for participation. Real fair share can mean time, care, knowledge, access or surplus — without expecting an equal reward.</span>
         </div>
@@ -1160,7 +1221,7 @@ html,body{margin:0;padding:0}
         <sc-if value="{{ noMissing }}" hint-placeholder-val="{{ false }}">
           <div style="border-top:1px solid #EFE7D6;padding-top:9px;display:flex;align-items:center;gap:7px;font-size:12px;color:#5E7E4A;font-weight:600"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>Every learning theme is represented — keep observing the real garden.</div>
         </sc-if>
-        <div class="pg-soft-card" style="margin-top:12px;background:#F4EFE3;border:1px solid #E6DCC6;border-radius:12px;padding:10px 12px">
+        <div class="pg-soft-card pg-next-step" style="margin-top:12px;background:#F4EFE3;border:1px solid #E6DCC6;border-radius:12px;padding:10px 12px">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px">
             <span style="font-size:9px;font-weight:700;color:#8A7E66;letter-spacing:.1em;text-transform:uppercase">Next step · {{ nextStep.num }}/{{ nextStep.total }}</span>
             <span style="font-size:10px;font-weight:700;color:#5E7E4A">{{ nextStep.done }}/{{ nextStep.total }} done</span>
@@ -1197,7 +1258,7 @@ html,body{margin:0;padding:0}
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:8px;height:8px;border-radius:50%;background:#8A6B3F"></span><span title="Fresh produce is shared in its season — preserves keep for winter gifts." style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:14px;color:#2C3525;cursor:help">🧺 Harvest basket</span></div>
           <div style="display:flex;flex-direction:column;gap:7px">
             <sc-for list="{{ basketView }}" as="b" hint-placeholder-count="0">
-              <div style="display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #EBE2D0;border-radius:11px;padding:5px 8px">
+              <div class="pg-inventory-row" style="display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #EBE2D0;border-radius:11px;padding:5px 8px">
                 <span style="width:30px;height:30px;display:block;flex:none">{{ b.art }}</span>
                 <span style="flex:1;min-width:0;font-size:11.5px;font-weight:700;color:#3A3527">{{ b.name }} × {{ b.count }}</span>
                 <sc-if value="{{ b.showPreserve }}" hint-placeholder-val="{{ false }}">
@@ -1215,7 +1276,7 @@ html,body{margin:0;padding:0}
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span style="width:8px;height:8px;border-radius:50%;background:#8A6B3F"></span><span title="Used automatically to cut the price of the greenhouse and garden kitchen." style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:13px;color:#2C3525;cursor:help">🧰 Reclaimed materials</span></div>
           <div style="display:flex;flex-wrap:wrap;gap:7px">
             <sc-for list="{{ materialsView }}" as="mt" hint-placeholder-count="0">
-              <div title="{{ mt.title }}" style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #EBE2D0;border-radius:10px;padding:4px 8px">
+              <div class="pg-material-chip" title="{{ mt.title }}" style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #EBE2D0;border-radius:10px;padding:4px 8px">
                 <span style="width:26px;height:26px;display:block">{{ mt.art }}</span>
                 <span style="font-size:10.5px;font-weight:700;color:#5A5240">{{ mt.name }} × {{ mt.count }}</span>
               </div>
