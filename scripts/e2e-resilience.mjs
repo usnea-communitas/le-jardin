@@ -49,13 +49,13 @@ const openState = async state => {
   page.on('console', message => {
     if (message.type() === 'error') runtimeErrors.push('console: ' + message.text());
   });
-  await page.goto(baseUrl, { waitUntil: 'networkidle' });
+  await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__PERMAGARDEN_APP__, null, { timeout: 15000 });
   await page.evaluate(({ key, value }) => {
     localStorage.setItem(key, JSON.stringify(value));
     sessionStorage.clear();
   }, { key: storeKey, value: state });
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__PERMAGARDEN_APP__, null, { timeout: 15000 });
   return { context, page };
 };
@@ -138,7 +138,7 @@ try {
     await dialog.waitFor({ state: 'hidden' });
     await page.waitForTimeout(80);
     await page.evaluate(() => sessionStorage.clear());
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => window.__PERMAGARDEN_APP__);
     await page.waitForTimeout(750);
     const afterDismiss = await page.evaluate(key => ({

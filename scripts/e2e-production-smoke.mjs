@@ -62,6 +62,10 @@ const place = async (label, x, y) => {
   const box = await plot.boundingBox();
   if (!box) throw new Error('Garden plot has no bounding box');
   await page.mouse.click(box.x + box.width * x, box.y + box.height * y);
+  const paymentDialog = page.locator('[data-pg-dialog="payment"]');
+  if (await paymentDialog.isVisible().catch(() => false)) {
+    await paymentDialog.getByRole('button', { name: /Use \d+ shares?/i }).click();
+  }
   await page.waitForTimeout(180);
   await dismissGarden();
   await dismissArrivals();

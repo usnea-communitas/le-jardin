@@ -1,7 +1,7 @@
 # Permaculture Garden — kompletní kontext pro Codex
 
 > Předávací dokument. Vysvětluje **co** hra je, **jak** je postavená a **proč** jsme jednotlivé
-> věci implementovali. Aktuální verze: **v69**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
+> věci implementovali. Aktuální verze: **v70**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
 > (needituj bundle `index.html` — ten se generuje).
 
 ---
@@ -208,6 +208,20 @@ reflexe se označí jako přečtená až po vědomém zavření. Zvuky a vypráv
 správně vlastní svůj hlas, titulky zůstávají vždy dostupné a klíčové hlasy lze znovu přehrát. Story
 načítá jen aktuální a sousední obraz, zatímco video za ní neběží. Přibylo chybové zotavení loaderu,
 skip link, sémantické nadpisy a landmarky, opravdové button prvky a vícerozměrová regresní kontrola.
+
+Od **v70** má hra férovější a čitelnější dlouhodobou smyčku. První vedený průchod končí reflexí;
+certifikát se odemyká až po skutečně prosperující zahradě napříč čtyřmi obdobími, aktivních guildách,
+sdílení, sklizni a více vyzkoušených výzvách. Volba mezi barterem a eury je explicitní, semena jsou
+omezena na jeden balíček dané plodiny za sezónu a komunitní dar nikdy přímo nevydělává osobní měnu.
+Zimní stav rozlišuje chráněné, spící a ztracené mladé plodiny. Zahrada navíc vizuálně roste ve třech
+malovaných fázích (prázdná, rozvíjející se, prosperující), sdílený fond ukazuje číslo i očekávaný dopad
+a závěrečná reflexe/export zachycují skutečné hráčovy prvky, rozhodnutí, princip i další reálný krok.
+Pozdější guildy a živočichové už neruší proud opakovanými modály; ukládají se do journalu a ozvou se
+jemným oznámením. Video se pod dialogy zastavuje a při `prefers-reduced-motion` se vůbec nenačítá.
+Komunitní nabídky lze převzít až po prvním skutečném daru, jejich převzetí spotřebovává sdílený fond
+a jeden dar/sezónní stav dovolí jen jednu ruční kontrolu nových nabídek; nalezení nabídky nikdy samo
+nepřipíše osobní měnu. Export certifikátu se připravuje až na kliknutí a vkládá malovanou mapu i
+všechny použité WebP prvky přímo do SVG, takže stažený soubor zůstává úplný i offline.
 
 ### 4.11 Zvuk
 Od **v60** se nepoužívají procedurální oscilátory ani Web Audio tóny. Celý zvuk je postavený na

@@ -77,13 +77,13 @@ const openState = async initialState => {
 
   // Load the origin once, then replace the fresh boot save. This intentionally
   // clears pg_session so the next navigation behaves like a new browser session.
-  await page.goto(baseUrl, { waitUntil: 'networkidle' });
+  await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__PERMAGARDEN_APP__, null, { timeout: 15000 });
   await page.evaluate(({ key, state }) => {
     localStorage.setItem(key, JSON.stringify(state));
     sessionStorage.clear();
   }, { key: storeKey, state: initialState });
-  await page.reload({ waitUntil: 'networkidle' });
+  await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForFunction(() => window.__PERMAGARDEN_APP__, null, { timeout: 15000 });
   await page.waitForTimeout(120);
   return { context, page };
@@ -132,7 +132,7 @@ try {
         return JSON.parse(localStorage.getItem(key));
       }, storeKey);
       await page.evaluate(() => sessionStorage.clear());
-      await page.reload({ waitUntil: 'networkidle' });
+      await page.reload({ waitUntil: 'domcontentloaded' });
       await page.waitForFunction(() => window.__PERMAGARDEN_APP__);
       const restored = await page.evaluate(() => {
         const state = window.__PERMAGARDEN_APP__.state;
@@ -366,6 +366,10 @@ try {
       sharedActs: 0,
       cherryPicks: 3,
       basket: { cherries: 1 },
+      gardenReflectionsSeen: ['three-layers'],
+      gardenReflection: null,
+      gardenReflectionQueue: [],
+      gardenWhisper: null,
       guildCard: null,
       arrivalQueue: []
     });
@@ -384,7 +388,8 @@ try {
   }
 
   // -------------------------------------------------------------------------
-  // Completion: Free uses all eight acts; Guided readiness follows pillars.
+  // Completion: a first-cycle reflection is distinct from flourishing, and
+  // Guided readiness still follows the garden's current physical pillars.
   // -------------------------------------------------------------------------
   {
     const { context, page } = await openState(savedState({
@@ -397,12 +402,16 @@ try {
     }));
     const incompleteFree = {
       button: await page.getByTestId('reflection-button').innerText(),
-      body: await page.locator('body').innerText()
+      body: await page.locator('body').innerText(),
+      completion: await page.evaluate(() => window.__PERMAGARDEN_APP__.completionModel())
     };
     check(
-      !/Complete my garden story/i.test(incompleteFree.button) && /Harvest & preserve/i.test(incompleteFree.body),
-      'Free Garden does not complete after only the six Guided acts',
-      { button: incompleteFree.button }
+      /Reflect on my first garden cycle/i.test(incompleteFree.button) &&
+        incompleteFree.completion.firstCycleReady &&
+        !incompleteFree.completion.flourishingReady &&
+        /Harvest & preserve/i.test(incompleteFree.body),
+      'Free Garden clearly separates a completed first cycle from a flourishing garden',
+      incompleteFree
     );
 
     await setAppState(page, {
@@ -414,11 +423,16 @@ try {
       ],
       discovered: ['classroom']
     });
-    const completeFreeButton = await page.getByTestId('reflection-button').innerText();
+    const laterFree = {
+      button: await page.getByTestId('reflection-button').innerText(),
+      completion: await page.evaluate(() => window.__PERMAGARDEN_APP__.completionModel())
+    };
     check(
-      /Complete my garden story/i.test(completeFreeButton),
-      'Free Garden completes only after harvest and guild discovery bring it to 8/8',
-      { completeFreeButton }
+      /Reflect on my first garden cycle/i.test(laterFree.button) &&
+        laterFree.completion.firstCycleReady &&
+        !laterFree.completion.flourishingReady,
+      'harvest and one guild deepen the first cycle without prematurely awarding flourishing',
+      laterFree
     );
 
     await setAppState(page, {
@@ -436,12 +450,12 @@ try {
     });
     const afterRemovalButton = await page.getByTestId('reflection-button').innerText();
     check(
-      readyBeforeRemoval && /Complete my garden story/i.test(readyButton),
+      readyBeforeRemoval && /Reflect on my first garden cycle/i.test(readyButton),
       'Guided completion is ready while all current pillars exist',
       { readyBeforeRemoval, readyButton }
     );
     check(
-      !afterRemoval.ready && afterRemoval.current === 'water' && !/Complete my garden story/i.test(afterRemovalButton),
+      !afterRemoval.ready && afterRemoval.current === 'water' && !/Reflect on my first garden cycle/i.test(afterRemovalButton),
       'removing a physical pillar returns Guided completion to not-ready',
       { afterRemoval, afterRemovalButton }
     );

@@ -559,7 +559,7 @@ html,body{margin:0;padding:0}
 .pg-gate-story{font:italic 17px/1.48 Georgia,'Times New Roman',serif!important;font-weight:400!important;color:#35422f!important}
 .pg-summary-dialog{background:linear-gradient(165deg,#fffaf0,#eee3cd)!important;border:1px solid rgba(117,89,48,.38)!important;border-radius:25px!important;box-shadow:0 34px 86px -28px rgba(16,24,13,.88)!important}
 .pg-summary-dialog:before{content:"";position:absolute;right:-25px;top:-23px;width:190px;height:190px;background:url("assets/ui/ornaments/corner-canopy.svg") center/contain no-repeat;opacity:.09;pointer-events:none}
-/* ===== v69 · production hardening, resilient state and accessible polish ===== */
+/* ===== v70 · fair progression, staged garden growth and calm accessible polish ===== */
 .pg-game-shell{padding:10px!important}
 .pg-game-header{
   width:100%;max-width:1680px;margin:0 auto;
@@ -645,13 +645,45 @@ html,body{margin:0;padding:0}
   .pg-map-subtitle{display:none}
   .pg-season-selector,.pg-pending-guild{display:none!important}
 }
+/* v70 · progression art, calm motion and readable operational text */
+.pg-plot.pg-stage-bare{
+  background:linear-gradient(180deg,rgba(255,248,220,.015),rgba(20,34,17,.08)),url("assets/map-stages/garden-bare.webp") center 50%/cover no-repeat!important;
+}
+.pg-plot.pg-stage-growing{
+  background:linear-gradient(180deg,rgba(255,248,220,.015),rgba(20,34,17,.08)),url("assets/map-stages/garden-growing.webp") center 50%/cover no-repeat!important;
+}
+.pg-plot.pg-stage-flourishing{
+  background:linear-gradient(180deg,rgba(255,248,220,.015),rgba(20,34,17,.08)),url("assets/story/story-07-invitation.webp") center 58%/cover no-repeat!important;
+}
+.pg-learning-model summary::marker{color:#5A7549}
+.pg-learning-model[open] summary{margin-bottom:2px}
+.pg-primary-action,.pg-header-story{background-color:#415C36!important}
+.pg-game-shell [style*="font-size:8px"],
+.pg-game-shell [style*="font-size:9px"],
+.pg-game-shell [style*="font-size:9.5px"],
+.pg-game-shell [style*="font-size:10px"],
+.pg-game-shell [style*="font-size:10.5px"]{font-size:11px!important}
+.pg-game-shell [style*="font-size: 8"],
+.pg-game-shell [style*="font-size: 9"],
+.pg-game-shell [style*="font-size: 10"],
+.pg-brand-subtitle,.pg-header-pill span,.pg-header-progress span,.pg-element-chip span,.pg-footer-note,.pg-footer-note span{font-size:11px!important}
+.pg-context-note,.pg-context-note *,.pg-systems-list>div:first-child,.pg-system-row [style*="font-size"]{font-size:11px!important}
+@media (prefers-reduced-motion:no-preference){
+  .pg-game-main [style*="infinite"],.pg-game-header [style*="infinite"],.pg-story [style*="infinite"]{animation-iteration-count:2!important}
+  .pg-story-particle{animation-iteration-count:2!important}
+  .pg-game-shell button,.pg-game-shell [role="button"]{animation-iteration-count:1!important}
+}
+@media (forced-colors:active){
+  .pg-panel,.pg-journey-card,.pg-summary-dialog,.pg-context-note,[role="dialog"]{forced-color-adjust:auto;border:1px solid CanvasText!important;box-shadow:none!important}
+  button,[role="button"],a,input,textarea,summary{forced-color-adjust:auto;border:2px solid ButtonText!important;color:ButtonText!important;background:ButtonFace!important}
+  .pg-system-track,.pg-header-progress>div{border:1px solid CanvasText!important}
+}
 @keyframes pgCineIn{from{opacity:0}to{opacity:1}}
 @keyframes pgCineDrift{from{transform:scale(1.025)}to{transform:scale(1.075)}}
 @media (prefers-reduced-motion: reduce){
   .pg-game-ambient{display:none}
-  .pg-cinematic-image{animation:none}
   .pg-game-shell,.pg-game-shell *,.pg-game-shell *::before,.pg-game-shell *::after{scroll-behavior:auto!important}
-  .pg-game-shell *,.pg-game-shell *::before,.pg-game-shell *::after{animation-delay:0s!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-delay:0s!important;transition-duration:.001ms!important}
+  .pg-game-shell *,.pg-game-shell *::before,.pg-game-shell *::after{animation:none!important;transition:none!important}
 }
 @media (max-width:700px){
   .pg-story-top{top:14px;left:14px;right:14px}.pg-story-top-title{display:none}.pg-story-tools{margin-left:auto}
@@ -659,7 +691,7 @@ html,body{margin:0;padding:0}
   .pg-story-dots{bottom:26px}.pg-story-nav{right:14px;bottom:17px}.pg-story-nav .pg-story-arrow:first-child{display:none}
 }
 @media print{
-  @page{size:A4 portrait;margin:12mm}
+  @page{size:A4 landscape;margin:10mm}
   body *{visibility:hidden!important}
   [data-certificate="1"],[data-certificate="1"] *{visibility:visible!important}
   [data-certificate="1"]{position:fixed!important;inset:0!important;width:100%!important;max-width:none!important;max-height:none!important;overflow:visible!important;border:none!important;box-shadow:none!important;background:#fff!important}
@@ -753,7 +785,7 @@ html,body{margin:0;padding:0}
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v69</span>
+      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v70</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
@@ -1004,6 +1036,7 @@ html,body{margin:0;padding:0}
                         <div style="font-size:9px;font-weight:800;color:#8A7E66;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px">Your mission</div>
                         <div style="font-size:12.5px;line-height:1.5;color:#514A3C">{{ gateView.prompt }}</div>
                       </div>
+                      <div style="max-width:550px;margin:10px auto 0;padding:9px 12px;border-radius:12px;background:#3F5138;color:#F7F1E3;font-size:11.5px;line-height:1.45;text-align:left">{{ gateView.seasonPreview }}</div>
                     </div>
                     <div style="display:flex;justify-content:center;margin-top:14px">
                       <button sc-camel-on-click="{{ gateView.onBegin }}" style="background:#5E7E4A;border:none;color:#F7F1E3;font-family:inherit;font-weight:800;font-size:13px;padding:11px 25px;border-radius:12px;cursor:pointer;box-shadow:0 8px 18px -12px rgba(48,76,32,.7)">Start challenge →</button>
@@ -1144,7 +1177,7 @@ html,body{margin:0;padding:0}
             <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3A3527" title="Take what you need, let the rest circulate — an economy of gifts.">Community sharing table</span>
           </div>
           <div style="display:flex;align-items:center;gap:8px">
-            <div title="How much abundance is flowing — taking more than you need drains it" style="display:flex;align-items:center;gap:6px"><span style="font-size:9px;font-weight:700;color:#9A8F77;letter-spacing:.06em;text-transform:uppercase">Shared pool</span><div style="width:64px;height:7px;border-radius:5px;background:#E7DECB;overflow:hidden"><div style="{{ poolBarStyle }}"></div></div></div>
+            <div title="A transparent learning-game estimate: giving grows the shared pool; taking uses it." style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:11px;font-weight:800;color:#675F50">Shared pool {{ poolValue }}/100</span><div style="width:64px;height:7px;border-radius:5px;background:#E7DECB;overflow:hidden"><div style="{{ poolBarStyle }}"></div></div><span style="font-size:11px;color:#756C5B">· {{ poolImpact }}</span></div>
             <button class="pg-primary-action" sc-camel-on-click="{{ onSeeSharing }}" style="display:flex;align-items:center;gap:5px;background:#5E7E4A;border:none;color:#F2E9D2;font-weight:600;font-size:11.5px;padding:6px 11px;border-radius:9px;cursor:pointer;font-family:inherit;transition:background .15s" style-hover="background:#4E6B3D">See who's sharing today</button>
           </div>
         </div>
@@ -1174,7 +1207,7 @@ html,body{margin:0;padding:0}
                 <div style="font-size:10.5px;color:#5A5240;line-height:1.25">{{ o.seasonTag }}{{ o.text }}</div>
                 <div style="display:flex;align-items:center;gap:6px">
                   <sc-if value="{{ o.hasBadge }}" hint-placeholder-val="{{ true }}"><span style="{{ o.badgeStyle }}">{{ o.badge }}</span></sc-if>
-                  <button sc-camel-on-click="{{ o.onTake }}" aria-label="{{ o.takeLabel }}" style="background:#C99A3C;border:none;color:#fff;font-weight:700;font-size:10.5px;padding:3px 11px;border-radius:7px;cursor:pointer;font-family:inherit;transition:background .15s" style-hover="background:#B5882F">Take</button>
+                  <button sc-camel-on-click="{{ o.onTake }}" disabled="{{ o.takeDisabled }}" aria-disabled="{{ o.takeDisabled }}" aria-label="{{ o.takeLabel }}" style="{{ o.takeStyle }}" style-hover="background:#B5882F">{{ o.takeText }}</button>
                 </div>
               </div>
             </div>
@@ -1212,10 +1245,10 @@ html,body{margin:0;padding:0}
             </div>
           </div>
         </div>
-        <div class="pg-context-note" style="background:#F4F0E5;border:1px solid #E7DECB;border-radius:10px;padding:7px 9px;font-size:10.5px;line-height:1.45;color:#675F50">
-          Inspired by the real community garden in Menet. Camille, Noa, Léa, Malik, Anaïs and Baptiste are fictional composite characters in this learning story.<br>
-          <span style="color:#536849;font-weight:650">“Shares” are a game token for participation. Real fair share can mean time, care, knowledge, access or surplus — without expecting an equal reward.</span>
-        </div>
+        <details class="pg-context-note pg-learning-model" style="background:#F4F0E5;border:1px solid #E7DECB;border-radius:10px;padding:7px 9px;font-size:11.5px;line-height:1.45;color:#675F50">
+          <summary style="cursor:pointer;font-weight:800;color:#4E6044">About this learning model</summary>
+          <div style="padding-top:7px">This is a practice plot inspired by the real youth-run community garden in Menet — not a literal site plan or scientific assessment. Camille, Noa, Léa, Malik, Anaïs and Baptiste are fictional composite characters.<br><span style="color:#415C36;font-weight:700">“Shares” are game tokens for participation. A real fair share may be time, care, knowledge, access or surplus, without expecting equal repayment.</span></div>
+        </details>
         <div class="pg-systems-list" style="border-top:1px solid #EFE7D6;padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:8px" aria-label="Learning-game model of garden connections">
           <div style="font-size:9px;font-weight:800;color:#8A7E66;letter-spacing:.11em;text-transform:uppercase">Relationships, not checkboxes</div>
           <sc-for list="{{ systemView }}" as="sv" hint-placeholder-count="4">
@@ -1317,7 +1350,7 @@ html,body{margin:0;padding:0}
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 11px">
               <sc-if value="{{ info.barterable }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:3px;background:#EAF1DC;color:#5E7E4A;font-size:11px;font-weight:700;padding:2px 8px;border-radius:7px">♻ Barter · {{ info.barter }} shares</span></sc-if>
               <span style="display:inline-flex;align-items:center;gap:3px;background:#F4EBDD;color:#B5613A;font-size:11px;font-weight:700;padding:2px 8px;border-radius:7px">€ {{ info.price }}</span>
-              <span style="display:inline-flex;align-items:center;gap:3px;background:#EFE9DA;color:#7A6E58;font-size:11px;font-weight:600;padding:2px 8px;border-radius:7px">give it away · game +{{ info.gift }}</span>
+              <span style="display:inline-flex;align-items:center;gap:3px;background:#EFE9DA;color:#7A6E58;font-size:11px;font-weight:600;padding:2px 8px;border-radius:7px">share later · no personal payout</span>
             </div>
             <div style="font-size:11.5px;color:#6E6552;line-height:1.45;margin:0 0 12px"><span style="font-weight:700;color:#5A6B45">Shares with the community:</span> {{ info.giveText }}. <span style="color:#9A8F77">Often made from {{ info.material }}.</span></div>
             <div style="font-size:9.5px;font-weight:700;color:#9A8F77;letter-spacing:.09em;text-transform:uppercase;margin-bottom:5px">Why it matters</div>
@@ -1407,25 +1440,7 @@ html,body{margin:0;padding:0}
           <input value="{{ playerName }}" sc-camel-on-change="{{ onNameChange }}" aria-label="{{ summaryNameLabel }}" placeholder="your name" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#2C3525;background:transparent;border:none;border-bottom:2px dotted #C99A3C;outline:none;padding:1px 6px;width:170px;text-align:center">
         </div>
 
-        <div style="position:relative;height:150px;border-radius:14px;overflow:hidden;margin-bottom:12px;background:radial-gradient(42% 32% at 24% 28%,rgba(219,235,176,.9),transparent 70%),radial-gradient(38% 30% at 76% 62%,rgba(148,182,106,.55),transparent 70%),linear-gradient(162deg,#C6DB9F 0%,#AECB84 55%,#9CBE72 100%);box-shadow:inset 0 0 0 1px rgba(90,110,60,.3),inset 0 10px 24px -14px rgba(40,60,20,.45)">
-          <svg sc-camel-view-box="0 0 100 100" sc-camel-preserve-aspect-ratio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
-            <path d="M50 100 C 50 84, 46 74, 49 62 C 52 52, 50 46, 49 40" stroke="#D9C9A4" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"></path>
-          </svg>
-          <div style="position:absolute;left:49%;top:40%;transform:translate(-50%,-96%);width:56px;pointer-events:none;z-index:2">
-            <svg sc-camel-view-box="0 0 160 184" width="100%">
-              <path d="M73 180c-4-30-3-56 2-76h6c5 20 6 46 2 76z" fill="#8A5A33"></path>
-              <circle cx="46" cy="74" r="31" fill="#5C8C3A"></circle><circle cx="114" cy="76" r="33" fill="#5C8C3A"></circle><circle cx="80" cy="48" r="37" fill="#5C8C3A"></circle><circle cx="80" cy="92" r="33" fill="#5C8C3A"></circle>
-              <circle cx="60" cy="74" r="21" fill="#74A64C"></circle><circle cx="102" cy="72" r="23" fill="#74A64C"></circle><circle cx="80" cy="56" r="25" fill="#74A64C"></circle>
-              <circle cx="58" cy="92" r="3.4" fill="#D33E55"></circle><circle cx="92" cy="99" r="3.4" fill="#D33E55"></circle><circle cx="74" cy="104" r="3.4" fill="#D33E55"></circle><circle cx="110" cy="84" r="3.2" fill="#D33E55"></circle>
-            </svg>
-          </div>
-          <div style="position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:42px;pointer-events:none;z-index:2">
-            <svg sc-camel-view-box="0 0 120 78" width="100%">
-              <rect x="14" y="20" width="9" height="54" rx="3" fill="#8A6A3F"></rect><rect x="97" y="20" width="9" height="54" rx="3" fill="#8A6A3F"></rect>
-              <rect x="27" y="40" width="66" height="34" rx="3" fill="#B58A52"></rect>
-              <rect x="30" y="14" width="60" height="13" rx="3" fill="#74552F"></rect>
-            </svg>
-          </div>
+        <div class="pg-summary-map" style="{{ summaryMapStyle }}">
           <sc-for list="{{ miniPlaced }}" as="mp" hint-placeholder-count="0">
             <div style="{{ mp.style }}">{{ mp.art }}</div>
           </sc-for>
@@ -1500,7 +1515,7 @@ html,body{margin:0;padding:0}
           <div style="font-size:10.5px;color:#9A8F77;line-height:1.4">{{ sumDate }} · Erasmus+ ecology project<br>Care for the earth · Care for people · Fair share</div>
           <sc-if value="{{ showCertificateActions }}" hint-placeholder-val="{{ false }}">
           <div data-certificate-actions="1" style="display:flex;gap:7px;align-items:center">
-            <a href="{{ certificateHref }}" download="{{ certificateFilename }}" role="button" aria-label="Save certificate as an SVG image" style="background:#C99A3C;border:none;color:#fff;font-weight:700;font-size:10.5px;padding:7px 10px;border-radius:9px;cursor:pointer;font-family:inherit;text-decoration:none;display:inline-flex;align-items:center">💾 Save image</a>
+            <button data-save-certificate="1" sc-camel-on-click="{{ onSaveCertificate }}" disabled="{{ certificatePreparing }}" aria-disabled="{{ certificatePreparing }}" aria-label="Save a standalone certificate SVG with all artwork embedded" style="background:#C99A3C;border:none;color:#fff;font-weight:700;font-size:10.5px;padding:7px 10px;border-radius:9px;cursor:pointer;font-family:inherit">{{ certificateSaveLabel }}</button>
             <button sc-camel-on-click="{{ onPrintCertificate }}" aria-label="Print certificate" style="background:#fff;border:1px solid #DCC98F;color:#8A6A1F;font-weight:700;font-size:10.5px;padding:7px 10px;border-radius:9px;cursor:pointer;font-family:inherit">🖨 Print</button>
           </div>
           </sc-if>
@@ -1574,6 +1589,23 @@ html,body{margin:0;padding:0}
     </div>
   </sc-if>
 
+  <!-- Explicit payment choice: barter and project funds teach different trade-offs -->
+  <sc-if value="{{ paymentChoiceVisible }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(44,53,37,.52);backdrop-filter:blur(4px);display:grid;place-items:center;z-index:68;padding:24px" sc-camel-on-click="{{ onCancelPayment }}">
+      <div data-pg-dialog="payment" role="dialog" aria-modal="true" aria-labelledby="pg-payment-title" tabindex="-1" sc-camel-on-click="{{ stopProp }}" style="width:min(470px,94vw);background:#FBF8F1;border:1px solid #DCC98F;border-radius:22px;padding:24px 26px;box-shadow:0 30px 72px -24px rgba(20,25,12,.75);animation:floatIn .28s ease">
+        <div style="font-size:10px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;color:#8A6A1F;margin-bottom:5px">A real design trade-off</div>
+        <h2 id="pg-payment-title" style="font:800 22px/1.15 'Bricolage Grotesque',sans-serif;margin:0;color:#2C3525">How will you add {{ paymentName }}?</h2>
+        <p style="font-size:13px;line-height:1.5;color:#675F50;margin:9px 0 16px">Both choices build the same element. Participation shares represent contributed time and knowledge; euros represent the project fund. Choose deliberately.</p>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px">
+          <button sc-camel-on-click="{{ onPayWithShares }}" style="border:1px solid #B9CE9F;background:#EAF1DC;color:#354B2D;border-radius:14px;padding:14px 10px;font:800 13px inherit;cursor:pointer">Use {{ paymentBarter }} shares<span style="display:block;font-size:11px;font-weight:600;color:#607255;margin-top:4px">community participation</span></button>
+          <button sc-camel-on-click="{{ onPayWithEuros }}" style="border:1px solid #E0C583;background:#FBF3DC;color:#6A501C;border-radius:14px;padding:14px 10px;font:800 13px inherit;cursor:pointer">Use €{{ paymentBuy }}<span style="display:block;font-size:11px;font-weight:600;color:#806F48;margin-top:4px">project garden fund</span></button>
+        </div>
+        <div style="font-size:11.5px;line-height:1.45;color:#756C5B;margin-top:11px">{{ paymentMaterialsNote }}</div>
+        <button sc-camel-on-click="{{ onCancelPayment }}" style="display:block;margin:13px auto 0;border:0;background:transparent;color:#5B6655;font:800 11.5px inherit;padding:5px 10px;cursor:pointer">Cancel · keep my resources</button>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- Intro / how-to-play overlay -->
   <sc-if value="{{ introVisible }}" hint-placeholder-val="{{ false }}">
     <div style="position:absolute;inset:0;background:rgba(44,53,37,.5);backdrop-filter:blur(5px);display:grid;place-items:center;z-index:60;padding:24px">
@@ -1582,7 +1614,7 @@ html,body{margin:0;padding:0}
           <div style="width:44px;height:44px;border-radius:13px;background:linear-gradient(150deg,#688A50,#3F5C33);display:grid;place-items:center;flex:none"><svg width="25" height="25" sc-camel-view-box="0 0 24 24" fill="none" stroke="#EAF3DC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"></path><path d="M5 19c1-5 4-8 8-9"></path></svg></div>
           <div>
             <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:23px;letter-spacing:-.015em;line-height:1.1">Welcome to Le Jardin</div>
-            <div style="font-size:12.5px;color:#8A7E66;margin-top:2px">You're designing a real permaculture garden in France — together.</div>
+            <div style="font-size:12.5px;color:#756C5B;margin-top:2px">A practice plot inspired by a real youth-run community garden in Menet, France.</div>
           </div>
         </div>
         <div style="display:flex;gap:6px;margin-bottom:16px">
@@ -2106,7 +2138,8 @@ class Component extends DCLogic {
     const t=new Set(placed.map(p=>p.type));
     const s=new Set();
     this.wildlife.forEach(w=>{ if(w.needs.every(g=>g.some(x=>t.has(x)))){ s.add(w.key); } });
-    (guests||((this.state&&this.state.guests)||[])).forEach(k=>s.add(k));
+    // A successful visitor quiz records a visit, not permanent habitat. Current
+    // residents and score must always be derived from conditions that still exist.
     return s;
   }
   visitDefs={
@@ -2283,7 +2316,7 @@ class Component extends DCLogic {
     Summer:{emoji:'☀️',tint:'rgba(0,0,0,0)',c1:'#4F8232',c2:'#6BA043',c3:'#8FC15C',fruit:1,blossom:0,snow:0,decor:1,canopy:1,bare:0,litter:0,
       tip:'☀️ Summer brings vigorous growth and many visible relationships. The table offers grass clippings and green material; suitable mulch helps slow soil-water loss, while safely stored rain can bridge dry weeks.'},
     Autumn:{emoji:'🍂',tint:'rgba(205,140,40,.13)',c1:'#A9611F',c2:'#CE8F3B',c3:'#E6B84E',fruit:1,blossom:0,snow:0,decor:0.65,canopy:1,bare:0,litter:1,
-      tip:'🍂 Autumn is the gift season — rake the fallen leaves for compost, the cherry gives a surplus (+1 share), and the table brims with leaves and windfall fruit.'},
+      tip:'🍂 Autumn is the gift season — rake fallen leaves for compost, harvest mature fruit and decide what to eat, preserve or share. Gifts strengthen the pool rather than repaying the giver.'},
     Winter:{emoji:'❄️',tint:'rgba(200,214,228,.28)',c1:'#93A6B5',c2:'#C3D2DD',c3:'#EAF1F6',fruit:0,blossom:0,snow:1,decor:0.22,canopy:0,bare:1,litter:0,
       tip:'❄️ Winter changes, rather than empties, the garden. Different species overwinter in different stages and places; resident birds and subtle signs of soil life may remain. The table offers wood, prunings and stored materials, while mulch protects the soil surface.'}
   };
@@ -2345,7 +2378,7 @@ class Component extends DCLogic {
   freshState(intro){
     const season=this.state?(this.state.season||'Summer'):'Summer';
     const openStory=!!intro;
-    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null};
+    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},grownHarvests:0,preservedCount:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null};
   }
   hasJourneyMoment(st,key){return (st.journeyMoments||[]).indexOf(key)>=0;}
   addJourneyMoment(ns,key,whisper){
@@ -2612,6 +2645,7 @@ class Component extends DCLogic {
       if(this.state.gardenCinematic){this.dismissGardenCinematic();return;}
       if(this.state.gardenReflection){this.dismissGardenReflection();return;}
       if(this.state.showSummary){this.closeSummary();return;}
+      if(this.state.paymentChoice){this.cancelPayment();return;}
       if(this.state.guildCard){this.dismissGuild();return;}
       if(this.state.visit){
         if(this.state.visit.status==='ask'){this.deferVisit();}
@@ -2633,6 +2667,8 @@ class Component extends DCLogic {
     window.addEventListener('keydown',this._esc);
     this._focusTrap=(e)=>this.trapDialogFocus(e);
     window.addEventListener('keydown',this._focusTrap);
+    this._visibility=()=>this.syncAmbientVideoPlayback();
+    document.addEventListener('visibilitychange',this._visibility);
     this._downCap=(e)=>{
       const t=(e.target&&e.target.closest)?e.target.closest('[data-drag-type],[data-drag-id]'):null;
       if(!t){ return; }
@@ -2653,7 +2689,8 @@ class Component extends DCLogic {
           const num=(v,d)=>(typeof v==='number'&&isFinite(v))?v:d;
           const bootSeason=this.seasonDefs[s.season]?s.season:'Summer';
           this._suppressFx=true;
-          const cleanPlaced=s.placed.filter(p=>p&&this.econ[p.type]);
+          const seasonTurns=Math.max(0,num(s.seasonTurns,0));
+          const cleanPlaced=s.placed.filter(p=>p&&this.econ[p.type]).map(p=>({...p,placedAtTurn:num(p.placedAtTurn,Math.max(0,seasonTurns-1))}));
           const storySeen=!!s.storySeen, introSeen=!!s.introSeen;
           const cleanMarket=(Array.isArray(s.market)?s.market:this.freshMarket(bootSeason)).filter(m=>m&&((m.kind==='item'&&this.econ[m.type])||(m.kind==='material'&&this.MATS[m.mat])||m.kind==='shares'||m.kind==='budget')&&(!m.seasons||m.seasons.indexOf(bootSeason)>=0));
           const pendingGate=s.pendingGate&&(s.pendingGate.status==='won'||s.pendingGate.status==='lost')?s.pendingGate:null;
@@ -2676,19 +2713,20 @@ class Component extends DCLogic {
           const pendingPassage=pendingCinematicSeason?(this.seasonPassages[pendingCinematicSeason]||{}):null;
           const pendingCinematic=pendingCinematicSeason?{season:pendingCinematicSeason,title:pendingPassage.title||('Welcome, '+pendingCinematicSeason),text:pendingPassage.voice||'',image:pendingPassage.image||''}:null;
           restored=true;
-          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
+          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,seedAllowance:(s.seedAllowance&&typeof s.seedAllowance==='object')?s.seedAllowance:{},grownHarvests:num(s.grownHarvests,0),preservedCount:num(s.preservedCount,0),paymentChoice:null,muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
           this.setState({gardenWhisper:pendingWhispers[0]||null,gardenWhisperQueue:pendingWhispers.slice(1),gardenReflectionQueue:pendingReflections,gardenReflectionsSeen:reflectionSeen,visit:pendingVisit,guildCard:pendingGuildCards[0]||null,guildCardQueue:pendingGuildCards.slice(1),arrivalQueue:pendingArrivals,gardenCinematic:pendingCinematic},()=>{this.capturePreviousState();this._suppressFx=false;if(pendingWhispers.length){this.scheduleGardenWhisper(pendingWhispers[0]);}if(pendingReflections.length){this.scheduleGardenReflection(500);}if(pendingCinematic){this.scheduleCinematicVoice();}if(pendingGuildCards.length&&!this.state.guildVoicePlayed){this.scheduleGuildVoice();}});
         }
       }
     }catch(e){}
     if(!restored){this.capturePreviousState();}
-    this.later(()=>this.syncDialogAccess(),0);
+    this.later(()=>{this.syncDialogAccess();this.syncAmbientVideoPlayback();},0);
   }
   componentWillUnmount(){
     this._unmounted=true;
     if(window.__PERMAGARDEN_APP__===this){delete window.__PERMAGARDEN_APP__;}
     window.removeEventListener('keydown',this._esc);
     window.removeEventListener('keydown',this._focusTrap);
+    document.removeEventListener('visibilitychange',this._visibility);
     document.removeEventListener('pointerdown',this._downCap,true);
     document.removeEventListener('mousedown',this._downCap,true);
     document.removeEventListener('dragend',this._dragClear,true);
@@ -2770,6 +2808,7 @@ class Component extends DCLogic {
     if(st.gardenCinematic){return 'garden-cinematic';}
     if(st.gardenReflection){return 'garden-reflection';}
     if(st.showSummary){return 'summary';}
+    if(st.paymentChoice){return 'payment';}
     if(st.intro){return 'intro';}
     if(st.guildCard){return 'guild';}
     if(st.showGuilds){return 'guild-list';}
@@ -2909,11 +2948,12 @@ class Component extends DCLogic {
       const pendingGuildCards=Array.from(new Set([s.guildCard,...(s.guildCardQueue||[])].filter(Boolean)));
       const pendingArrivals=Array.from(new Set((s.arrivalQueue||[]).filter(Boolean)));
       const pendingGardenCinematic=s.gardenCinematic&&this.seasonDefs[s.gardenCinematic.season]?s.gardenCinematic.season:null;
-      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,_n:this._n,_g:this._g}));
+      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,_n:this._n,_g:this._g}));
     }catch(e){}
   }
   componentDidUpdate(){
     this.syncDialogAccess();
+    this.syncAmbientVideoPlayback();
     const st=this.state;
     if(this._prevPlaced===undefined){this.capturePreviousState(st);this._suppressFx=false;this.persist();if((st.gardenReflectionQueue||[]).length){this.scheduleGardenReflection(500);}return;}
     const prevPlaced=this._prevPlaced, prevToast=this._prevToast, prevWhisper=this._prevWhisper, prevPulse=this._prevPulse, prevAwarded=this._prevAwarded, prevJourneyCount=this._prevJourneyCount||0;
@@ -2940,9 +2980,9 @@ class Component extends DCLogic {
       const fresh=this.activeGuilds(st.placed).filter(g=>disc.indexOf(g.key)<0);
       if(fresh.length){
         const introduceGuildVoice=!st.guildVoicePlayed;
-        this.setState(s=>{const keys=fresh.map(g=>g.key),hasCard=!!s.guildCard;return {discovered:[...(s.discovered||[]),...keys],shares:s.shares+fresh.length,guildCard:s.guildCard||keys[0],guildCardQueue:[...(s.guildCardQueue||[]),...keys.slice(hasCard?0:1)],toast:null};},()=>{
+        this.setState(s=>{const keys=fresh.map(g=>g.key),firstEver=(s.discovered||[]).length===0&&!s.guildCard;return {discovered:[...(s.discovered||[]),...keys],shares:s.shares+fresh.length,guildCard:firstEver?keys[0]:s.guildCard,guildCardQueue:s.guildCardQueue||[],toast:firstEver?null:('✦ New active guild: '+fresh.map(g=>g.name).join(', ')+'. Open the guild journal when you want the full relationship story.')};},()=>{
           this.later(()=>this.playGuild(),150);
-          if(introduceGuildVoice){this.scheduleGuildVoice();}
+          if(introduceGuildVoice&&this.state.guildCard){this.scheduleGuildVoice();}
         });
       }
       if(st.placed.length>prevPlaced.length){
@@ -3037,6 +3077,13 @@ class Component extends DCLogic {
       return ns;
     });
   }
+  syncAmbientVideoPlayback(){
+    const video=document.querySelector('.pg-game-ambient');if(!video){return;}
+    const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const shouldPause=document.hidden||reduced||!!this.activeDialogKey();
+    if(shouldPause){if(!video.paused){video.pause();}return;}
+    if(video.paused){const attempt=video.play();if(attempt&&attempt.catch){attempt.catch(()=>{});}}
+  }
   selectPlaced(id,type){return (e)=>{e.stopPropagation();if(this._justDragged){return;}
     if(this.state.giveMode){ this.giveElement(id,type); return; }
     this.setState({selectedPlacedId:id,selectedType:type,plantType:null});};}
@@ -3074,18 +3121,33 @@ class Component extends DCLogic {
     uses.forEach(m=>{ if((mats[m]||0)>0 && price-this.MATS[m].value>=10){ price-=this.MATS[m].value; used.push(m); } });
     return {price:price,used:used};
   }
+  paymentOptions(type,st=this.state){
+    const e=this.econ[type],eff=e?this.effectivePrice(type,st):{price:0,used:[]};
+    return {barter:!!e&&e.barter>0&&st.shares>=e.barter,buy:!!e&&eff.price>0&&st.budget>=eff.price,barterAmount:e?e.barter:null,buyAmount:eff.price,used:eff.used};
+  }
+  confirmPayment(source){
+    const choice=this.state.paymentChoice;if(!choice){return;}
+    this.setState({paymentChoice:null},()=>this.placeType(choice.type,choice.x,choice.y,source));
+  }
+  cancelPayment(){this.setState({paymentChoice:null,plantType:null});}
   placeType(type,x,y,via){
     const e=this.econ[type], s=this.state;
     if(!e){ return; }
     const cdef=this.cropDefs[type];
     if(cdef && via!=='gift' && !s.placed.some(p=>p.type==='seedbank')){ this.flash('🌰 Plant a Seed bank first — every crop here starts as saved community seed.'); return; }
+    if(cdef && via!=='gift' && ((s.seedAllowance||{})[type]||0)>=1){this.flash('One seed packet of this crop is available per season. Turn the season before sowing it again.');return;}
     const winP=this.plantWindows[type];
     if(winP && via!=='gift' && winP.s.indexOf(s.season||'Summer')<0){ this.flash('🗓️ Not now — '+winP.why+' Plantable: '+winP.s.map(k2=>this.seasonDefs[k2].emoji+' '+k2).join(' · ')); return; }
     const eff=this.effectivePrice(type,s);
+    const options=this.paymentOptions(type,s);
     let pay;
     if(via==='gift'){ pay={source:'gift',amount:0}; }
-    else if(e.barter!=null && s.shares>=e.barter){ pay={source:'barter',amount:e.barter}; }
-    else if(s.budget>=eff.price){ pay={source:'buy',amount:eff.price,used:eff.used}; }
+    else if(via==='barter'&&options.barter){pay={source:'barter',amount:e.barter};}
+    else if(via==='buy'&&options.buy){pay={source:'buy',amount:eff.price,used:eff.used};}
+    else if(via==='auto'&&options.barter&&options.buy){this.setState({paymentChoice:{type:type,x:x,y:y,barter:e.barter,buy:eff.price,used:eff.used}});return;}
+    else if(options.barter){ pay={source:'barter',amount:e.barter}; }
+    else if(options.buy){ pay={source:'buy',amount:eff.price,used:eff.used}; }
+    else if(cdef&&e.barter===0){pay={source:'seed',amount:0};}
     else { this.flash('Not enough game shares or budget — share a genuine surplus, learn through a challenge or wait for a community offering.'); return; }
     const id='p'+(++this._n);
     this.setState(st=>{
@@ -3094,10 +3156,11 @@ class Component extends DCLogic {
       const given=st.given;
       let materials=st.materials||{};
       if(pay.source==='buy'&&pay.used&&pay.used.length){ materials={...materials}; pay.used.forEach(m=>{ materials[m]=Math.max(0,(materials[m]||0)-1); }); }
-      const item={id:id,type:type,x:x,y:y,paidMethod:pay.source,paidAmount:pay.amount,usedMaterials:(pay.used||[]).slice()};
+      const item={id:id,type:type,x:x,y:y,paidMethod:pay.source,paidAmount:pay.amount,usedMaterials:(pay.used||[]).slice(),placedAtTurn:st.seasonTurns||0};
       if(cdef){ item.stage=1; }
       if(type==='appletree'){ item.appleReady=((st.season||'Summer')==='Autumn'); }
-      let ns={...st, placed:[...st.placed,item], shares:shares, budget:budget, given:given, materials:materials, selectedPlacedId:id, selectedType:type, plantType:null};
+      const seedAllowance=cdef?{...(st.seedAllowance||{}),[type]:((st.seedAllowance||{})[type]||0)+1}:(st.seedAllowance||{});
+      let ns={...st, placed:[...st.placed,item], shares:shares, budget:budget, given:given, materials:materials,seedAllowance:seedAllowance,paymentChoice:null, selectedPlacedId:id, selectedType:type, plantType:null};
       if(pay.source==='buy'&&pay.used&&pay.used.length){ const saved=this.econ[type].price-pay.amount; ns.toast='🧰 Built with '+pay.used.map(m=>this.MATS[m].name.toLowerCase()).join(', ')+' from neighbours — saved €'+saved+'.'; }
       const beforeW=this.activeOf(st.placed), afterW=this.activeOf(ns.placed);
       const arrivedKeys=this.wildlife.filter(w=>afterW.has(w.key)&&!beforeW.has(w.key)).map(w=>w.key);
@@ -3106,7 +3169,8 @@ class Component extends DCLogic {
       const returning=arrivedKeys.filter(k=>seen.has(k));
       arrivedKeys.forEach(k=>seen.add(k));
       ns.seenWildlife=Array.from(seen);
-      if(firstArrivals.length){ ns.arrivalQueue=[...(st.arrivalQueue||[]),...firstArrivals]; }
+      if(firstArrivals.length&&!(st.seenWildlife||[]).length){ ns.arrivalQueue=[...(st.arrivalQueue||[]),firstArrivals[0]]; }
+      else if(firstArrivals.length&&!ns.toast){ns.toast='🐾 New habitat match: '+firstArrivals.map(k=>{const w=this.wildlife.find(x=>x.key===k);return w?w.name:k;}).join(', ')+'. Open “Who might visit?” when you want the details.';}
       else if(returning.length&&!ns.toast){ ns.toast='🐾 '+returning.map(k=>{const w=this.wildlife.find(x=>x.key===k);return w?w.name:k;}).join(', ')+' returned — the habitat is welcoming again.'; }
       const wildlifeIntroduced=st.mode==='explore'||this.journeyModel(st).index>=3||this.hasJourneyMoment(st,'shelter');
       if(wildlifeIntroduced && !arrivedKeys.length && !st.visit && !st.gate && st.visitSeason!==(st.season||'Summer') && Math.random()<0.22){
@@ -3154,56 +3218,81 @@ class Component extends DCLogic {
   }
   maybeGift(){
     const s=this.state;
+    if(!this.reciprocityUnlocked(s)||(s.market||[]).length>=4){return;}
     let chance=Math.min(0.6, 0.12 + s.goodwill*0.03 + s.pool/400);
     if(s.pool<20){ chance*=0.5; }
     if(Math.random()<chance){ this.addGiftToMarket(); }
   }
   addGiftToMarket(){
+    if((this.state.market||[]).length>=4){return;}
     const seasonNow=this.state.season||'Summer';
     const inSeason=this.giftPool.filter(g=>!g.seasons||g.seasons.indexOf(seasonNow)>=0);
     const onTable=new Set(this.state.market.map(m=>m.kind+':'+(m.type||m.mat||m.value||'')));
     const candidates=inSeason.filter(g=>!onTable.has(g.kind+':'+(g.type||g.mat||g.value||'')));
     const pool=candidates.length?candidates:inSeason;
     const g=pool[Math.floor(Math.random()*pool.length)];
+    if(!g){return;}
     this.setState(s=>{
-      if(g.kind==='shares'){ return {...s, shares:s.shares+g.value, toast:g.text}; }
-      if(g.kind==='budget'){ return {...s, budget:s.budget+g.value, toast:g.text}; }
+      if((s.market||[]).length>=4){return null;}
       const offer={id:'g'+(++this._g),kind:g.kind,person:g.person||'Camille',seasons:g.seasons,text:g.text};
       if(g.kind==='item'){offer.type=g.type;}
       if(g.kind==='material'){offer.mat=g.mat;}
-      let market=[...s.market,offer];
-      if(market.length>4){ market=market.slice(market.length-4); }
-      return {...s, market:market, toast:(g.person||'A neighbour')+' left something on the table: '+g.text};
+      if(g.kind==='shares'||g.kind==='budget'){offer.value=g.value;}
+      return {...s, market:[...s.market,offer], toast:(g.person||'A neighbour')+' left something on the table: '+g.text};
     });
     this.playDing();
   }
   onSeeSharing(){
     const s=this.state;
-    if(s.market.length>=3){ this.setState({toast:'The table is already full — take what you need first.'}); return; }
+    if(!this.reciprocityUnlocked(s)){this.setState({toast:'The table begins with contribution, not a vending machine. Share one real harvest or established spare, then neighbours may answer in time.'});return;}
+    if(this._marketChecking){return;}
+    if(s.market.length>=4){ this.setState({toast:'The table is already full — take what you need first.'}); return; }
+    const checkKey=(s.seasonTurns||0)+':'+(s.sharedActs||0);
+    if(s.lastCommunityCheck===checkKey){this.setState({toast:'You already checked since the last gift or seasonal turn. Let the community rhythm breathe before checking again.'});return;}
     const chance=Math.min(.9, .35 + s.pool/160 + s.goodwill*.05);
-    if(Math.random()<chance){ this.addGiftToMarket(); }
-    else { this.setState({toast:'Nobody has surplus right now — check back after you build or give something.'}); }
+    const found=Math.random()<chance;
+    this._marketChecking=true;
+    this.setState({lastCommunityCheck:checkKey,toast:found?s.toast:'Nobody has surplus right now — check back after another genuine gift or the next season.'},()=>{
+      this._marketChecking=false;
+      if(found){this.addGiftToMarket();}
+    });
+  }
+  offeringPoolCost(o,st=this.state){
+    if(!o){return 0;}
+    if(o.kind==='budget'){return 24;}
+    if(o.kind==='shares'){return 18;}
+    if(o.kind==='material'){return 10;}
+    if(o.kind==='item'){return (st.placed||[]).some(p=>p.type===o.type)?18:12;}
+    return 12;
+  }
+  offeringEligibility(o,st=this.state){
+    const cost=this.offeringPoolCost(o,st);
+    if(!this.reciprocityUnlocked(st)){return {eligible:false,cost:cost,reason:'Contribute one genuine harvest or established spare before taking from the shared table.'};}
+    if((st.pool||0)<cost){return {eligible:false,cost:cost,reason:'The shared pool is too low for this offering. Let another genuine gift circulate first.'};}
+    return {eligible:true,cost:cost,reason:'Taking this offering uses '+cost+' points from the shared pool.'};
   }
   takeOffering(id){
     const o=this.state.market.find(m=>m.id===id); if(!o){ return; }
+    const eligibility=this.offeringEligibility(o,this.state);
+    if(!eligibility.eligible){this.flash(eligibility.reason);return;}
+    const cost=eligibility.cost;
     const from=o.person?(' from '+o.person):'';
     const person=o.person||'Camille';
     const offered=o.text.replace(/\s*\([^)]*\)\s*$/,'').toLowerCase();
     const remember=(s)=>[{id:'cm'+Date.now(),person:person,text:person+' offered '+offered+'. Taking it records help received as well as help given.'},...(s.communityMemory||[])].slice(0,4);
-    this.setState(s=>({market:s.market.filter(m=>m.id!==id)}));
-    if(o.kind==='shares'){ this.setState(s=>({shares:s.shares+o.value,communityMemory:remember(s),toast:'Received '+o.value+' game shares'+from+' — a learning-game acknowledgement, not guaranteed repayment.'})); this.playSparkle(); return; }
-    if(o.kind==='budget'){ this.setState(s=>({budget:s.budget+o.value,communityMemory:remember(s),toast:'Received €'+o.value+from+'.'})); this.playSparkle(); return; }
+    const consume=(s)=>({market:s.market.filter(m=>m.id!==id),pool:Math.max(0,s.pool-cost),communityMemory:remember(s)});
+    if(o.kind==='shares'){ this.setState(s=>({...s,...consume(s),shares:s.shares+o.value,toast:'Received '+o.value+' game shares'+from+'; '+cost+' shared-pool points were used.'})); this.playSparkle(); return; }
+    if(o.kind==='budget'){ this.setState(s=>({...s,...consume(s),budget:s.budget+o.value,toast:'Received €'+o.value+from+'; '+cost+' shared-pool points were used.'})); this.playSparkle(); return; }
     if(o.kind==='material'){
       const mm=this.MATS[o.mat];
-      this.setState(s=>({materials:{...(s.materials||{}),[o.mat]:((s.materials||{})[o.mat]||0)+1},communityMemory:remember(s), pool:Math.min(100,s.pool+2), goodwill:s.goodwill+1, toast:'🧰 '+mm.name+' collected'+from+' — reclaimed materials make the kitchen and greenhouse cheaper to build.'}));
+      this.setState(s=>({...s,...consume(s),materials:{...(s.materials||{}),[o.mat]:((s.materials||{})[o.mat]||0)+1},toast:'🧰 '+mm.name+' collected'+from+'; '+cost+' shared-pool points were used.'}));
       this.playSparkle(); return;
     }
     const needed=!this.state.placed.some(p=>p.type===o.type);
     const x=12+Math.random()*76, y=20+Math.random()*62;
-    this.placeType(o.type,x,y,'gift');
-    this.setState(s=>{
-      if(needed){ return {...s,communityMemory:remember(s), goodwill:s.goodwill+1, pool:Math.min(100,s.pool+3), toast:'🙏 Just what your garden needed — taken with gratitude.'}; }
-      return {...s,communityMemory:remember(s), pool:Math.max(0,s.pool-12), toast:'You already have this — taking more leaves less for others.'};
+    this.setState(s=>({...s,...consume(s)}),()=>{
+      this.placeType(o.type,x,y,'gift');
+      this.setState(s=>({...s,toast:needed?('🙏 Just what your garden needed — '+cost+' shared-pool points were used.'):('You already have this — '+cost+' shared-pool points were used, leaving less for others.')}));
     });
   }
   pickCherries(e){
@@ -3221,7 +3310,7 @@ class Component extends DCLogic {
     if(e&&e.stopPropagation){ e.stopPropagation(); }
     const p=this.state.placed.find(q=>q.id===id);
     if(!p||!p.appleReady){ return; }
-    this.setState(s=>({...s,placed:s.placed.map(q=>q.id===id?{...q,appleReady:false}:q),harvestEver:true,
+    this.setState(s=>({...s,placed:s.placed.map(q=>q.id===id?{...q,appleReady:false}:q),harvestEver:true,grownHarvests:(s.grownHarvests||0)+1,
       basket:{...(s.basket||{}),apples:((s.basket||{}).apples||0)+3},
       toast:'🍎 Apples harvested (+3) — share them fresh or dry them in the kitchen.'}));
     this.playHarvest();
@@ -3237,7 +3326,7 @@ class Component extends DCLogic {
       this.flash('🌱 Not ready yet — '+this.catalog[p.type].name.toLowerCase()+' are harvested in '+cd.window.join(' / ')+'.');
       return;
     }
-    this.setState(s=>({...s,placed:s.placed.filter(q=>q.id!==id),selectedPlacedId:null,harvestEver:true,
+    this.setState(s=>({...s,placed:s.placed.filter(q=>q.id!==id),selectedPlacedId:null,harvestEver:true,grownHarvests:(s.grownHarvests||0)+1,
       basket:{...(s.basket||{}),[cd.produce]:((s.basket||{})[cd.produce]||0)+cd.yieldN},
       toast:'🧺 '+this.catalog[p.type].name+' harvested (+'+cd.yieldN+') — share fresh, or preserve in the garden kitchen.'}));
     this.playHarvest();
@@ -3250,7 +3339,7 @@ class Component extends DCLogic {
     this.setState(s=>{
       const b={...(s.basket||{})};
       b[k]=b[k]-1; b[r.to]=(b[r.to]||0)+1;
-      return {...s,basket:b,toast:'🫙 '+this.produceMeta[k].name+' '+r.verb+' — preserves can be shared even in deep winter.'};
+      return {...s,basket:b,preservedCount:(s.preservedCount||0)+1,toast:'🫙 '+this.produceMeta[k].name+' '+r.verb+' — preserves can be shared even in deep winter.'};
     });
     this.playSparkle();
   }
@@ -3268,9 +3357,9 @@ class Component extends DCLogic {
     this.setState(st=>{
       const bb={...(st.basket||{})}; bb[k]=bb[k]-1;
       const person=this.communityRecipientFor(k,st.sharedActs||0);
-      let ns={...st,basket:bb,shares:st.shares+1,given:st.given+1,sharedActs:(st.sharedActs||0)+1,pool:Math.min(100,st.pool+6),goodwill:st.goodwill+1,
+      let ns={...st,basket:bb,given:st.given+1,sharedActs:(st.sharedActs||0)+1,pool:Math.min(100,st.pool+6),goodwill:st.goodwill+1,
         communityMemory:[{id:'cm'+Date.now(),person:person,text:this.communityReply(person,meta.name.toLowerCase())},...(st.communityMemory||[])].slice(0,4),
-        toast:'🎁 '+meta.name+' reached the shared table — the game adds 1 participation share.'};
+        toast:'🎁 '+meta.name+' reached the shared table. The community pool grew; a gift is not a purchase or personal repayment.'};
       ns=this.applyMilestones(ns);
       ns=this.addJourneyMoment(ns,'share','What leaves my gate is not lost. It becomes someone else’s beginning.');
       return ns;
@@ -3280,19 +3369,31 @@ class Component extends DCLogic {
   giveToTable(){
     if(this.state.giveMode){ this.setState({giveMode:false,toast:null}); return; }
     if(!this.sharingUnlocked(this.state)){this.flash('The sharing table opens in the community act. Build the garden’s four living layers first.');return;}
-    if(this.state.placed.length===0){ this.flash('Grow something first — then you have plenty to share.'); return; }
-    this.setState({giveMode:true,plantType:null,selectedPlacedId:null,toast:'🌿 Give only a genuine spare. For the first sharing act, picking a glowing cherry is safer than dismantling a living layer. (Esc cancels)'});
+    const eligible=(this.state.placed||[]).some(p=>this.elementGiftEligibility(p.id,this.state).eligible);
+    if(!eligible){ this.flash('No established spare yet. Grow a harvest to share, or keep two copies of an element for at least one seasonal turn.'); return; }
+    this.setState({giveMode:true,plantType:null,selectedPlacedId:null,toast:'🌿 Choose an established duplicate. Your garden keeps one; the spare continues through the community. (Esc cancels)'});
   }
   gardenPillars(placed){
     const t=new Set(placed.map(p=>p.type));
     return {Soil:t.has('compost')||t.has('mulch')||t.has('hugel'),Water:t.has('rain'),Food:t.has('hugel')||t.has('arch')||t.has('herbspiral')||t.has('greenhouse')||t.has('appletree')||Array.from(t).some(k=>k.indexOf('crop_')===0),Shelter:t.has('bughotel')||t.has('birdhouse')||t.has('pollinator')};
   }
-  certificateStats(){
-    const st=this.state;
+  reciprocityUnlocked(st=this.state){return (st.sharedActs||0)>0;}
+  elementGiftEligibility(id,st=this.state){
+    const item=(st.placed||[]).find(p=>p.id===id);
+    if(!item){return {eligible:false,reason:'That element is no longer in the garden.'};}
+    if(!this.sharingUnlocked(st)){return {eligible:false,reason:'Complete the four living layers before opening the community table.'};}
+    if(this.cropDefs[item.type]){return {eligible:false,reason:'Share the harvested produce, not an unharvested crop.'};}
+    const copies=(st.placed||[]).filter(p=>p.type===item.type);
+    if(copies.length<2){return {eligible:false,reason:'Keep one living example in the garden; only an established duplicate is surplus.'};}
+    if((st.seasonTurns||0)-(item.placedAtTurn||0)<1){return {eligible:false,reason:'This element is newly placed. Let it establish through one seasonal turn first.'};}
+    return {eligible:true,reason:'Established duplicate available as a genuine spare.'};
+  }
+  elementGiftReward(type,st=this.state){return 0;}
+  certificateStats(st=this.state){
     const pillars=this.gardenPillars(st.placed||[]),systems=this.gardenSystems(st);
     const community=(st.sharedActs||0)>0;
     const wildlife=this.activeOf(st.placed||[]).size;
-    const guilds=(st.discovered||[]).length;
+    const guilds=this.activeGuilds(st.placed||[]).length;
     const score=Math.min(100,Math.round(systems.average*.78+wildlife+(guilds/7)*5+(Math.min(st.given||0,6)/6)*7));
     const status=score===0?'A bare plot — ready to begin':score<40?'A living beginning':score<70?'Connections taking shape':score<100?'A flourishing design':'A richly connected design';
     const strengths=[];
@@ -3303,68 +3404,113 @@ class Component extends DCLogic {
     if(community){strengths.push('Fair sharing');}
     return {score:score,status:status,wildlife:wildlife,guilds:guilds,given:st.given||0,strengths:strengths};
   }
-  certificateExport(){
-    const stats=this.certificateStats();
+  completionModel(st=this.state){
+    const journey=this.journeyModel(st),systems=this.gardenSystems(st);
+    const relationshipReady=systems.links.length>0;
+    const firstCycleReady=journey.ready&&relationshipReady;
+    const activeGuilds=this.activeGuilds(st.placed||[]).length;
+    const challengeKinds=Object.keys(st.gardenEffects||{}).filter(k=>Number((st.gardenEffects||{})[k])>0).length;
+    const reasons=[];
+    if(!firstCycleReady){reasons.push(journey.ready?'Connect two complementary elements close enough to form a visible relationship.':journey.current.why);}
+    if((st.seasonTurns||0)<4){reasons.push('Observe the design through a full turn of four seasons.');}
+    if(systems.view.some(v=>v.value<45)){reasons.push('Bring every resilience relationship to at least 45%.');}
+    if(activeGuilds<2){reasons.push('Keep at least two plant or people guilds active in the current design.');}
+    if((st.sharedActs||0)<2){reasons.push('Let two genuine gifts circulate without expecting personal repayment.');}
+    if(!st.harvestEver){reasons.push('Grow and harvest something from this garden.');}
+    if(challengeKinds<3){reasons.push('Retain learning from at least three different seasonal challenges.');}
+    const flourishingReady=firstCycleReady&&(st.seasonTurns||0)>=4&&systems.view.every(v=>v.value>=45)&&activeGuilds>=2&&(st.sharedActs||0)>=2&&!!st.harvestEver&&challengeKinds>=3;
+    return {firstCycleReady:firstCycleReady,flourishingReady:flourishingReady,reasons:reasons,activeGuilds:activeGuilds,challengeKinds:challengeKinds,systems:systems.values};
+  }
+  certificateSvg(state,assets){
+    const stats=this.certificateStats(state);
     const esc=(v)=>String(v).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[ch]));
-    const rawName=(this.state.playerName||'A caring gardener').trim().slice(0,44)||'A caring gardener';
+    const rawName=(state.playerName||'A caring gardener').trim().slice(0,44)||'A caring gardener';
     const name=esc(rawName);
     const date=esc(new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}));
     const strengths=stats.strengths.length?stats.strengths.join('  •  '):'A garden ready for its first seeds';
+    const embedded=(path)=>esc((assets&&assets[path])||'');
+    const wrap=(value,max=82)=>{const words=String(value||'').trim().split(/\s+/),lines=[];let line='';words.forEach(word=>{const next=(line+' '+word).trim();if(line&&next.length>max){lines.push(line);line=word;}else{line=next;}});if(line){lines.push(line);}return lines.slice(0,2);};
+    const textLines=(value,x,y,max=48,color='#4f5848')=>wrap(value,max).map((line,i)=>`<text x="${x}" y="${y+i*23}" font-family="Arial,sans-serif" font-size="18" fill="${color}">${esc(line)}</text>`).join('');
+    const systems=this.gardenSystems(state),weakest=systems.view.slice().sort((a,b)=>a.value-b.value)[0];
+    const learnedKey=(state.lastChallengeKey&&Number((state.gardenEffects||{})[state.lastChallengeKey]))?state.lastChallengeKey:Object.keys(state.gardenEffects||{}).filter(k=>Number((state.gardenEffects||{})[k])).pop();
+    const learned=({mulch:'Protect the most vulnerable soil first.',compost:'Waste becomes fertility when air, moisture, greens and browns are balanced.',hugel:'Treat woody beds as site-specific experiments and observe them over time.',rain:'Screen stored water and give every overflow a safe route.',kitchen:'Match each harvest with a suitable low-energy way of keeping.',ladybug:'Support balance with habitat, patience and targeted protection.',bee:'Design flowering habitat through time, not for one colourful moment.',shelter:'Different lives need different winter refuges.',pexeso:'A guild is an exchange of needs and yields.',seeds:'Save suitable mature seed with care for crop biology.',quiz:'Observe the whole system before reacting to one symptom.'}[learnedKey]||'Observe relationships before adding more objects.');
+    const decision=(state.reflectionNote||((state.lastSystemChange||{}).text)||('You built a connected '+stats.status.toLowerCase()+'.')).slice(0,220);
+    const realActions={soil:'Cover one small patch of bare soil with suitable organic material.',water:'Watch one rainfall and notice where water can be slowed or safely collected.',food:'Grow one edible plant together with a flowering companion.',habitat:'Leave one quiet pesticide-free refuge with water, food and shelter.'};
+    const action=realActions[(weakest||{}).key]||realActions.soil;
+    const placedArt=(state.placed||[]).slice(0,24).map(p=>{const art=((state.season==='Winter'&&this.winterScenes[p.type])||this.sprites[p.type]),src=art&&art.props&&art.props.src;if(!src||!assets[src]){return '';}const x=55+(Math.max(3,Math.min(97,p.x))/100)*1090-23,y=155+(Math.max(5,Math.min(95,p.y))/100)*360-38;return `<image ${'href'}="${embedded(src)}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="52" height="52" preserveAspectRatio="xMidYMid meet"/>`;}).join('');
+    const mapHref=embedded('assets/story/story-07-invitation.webp');
     const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850">
-      <defs>
-        <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf7"/><stop offset="1" stop-color="#f3ead5"/></linearGradient>
-        <linearGradient id="green" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#76995b"/><stop offset="1" stop-color="#3f5c33"/></linearGradient>
-      </defs>
-      <rect width="1200" height="850" fill="url(#paper)"/>
-      <rect x="28" y="28" width="1144" height="794" rx="30" fill="none" stroke="#c99a3c" stroke-width="5"/>
-      <rect x="45" y="45" width="1110" height="760" rx="23" fill="none" stroke="#dcc98f" stroke-width="2"/>
-      <path d="M92 164c0-75 42-113 126-123-7 84-49 126-126 123zm0 0c14-48 46-78 91-93" fill="#e7efd8" stroke="#5e7e4a" stroke-width="5" stroke-linecap="round"/>
-      <path d="M1108 164c0-75-42-113-126-123 7 84 49 126 126 123zm0 0c-14-48-46-78-91-93" fill="#e7efd8" stroke="#5e7e4a" stroke-width="5" stroke-linecap="round"/>
-      <text x="600" y="112" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="700" letter-spacing="5" fill="#9a7428">LE JARDIN · PERMACULTURE GARDEN</text>
-      <text x="600" y="190" text-anchor="middle" font-family="Georgia,serif" font-size="58" font-weight="700" fill="#2c3525">Certificate of Learning</text>
-      <line x1="300" y1="222" x2="900" y2="222" stroke="#dcc98f" stroke-width="3"/>
-      <text x="600" y="276" text-anchor="middle" font-family="Arial,sans-serif" font-size="25" fill="#7a6e58">grown with care by</text>
-      <text x="600" y="338" text-anchor="middle" font-family="Georgia,serif" font-size="50" font-weight="700" fill="#3f5c33">${name}</text>
-      <path d="M310 362 Q600 390 890 362" fill="none" stroke="#c99a3c" stroke-width="3" stroke-dasharray="3 10" stroke-linecap="round"/>
-      <circle cx="600" cy="505" r="105" fill="url(#green)"/>
-      <circle cx="600" cy="505" r="91" fill="#fbf8f1" stroke="#cfe0ac" stroke-width="5"/>
-      <text x="600" y="510" text-anchor="middle" font-family="Arial,sans-serif" font-size="72" font-weight="800" fill="#2c3525">${stats.score}</text>
-      <text x="600" y="551" text-anchor="middle" font-family="Arial,sans-serif" font-size="21" font-weight="700" fill="#8a7e66">DESIGN CONNECTION SCORE</text>
-      <text x="600" y="648" text-anchor="middle" font-family="Georgia,serif" font-size="34" font-weight="700" fill="#2c3525">${esc(stats.status)}</text>
-      <text x="600" y="693" text-anchor="middle" font-family="Arial,sans-serif" font-size="22" fill="#5f5747">🐾 ${stats.wildlife}/10 habitat matches   ✦ ${stats.guilds}/7 guilds   ♻ ${stats.given} shared</text>
-      <text x="600" y="738" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#5e7e4a">${esc(strengths)}</text>
-      <text x="92" y="785" font-family="Arial,sans-serif" font-size="17" fill="#8a7e66">${date} · Erasmus+ ecology project</text>
-      <text x="1108" y="785" text-anchor="end" font-family="Arial,sans-serif" font-size="17" font-weight="700" fill="#8a6a1f">Care for the earth · Care for people · Fair share</text>
+      <defs><linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf7"/><stop offset="1" stop-color="#f3ead5"/></linearGradient><clipPath id="map"><rect x="55" y="155" width="1090" height="360" rx="22"/></clipPath></defs>
+      <rect width="1200" height="850" fill="url(#paper)"/><rect x="26" y="26" width="1148" height="798" rx="30" fill="none" stroke="#c99a3c" stroke-width="4"/><rect x="43" y="43" width="1114" height="764" rx="24" fill="none" stroke="#dcc98f" stroke-width="2"/>
+      <text x="600" y="79" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" font-weight="800" letter-spacing="4" fill="#8a6a1f">LE JARDIN · PERMACULTURE GARDEN</text><text x="600" y="128" text-anchor="middle" font-family="Georgia,serif" font-size="45" font-weight="700" fill="#2c3525">Certificate of Learning</text>
+      <g clip-path="url(#map)"><image ${'href'}="${mapHref}" x="55" y="155" width="1090" height="360" preserveAspectRatio="xMidYMid slice"/><rect x="55" y="155" width="1090" height="360" fill="#172313" opacity=".10"/>${placedArt}</g><rect x="55" y="155" width="1090" height="360" rx="22" fill="none" stroke="#e4d4a9" stroke-width="3"/>
+      <rect x="55" y="535" width="1090" height="244" rx="22" fill="#fbf8f1" stroke="#e2d6bd" stroke-width="2"/><circle cx="155" cy="635" r="67" fill="#e8efd9" stroke="#557146" stroke-width="5"/><text x="155" y="638" text-anchor="middle" font-family="Arial,sans-serif" font-size="54" font-weight="800" fill="#2c3525">${stats.score}</text><text x="155" y="670" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" font-weight="800" letter-spacing="1" fill="#56654e">GARDEN RESILIENCE</text>
+      <text x="255" y="578" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#9a7428">GROWN WITH CARE BY</text><text x="255" y="619" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#3f5c33">${name}</text><text x="255" y="650" font-family="Arial,sans-serif" font-size="19" font-weight="700" fill="#2c3525">${esc(stats.status)} · ${stats.wildlife}/10 habitat matches · ${stats.guilds}/7 active guilds · ${stats.given} gifts</text>
+      <text x="255" y="690" font-family="Arial,sans-serif" font-size="14" font-weight="800" letter-spacing="1.5" fill="#8a6a1f">A DECISION I CAN EXPLAIN</text>${textLines(decision,255,715,49)}
+      <text x="745" y="690" font-family="Arial,sans-serif" font-size="14" font-weight="800" letter-spacing="1.5" fill="#8a6a1f">A PRINCIPLE I LEARNED</text>${textLines(learned,745,715,39)}
+      <text x="255" y="770" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#415c36">Next real-world act: ${esc(action)}</text><text x="76" y="805" font-family="Arial,sans-serif" font-size="15" fill="#756c5b">${date} · ${esc(strengths)}</text><text x="1124" y="805" text-anchor="end" font-family="Arial,sans-serif" font-size="15" font-weight="700" fill="#8a6a1f">Care for earth · Care for people · Fair share</text>
     </svg>`;
     const slug=rawName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'gardener';
-    if(this._certificateSvg!==svg){
+    return {svg:svg,filename:'le-jardin-certificate-'+slug+'.svg'};
+  }
+  certificateAssetPaths(state){
+    const paths=['assets/story/story-07-invitation.webp'];
+    (state.placed||[]).slice(0,24).forEach(p=>{
+      const art=((state.season==='Winter'&&this.winterScenes[p.type])||this.sprites[p.type]);
+      const src=art&&art.props&&art.props.src;
+      if(src&&paths.indexOf(src)<0){paths.push(src);}
+    });
+    return paths;
+  }
+  async assetDataUrl(path){
+    const response=await fetch(new URL(path,location.href).href,{cache:'force-cache'});
+    if(!response.ok){throw new Error('Certificate artwork failed to load: '+path);}
+    const fetched=await response.blob();
+    const mime=/\.webp(?:\?|$)/i.test(path)?'image/webp':(/\.png(?:\?|$)/i.test(path)?'image/png':(fetched.type||'application/octet-stream'));
+    const blob=fetched.type===mime?fetched:new Blob([fetched],{type:mime});
+    return await new Promise((resolve,reject)=>{
+      const reader=new FileReader();
+      reader.onload=()=>resolve(String(reader.result||''));
+      reader.onerror=()=>reject(reader.error||new Error('Certificate artwork could not be embedded: '+path));
+      reader.readAsDataURL(blob);
+    });
+  }
+  async certificateExport(){
+    const state={...this.state,placed:(this.state.placed||[]).map(p=>({...p})),gardenEffects:{...(this.state.gardenEffects||{})},basket:{...(this.state.basket||{})},materials:{...(this.state.materials||{})}};
+    const entries=await Promise.all(this.certificateAssetPaths(state).map(async path=>[path,await this.assetDataUrl(path)]));
+    return this.certificateSvg(state,Object.fromEntries(entries));
+  }
+  async downloadCertificate(){
+    if(this.state.certificatePreparing){return;}
+    this.setState({certificatePreparing:true});
+    try{
+      const out=await this.certificateExport();
       if(this._certificateUrl){URL.revokeObjectURL(this._certificateUrl);}
-      this._certificateSvg=svg;
-      this._certificateUrl=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml;charset=utf-8'}));
+      const url=URL.createObjectURL(new Blob([out.svg],{type:'image/svg+xml;charset=utf-8'}));
+      this._certificateUrl=url;
+      const link=document.createElement('a');link.href=url;link.download=out.filename;link.style.display='none';document.body.appendChild(link);link.click();link.remove();
+      this.later(()=>{if(this._certificateUrl===url){URL.revokeObjectURL(url);this._certificateUrl=null;}},4000);
+      if(!this._unmounted){this.setState({certificatePreparing:false,toast:'💾 Standalone certificate saved — its artwork will remain visible offline.'});}
+    }catch(error){
+      if(!this._unmounted){this.setState({certificatePreparing:false,toast:'The certificate artwork could not be embedded. Please check the connection and try again.'});}
     }
-    return {href:this._certificateUrl,filename:'le-jardin-certificate-'+slug+'.svg'};
   }
   printCertificate(){
     window.print();
   }
   giveElement(id,type){
     const c=this.catalog[type], e=this.econ[type];
-    const reward=Math.max(1,(e&&e.gift)?e.gift:1);
-    const beforePillars=this.gardenPillars(this.state.placed);
-    const afterPillars=this.gardenPillars(this.state.placed.filter(p=>p.id!==id));
-    const wouldLose=Object.keys(beforePillars).filter(k=>beforePillars[k]&&!afterPillars[k]);
-    if(wouldLose.length&&!window.confirm('This is your only current '+wouldLose.join(' and ').toLowerCase()+' layer. Giving it will reopen that part of the journey. Give it anyway?')){return;}
+    const eligibility=this.elementGiftEligibility(id,this.state);
+    if(!eligibility.eligible){this.flash(eligibility.reason);return;}
+    const reward=this.elementGiftReward(type,this.state);
     this._gaveJust=true;
     this.setState(s=>{
       const person=this.communityRecipientFor(type,s.sharedActs||0);
       const placed=s.placed.filter(p=>p.id!==id);
-      const before=this.gardenPillars(s.placed),after=this.gardenPillars(placed);
-      const lost=Object.keys(before).filter(k=>before[k]&&!after[k]);
-      const rebuild=lost.length?' Your '+lost.join(' and ').toLowerCase()+' layer is now open again — rebuild it to restore garden health.':'';
       let ns={...s, placed:placed, giveMode:false, selectedPlacedId:null,
-        pool:Math.min(100,s.pool+10), goodwill:s.goodwill+1, shares:s.shares+reward, given:s.given+2, sharedActs:(s.sharedActs||0)+1,
+        pool:Math.min(100,s.pool+10), goodwill:s.goodwill+1, shares:s.shares+reward, given:s.given+1, sharedActs:(s.sharedActs||0)+1,rewardedGiftTypes:Array.from(new Set([...(s.rewardedGiftTypes||[]),type])),
         communityMemory:[{id:'cm'+Date.now(),person:person,text:this.communityReply(person,c.name.toLowerCase())},...(s.communityMemory||[])].slice(0,4),
-        toast:'🌿 Your '+c.name+' reached the shared table — the game adds '+reward+' participation share'+(reward>1?'s':'')+'.'+rebuild};
+        toast:'🌿 Your established spare '+c.name.toLowerCase()+' reached the shared table. The community pool grew; your personal shares did not.'};
       ns=this.applyMilestones(ns);
       ns=this.addJourneyMoment(ns,'share','What leaves my gate is not lost. It becomes someone else’s beginning.');
       return ns;
@@ -3776,7 +3922,7 @@ class Component extends DCLogic {
       clearInterval(this._gateIv);
       this.setState(s=>{
         const effectNew=res==='won'&&!Number((s.gardenEffects||{})[g.key]);
-        let ns={...s,gate:{...s.gate,d:d,status:res,effectNew:effectNew},shares:res==='won'?s.shares+1:s.shares,gatesPlayed:{...(s.gatesPlayed||{}),[g.key]:((s.gatesPlayed||{})[g.key]||0)+1}};
+        let ns={...s,gate:{...s.gate,d:d,status:res,effectNew:effectNew},shares:effectNew?s.shares+1:s.shares,gatesPlayed:{...(s.gatesPlayed||{}),[g.key]:((s.gatesPlayed||{})[g.key]||0)+1}};
         if(res==='won'){ns=this.applyChallengeImpact(ns,g.key);}
         return ns;
       });
@@ -3978,12 +4124,14 @@ class Component extends DCLogic {
     const impactText={mulch:'The mulch practice now supports a mulch element while it remains in the garden.',compost:'The balanced-compost practice now supports a compost element while it remains in the garden.',hugel:'The woody-bed practice supports water awareness while the mound remains in the garden.',rain:'The safe rain-chain practice supports a rain-harvesting element while it remains in the garden.',kitchen:'The preservation plan supports food continuity while the kitchen remains in the garden.',ladybug:'The predator-support plan works while flowers and insect shelter remain connected.',bee:'The nectar-calendar plan works while flowering support remains connected to food.',shelter:'The winter-refuge plan works while habitat remains in the garden.',pexeso:'Relationship-design insight recorded — knowledge changes your next decision, not a physical meter.',seeds:'The seed-selection practice supports food continuity while the seed bank remains in the garden.',quiz:'Observation insight recorded — knowledge changes your next decision, not a physical meter.'};
     const repeated=g.status==='won'&&g.effectNew===false;
     const passage=this.seasonPassages[g.target]||{};
+    const hasMulch=this.state.placed.some(p=>p.type==='mulch'),hasGreenhouse=this.state.placed.some(p=>p.type==='greenhouse'),youngCrops=this.state.placed.filter(p=>this.cropDefs[p.type]&&(p.stage||1)<3).length;
+    const seasonPreview=g.target==='Winter'?(youngCrops?('Winter preview · '+(hasMulch?'Mulched young crops will rest safely; ':'')+(hasGreenhouse?'leafy greens in the greenhouse can keep growing; ':'')+((!hasMulch)?youngCrops+' unprotected young crop'+(youngCrops>1?'s may':' may')+' be lost to frost.':'unprotected crops remain at risk.')):'Winter preview · Soil cover and shelter still shape what survives, even when no young crops are present.'):(g.target==='Spring'?'Spring preview · Dormant growth resumes, seed allowances renew and suitable wildlife may return.':(g.target==='Autumn'?'Autumn preview · Mature apples and annual crops can be harvested; fallen leaves become a soil resource.':'Summer preview · Water storage and mulch become most valuable while fresh cherries can be harvested and shared.'));
     const passageImage=React.createElement('img',{src:passage.image||'',alt:(g.target+' in the community garden at Menet'),loading:'eager',draggable:false});
     return {visible:true,title:def.title,emoji:def.emoji,target:g.target,seasonEmoji:seasonEmoji,image:passageImage,gardenVoice:passage.voice||this.gateVoice(g.key,g.target),principle:def.principle,story:def.story,prompt:def.prompt,progressText:progressText,
       tiles:tiles,buttons:play?buttons:[],hasButtons:play&&buttons.length>0,
       hasTimer:play&&timerPct!=null,timerStyle:{height:'100%',width:Math.max(0,Math.min(100,timerPct||0))+'%',background:timerColor,borderRadius:'4px',transition:'width .12s linear'},
       boardStyle:boardStyle,onBoardClick:onBoardClick,onBoardMove:onBoardMove,
-      briefing:brief,inChallenge:play,showResult:done,canSkip:brief||play,
+      briefing:brief,inChallenge:play,showResult:done,canSkip:brief||play,seasonPreview:seasonPreview,
       hasFeedback:play&&!!d.feedback,feedback:d.feedback||'',feedbackStyle:{marginBottom:'10px',padding:'8px 11px',borderRadius:'10px',background:d.feedbackGood?'#EDF4DE':'#FFF1D9',border:'1px solid '+(d.feedbackGood?'#CFE0AC':'#E8CF9E'),color:d.feedbackGood?'#456137':'#7B5A2E',fontSize:'11px',fontWeight:'700',lineHeight:'1.35'},
       lesson:def.lesson,skill:def.skill,resultEmoji:g.status==='won'?'🌿':'🌱',hasImpact:g.status==='won',impact:repeated?'This practice was already retained, so no extra numerical bonus was added.':(impactText[g.key]||''),impactLabel:repeated?'Practice retained':'What remains',
       resultTitle:g.status==='won'?(repeated?'Practice complete — the lesson deepened':'Challenge complete — the lesson remains'):'The garden invites another try',
@@ -4010,25 +4158,30 @@ class Component extends DCLogic {
     this.setState(s=>{
       if(s.season===k){return null;}
       const keptMarket=s.market.filter(m=>!m.seasons||m.seasons.indexOf(k)>=0);
-      const ns={...s,season:k,toast:this.seasonDefs[k].tip,seasonFlash:{k:k,n:(this._flashN=(this._flashN||0)+1)},market:keptMarket.length?keptMarket:this.freshMarket(k),leafPiles:0,springSprouts:0};
+      const ns={...s,season:k,seasonTurns:(s.seasonTurns||0)+1,seedAllowance:{},toast:this.seasonDefs[k].tip,seasonFlash:{k:k,n:(this._flashN=(this._flashN||0)+1)},market:keptMarket.length?keptMarket:this.freshMarket(k),leafPiles:0,springSprouts:0};
       const hasGH=s.placed.some(p=>p.type==='greenhouse');
-      let ghSaved=false;
+      const hasMulch=s.placed.some(p=>p.type==='mulch');
+      let ghSaved=false,lostCrops=0,dormantCrops=0;
       ns.placed=ns.placed.map(p=>{
         const cd=this.cropDefs[p.type];
         if(cd&&(p.stage||1)<3){
           if(k==='Winter'){
-            if(hasGH&&p.type==='crop_leafy'){ ghSaved=true; return {...p,stage:(p.stage||1)+1}; }
-            return p;
+            if(hasGH&&p.type==='crop_leafy'){ ghSaved=true; return {...p,stage:(p.stage||1)+1,winterState:'protected'}; }
+            if(hasMulch){dormantCrops++;return {...p,winterState:'dormant'};}
+            lostCrops++;return null;
           }
-          return {...p,stage:(p.stage||1)+1};
+          return {...p,stage:(p.stage||1)+1,winterState:null};
         }
         if(p.type==='appletree'){ return {...p,appleReady:(k==='Autumn')}; }
         return p;
-      });
+      }).filter(Boolean);
       if(k==='Winter'){
-        const hasMulch=ns.placed.some(p=>p.type==='mulch');
         const hasCrops=ns.placed.some(p=>this.cropDefs[p.type]);
-        const tail=ghSaved?' In the greenhouse, the salads keep quietly growing.':(hasCrops?' Crops pause until spring.':'');
+        const outcomes=[];
+        if(ghSaved){outcomes.push('greenhouse salads kept growing');}
+        if(dormantCrops){outcomes.push(dormantCrops+' mulched crop'+(dormantCrops>1?'s':'')+' went dormant');}
+        if(lostCrops){outcomes.push(lostCrops+' unprotected young crop'+(lostCrops>1?'s were':' was')+' lost to frost');}
+        const tail=outcomes.length?' Winter outcome: '+outcomes.join('; ')+'.':(hasCrops?' Mature crops remain, but new growth pauses.':'');
         if(hasMulch){ ns.pool=Math.min(100,(ns.pool||0)+2); ns.toast='❄️ The garden sleeps — your mulch blanket keeps the soil life safe underneath.'+tail; }
         else { ns.pool=Math.max(0,(ns.pool||0)-3); ns.toast='❄️ Frost bites bare soil — a mulch blanket would protect the life underneath.'+tail; }
       }
@@ -4044,7 +4197,7 @@ class Component extends DCLogic {
         ns.toast='🌱 Spring sowing! Your seed bank earned free seedlings on the sharing table.';
       }
       if(k==='Autumn'){
-        if(!s.autumnHarvestDone){ ns.autumnHarvestDone=true; ns.shares=s.shares+1; ns.toast='🍒 The cherry tree gave a surplus harvest — +1 share. Abundance is for passing on!'; }
+        if(!s.autumnHarvestDone){ ns.autumnHarvestDone=true; ns.pool=Math.min(100,(ns.pool||0)+3); ns.toast='🍒 The cherry tree gave a seasonal surplus. The shared pool grew by 3; harvest it if you want to make a personal gift.'; }
         ns.leafPiles=3;
       }
       if(k==='Summer'){
@@ -4265,7 +4418,8 @@ class Component extends DCLogic {
     const shelter=systems.values.habitat>=25;
     const community=(st.sharedActs||0)>0;
     const discovered=st.discovered||[];
-    const score=Math.min(100,Math.round(systems.average*.78+activeSet.size+(discovered.length/7)*5+(Math.min(st.given||0,6)/6)*7));
+    const activeGuildList=this.activeGuilds(st.placed||[]);
+    const score=Math.min(100,Math.round(systems.average*.78+activeSet.size+(activeGuildList.length/7)*5+(Math.min(st.given||0,6)/6)*7));
     const missing=[];
     if(systems.values.soil<45)missing.push('Strengthen living soil — combine organic matter with nearby protective mulch');
     if(systems.values.water<45)missing.push('Connect caught water to a nearby growing area');
@@ -4273,7 +4427,7 @@ class Component extends DCLogic {
     if(systems.values.habitat<45)missing.push('Connect wildlife shelter with food, water and undisturbed cover');
     if(!community)missing.push('Let one real surplus circulate through the Menet sharing table');
     if(systems.average>=65&&activeSet.size<10)missing.push('The design could support more kinds of wildlife — dim tiles reveal habitat relationships to explore');
-    if(st.placed.length>=3&&discovered.length===0)missing.push('Try placing related elements side by side — good neighbours join into guilds');
+    if(st.placed.length>=3&&activeGuildList.length===0)missing.push('Try placing related elements side by side — good neighbours join into an active guild');
 
     const I=this.ICONS;
     const pillStyle=(ok)=>({display:'inline-flex',alignItems:'center',gap:'4px',fontSize:'10px',fontWeight:'700',padding:'3px 8px',borderRadius:'7px',background:ok?'#E9F1D6':'#F1ECDF',color:ok?'#3E5A33':'#BDB39C',border:'1px solid '+(ok?'#CFE0AC':'#E7DECB'),transition:'all .3s'});
@@ -4299,7 +4453,7 @@ class Component extends DCLogic {
       E('circle',{key:'bg',cx:50,cy:50,r:r,fill:'none',stroke:'#EAE0CC',strokeWidth:9}),
       E('circle',{key:'fg',cx:50,cy:50,r:r,fill:'none',stroke:ringColor,strokeWidth:9,strokeLinecap:'round',strokeDasharray:cc,strokeDashoffset:off,transform:'rotate(-90 50 50)',style:{transition:'stroke-dashoffset .6s cubic-bezier(.3,.9,.3,1),stroke .4s'}}),
       E('text',{key:'n',x:50,y:48,textAnchor:'middle',dominantBaseline:'central',style:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'27px',fontWeight:'700',fill:'#2C3525'}},String(score)),
-      E('text',{key:'s',x:50,y:65,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'7px',fontWeight:'700',fill:'#756C5B',letterSpacing:'.45px'}},'GAME SCORE')
+      E('text',{key:'s',x:50,y:67,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'11px',fontWeight:'800',fill:'#655E50',letterSpacing:'.2px'}},'CONNECTIONS')
     ]);
 
     const stp=st.selectedType;
@@ -4311,7 +4465,7 @@ class Component extends DCLogic {
       const relationships=selectedP?systems.links.filter(l=>l.a.id===selectedP.id||l.b.id===selectedP.id).map(l=>l.label):[];
       info={
         name:c.name,catLabel:categoryLabel,art:this.sprites[stp],desc:c.desc,why:c.why,
-        barterable:ec.barter!=null,barter:ec.barter,price:ec.price,gift:ec.gift,giveText:this.giveText[stp],material:ec.material,
+        barterable:ec.barter!=null,barter:ec.barter,price:ec.price,giveText:this.giveText[stp],material:ec.material,
         discStyle:{width:'54px',height:'54px',borderRadius:'15px',display:'grid',placeItems:'center',background:'linear-gradient(160deg,#EFF4E2,#E2ECCC)',boxShadow:'inset 0 0 0 2px '+c.accent+'55',flex:'none',overflow:'hidden',padding:'4px'},
         tagStyle:{display:'inline-block',marginTop:'5px',padding:'2px 9px',borderRadius:'20px',fontSize:'10px',fontWeight:'700',letterSpacing:'.04em',background:c.accent+'1F',color:c.accent},
         attracts:c.attracts.map(n=>{const k=this.nameKey[n];return{name:n,hasIcon:!!k,icon:k?this.critters[k]:null};}),relationships:relationships,hasRelationships:relationships.length>0,
@@ -4333,7 +4487,10 @@ class Component extends DCLogic {
       else { art=giftEmblem('€','#B5613A'); }
       const seasonTag=((isItem||o.kind==='material')&&o.seasons&&o.seasons.length<4)?(o.seasons.map(sk=>this.seasonDefs[sk]?this.seasonDefs[sk].emoji:'').join('')+' '):'';
       const person=this.communityPerson(o.person||'Camille');
-      return {id:o.id,text:o.text,person:person.name,personRole:person.role,personInitial:person.initial,personStyle:{width:'21px',height:'21px',borderRadius:'50%',display:'grid',placeItems:'center',background:person.color,color:'#fff',fontSize:'9px',fontWeight:'800',flex:'none'},takeLabel:'Take this offering from '+person.name+': '+o.text,seasonTag:seasonTag,art:art,hasBadge:!!badge,badge:badge,badgeStyle:badgeStyle,onTake:()=>this.takeOffering(o.id)};
+      const take=this.offeringEligibility(o,st);
+      const takeText=!this.reciprocityUnlocked(st)?'Give first':(!take.eligible?'Pool low':('Take · −'+take.cost));
+      const takeStyle={background:take.eligible?'#C99A3C':'#D8D0BF',border:'none',color:take.eligible?'#fff':'#756C5B',fontWeight:'700',fontSize:'10.5px',padding:'3px 9px',borderRadius:'7px',cursor:take.eligible?'pointer':'not-allowed',fontFamily:'inherit',transition:'background .15s',opacity:take.eligible?1:.8};
+      return {id:o.id,text:o.text,person:person.name,personRole:person.role,personInitial:person.initial,personStyle:{width:'21px',height:'21px',borderRadius:'50%',display:'grid',placeItems:'center',background:person.color,color:'#fff',fontSize:'9px',fontWeight:'800',flex:'none'},takeLabel:take.eligible?('Take this offering from '+person.name+'. Uses '+take.cost+' shared-pool points: '+o.text):take.reason,takeDisabled:!take.eligible,takeText:takeText,takeStyle:takeStyle,seasonTag:seasonTag,art:art,hasBadge:!!badge,badge:badge,badgeStyle:badgeStyle,onTake:()=>this.takeOffering(o.id)};
     });
 
     const kitchenPlaced=types.has('kitchen');
@@ -4345,7 +4502,7 @@ class Component extends DCLogic {
       const inSeason=!meta.seasons||meta.seasons.indexOf(seasonNow)>=0;
       const rec=this.recipes[k];
       return {key:k,name:meta.name,count:basketObj[k]||0,art:prodImg(meta.img),isPreserve:!!meta.preserve,
-        shareTitle:inSeason?('Give '+meta.name+' to the community table (+1 share)'):(meta.name+' are out of season — preserve them to share later'),
+        shareTitle:inSeason?('Give '+meta.name+' to the community table (grows the shared pool)'):(meta.name+' are out of season — preserve them to share later'),
         onShare:()=>this.shareProduce(k),
         shareStyle:{background:inSeason?'#5E7E4A':'#EDE6D6',color:inSeason?'#fff':'#A99E86',cursor:inSeason?'pointer':'not-allowed',border:'none',borderRadius:'8px',padding:'4px 9px',fontSize:'10px',fontWeight:'700',fontFamily:'inherit',transition:'background .15s'},
         showPreserve:!!rec,
@@ -4374,13 +4531,13 @@ class Component extends DCLogic {
       key:g.key,text:g.def.emoji+' '+g.def.name,
       style:{position:'absolute',left:((g.a.x+g.b.x)/2)+'%',top:((g.a.y+g.b.y)/2)+'%',transform:'translate(-50%,-50%)',background:'rgba(255,251,240,.95)',border:'1px solid #E0C583',color:'#8A6A1F',fontSize:'9.5px',fontWeight:'700',padding:'2px 8px',borderRadius:'12px',whiteSpace:'nowrap',boxShadow:'0 3px 8px -3px rgba(120,90,20,.4)',pointerEvents:'none',zIndex:5,animation:'floatIn .35s ease'}
     }));
-    const discCount=(st.discovered||[]).length;
+    const discCount=activeGuildList.length;
     const _steps=guided?journey.steps:[
       {done:soil,label:'Build living soil',why:'Healthy soil feeds everything — combine organic matter with protective cover.'},
       {done:water,label:'Connect water to plants',why:'Catch water, then place it close enough to serve a growing area.'},
       {done:food,label:'Grow food in layers',why:'Combine edible plants, perennial structure and flowering partners.'},
       {done:shelter,label:'Connect a habitat',why:'Shelter becomes stronger when food, water and quiet cover are nearby.'},
-      {done:community,label:'Let a gift circulate',why:'Share one genuine surplus, then keep building the community goal toward 6/6.'},
+        {done:community,label:'Let a gift circulate',why:'Share one genuine surplus, then notice how the shared pool and community care respond.'},
       {done:journey.steps[5].done,label:'Complete a seasonal challenge',why:'Turn the season and let the lesson change your garden state.'},
       {done:!!st.harvestEver,label:'Harvest & preserve',why:'Pick ripe crops in season and keep suitable surplus for later.'},
       {done:discCount>0,label:'Form a plant guild',why:'Place two complementary partners side by side.'}
@@ -4426,14 +4583,14 @@ class Component extends DCLogic {
         style:{position:'absolute',left:Math.max(3,Math.min(95,anchor.x+m.dx))+'%',top:Math.max(5,Math.min(93,anchor.y+m.dy))+'%',transform:'translate(-50%,-50%)',width:'11px',height:'11px',zIndex:12,pointerEvents:'none'}});
     });
     const arrivedList=this.wildlife.filter(w=>activeSet.has(w.key)).map(w=>({name:w.name,art:this.critters[w.key]}));
-    const foundGuilds=this.guildDefs.filter(d=>discovered.indexOf(d.key)>=0).map(d=>d.emoji+' '+d.name);
+    const foundGuilds=activeGuildList.map(d=>d.emoji+' '+d.name);
     const strengths=[];
     if(soil)strengths.push('You built living soil — the foundation every garden stands on');
     if(water)strengths.push('Your garden catches and keeps its own water');
     if(food)strengths.push('It grows real food, stacked in clever layers');
     if(shelter)strengths.push('You made room for wild helpers, not just crops');
     if(community)strengths.push('You shared your surplus — the gift kept circulating');
-    if(discovered.length>0)strengths.push('You discovered '+discovered.length+' guild'+(discovered.length>1?'s':'')+' — elements working as a team');
+    if(activeGuildList.length>0)strengths.push('You are sustaining '+activeGuildList.length+' active guild'+(activeGuildList.length>1?'s':'')+' — elements working as a team');
     if(activeSet.size>=7)strengths.push('The design currently matches habitat clues for '+activeSet.size+' kinds of wild neighbour');
     const weakest=systems.view.slice().sort((a,b)=>a.value-b.value)[0];
     const firstSystemLink=systems.links[0];
@@ -4444,19 +4601,19 @@ class Component extends DCLogic {
     const learnedPrinciple=learnedKey?({mulch:'Protect the most vulnerable soil first.',compost:'Waste becomes fertility when air, moisture, greens and browns are balanced.',hugel:'Woody beds are site-specific experiments: observe moisture, settling and fertility over time.',rain:'Water should be screened, safely stored and given a planned overflow path.',kitchen:'Different harvests need different low-energy ways of keeping.',ladybug:'Balance grows from habitat, patience and targeted protection.',bee:'A habitat must work through time, not only look colourful today.',shelter:'Different lives require different winter refuges.',pexeso:'A guild is an exchange of needs and yields.',seeds:'Save suitable open-pollinated seed with attention to health, maturity and isolation.',quiz:'Observe the whole system before reacting to one symptom.'}[learnedKey]||'Observe relationships before adding more objects.'):'Every element has needs, yields and neighbours.';
     const realActions={soil:'Cover one small patch of bare soil with leaves, straw or other suitable organic material.',water:'Watch one rainfall and notice where water could be slowed or safely collected.',food:'Grow one edible plant together with a flowering companion.',habitat:'Leave one quiet, pesticide-free refuge with water, food and shelter.'};
     const realWorldAction=realActions[weakest.key]||realActions.soil;
-    const relationshipReady=systems.links.length>0;
-    const guidedEndingReady=journey.ready&&relationshipReady;
-    const reflectionReady=guided?guidedEndingReady:nextStep.allDone;
-    const readinessWhy=guided?(journey.ready&&!relationshipReady?'Move two complementary elements close enough to form one visible dotted relationship.':journey.current.why):nextStep.why;
+    const completion=this.completionModel(st);
+    const firstCycleReady=completion.firstCycleReady;
+    const flourishingReady=completion.flourishingReady;
+    const guidedEndingReady=firstCycleReady;
+    const reflectionReady=firstCycleReady;
+    const readinessWhy=(completion.reasons&&completion.reasons[0])||(guided?journey.current.why:nextStep.why);
     const summaryScore=E('svg',{viewBox:'0 0 100 100',width:76,height:76},[
       E('circle',{key:'bg',cx:50,cy:50,r:r,fill:'none',stroke:'#EAE0CC',strokeWidth:10}),
       E('circle',{key:'fg',cx:50,cy:50,r:r,fill:'none',stroke:ringColor,strokeWidth:10,strokeLinecap:'round',strokeDasharray:cc,strokeDashoffset:off,transform:'rotate(-90 50 50)'}),
       E('text',{key:'n',x:50,y:47,textAnchor:'middle',dominantBaseline:'central',style:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'30px',fontWeight:'700',fill:'#2C3525'}},String(score)),
-      E('text',{key:'s',x:50,y:66,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'7px',fontWeight:'700',fill:'#756C5B',letterSpacing:'.35px'}},'GAME SCORE')
+      E('text',{key:'s',x:50,y:68,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'11px',fontWeight:'800',fill:'#655E50',letterSpacing:'.15px'}},'CONNECTIONS')
     ]);
     const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-    const certificateExport=(st.showSummary&&reflectionReady)?this.certificateExport():{href:'#',filename:'le-jardin-certificate.svg'};
-
     const q=(st.arrivalQueue||[]).filter(k=>activeSet.has(k));
     const rq=(st.returnQueue||[]);
     const critName=(wk)=>{const w=this.wildlife.find(x=>x.key===wk);return w?w.name:'';};
@@ -4510,6 +4667,7 @@ class Component extends DCLogic {
     const storyIndex=Math.max(0,Math.min(this.storyScenes.length-1,st.storyScene||0));
     const storyDef=this.storyScenes[storyIndex];
     const storyDrift=[[-.7,-.35],[.6,-.5],[-.45,.45],[.55,.25],[-.4,-.3],[.45,-.15],[0,-.35]];
+    const storyCaptionSides=['left','right','right','left','left','right','left'];
     const transparentStoryFrame='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
     const storyFrames=this.storyScenes.map((d,i)=>{
       const on=i===storyIndex, drift=storyDrift[i]||[0,0];
@@ -4519,12 +4677,15 @@ class Component extends DCLogic {
     const particleSeeds=[[12,24,0,5.8],[23,71,1.2,7.1],[38,19,2.4,6.4],[51,62,.6,7.6],[64,28,3.1,6.1],[76,74,1.8,7.3],[88,35,.3,6.8],[17,48,3.8,7.8],[58,83,2.1,6.6],[82,57,4.2,7.4]];
     const storyParticles=particleSeeds.map((p,i)=>({style:{left:p[0]+'%',top:p[1]+'%',animationDelay:p[2]+'s',animationDuration:p[3]+'s',opacity:storyIndex<3?.32:.64,width:(3+(i%3))+'px',height:(3+(i%3))+'px'}}));
     const communityMemoryView=(st.communityMemory||[]).slice(0,2).map(m=>{const p=this.communityPerson(m.person);return {...m,personInitial:p.initial,personStyle:{width:'21px',height:'21px',borderRadius:'50%',display:'grid',placeItems:'center',background:p.color,color:'#fff',fontSize:'9px',fontWeight:'800',flex:'none'}};});
-    const summaryImprove=missing.slice(0,3);
-    if(!reflectionReady&&summaryImprove.indexOf(readinessWhy)<0){summaryImprove.unshift(readinessWhy);}
-    const completionButtonStyle={marginTop:'11px',width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:'7px',background:reflectionReady?'linear-gradient(150deg,#688A50,#4A6B3B)':'linear-gradient(150deg,#8A7A5D,#6E7C60)',border:'none',color:'#F2E9D2',fontWeight:'700',fontSize:'13px',padding:'10px',borderRadius:'11px',cursor:'pointer',fontFamily:"'Bricolage Grotesque',sans-serif",boxShadow:'0 8px 18px -9px rgba(63,92,51,.7)',transition:'transform .15s'};
+    const summaryImprove=Array.from(new Set([...(completion.reasons||[]),...missing])).slice(0,4);
+    if(!firstCycleReady&&summaryImprove.indexOf(readinessWhy)<0){summaryImprove.unshift(readinessWhy);}
+    const completionButtonStyle={marginTop:'11px',width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:'7px',background:flourishingReady?'linear-gradient(150deg,#B8872E,#84611F)':(firstCycleReady?'linear-gradient(150deg,#688A50,#4A6B3B)':'linear-gradient(150deg,#766B56,#596851)'),border:'none',color:'#FFF9EB',fontWeight:'800',fontSize:'13px',padding:'11px',borderRadius:'11px',cursor:'pointer',fontFamily:"'Bricolage Grotesque',sans-serif",boxShadow:'0 8px 18px -9px rgba(63,92,51,.7)',transition:'transform .15s'};
+    const mapStage=st.placed.length===0?'bare':((flourishingReady||score>=70)?'flourishing':'growing');
+    const mapStageSrc=mapStage==='bare'?'assets/map-stages/garden-bare.webp':(mapStage==='growing'?'assets/map-stages/garden-growing.webp':'assets/story/story-07-invitation.webp');
+    const reducedMotion=typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     return {
-      ambientVideoVisible:!st.story,
+      ambientVideoVisible:!st.story&&!reducedMotion,
       ambientVideoPoster:'assets/story/story-01-menet.webp',
       ambientVideoWebm:'assets/video/garden-ambient-loop.webm',
       ambientVideoMp4:'assets/video/garden-ambient-loop.mp4',
@@ -4534,7 +4695,7 @@ class Component extends DCLogic {
       storyPlaying:!!st.story&&!!st.storyStarted,
       storyFrames:storyFrames,storyDots:storyDots,storyParticles:storyParticles,
       storyLocation:storyDef.location,storyChapter:storyDef.chapter,storyTitle:storyDef.title,storyCaption:storyDef.caption,
-      storyCaptionStyle:{animation:(storyIndex%2?'storyCaptionAlt':'storyCaption')+' .72s cubic-bezier(.2,.7,.25,1) both'},
+      storyCaptionStyle:{animation:(storyIndex%2?'storyCaptionAlt':'storyCaption')+' .72s cubic-bezier(.2,.7,.25,1) both',left:storyCaptionSides[storyIndex]==='left'?'clamp(24px,6vw,92px)':'auto',right:storyCaptionSides[storyIndex]==='right'?'clamp(24px,6vw,92px)':'auto',maxWidth:'min(520px,calc(100vw - 48px))'},
       storyFinal:storyIndex===this.storyScenes.length-1,
       storyHasNext:storyIndex<this.storyScenes.length-1,
       storyPauseLabel:st.storyPaused?'Resume story':'Pause story',
@@ -4547,6 +4708,11 @@ class Component extends DCLogic {
       onToggleStoryPause:()=>this.toggleStoryPause(),
       onReplayStory:()=>this.replayStory(true),
       onPlayStory:()=>this.replayStory(false),
+      paymentChoiceVisible:!!st.paymentChoice,
+      paymentName:st.paymentChoice&&this.catalog[st.paymentChoice.type]?this.catalog[st.paymentChoice.type].name:'this element',
+      paymentBarter:st.paymentChoice?st.paymentChoice.barter:0,paymentBuy:st.paymentChoice?st.paymentChoice.buy:0,
+      paymentMaterialsNote:st.paymentChoice&&(st.paymentChoice.used||[]).length?('The euro option already includes reclaimed '+st.paymentChoice.used.map(k=>this.MATS[k].name.toLowerCase()).join(', ')+'.'):'Nothing is spent until you choose.',
+      onPayWithShares:()=>this.confirmPayment('barter'),onPayWithEuros:()=>this.confirmPayment('buy'),onCancelPayment:()=>this.cancelPayment(),
       introVisible:!!st.intro,
       introBtnLabel:st.placed.length>0?'Back to garden 🌱':'Start gardening 🌱',
       onChooseGuided:()=>this.closeIntro('guided'),
@@ -4566,14 +4732,14 @@ class Component extends DCLogic {
       wildlifeVisible:!guided||journey.index>=3||journey.ready,
       hasPendingGuild:!!pendingGuild&&!st.plantType&&(!guided||journey.index>=5||journey.ready),
       pendingGuildText:pendingGuild?(this.catalog[pendingGuild.types[0]].name+' and '+this.catalog[pendingGuild.types[1]].name+' could form a guild — move them side by side! ✦'):'',
-      plotClass:(st.story?'pg-plot-suspended':'pg-plot')+' pg-season-'+season.toLowerCase()+(st.plantType?' plot-drop-hot':''),
+      plotClass:(st.story?'pg-plot-suspended':'pg-plot')+' pg-stage-'+mapStage+' pg-season-'+season.toLowerCase()+(st.plantType?' plot-drop-hot':''),
       onStartIntro:()=>this.closeIntro(),
       onOpenIntro:()=>this.openIntro(),
       muted:!!st.muted,soundOn:!st.muted,
       soundButtonLabel:st.muted?'Turn sound on':'Mute garden sounds',
       onToggleMute:()=>{const wasMuted=this.state.muted;this.setState({muted:!wasMuted},()=>{this.syncAudioMute();if(wasMuted&&!this.state.story){this.playDing();if(!this._gardenVoice){this.resumeVisibleGardenVoice();}}});},
       shares:st.shares,budget:st.budget,given:st.given,nextAt:nextAt,
-      givenLabel:(st.given<6?('Sharing '+st.given+' / 6 · garden goal'):(st.given>=30?('Shared '+st.given+' · full circle 🌿'):('Shared '+st.given+' / '+nextAt+' · next community milestone'))),
+      givenLabel:(st.given<6?('Community care '+st.given+' / 6 · optional milestone'):(st.given>=30?('Community care '+st.given+' · full circle 🌿'):('Community care '+st.given+' / '+nextAt+' · next optional milestone'))),
       givenBarStyle:{width:givenPct+'%',height:'100%',background:'linear-gradient(90deg,#8FB565,#5E7E4A)',borderRadius:'4px',transition:'width .5s'},
       onReset:()=>this.resetGarden(),
       groups:groups,
@@ -4641,7 +4807,7 @@ class Component extends DCLogic {
       gardenWhisperReplayVisible:!!st.gardenWhisperReplay&&!st.gardenWhisper,onReplayGardenWhisper:()=>this.replayGardenWhisper(),
       gardenPulseVisible:!!st.gardenPulse,gardenPulseName:st.gardenPulse?st.gardenPulse.name:'',gardenPulseDelta:st.gardenPulse?st.gardenPulse.delta:0,gardenPulseReason:st.gardenPulse?st.gardenPulse.reason:'',
       toastVisible:!!st.toast&&!st.gardenWhisper,toastText:st.toast||'',
-      poolBarStyle:{width:st.pool+'%',height:'100%',background:(st.pool<25?'#C2703D':st.pool<55?'#D2A24C':'#5E7E4A'),borderRadius:'5px',transition:'width .4s,background .4s'},
+      poolBarStyle:{width:st.pool+'%',height:'100%',background:(st.pool<25?'#C2703D':st.pool<55?'#D2A24C':'#4E6A43'),borderRadius:'5px',transition:'width .4s,background .4s'},poolValue:st.pool,poolImpact:st.pool<25?'low flow; few offers expected':(st.pool<55?'steady flow; some offers likely':'strong flow; several offers likely'),
       marketView:marketView,marketEmpty:st.market.length===0,
       communityMemoryVisible:communityMemoryView.length>0,communityMemoryView:communityMemoryView,
       onSeeSharing:()=>this.onSeeSharing(),onGiveToTable:()=>this.giveToTable(),
@@ -4652,7 +4818,7 @@ class Component extends DCLogic {
       wildlifeView:wildlifeView,activeCount:activeCount,
       infoPanelVisible:!guided||!!info||journey.index>=3||journey.ready,
       hasSelection:!!info,noSelection:!info,
-      info:info||{name:'',catLabel:'',art:null,desc:'',why:'',discStyle:{},tagStyle:{},attracts:[],relationships:[],hasRelationships:false,removable:false,barterable:false,barter:0,price:0,gift:0,giveText:'',material:''},
+      info:info||{name:'',catLabel:'',art:null,desc:'',why:'',discStyle:{},tagStyle:{},attracts:[],relationships:[],hasRelationships:false,removable:false,barterable:false,barter:0,price:0,giveText:'',material:''},
       onRemove:()=>this.removeSelected(),
       arrivalVisible:!!arrival&&!arrivalBatch&&!cardDef&&!st.showSummary&&!st.intro,
       arrival:arrival||{name:'',art:null,why:'',label:''},
@@ -4673,28 +4839,29 @@ class Component extends DCLogic {
       }),
       showSummary:!!st.showSummary,
       stopProp:(e)=>e.stopPropagation(),
-      completionButtonLabel:reflectionReady?'🌻 Complete my garden story':('◌ Reflect on my garden · '+(guided?(journey.done+'/'+journey.total):(nextStep.done+'/'+nextStep.total))),
-      completionAriaLabel:reflectionReady?'Open the garden ending and learning certificate':'Reflect on the garden and see what remains to learn',
+      completionButtonLabel:flourishingReady?'🌻 Open my learning certificate':(firstCycleReady?'🌿 Reflect on my first garden cycle':('◌ Reflect on my garden · '+(guided?(journey.done+'/'+journey.total):(nextStep.done+'/'+nextStep.total)))),
+      completionAriaLabel:flourishingReady?'Open the flourishing garden learning certificate':(firstCycleReady?'Reflect on the completed first learning cycle':'Reflect on the garden and see what remains to learn'),
       completionButtonStyle:completionButtonStyle,
-      onOpenSummary:()=>{this.suspendGardenWhisper();this.setState({showSummary:true,reflectionOpened:true,endingSeen:reflectionReady?true:st.endingSeen,guildCard:null,showGuilds:false,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null},()=>{this.setMusicMode('reflection');if(reflectionReady){this.speakGarden('ending');}});this.playGive();},
+      onOpenSummary:()=>{this.suspendGardenWhisper();this.setState({showSummary:true,reflectionOpened:true,endingSeen:flourishingReady?true:st.endingSeen,guildCard:null,showGuilds:false,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null},()=>{this.setMusicMode('reflection');if(flourishingReady){this.speakGarden('ending');}});this.playGive();},
       onCloseSummary:()=>this.closeSummary(),
-      summaryTitle:reflectionReady?"The Garden Remembers":"Garden Reflection",
-      summaryEyebrow:reflectionReady?'Le Jardin · A living ending':'Pause · Notice · Choose',
-      summaryCertificateAttr:reflectionReady?'1':'0',summaryCloseLabel:reflectionReady?'Close learning certificate':'Close garden reflection',summaryNameLabel:reflectionReady?'Gardener name on the learning certificate':'Gardener name for this reflection',
-      summaryGardenVoice:reflectionReady?'You did not finish me. You helped me become able to continue — through another season, another visitor and another gift.':('I am changing already. '+journey.current.voice),
+      summaryTitle:flourishingReady?'A Flourishing Learning Garden':'First Learning Cycle Reflection',
+      summaryEyebrow:flourishingReady?'Le Jardin · Learning certificate':(firstCycleReady?'First cycle complete · Pause · Notice · Continue':'First cycle in progress · Pause · Notice · Choose'),
+      summaryCertificateAttr:flourishingReady?'1':'0',summaryCloseLabel:flourishingReady?'Close learning certificate':'Close garden reflection',summaryNameLabel:flourishingReady?'Gardener name on the learning certificate':'Gardener name for this reflection',
+      summaryGardenVoice:flourishingReady?'You did not finish me. You helped me become able to continue — through another season, another visitor and another gift.':(firstCycleReady?'You completed a first cycle of care. Now let time, harvest and repeated relationships test what you designed.':('I am changing already. '+journey.current.voice)),
       reflectionDecision:keyDecision,reflectionLearning:learnedPrinciple,reflectionAction:realWorldAction,
       reflectionNote:st.reflectionNote||'',onReflectionNoteChange:(e)=>this.setState({reflectionNote:e.target.value.slice(0,500)}),
-      showCertificateActions:reflectionReady,
-      certificateHref:certificateExport.href,certificateFilename:certificateExport.filename,
+      showCertificateActions:flourishingReady,
+      certificatePreparing:!!st.certificatePreparing,certificateSaveLabel:st.certificatePreparing?'Preparing offline image…':'💾 Save offline image',onSaveCertificate:()=>this.downloadCertificate(),
       onPrintCertificate:()=>this.printCertificate(),
       playerName:st.playerName||'',
       onNameChange:(e)=>this.setState({playerName:e.target.value}),
-      sumScore:summaryScore,sumStatus:reflectionReady?((guided?'Guided Journey complete':'Free Garden learning path complete')+' · '+statusText):statusText,sumDate:today,
+      sumScore:summaryScore,sumStatus:flourishingReady?('Learning certificate earned · '+statusText):(firstCycleReady?'First learning cycle complete · keep tending toward flourishing':statusText),sumDate:today,
+      summaryMapStyle:{position:'relative',height:'150px',borderRadius:'14px',overflow:'hidden',marginBottom:'12px',background:'linear-gradient(rgba(20,34,17,.05),rgba(20,34,17,.12)),url("'+mapStageSrc+'") center 55% / cover no-repeat',boxShadow:'inset 0 0 0 1px rgba(90,110,60,.3),inset 0 10px 24px -14px rgba(40,60,20,.45)'},
       miniPlaced:miniPlaced,miniCritters:miniCritters,
       sumCritters:arrivedList,sumCritterCount:arrivedList.length,
       sumGuilds:foundGuilds,sumGuildCount:foundGuilds.length,hasGuilds:foundGuilds.length>0,
       sumStrengths:strengths,hasStrengths:strengths.length>0,
-      sumImprove:summaryImprove.slice(0,3),hasImprove:summaryImprove.length>0,perfectGarden:reflectionReady&&missing.length===0,
+      sumImprove:summaryImprove.slice(0,3),hasImprove:summaryImprove.length>0,perfectGarden:flourishingReady&&missing.length===0,
       sumShares:st.given
     };
   }

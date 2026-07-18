@@ -60,6 +60,10 @@ const place = async (label, x, y) => {
   const box = await plot.boundingBox();
   if (!box) throw new Error('Garden plot has no bounding box');
   await page.mouse.click(box.x + box.width * x, box.y + box.height * y);
+  const paymentDialog = page.locator('[data-pg-dialog="payment"]');
+  if (await paymentDialog.isVisible().catch(() => false)) {
+    await paymentDialog.getByRole('button', { name: /Use \d+ shares?/i }).click();
+  }
   await page.waitForTimeout(180);
   await dismissGarden();
   await dismissArrivals();
@@ -98,8 +102,8 @@ try {
   await place('Compost', 0.28, 0.72);
   check(await textVisible('Catch and keep water'), 'water is revealed after the first soil decision');
   await page.getByTestId('reflection-button').click();
-  check(await textVisible('Garden Reflection'), 'early completion opens reflection rather than an unearned certificate');
-  check(!(await page.getByRole('link', { name: /Save certificate/i }).isVisible().catch(() => false)), 'certificate export stays locked during early reflection');
+  check(await textVisible('First Learning Cycle Reflection'), 'early completion opens reflection rather than an unearned certificate');
+  check(!(await page.locator('[data-save-certificate="1"]').isVisible().catch(() => false)), 'certificate export stays locked during early reflection');
   await page.getByRole('button', { name: /Close (?:garden reflection|learning certificate|certificate)/i }).click();
 
   await place('Rain harvesting', 0.34, 0.68);
@@ -135,7 +139,7 @@ try {
   await page.getByRole('button', { name: /Enter (Spring|Summer|Autumn|Winter)/i }).click();
   await page.waitForTimeout(250);
   await dismissGarden();
-  check(await textVisible('The garden is ready to reflect'), 'all six acts unlock the ending');
+  check(await textVisible('The garden is ready to reflect'), 'all six acts unlock the first-cycle reflection');
 
   const stateEvidence = await page.evaluate(() => {
     const app = window.__PERMAGARDEN_APP__;
@@ -148,13 +152,13 @@ try {
   check(stateEvidence.memories.length >= 1, 'community gifts create persistent human notes');
 
   await page.getByTestId('reflection-button').click();
-  check(await textVisible('The Garden Remembers'), 'the earned ending continues the garden voice');
+  check(await textVisible('First Learning Cycle Reflection'), 'the guided journey earns a reflection without pretending the garden is already flourishing');
   check(await textVisible('A decision with consequences'), 'the ending reflects one concrete player decision');
   check(await textVisible('A principle you practised'), 'the ending names a learned principle');
   check(await textVisible('One small action beyond the screen'), 'the ending proposes a real-world action');
-  check(await page.locator('a[download][href^="blob:"]').count() === 1, 'the certificate unlocks only after the full learning arc');
+  check(await page.locator('[data-save-certificate="1"]').count() === 0, 'the flourishing certificate stays locked after only one learning cycle');
   await page.waitForTimeout(500);
-  await page.screenshot({ path: path.join(artifacts, '03-earned-ending.png') });
+  await page.screenshot({ path: path.join(artifacts, '03-first-cycle-reflection.png') });
 
   const impactCoverage = await page.evaluate(() => {
     const app = window.__PERMAGARDEN_APP__;
