@@ -1,8 +1,13 @@
 import { access, readFile } from "node:fs/promises";
+import { execFile } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 import path from "node:path";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const execFileAsync = promisify(execFile);
+const generated = await execFileAsync(process.execPath, [path.join(root, "scripts", "build.mjs"), "--check"], { cwd: root });
+process.stdout.write(generated.stdout);
 const html = await readFile(path.join(root, "index.html"), "utf8");
 const fragment = await readFile(path.join(root, "game.fragment.html"), "utf8");
 
@@ -22,7 +27,7 @@ for (const match of production.matchAll(/(?:src|href)="([^"]+)"/g)) {
   const ref = match[1];
   if (!ref.includes("{{") && !/^(?:https?:|data:|#)/.test(ref)) localRefs.add(ref);
 }
-for (const match of production.matchAll(/assets\/[a-zA-Z0-9._/-]+\.(?:webp|mp3|woff2)/g)) {
+for (const match of production.matchAll(/assets\/[a-zA-Z0-9._/-]+\.(?:webp|svg|mp3|wav|ogg|woff2|webm|mp4|json)/g)) {
   localRefs.add(match[0]);
 }
 

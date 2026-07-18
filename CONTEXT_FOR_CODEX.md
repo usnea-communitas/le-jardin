@@ -1,7 +1,7 @@
 # Permaculture Garden — kompletní kontext pro Codex
 
 > Předávací dokument. Vysvětluje **co** hra je, **jak** je postavená a **proč** jsme jednotlivé
-> věci implementovali. Aktuální verze: **v68**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
+> věci implementovali. Aktuální verze: **v69**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
 > (needituj bundle `index.html` — ten se generuje).
 
 ---
@@ -200,6 +200,14 @@ malebný obraz zahrady Menet ze stejné obrazové rodiny jako onboarding
 (`assets/story/story-07-invitation.webp`). Herní perspektivní mřížka a kreslená cesta zůstávají jen
 velmi jemnou funkční pomůckou; sezónní tinty, herní prvky, drag/drop souřadnice i Kling video bez
 filtru kolem panelů zůstávají zachované.
+
+Od **v69** je tento sjednocený design technicky vytvrzený pro produkci: obnovená hra neztrácí první
+akci, rozpracované návštěvy, guild karty, příjezdy živočichů, sezónní cinematic, šeptání ani reflexe;
+reset odstraňuje všechny časovače a přechodné dialogy. Více současných objevů se řadí do front a
+reflexe se označí jako přečtená až po vědomém zavření. Zvuky a vyprávění se načítají líně, dialogy
+správně vlastní svůj hlas, titulky zůstávají vždy dostupné a klíčové hlasy lze znovu přehrát. Story
+načítá jen aktuální a sousední obraz, zatímco video za ní neběží. Přibylo chybové zotavení loaderu,
+skip link, sémantické nadpisy a landmarky, opravdové button prvky a vícerozměrová regresní kontrola.
 
 ### 4.11 Zvuk
 Od **v60** se nepoužívají procedurální oscilátory ani Web Audio tóny. Celý zvuk je postavený na

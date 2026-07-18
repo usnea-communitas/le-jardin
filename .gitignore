@@ -2,3 +2,8 @@
 .env.*
 !.env.example
 .codex-*.log
+.playwright-mcp/
+.tmp/
+debug.log
+test-results/
+v*-audit-*.png

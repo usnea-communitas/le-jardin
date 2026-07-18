@@ -295,7 +295,7 @@ try {
 
       const firstWhisper = firstRain.gardenWhisper;
       const secondChallenge = app.applyChallengeImpact(firstRain, 'compost');
-      const secondWhisper = secondChallenge.gardenWhisper;
+      const secondWhisper = (secondChallenge.gardenWhisperQueue || []).find(whisper => whisper.key === 'challenge:compost') || secondChallenge.gardenWhisper;
 
       return {
         waterBeforeMove,

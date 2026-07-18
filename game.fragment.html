@@ -1,7 +1,5 @@
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <style>/* vietnamese */
 @font-face {
   font-family: 'Bricolage Grotesque';
@@ -347,8 +345,10 @@ html,body{margin:0;padding:0}
 .pg-story-arrow{width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.32);background:rgba(20,28,18,.5);backdrop-filter:blur(10px);color:#fff;font-size:18px;cursor:pointer;display:grid;place-items:center;transition:transform .18s,background .18s}
 .pg-story-arrow:hover{transform:scale(1.06);background:rgba(255,255,255,.17)}
 .pg-story-dots{position:absolute;z-index:22;left:50%;bottom:clamp(29px,4.6vw,54px);transform:translateX(-50%);display:flex;align-items:center;gap:8px;padding:8px 11px;border-radius:20px;background:rgba(18,26,17,.32);backdrop-filter:blur(8px)}
-.pg-story-dot{width:7px;height:7px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.38);cursor:pointer;transition:width .28s,background .28s}
-.pg-story-dot.is-current{width:24px;border-radius:8px;background:#E7D797}
+.pg-story-dot{position:relative;width:24px;height:24px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer}
+.pg-story-dot:after{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);transform:translate(-50%,-50%);transition:width .28s,background .28s}
+.pg-story-dot.is-current:after{width:18px;border-radius:8px;background:#E7D797}
+.pg-story-dot:focus-visible{outline:2px solid #fff;outline-offset:1px}
 .pg-story-cover{position:absolute;inset:0;z-index:25;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 50% 30%,rgba(35,51,29,.08),rgba(12,19,11,.54) 78%)}
 .pg-story-cover-card{width:min(610px,94vw);padding:clamp(28px,4.6vw,52px);border-radius:30px;text-align:center;background:linear-gradient(145deg,rgba(249,246,236,.96),rgba(241,237,221,.88));border:1px solid rgba(255,255,255,.75);box-shadow:0 38px 100px -32px rgba(0,0,0,.78);backdrop-filter:blur(18px);color:#2C3525;animation:storyCaption .75s cubic-bezier(.2,.7,.25,1) both}
 .pg-story-leaf{width:54px;height:54px;border-radius:18px;margin:0 auto 18px;display:grid;place-items:center;background:#E2ECD4;color:#587249;box-shadow:inset 0 0 0 1px rgba(91,119,73,.08)}
@@ -547,6 +547,8 @@ html,body{margin:0;padding:0}
 .pg-cinematic-copy h2{font:700 clamp(34px,5.5vw,68px)/.98 Georgia,'Times New Roman',serif;letter-spacing:-.035em;margin:4px 0 14px}
 .pg-cinematic-copy blockquote{font:italic clamp(18px,2.2vw,28px)/1.45 Georgia,'Times New Roman',serif;margin:0 0 20px;text-wrap:balance}
 .pg-cinematic-copy button{border:1px solid rgba(255,250,226,.62);background:rgba(246,240,220,.93);color:#2d402b;border-radius:13px;padding:11px 19px;font:800 12px 'Hanken Grotesk',sans-serif;cursor:pointer;box-shadow:0 12px 29px -18px #000}
+.pg-cinematic-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.pg-cinematic-copy .pg-cinematic-replay{background:rgba(22,32,22,.48);color:#fff9e9;backdrop-filter:blur(8px)}
 .pg-gate-dialog{width:min(920px,96%)!important;padding:0!important;overflow:hidden!important;border-color:rgba(111,88,52,.32)!important;background:linear-gradient(150deg,#fffaf0,#eee3cd)!important}
 .pg-gate-hero{position:relative;height:clamp(160px,27vh,245px);overflow:hidden;background:#465943}
 .pg-gate-hero>img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
@@ -557,7 +559,7 @@ html,body{margin:0;padding:0}
 .pg-gate-story{font:italic 17px/1.48 Georgia,'Times New Roman',serif!important;font-weight:400!important;color:#35422f!important}
 .pg-summary-dialog{background:linear-gradient(165deg,#fffaf0,#eee3cd)!important;border:1px solid rgba(117,89,48,.38)!important;border-radius:25px!important;box-shadow:0 34px 86px -28px rgba(16,24,13,.88)!important}
 .pg-summary-dialog:before{content:"";position:absolute;right:-25px;top:-23px;width:190px;height:190px;background:url("assets/ui/ornaments/corner-canopy.svg") center/contain no-repeat;opacity:.09;pointer-events:none}
-/* ===== v68 · one visual world — refined from the Lovable/Picsart desktop concept ===== */
+/* ===== v69 · production hardening, resilient state and accessible polish ===== */
 .pg-game-shell{padding:10px!important}
 .pg-game-header{
   width:100%;max-width:1680px;margin:0 auto;
@@ -613,10 +615,35 @@ html,body{margin:0;padding:0}
 .pg-header-story{min-height:32px;padding-right:12px}
 .pg-garden-whisper{bottom:17px;width:min(610px,88%);padding:10px 12px}
 .pg-footer-note{padding-left:3px!important}
+.pg-skip-link{position:fixed;left:14px;top:10px;z-index:1000;transform:translateY(-160%);background:#fffaf0;color:#2f4930;border:2px solid #5e7e4a;border-radius:10px;padding:9px 13px;font:800 13px 'Hanken Grotesk',sans-serif;box-shadow:0 10px 24px -14px #182518;transition:transform .16s}
+.pg-skip-link:focus{transform:translateY(0)}
+.pg-empty-garden{z-index:8;bottom:min(44%,160px)!important}
+.pg-empty-garden>div{box-shadow:0 8px 22px -16px rgba(23,39,21,.78);backdrop-filter:blur(5px)}
+@media (max-height:800px) and (min-width:901px){
+  .pg-design-panel{padding:9px 11px!important}
+  .pg-design-heading{margin-bottom:5px!important}
+  .pg-design-summary{gap:8px!important;margin-bottom:5px!important}
+  .pg-score-visual svg{width:70px;height:70px}
+  .pg-design-status{font-size:13px!important;margin-bottom:4px!important}
+  .pg-context-note{font-size:9px!important;line-height:1.3!important;padding:5px 7px!important}
+  .pg-systems-list{padding-top:5px!important;gap:4px!important}
+  .pg-systems-list>div:first-child{font-size:8px!important}
+  .pg-system-row{row-gap:2px!important}
+  .pg-missing-hint{padding-top:5px!important;gap:3px!important}
+  .pg-next-step{margin-top:5px!important;padding:6px 8px!important}
+  .pg-next-step>div:first-child{margin-bottom:3px!important}
+  .pg-completion-action{margin-top:5px!important;padding:7px!important;font-size:11.5px!important}
+}
 @media (max-width:1100px){
   .pg-game-shell{padding:0!important}
   .pg-game-header,.pg-game-main{border-radius:0}
   .pg-game-main{border-left:0;border-right:0;border-bottom:0}
+  .pg-map-toolbar{gap:8px!important}
+  .pg-map-toolbar:after{display:none}
+  .pg-map-heading{min-width:0;flex:none}
+  .pg-map-title{white-space:nowrap}
+  .pg-map-subtitle{display:none}
+  .pg-season-selector,.pg-pending-guild{display:none!important}
 }
 @keyframes pgCineIn{from{opacity:0}to{opacity:1}}
 @keyframes pgCineDrift{from{transform:scale(1.025)}to{transform:scale(1.075)}}
@@ -642,10 +669,14 @@ html,body{margin:0;padding:0}
 </helmet>
 <div class="pg-game-shell" style="height:100vh;display:flex;flex-direction:column;font-family:'Hanken Grotesk',sans-serif;color:#2C3525;background:#F3EEE3;overflow:hidden;position:relative">
 
-  <video class="pg-game-ambient" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline" preload="metadata" poster="assets/story/story-01-menet.webp" aria-hidden="true" tabindex="-1">
-    <source src="assets/video/garden-ambient-loop.webm" type="video/webm">
-    <source src="assets/video/garden-ambient-loop.mp4" type="video/mp4">
+  <a class="pg-skip-link" href="#pg-garden-plot">Skip to garden plot</a>
+
+  <sc-if value="{{ ambientVideoVisible }}" hint-placeholder-val="false">
+  <video class="pg-game-ambient" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline" preload="metadata" sc-camel-poster="{{ ambientVideoPoster }}" aria-hidden="true" tabindex="-1">
+    <source sc-camel-src="{{ ambientVideoWebm }}" type="video/webm">
+    <source sc-camel-src="{{ ambientVideoMp4 }}" type="video/mp4">
   </video>
+  </sc-if>
 
   <header class="pg-game-header" style="display:flex;justify-content:center;border-bottom:1px solid #E7DECB;background:#FBF8F1;flex:none;z-index:5">
     <div class="pg-header-inner" style="display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;max-width:1720px;padding:11px clamp(14px,1.4vw,22px);min-width:0">
@@ -654,7 +685,7 @@ html,body{margin:0;padding:0}
         <svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="#EAF3DC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"></path><path d="M5 19c1-5 4-8 8-9"></path></svg>
       </div>
       <div style="min-width:0">
-        <div class="pg-brand-title" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;line-height:1;white-space:nowrap">Permaculture <span style="color:#5E7E4A">Garden</span></div>
+        <h1 class="pg-brand-title" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;line-height:1;white-space:nowrap;margin:0">Permaculture <span style="color:#5E7E4A">Garden</span></h1>
         <div class="pg-brand-subtitle" style="font-size:10.5px;color:#9A8F77;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-top:3px;white-space:nowrap">Care for the earth · Care for people · Fair share</div>
       </div>
     </div>
@@ -704,7 +735,7 @@ html,body{margin:0;padding:0}
       </sc-if>
       <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
         <section class="pg-panel pg-palette-section" style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:16px;padding:13px;box-shadow:0 10px 26px -20px rgba(60,50,30,.65)">
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span style="{{ g.dotStyle }}"></span><span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13.5px;color:#3A3527">{{ g.title }}</span></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span style="{{ g.dotStyle }}"></span><h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13.5px;color:#3A3527;margin:0">{{ g.title }}</h2></div>
           <div style="display:flex;flex-direction:column;gap:7px">
             <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
               <div class="pg-element-chip" data-drag-type="{{ it.type }}" role="button" tabindex="0" aria-label="{{ it.ariaLabel }}" sc-camel-on-click="{{ it.onSelect }}" sc-camel-on-key-down="{{ it.onKeyDown }}" title="{{ it.hint }}" style="{{ it.chipStyle }}" style-hover="transform:translateY(-2px);box-shadow:0 9px 18px -10px rgba(60,50,30,.6)">
@@ -722,27 +753,27 @@ html,body{margin:0;padding:0}
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v68</span>
+      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v69</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
 
     <!-- CENTER: garden + sharing table -->
     <div class="pg-game-center" style="display:flex;flex-direction:column;gap:12px;min-height:0">
-      <section class="pg-panel pg-map-panel" style="position:relative;flex:1;display:flex;flex-direction:column;background:#FBF8F1;border:1px solid #E7DECB;border-radius:18px;overflow:hidden;box-shadow:0 12px 32px -22px rgba(60,50,30,.75);min-height:0">
+      <section class="pg-panel pg-map-panel" aria-labelledby="pg-plot-title" style="position:relative;flex:1;display:flex;flex-direction:column;background:#FBF8F1;border:1px solid #E7DECB;border-radius:18px;overflow:hidden;box-shadow:0 12px 32px -22px rgba(60,50,30,.75);min-height:0">
         <div class="pg-map-toolbar" style="display:flex;align-items:center;justify-content:space-between;padding:11px 18px 9px;flex:none">
-          <div>
-            <div class="pg-map-title" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px">Your garden plot</div>
-            <div style="font-size:11.5px;color:#9A8F77;margin-top:1px">Training plot · Le Jardin, France</div>
+          <div class="pg-map-heading">
+            <h2 id="pg-plot-title" class="pg-map-title" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px;margin:0">Your garden plot</h2>
+            <div class="pg-map-subtitle" style="font-size:11.5px;color:#9A8F77;margin-top:1px">Training plot · Le Jardin, France</div>
           </div>
           <sc-if value="{{ hasPendingGuild }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;align-items:center;gap:7px;background:#FBF3DC;border:1px solid #E0C583;border-radius:20px;padding:5px 13px;font-size:11.5px;font-weight:600;color:#8A6A1F;animation:floatIn .3s ease;max-width:46%;line-height:1.3">
+            <div class="pg-pending-guild" style="display:flex;align-items:center;gap:7px;background:#FBF3DC;border:1px solid #E0C583;border-radius:20px;padding:5px 13px;font-size:11.5px;font-weight:600;color:#8A6A1F;animation:floatIn .3s ease;max-width:46%;line-height:1.3">
               <span style="flex:none">💡</span><span>{{ pendingGuildText }}</span>
             </div>
           </sc-if>
           <sc-if value="{{ worldToolsVisible }}" hint-placeholder-val="{{ false }}">
           <div style="display:flex;align-items:center;gap:7px">
-            <div title="Seasons turn — see how the garden changes" style="display:flex;align-items:center;gap:2px;background:#F1EBDD;border:1px solid #E7DECB;border-radius:20px;padding:3px">
+            <div class="pg-season-selector" title="Seasons turn — see how the garden changes" style="display:flex;align-items:center;gap:2px;background:#F1EBDD;border:1px solid #E7DECB;border-radius:20px;padding:3px">
               <sc-for list="{{ seasonsView }}" as="sn" hint-placeholder-count="4">
                 <button sc-camel-on-click="{{ sn.onPick }}" title="{{ sn.name }}" aria-label="Show {{ sn.name }} season" aria-pressed="{{ sn.pressed }}" style="{{ sn.style }}">{{ sn.emoji }}</button>
               </sc-for>
@@ -755,7 +786,7 @@ html,body{margin:0;padding:0}
           </sc-if>
         </div>
         <div style="position:relative;flex:1;min-height:0">
-          <div data-plot="1" class="pg-plot {{ plotClass }}" role="region" tabindex="0" aria-label="{{ plotAriaLabel }}" sc-camel-on-key-down="{{ onMapKeyDown }}" sc-camel-on-drag-enter="{{ onMapDragOver }}" sc-camel-on-drag-over="{{ onMapDragOver }}" sc-camel-on-drop="{{ onMapDrop }}" sc-camel-on-click="{{ onMapClick }}" style="position:absolute;inset:0 14px 14px 14px;border-radius:14px;overflow:hidden;background:radial-gradient(42% 32% at 24% 28%,rgba(219,235,176,.9),transparent 70%),radial-gradient(38% 30% at 76% 62%,rgba(148,182,106,.55),transparent 70%),radial-gradient(30% 24% at 60% 14%,rgba(219,235,176,.7),transparent 70%),linear-gradient(162deg,#C6DB9F 0%,#AECB84 55%,#9CBE72 100%);box-shadow:inset 0 0 0 1px rgba(90,110,60,.28),inset 0 18px 44px -22px rgba(40,60,20,.5)">
+          <div id="pg-garden-plot" data-plot="1" class="{{ plotClass }}" role="region" tabindex="0" aria-label="{{ plotAriaLabel }}" sc-camel-on-key-down="{{ onMapKeyDown }}" sc-camel-on-drag-enter="{{ onMapDragOver }}" sc-camel-on-drag-over="{{ onMapDragOver }}" sc-camel-on-drop="{{ onMapDrop }}" sc-camel-on-click="{{ onMapClick }}" style="position:absolute;inset:0 14px 14px 14px;border-radius:14px;overflow:hidden;background:radial-gradient(42% 32% at 24% 28%,rgba(219,235,176,.9),transparent 70%),radial-gradient(38% 30% at 76% 62%,rgba(148,182,106,.55),transparent 70%),radial-gradient(30% 24% at 60% 14%,rgba(219,235,176,.7),transparent 70%),linear-gradient(162deg,#C6DB9F 0%,#AECB84 55%,#9CBE72 100%);box-shadow:inset 0 0 0 1px rgba(90,110,60,.28),inset 0 18px 44px -22px rgba(40,60,20,.5)">
 
             <sc-if value="{{ gridVisible }}" hint-placeholder-val="{{ true }}">
               <svg class="pg-plot-grid" sc-camel-view-box="0 0 100 100" sc-camel-preserve-aspect-ratio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;display:block">
@@ -839,7 +870,7 @@ html,body{margin:0;padding:0}
             </div>
 
             <!-- fixed: entrance gate (season-aware) -->
-            <div style="position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);pointer-events:none;width:172px;z-index:2">
+            <div class="pg-fixed-gate" style="position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);pointer-events:none;width:172px;z-index:2">
               <div style="position:relative;width:100%;animation:pg-sway 8s ease-in-out infinite;transform-origin:50% 92%;filter:drop-shadow(0 7px 6px rgba(40,30,10,.14))">
                 {{ gateEl }}
                 <div style="position:absolute;top:18%;left:50%;transform:translateX(-50%);width:44px;text-align:center;font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:8.5px;letter-spacing:.06em;color:#FFFFFF;text-shadow:0 1px 1.5px rgba(60,40,20,.65),0 0 1px rgba(60,40,20,.8);pointer-events:none;line-height:1">Menet</div>
@@ -855,26 +886,36 @@ html,body{margin:0;padding:0}
 
             <!-- placed elements -->
             <sc-for list="{{ placedView }}" as="t" hint-placeholder-count="0">
+              <sc-if value="{{ t.notSeedbank }}" hint-placeholder-val="true">
               <div data-drag-id="{{ t.id }}" role="button" tabindex="0" aria-label="{{ t.ariaLabel }}" sc-camel-on-click="{{ t.onSelect }}" sc-camel-on-key-down="{{ t.onKeyDown }}" title="{{ t.label }}" style="{{ t.tokenStyle }}">
                 <div style="{{ t.ringStyle }}"></div>
                 <div style="{{ t.artStyle }}" style-hover="transform:translateY(-3px) scale(1.06)">{{ t.scene }}</div>
                 <div style="{{ t.seasonArtStyle }}">{{ t.seasonArt }}</div>
                 <span style="{{ t.captionStyle }}">{{ t.partnerLabel }}</span>
-                <sc-if value="{{ t.isSeedbank }}" hint-placeholder-val="{{ false }}">
-                  <button sc-camel-on-click="{{ t.onSeedMenu }}" title="Plant from the seed bank" style="{{ t.seedBtnStyle }}">🌰 Plant</button>
-                </sc-if>
+              </div>
+              </sc-if>
+              <sc-if value="{{ t.isSeedbank }}" hint-placeholder-val="false">
+              <div data-drag-id="{{ t.id }}" title="{{ t.label }}" style="{{ t.tokenStyle }}">
+                <div role="button" tabindex="0" aria-label="{{ t.ariaLabel }}" sc-camel-on-click="{{ t.onSelect }}" sc-camel-on-key-down="{{ t.onKeyDown }}">
+                  <div style="{{ t.ringStyle }}"></div>
+                  <div style="{{ t.artStyle }}" style-hover="transform:translateY(-3px) scale(1.06)">{{ t.scene }}</div>
+                  <div style="{{ t.seasonArtStyle }}">{{ t.seasonArt }}</div>
+                  <span style="{{ t.captionStyle }}">{{ t.partnerLabel }}</span>
+                </div>
+                <button sc-camel-on-click="{{ t.onSeedMenu }}" title="Plant from the seed bank" aria-label="Open seed bank planting menu" style="{{ t.seedBtnStyle }}">🌰 Plant</button>
                 <sc-if value="{{ t.seedMenuOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="{{ t.seedMenuStyle }}">
+                  <div role="group" aria-label="Seeds available to plant" style="{{ t.seedMenuStyle }}">
                     <sc-for list="{{ t.seedMenu }}" as="sm" hint-placeholder-count="0">
-                      <div role="button" tabindex="0" aria-label="{{ sm.title }}" sc-camel-on-click="{{ sm.onPlant }}" sc-camel-on-key-down="{{ sm.onKeyDown }}" title="{{ sm.title }}" style="{{ sm.style }}" style-hover="background:#F3F6E8">
+                      <button aria-label="{{ sm.title }}" sc-camel-on-click="{{ sm.onPlant }}" title="{{ sm.title }}" style="{{ sm.style }}" style-hover="background:#F3F6E8">
                         <span style="width:26px;height:26px;display:block;flex:none">{{ sm.art }}</span>
                         <span style="flex:1;min-width:0;text-align:left">{{ sm.name }}</span>
                         <span style="font-size:9.5px;flex:none">{{ sm.badge }}</span>
-                      </div>
+                      </button>
                     </sc-for>
                   </div>
                 </sc-if>
               </div>
+              </sc-if>
             </sc-for>
 
             <!-- guild links -->
@@ -890,7 +931,7 @@ html,body{margin:0;padding:0}
             </sc-for>
 
             <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ true }}">
-              <div style="position:absolute;left:0;right:0;bottom:16%;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;text-align:center;padding:0 24px">
+              <div class="pg-empty-garden" style="position:absolute;left:0;right:0;bottom:16%;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;text-align:center;padding:0 24px">
                 <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:600;color:#3E5233;background:rgba(245,242,230,.8);padding:4px 14px;border-radius:12px">{{ emptyTitle }}</div>
                 <div style="font-size:12.5px;color:#4E6840;max-width:340px;line-height:1.5;background:rgba(245,242,230,.66);padding:5px 12px;border-radius:10px">{{ emptyText }}</div>
               </div>
@@ -1158,12 +1199,12 @@ html,body{margin:0;padding:0}
     <!-- RIGHT: health / wildlife / info -->
     <div class="pg-game-sidebar" style="min-height:0;display:flex;flex-direction:column;gap:12px;overflow-y:auto;padding-right:3px">
 
-      <section class="pg-panel pg-right-panel" style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:16px;padding:14px 15px;box-shadow:0 10px 26px -20px rgba(60,50,30,.65);flex:none">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:8px;height:8px;border-radius:50%;background:#5E7E4A"></span><span title="A learning-game model of useful connections, not a scientific measurement of a real garden." style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3A3527;cursor:help">Design connections</span></div>
-        <div style="display:flex;gap:14px;align-items:center;margin-bottom:11px">
-          <div style="flex:none">{{ scoreVisual }}</div>
+      <section class="pg-panel pg-right-panel pg-design-panel" aria-labelledby="pg-design-title" style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:16px;padding:14px 15px;box-shadow:0 10px 26px -20px rgba(60,50,30,.65);flex:none">
+        <div class="pg-design-heading" style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:8px;height:8px;border-radius:50%;background:#5E7E4A"></span><h2 id="pg-design-title" title="A learning-game model of useful connections, not a scientific measurement of a real garden." style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3A3527;cursor:help;margin:0">Design connections</h2></div>
+        <div class="pg-design-summary" style="display:flex;gap:14px;align-items:center;margin-bottom:11px">
+          <div class="pg-score-visual" style="flex:none">{{ scoreVisual }}</div>
           <div style="flex:1;min-width:0">
-            <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;line-height:1.15;margin-bottom:7px">{{ statusText }}</div>
+            <div class="pg-design-status" style="font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;line-height:1.15;margin-bottom:7px">{{ statusText }}</div>
             <div style="display:flex;flex-wrap:wrap;gap:5px">
               <sc-for list="{{ pillars }}" as="pl" hint-placeholder-count="5">
                 <span title="{{ pl.tip }}" style="{{ pl.style }}"><span class="pg-pillar-icon" aria-hidden="true">{{ pl.icon }}</span>{{ pl.name }}</span>
@@ -1175,10 +1216,10 @@ html,body{margin:0;padding:0}
           Inspired by the real community garden in Menet. Camille, Noa, Léa, Malik, Anaïs and Baptiste are fictional composite characters in this learning story.<br>
           <span style="color:#536849;font-weight:650">“Shares” are a game token for participation. Real fair share can mean time, care, knowledge, access or surplus — without expecting an equal reward.</span>
         </div>
-        <div style="border-top:1px solid #EFE7D6;padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:8px" aria-label="Learning-game model of garden connections">
+        <div class="pg-systems-list" style="border-top:1px solid #EFE7D6;padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:8px" aria-label="Learning-game model of garden connections">
           <div style="font-size:9px;font-weight:800;color:#8A7E66;letter-spacing:.11em;text-transform:uppercase">Relationships, not checkboxes</div>
           <sc-for list="{{ systemView }}" as="sv" hint-placeholder-count="4">
-            <div class="pg-system-row" title="{{ sv.reason }}">
+            <div class="pg-system-row" tabindex="0" aria-label="{{ sv.name }} {{ sv.value }} percent. {{ sv.reason }}" title="{{ sv.reason }}">
               <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;color:#5A5240"><span class="pg-system-icon" aria-hidden="true">{{ sv.icon }}</span>{{ sv.name }}</div>
               <div style="{{ sv.valueStyle }}">{{ sv.value }}%</div>
               <div class="pg-system-track"><div style="{{ sv.barStyle }}"></div></div>
@@ -1187,7 +1228,7 @@ html,body{margin:0;padding:0}
           </sc-for>
         </div>
         <sc-if value="{{ hasMissing }}" hint-placeholder-val="{{ true }}">
-          <div style="border-top:1px solid #EFE7D6;padding-top:9px;display:flex;flex-direction:column;gap:5px">
+          <div class="pg-missing-hint" style="border-top:1px solid #EFE7D6;padding-top:9px;display:flex;flex-direction:column;gap:5px">
             <sc-for list="{{ missing }}" as="m" hint-placeholder-count="2">
               <div style="display:flex;align-items:flex-start;gap:7px;font-size:11.5px;color:#7A6E58;line-height:1.35"><span style="width:5px;height:5px;border-radius:50%;background:#C2703D;flex:none;margin-top:5px"></span>{{ m }}</div>
             </sc-for>
@@ -1206,14 +1247,14 @@ html,body{margin:0;padding:0}
             <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3E5233;line-height:1.2">🌻 Every learning layer is represented — now watch how the real garden responds.</div>
           </sc-if>
           <sc-if value="{{ nextStep.todo }}" hint-placeholder-val="{{ true }}">
-            <div title="{{ nextStep.why }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13.5px;color:#2C3525;line-height:1.15;cursor:help">{{ nextStep.label }}</div>
+            <div tabindex="0" aria-label="{{ nextStep.label }}. {{ nextStep.why }}" title="{{ nextStep.why }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13.5px;color:#2C3525;line-height:1.15;cursor:help">{{ nextStep.label }}</div>
           </sc-if>
         </div>
-        <button class="pg-primary-action" data-testid="reflection-button" sc-camel-on-click="{{ onOpenSummary }}" aria-label="{{ completionAriaLabel }}" style="{{ completionButtonStyle }}" style-hover="transform:translateY(-2px)">{{ completionButtonLabel }}</button>
+        <button class="pg-primary-action pg-completion-action" data-testid="reflection-button" sc-camel-on-click="{{ onOpenSummary }}" aria-label="{{ completionAriaLabel }}" style="{{ completionButtonStyle }}" style-hover="transform:translateY(-2px)">{{ completionButtonLabel }}</button>
       </section>
 
       <sc-if value="{{ wildlifeVisible }}" hint-placeholder-val="{{ false }}">
-      <section class="pg-panel pg-right-panel" style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:16px;padding:14px 15px;box-shadow:0 10px 26px -20px rgba(60,50,30,.65);flex:none">
+      <section class="pg-panel pg-right-panel pg-wildlife-panel" aria-label="Potential garden wildlife" style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:16px;padding:14px 15px;box-shadow:0 10px 26px -20px rgba(60,50,30,.65);flex:none">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
           <div style="display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:#6E924F"></span><span title="Food, water, shelter and living soil can make visits more likely; wildlife is never guaranteed. Hover a tile to explore useful habitat clues." style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3A3527;cursor:help">Who might visit your garden</span></div>
           <span style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:12px;color:#5E7E4A;background:#EAF1DC;padding:2px 9px;border-radius:20px">{{ activeCount }}/10</span>
@@ -1338,7 +1379,7 @@ html,body{margin:0;padding:0}
         <div style="font-size:10px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;color:#EADDAF">The garden speaks · {{ gardenCinematicSeason }}</div>
         <h2>{{ gardenCinematicTitle }}</h2>
         <blockquote>“{{ gardenCinematicText }}”</blockquote>
-        <button sc-camel-on-click="{{ onDismissGardenCinematic }}">Enter {{ gardenCinematicSeason }} →</button>
+        <div class="pg-cinematic-actions"><button class="pg-cinematic-replay" sc-camel-on-click="{{ onReplayGardenCinematic }}">↻ Replay garden voice</button><button sc-camel-on-click="{{ onDismissGardenCinematic }}">Enter {{ gardenCinematicSeason }} →</button></div>
       </div>
     </div>
   </sc-if>
@@ -1485,7 +1526,7 @@ html,body{margin:0;padding:0}
           <div class="pg-story-cover-card">
             <div class="pg-story-leaf" aria-hidden="true"><svg width="29" height="29" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"></path><path d="M5 19c1-5 4-8 8-9"></path></svg></div>
             <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#7E916E;margin-bottom:10px">An opening story · about one minute</div>
-            <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(34px,5vw,53px);letter-spacing:-.04em;line-height:1;margin:0 0 15px;color:#34412E">The Garden Is Waiting</h1>
+            <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(34px,5vw,53px);letter-spacing:-.04em;line-height:1;margin:0 0 15px;color:#34412E">The Garden Is Waiting</h2>
             <p style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(16px,2vw,20px);line-height:1.5;color:#596351;margin:0 auto 22px;max-width:470px">At the edge of Menet, a real community garden inspired this story — and left a place in it for you.</p>
             <div style="display:inline-flex;align-items:center;gap:7px;background:#E8EDD9;border:1px solid #D7E1C7;color:#647757;font-size:11px;font-weight:700;padding:7px 11px;border-radius:20px;margin-bottom:20px"><span aria-hidden="true">♫</span> Gentle sound begins when you press play · captions stay on</div>
             <div style="display:flex;flex-direction:column;align-items:center;gap:11px">
@@ -1577,7 +1618,7 @@ html,body{margin:0;padding:0}
             <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;color:#2C3525;line-height:1.1">✦ Plant guilds</div>
             <div style="font-size:11.5px;color:#9A8F77;margin-top:3px;line-height:1.4">{{ guildCount }}/7 discovered · place two partners side by side to form one</div>
           </div>
-          <button sc-camel-on-click="{{ onToggleGuildList }}" title="Close" style="width:30px;height:30px;flex:none;border-radius:9px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;cursor:pointer;display:grid;place-items:center;font-size:15px" style-hover="border-color:#B5613A;color:#B5613A">✕</button>
+          <button sc-camel-on-click="{{ onToggleGuildList }}" title="Close" aria-label="Close discovered guilds" style="width:30px;height:30px;flex:none;border-radius:9px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;cursor:pointer;display:grid;place-items:center;font-size:15px" style-hover="border-color:#B5613A;color:#B5613A">✕</button>
         </div>
         <div style="flex:1;min-height:0;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px">
           <sc-for list="{{ guildListView }}" as="gd" hint-placeholder-count="7">
@@ -1621,14 +1662,15 @@ html,body{margin:0;padding:0}
         <sc-if value="{{ guildCardFresh }}" hint-placeholder-val="{{ true }}">
           <div class="pg-guild-voice">“{{ guildCard.voice }}”</div>
         </sc-if>
-        <div style="display:flex;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
           <sc-if value="{{ guildCard.isReview }}" hint-placeholder-val="{{ false }}">
             <span style="display:inline-flex;align-items:center;gap:4px;background:#EAF1DC;color:#4E6B3D;font-size:11px;font-weight:700;padding:3px 10px;border-radius:14px">✓ Active in your garden</span>
           </sc-if>
           <sc-if value="{{ guildCardFresh }}" hint-placeholder-val="{{ true }}">
             <span style="display:inline-flex;align-items:center;gap:4px;background:#EAF1DC;color:#4E6B3D;font-size:11px;font-weight:700;padding:3px 10px;border-radius:14px">♻ +1 game share</span>
           </sc-if>
-          <button sc-camel-on-click="{{ onDismissGuild }}" style="margin-left:auto;background:#C99A3C;border:none;color:#fff;font-weight:700;font-size:12.5px;padding:9px 20px;border-radius:11px;cursor:pointer;font-family:inherit;transition:background .15s" style-hover="background:#B5882F">Lovely!</button>
+          <button type="button" sc-camel-on-click="{{ onReplayGuildVoice }}" aria-label="Replay the garden voice for this guild" style="margin-left:auto;background:#FFFDF6;border:1px solid #D8CEB8;color:#5E6F4E;font-weight:700;font-size:11.5px;padding:9px 12px;border-radius:11px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s,border-color .15s" style-hover="background:#F2F6E9;border-color:#9BAE7E">↻ Garden voice</button>
+          <button sc-camel-on-click="{{ onDismissGuild }}" style="background:#C99A3C;border:none;color:#fff;font-weight:700;font-size:12.5px;padding:9px 20px;border-radius:11px;cursor:pointer;font-family:inherit;transition:background .15s" style-hover="background:#B5882F">Lovely!</button>
         </div>
       </div>
     </div>
@@ -2060,11 +2102,11 @@ class Component extends DCLogic {
     {key:'ladybug',name:'Ladybugs',needs:[['pollinator','herbspiral'],['bughotel']],tip:'Prey, flowering food and suitable dry crevices may support some ladybug species',why:'Some ladybug species may use prey-rich plants, pollen or nectar and dry shelter. Many larvae and adults eat aphids, but species, appetite and overwintering habits vary.'},
     {key:'beetle',name:'Beetles',needs:[['bughotel'],['mulch','hugel','compost']],tip:'Undisturbed ground cover can support a diverse range of beetles',why:'Many ground beetles shelter under logs, stones or leaf litter and forage at night. Diets differ widely: some eat invertebrates, some seeds and some both, so their effects cannot be reduced to “pest control”.'}
   ];
-  activeOf(placed){
+  activeOf(placed,guests=null){
     const t=new Set(placed.map(p=>p.type));
     const s=new Set();
     this.wildlife.forEach(w=>{ if(w.needs.every(g=>g.some(x=>t.has(x)))){ s.add(w.key); } });
-    ((this.state&&this.state.guests)||[]).forEach(k=>s.add(k));
+    (guests||((this.state&&this.state.guests)||[])).forEach(k=>s.add(k));
     return s;
   }
   visitDefs={
@@ -2129,7 +2171,7 @@ class Component extends DCLogic {
       guests:ok?[...(s.guests||[]),v.key]:(s.guests||[]),
       visitsDone:{...(s.visitsDone||{}),[v.key]:ok?'won':'lost'},
       shares:ok?s.shares+1:s.shares}));
-    if(ok){this.playSparkle();setTimeout(()=>this.playSpecies(v.key),420);}
+    if(ok){this.playSparkle();this.later(()=>this.playSpecies(v.key),420);}
     else if(this.playThud){this.playThud();}
   }
   closeVisit(){
@@ -2303,36 +2345,163 @@ class Component extends DCLogic {
   freshState(intro){
     const season=this.state?(this.state.season||'Summer'):'Summer';
     const openStory=!!intro;
-    return {placed:[],selectedType:null,selectedPlacedId:null,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:[],gardenCinematic:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,discovered:[],guildCard:null,guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null};
+    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null};
   }
   hasJourneyMoment(st,key){return (st.journeyMoments||[]).indexOf(key)>=0;}
   addJourneyMoment(ns,key,whisper){
     if(this.hasJourneyMoment(ns,key)){return ns;}
-    return {...ns,journeyMoments:[...(ns.journeyMoments||[]),key],gardenWhisper:whisper?{key:key,text:whisper}:ns.gardenWhisper};
+    if(!whisper){return {...ns,journeyMoments:[...(ns.journeyMoments||[]),key]};}
+    const next={key:key,text:whisper};
+    return {...ns,journeyMoments:[...(ns.journeyMoments||[]),key],gardenWhisper:ns.gardenWhisper||next,gardenWhisperQueue:ns.gardenWhisper?[...(ns.gardenWhisperQueue||[]),next]:(ns.gardenWhisperQueue||[])};
   }
   dismissGardenWhisper(){
     const w=this.state.gardenWhisper;clearTimeout(this._whisperT);clearTimeout(this._replayT);
-    if(!w){return;}this.stopGardenVoice();this.setState({gardenWhisper:null,gardenWhisperReplay:w});
-    this._replayT=setTimeout(()=>{if(this.state.gardenWhisperReplay===w){this.setState({gardenWhisperReplay:null});}},12000);
+    if(!w){return;}this.stopGardenVoice(w.key);
+    this.setState(s=>{const q=s.gardenWhisperQueue||[];return q.length?{gardenWhisper:q[0],gardenWhisperQueue:q.slice(1),gardenWhisperReplay:null}:{gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:w};},()=>{
+      if(!this.state.gardenWhisper){this._replayT=setTimeout(()=>{if(this.state.gardenWhisperReplay===w){this.setState({gardenWhisperReplay:null});}},12000);}
+    });
   }
   replayGardenWhisper(){
     const w=this.state.gardenWhisperReplay;if(!w){return;}clearTimeout(this._replayT);
     this.setState({gardenWhisper:w,gardenWhisperReplay:null});
+  }
+  presentGardenWhisper(w){
+    if(!w){return;}clearTimeout(this._tt);clearTimeout(this._whisperT);const voice=this.speakGarden(w.key);
+    const words=(w.text||'').trim().split(/\s+/).filter(Boolean).length;
+    const shown=9000+Math.max(0,words-12)*220;
+    this._whisperT=setTimeout(()=>{if(this.state.gardenWhisper===w){this.dismissGardenWhisper();}},shown);
+    if(voice){voice.addEventListener('ended',()=>{if(this.state.gardenWhisper===w){clearTimeout(this._whisperT);this._whisperT=setTimeout(()=>{if(this.state.gardenWhisper===w){this.dismissGardenWhisper();}},900);}} ,{once:true});}
+  }
+  scheduleGardenWhisper(w,delay=0){
+    clearTimeout(this._whisperStartT);
+    const attempt=()=>{
+      const current=this.state.gardenWhisper;
+      if(!current||current.key!==w.key||current.text!==w.text){return;}
+      if(this.activeDialogKey()){this._whisperStartT=setTimeout(attempt,700);return;}
+      this.presentGardenWhisper(current);
+    };
+    this._whisperStartT=setTimeout(attempt,delay);
+  }
+  suspendGardenWhisper(){
+    const w=this.state.gardenWhisper;if(!w){return;}
+    clearTimeout(this._whisperStartT);clearTimeout(this._whisperT);this._whisperStartT=null;this._whisperT=null;this.stopGardenVoice(w.key);
+  }
+  openIntro(){
+    this.suspendGardenWhisper();
+    this.setState({intro:true,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null});
+  }
+  closeIntro(mode=null){
+    this.setState(s=>{
+      const nextMode=mode||s.mode||'guided';
+      const begin=nextMode==='guided'&&!s.placed.length&&!s.gardenWhisper?{key:'begin',text:'Feed me first. Everything visible begins with the life beneath.'}:s.gardenWhisper;
+      return {intro:false,introSeen:true,mode:nextMode,gardenWhisper:begin};
+    },()=>{if(this.state.gardenWhisper){this.scheduleGardenWhisper(this.state.gardenWhisper,120);}});
   }
   reflectionForCount(count){
     if(count===3){return {id:'three-layers',voiceId:'reflection-three',text:'I can feel soil, water and food beginning to answer one another. Resilience grows in the conversation between them.',note:'Three living layers are now present. The next step is to make room for other species, then let a real surplus circulate.'};}
     if(count===5){return {id:'fair-share',voiceId:'reflection-share',text:'You made room for lives you may never meet, then let one gift continue beyond my gate.',note:'Care for earth, care for people and fair share are becoming one system rather than three separate tasks.'};}
     return null;
   }
+  reflectionById(id){return id==='three-layers'?this.reflectionForCount(3):(id==='fair-share'?this.reflectionForCount(5):null);}
   queueGardenReflection(ref){
+    if(!ref){return;}
+    const s=this.state,seen=s.gardenReflectionsSeen||[],active=s.gardenReflection;
+    if(seen.indexOf(ref.id)>=0||(active&&active.id===ref.id)||(s.gardenReflectionQueue||[]).some(r=>r.id===ref.id)){return;}
+    this.setState(st=>({gardenReflectionQueue:[...(st.gardenReflectionQueue||[]),ref]}),()=>this.scheduleGardenReflection());
+  }
+  scheduleGardenReflection(delay=900){
     clearTimeout(this._reflectionT);
-    const attempt=()=>{const s=this.state;if(!s||s.story||s.gate||s.showSummary||s.intro||s.visit||s.guildCard||s.gardenCinematic||s.gardenWhisper){this._reflectionT=setTimeout(attempt,1400);return;}this.setState({gardenReflection:ref},()=>{this.setMusicMode('reflection');this.speakGarden(ref.voiceId);});};
-    this._reflectionT=setTimeout(attempt,900);
+    if(this.state.gardenReflection||!(this.state.gardenReflectionQueue||[]).length){return;}
+    const attempt=()=>{
+      const s=this.state;
+      if(!s||s.gardenReflection||!(s.gardenReflectionQueue||[]).length){return;}
+      if(this.activeDialogKey(s)||s.gardenWhisper){this._reflectionT=setTimeout(attempt,1400);return;}
+      const ref=s.gardenReflectionQueue[0];
+      this.setState(st=>({gardenReflection:ref,gardenReflectionQueue:(st.gardenReflectionQueue||[]).slice(1)}),()=>{this.setMusicMode('reflection');this.speakGarden(ref.voiceId);});
+    };
+    this._reflectionT=setTimeout(attempt,delay);
   }
   dismissGardenReflection(){
-    if(!this.state.gardenReflection){return;}this.stopGardenVoice();this.setState({gardenReflection:null},()=>this.setMusicMode('garden'));
+    const ref=this.state.gardenReflection;if(!ref){return;}this.stopGardenVoice(ref.voiceId);this.setState(s=>({gardenReflection:null,gardenReflectionsSeen:(s.gardenReflectionsSeen||[]).indexOf(ref.id)>=0?(s.gardenReflectionsSeen||[]):[...(s.gardenReflectionsSeen||[]),ref.id]}),()=>{this.setMusicMode('garden');this.scheduleGardenReflection(650);});
   }
   replayGardenReflection(){const r=this.state.gardenReflection;if(r){this.speakGarden(r.voiceId);}}
+  capturePreviousState(st=this.state){
+    this._prevPlaced=st.placed;
+    this._prevToast=st.toast;
+    this._prevWhisper=st.gardenWhisper;
+    this._prevPulse=st.gardenPulse;
+    this._prevAwarded=(st.awarded||[]).length;
+    this._prevJourneyCount=this.journeyModel(st).done;
+  }
+  later(fn,delay){
+    if(!this._delayedWork){this._delayedWork=new Set();}
+    const id=setTimeout(()=>{this._delayedWork.delete(id);if(!this._unmounted){fn();}},delay);
+    this._delayedWork.add(id);return id;
+  }
+  clearTransientWork(){
+    clearInterval(this._gateIv);this._gateIv=null;
+    ['_tt','_pulseT','_whisperT','_whisperStartT','_replayT','_reflectionT','_guildVoiceT','_cinematicVoiceT','_duckT','_storyTimer','_storyExitTimer','_flashT','_seasonT'].forEach(k=>{clearTimeout(this[k]);this[k]=null;});
+    if(this._delayedWork){this._delayedWork.forEach(id=>clearTimeout(id));this._delayedWork.clear();}
+    this._storyDeadline=0;this._storyRemaining=0;
+  }
+  dismissGuild(){
+    if(!this.state.guildCard&&!this.state.guildReview){return;}
+    clearTimeout(this._guildVoiceT);this._guildVoiceT=null;
+    this.stopGardenVoice('guild-discovered');
+    this.setState(s=>{const q=s.guildCardQueue||[];return {guildCard:q[0]||null,guildCardQueue:q.slice(1),guildReview:false};},()=>{
+      if(this.state.guildCard){this.playGuild();if(!this.state.guildVoicePlayed){this.scheduleGuildVoice();}}
+      else if(!this.state.gardenWhisper){this.setMusicMode('garden');}
+    });
+  }
+  scheduleGuildVoice(delay=520){
+    clearTimeout(this._guildVoiceT);
+    const attempt=()=>{
+      const s=this.state;
+      if(!s.guildCard||s.guildVoicePlayed){return;}
+      if(s.muted||this._gardenVoice||this.activeDialogKey()!=='guild'){this._guildVoiceT=setTimeout(attempt,700);return;}
+      this.playGuildVoice();
+    };
+    this._guildVoiceT=setTimeout(attempt,delay);
+  }
+  playGuildVoice(){
+    if(!this.state.guildCard){return null;}
+    clearTimeout(this._guildVoiceT);this._guildVoiceT=null;
+    return this.speakGarden('guild-discovered',{onPlaying:()=>{
+      if(!this._unmounted&&this.state.guildCard&&!this.state.guildVoicePlayed){this.setState({guildVoicePlayed:true});}
+    }});
+  }
+  closeSummary(){
+    if(!this.state.showSummary){return;}
+    this.stopGardenVoice('ending');this.setState({showSummary:false},()=>{this.setMusicMode('garden');if(this.state.gardenWhisper){this.scheduleGardenWhisper(this.state.gardenWhisper,180);}});
+  }
+  resumeVisibleGardenVoice(){
+    const dialog=this.activeDialogKey();
+    if(dialog==='garden-cinematic'){this.setMusicMode('season');this.speakGarden('cinematic-'+this.state.gardenCinematic.season.toLowerCase());return;}
+    if(dialog==='garden-reflection'){this.speakGarden(this.state.gardenReflection.voiceId);return;}
+    if(dialog==='summary'){if(this.state.endingSeen){this.speakGarden('ending');}return;}
+    if(dialog==='guild'){if(!this.state.guildVoicePlayed){this.playGuildVoice();}return;}
+    if(dialog){return;}
+    if(this.state.gardenWhisper){this.scheduleGardenWhisper(this.state.gardenWhisper);}
+  }
+  scheduleCinematicVoice(delay=350){
+    clearTimeout(this._cinematicVoiceT);
+    const attempt=()=>{
+      const c=this.state.gardenCinematic;if(!c){return;}
+      const id='cinematic-'+c.season.toLowerCase();
+      if(this._gardenVoiceId===id){return;}
+      if(this.state.muted||this.activeDialogKey()!=='garden-cinematic'){this._cinematicVoiceT=setTimeout(attempt,700);return;}
+      this.setMusicMode('season');this.speakGarden(id);
+    };
+    this._cinematicVoiceT=setTimeout(attempt,delay);
+  }
+  resetGarden(){
+    const s=this.state;
+    const meaningful=s.placed.length>0||(s.journeyMoments||[]).length>0||Object.keys(s.gardenEffects||{}).length>0||(s.sharedActs||0)>0||(s.given||0)>0||Object.values(s.basket||{}).some(n=>n>0)||!!s.harvestEver||!!s.reflectionOpened;
+    if(meaningful&&!window.confirm('Start over? Your garden, learning journey, harvest and community history will be cleared.')){return;}
+    this.clearTransientWork();this.stopAllAudio();this.dragData=null;this._dragActive=false;this._gateOpening=false;this._seasonChanging=false;this._n=0;this._g=0;this._gaveJust=false;this._suppressFx=true;
+    const ns=this.freshState(false);ns.season='Summer';ns.market=this.freshMarket('Summer');ns.cherryPicks=3;ns.springSprouts=0;ns.leafPiles=0;
+    this.setState(ns,()=>{this.capturePreviousState();this._suppressFx=false;this.persist();this.setMusicMode('garden');});
+  }
   journeyModel(st=this.state){
     const t=new Set((st.placed||[]).map(p=>p.type));
     const moment=(k)=>this.hasJourneyMoment(st,k);
@@ -2432,20 +2601,24 @@ class Component extends DCLogic {
   ];
 
   componentDidMount(){
+    this._unmounted=false;
+    let restored=false;
     const boot=document.getElementById('pg-boot');if(boot){boot.remove();}
     const bootStyle=document.getElementById('pg-boot-style');if(bootStyle){bootStyle.remove();}
     if(location.hostname==='localhost'||location.hostname==='127.0.0.1'){window.__PERMAGARDEN_APP__=this;}
-    this.preloadAudio();
     this._esc=(e)=>{
       if(e.key!=='Escape'){return;}
       if(this.state.story){return;}
       if(this.state.gardenCinematic){this.dismissGardenCinematic();return;}
       if(this.state.gardenReflection){this.dismissGardenReflection();return;}
+      if(this.state.showSummary){this.closeSummary();return;}
+      if(this.state.guildCard){this.dismissGuild();return;}
       if(this.state.visit){
         if(this.state.visit.status==='ask'){this.deferVisit();}
         else{this.closeVisit();}
         return;
       }
+      if(this.state.intro){this.closeIntro();return;}
       if(this.state.gate){return;}
       if(this.activeDialogKey()==='wildlife'){
         this.setState(s=>{
@@ -2468,7 +2641,7 @@ class Component extends DCLogic {
     };
     document.addEventListener('pointerdown',this._downCap,true);
     document.addEventListener('mousedown',this._downCap,true);
-    this._dragClear=()=>{ if(this.state.dragType){ this.setState({dragType:null}); } };
+    this._dragClear=()=>{this.dragData=null;if(this.state.dragType){this.setState({dragType:null});}};
     document.addEventListener('dragend',this._dragClear,true);
     document.addEventListener('drop',this._dragClear,true);
     try{
@@ -2476,7 +2649,7 @@ class Component extends DCLogic {
       if(raw){
         const s=JSON.parse(raw);
         if(s && Array.isArray(s.placed)){
-          this._n=s._n||s.placed.length+10;this._g=s._g||10;
+          this._n=Number.isFinite(s._n)?Math.max(0,s._n):0;this._g=Number.isFinite(s._g)?Math.max(0,s._g):0;
           const num=(v,d)=>(typeof v==='number'&&isFinite(v))?v:d;
           const bootSeason=this.seasonDefs[s.season]?s.season:'Summer';
           this._suppressFx=true;
@@ -2484,46 +2657,64 @@ class Component extends DCLogic {
           const storySeen=!!s.storySeen, introSeen=!!s.introSeen;
           const cleanMarket=(Array.isArray(s.market)?s.market:this.freshMarket(bootSeason)).filter(m=>m&&((m.kind==='item'&&this.econ[m.type])||(m.kind==='material'&&this.MATS[m.mat])||m.kind==='shares'||m.kind==='budget')&&(!m.seasons||m.seasons.indexOf(bootSeason)>=0));
           const pendingGate=s.pendingGate&&(s.pendingGate.status==='won'||s.pendingGate.status==='lost')?s.pendingGate:null;
-          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:Array.isArray(s.returnQueue)?s.returnQueue:[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
+          const maxSuffix=(items,prefix)=>items.reduce((max,item)=>{const m=String(item&&item.id||'').match(new RegExp('^'+prefix+'(\\d+)$'));return m?Math.max(max,Number(m[1])):max;},0);
+          this._n=Math.max(this._n,maxSuffix(cleanPlaced,'p'));this._g=Math.max(this._g,maxSuffix(cleanMarket,'g'),maxSuffix(cleanMarket,'sp'));
+          const reflectionSeen=Array.from(new Set((Array.isArray(s.acknowledgedGardenReflectionsV2)?s.acknowledgedGardenReflectionsV2:[]).filter(id=>!!this.reflectionById(id))));
+          const restoredJourneyCount=this.journeyModel({placed:cleanPlaced,journeyMoments:Array.isArray(s.journeyMoments)?s.journeyMoments:[],sharedActs:num(s.sharedActs,0)}).done;
+          const pendingReflectionIds=Array.isArray(s.pendingGardenReflections)?s.pendingGardenReflections:[];
+          const derivedReflectionIds=[3,5].filter(n=>restoredJourneyCount>=n).map(n=>this.reflectionForCount(n).id);
+          const pendingReflections=Array.from(new Set([...pendingReflectionIds,...derivedReflectionIds])).filter(id=>reflectionSeen.indexOf(id)<0).map(id=>this.reflectionById(id)).filter(Boolean);
+          const pendingWhispers=(Array.isArray(s.pendingGardenWhispers)?s.pendingGardenWhispers:[]).filter(w=>w&&typeof w.key==='string'&&typeof w.text==='string'&&w.text.length<=600).map(w=>({key:w.key,text:w.text}));
+          const rawVisit=s.pendingVisit,visitDef=rawVisit&&this.visitDefs[rawVisit.key];
+          const pendingVisit=visitDef&&['ask','won','lost'].indexOf(rawVisit.status)>=0?{key:rawVisit.key,status:rawVisit.status,picked:(Array.isArray(rawVisit.picked)?rawVisit.picked:[]).filter(i=>Number.isInteger(i)&&i>=0&&i<(visitDef.opts||[]).length).slice(0,3)}:null;
+          const guildKeys=new Set(this.guildDefs.map(g=>g.key));
+          const pendingGuildCards=Array.from(new Set((Array.isArray(s.pendingGuildCards)?s.pendingGuildCards:[]).filter(key=>guildKeys.has(key))));
+          const wildlifeKeys=new Set(this.wildlife.map(w=>w.key)),restoredActiveWildlife=this.activeOf(cleanPlaced,Array.isArray(s.guests)?s.guests:[]);
+          const pendingArrivals=Array.from(new Set((Array.isArray(s.pendingArrivals)?s.pendingArrivals:[]).filter(key=>wildlifeKeys.has(key)&&restoredActiveWildlife.has(key))));
+          const restoredReturnQueue=Array.from(new Set((Array.isArray(s.returnQueue)?s.returnQueue:[]).filter(key=>wildlifeKeys.has(key)&&restoredActiveWildlife.has(key)&&this.awayWinter[key]))).slice(0,3);
+          const pendingCinematicSeason=this.seasonDefs[s.pendingGardenCinematic]?s.pendingGardenCinematic:null;
+          const pendingPassage=pendingCinematicSeason?(this.seasonPassages[pendingCinematicSeason]||{}):null;
+          const pendingCinematic=pendingCinematicSeason?{season:pendingCinematicSeason,title:pendingPassage.title||('Welcome, '+pendingCinematicSeason),text:pendingPassage.voice||'',image:pendingPassage.image||''}:null;
+          restored=true;
+          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
+          this.setState({gardenWhisper:pendingWhispers[0]||null,gardenWhisperQueue:pendingWhispers.slice(1),gardenReflectionQueue:pendingReflections,gardenReflectionsSeen:reflectionSeen,visit:pendingVisit,guildCard:pendingGuildCards[0]||null,guildCardQueue:pendingGuildCards.slice(1),arrivalQueue:pendingArrivals,gardenCinematic:pendingCinematic},()=>{this.capturePreviousState();this._suppressFx=false;if(pendingWhispers.length){this.scheduleGardenWhisper(pendingWhispers[0]);}if(pendingReflections.length){this.scheduleGardenReflection(500);}if(pendingCinematic){this.scheduleCinematicVoice();}if(pendingGuildCards.length&&!this.state.guildVoicePlayed){this.scheduleGuildVoice();}});
         }
       }
     }catch(e){}
-    setTimeout(()=>this.syncDialogAccess(),0);
+    if(!restored){this.capturePreviousState();}
+    this.later(()=>this.syncDialogAccess(),0);
   }
   componentWillUnmount(){
+    this._unmounted=true;
     if(window.__PERMAGARDEN_APP__===this){delete window.__PERMAGARDEN_APP__;}
     window.removeEventListener('keydown',this._esc);
     window.removeEventListener('keydown',this._focusTrap);
     document.removeEventListener('pointerdown',this._downCap,true);
     document.removeEventListener('mousedown',this._downCap,true);
-    clearInterval(this._gateIv);
-    clearTimeout(this._tt);
-    clearTimeout(this._pulseT);
-    clearTimeout(this._whisperT);
-    clearTimeout(this._replayT);
-    clearTimeout(this._reflectionT);
-    clearTimeout(this._duckT);
-    clearTimeout(this._storyTimer);
-    clearTimeout(this._storyExitTimer);
+    document.removeEventListener('dragend',this._dragClear,true);
+    document.removeEventListener('drop',this._dragClear,true);
+    this.clearTransientWork();
     this.stopAllAudio();
     if(this._certificateUrl){URL.revokeObjectURL(this._certificateUrl);this._certificateUrl=null;}
     this.clearDialogIsolation(false);
   }
   clearStoryTimer(){ clearTimeout(this._storyTimer); this._storyTimer=null; this._storyDeadline=0; }
-  armStory(delay){
+  armStory(delay,scene=this.state.storyScene,token=this._storyPlaybackToken){
     this.clearStoryTimer();
-    const s=this.state, def=this.storyScenes[s.storyScene];
+    const s=this.state, def=this.storyScenes[scene];
     const ms=(delay!=null)?delay:(def&&def.ms);
-    if(!s.story||!s.storyStarted||s.storyPaused||s.storyLeaving||!def||!ms){return;}
+    if(!s.story||!s.storyStarted||s.storyPaused||s.storyLeaving||s.storyScene!==scene||!def||!ms){return;}
     this._storyRemaining=ms;
     this._storyDeadline=Date.now()+ms;
-    this._storyTimer=setTimeout(()=>{this._storyRemaining=0;this.nextStory();},ms);
+    this._storyTimer=setTimeout(()=>{
+      if(this._storyPlaybackToken!==token||!this.state.story||this.state.storyPaused||this.state.storyLeaving||this.state.storyScene!==scene){return;}
+      this._storyRemaining=0;this.nextStory();
+    },ms);
   }
   beginStory(){
     this.clearStoryTimer();
     this.setState({storyStarted:true,storyScene:0,storyPaused:false,storyLeaving:false},()=>{
       this.storySound(0,true);
-      this.armStory();
     });
   }
   goStory(index,seekBed=true){
@@ -2531,8 +2722,9 @@ class Component extends DCLogic {
     const paused=!!this.state.storyPaused;
     this.clearStoryTimer();
     this.setState({storyScene:i},()=>{
+      if(paused){this._storyRemaining=this.storyScenes[i].ms||0;}
       this.storySound(i,seekBed);
-      if(paused){this.pauseStoryAudio();}else{this.armStory();}
+      if(paused){this.pauseStoryAudio();}
     });
   }
   nextStory(){
@@ -2542,7 +2734,11 @@ class Component extends DCLogic {
   previousStory(){ this.goStory(this.state.storyScene-1); }
   toggleStoryPause(){
     if(this.state.storyPaused){
-      this.setState({storyPaused:false},()=>{this.resumeStoryAudio();this.armStory(this._storyRemaining||undefined);});
+      this.setState({storyPaused:false},()=>{
+        const voice=this._storyVoice,finished=!voice||voice.ended||!!voice.error;
+        this.resumeStoryAudio();
+        if(finished){this.armStory(this._storyRemaining||undefined);}
+      });
     }else{
       this._storyRemaining=this._storyDeadline?Math.max(250,this._storyDeadline-Date.now()):0;
       clearTimeout(this._storyTimer);this._storyTimer=null;this._storyDeadline=0;
@@ -2553,7 +2749,7 @@ class Component extends DCLogic {
   finishStory(soft=true){
     this.clearStoryTimer();
     this.stopStoryAudio();
-    const close=()=>this.setState(s=>({story:false,storySeen:true,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,intro:!!s.storyToIntro,storyToIntro:false}),()=>this.setMusicMode('garden'));
+    const close=()=>this.setState(s=>({story:false,storySeen:true,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,intro:!!s.storyToIntro,storyToIntro:false}),()=>{this.setMusicMode('garden');if(this.state.gardenWhisper){this.scheduleGardenWhisper(this.state.gardenWhisper,180);}});
     if(!soft){close();return;}
     this.setState({storyLeaving:true,storyPaused:true,storySeen:true},()=>{
       clearTimeout(this._storyExitTimer);
@@ -2562,12 +2758,13 @@ class Component extends DCLogic {
   }
   replayStory(returnToIntro=false){
     this.clearStoryTimer();
+    this.suspendGardenWhisper();
     this.stopStoryAudio();
     this.pauseGameMusic();
     clearTimeout(this._storyExitTimer);
     this.setState({story:true,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!!returnToIntro,intro:false,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null});
   }
-  storySound(scene,seekBed=true){ this.playStoryScene(scene,seekBed); }
+  storySound(scene,seekBed=true){ return this.playStoryScene(scene,seekBed); }
   activeDialogKey(st=this.state){
     if(st.story){return 'story';}
     if(st.gardenCinematic){return 'garden-cinematic';}
@@ -2578,7 +2775,8 @@ class Component extends DCLogic {
     if(st.showGuilds){return 'guild-list';}
     if(st.gate){return 'gate';}
     if(st.visit){return 'visit';}
-    if(st.inspectCritter||(st.returnQueue||[]).length||(st.arrivalQueue||[]).length){return 'wildlife';}
+    const activeWildlife=this.activeOf(st.placed||[]);
+    if(st.inspectCritter||(st.returnQueue||[]).length||(st.arrivalQueue||[]).some(key=>activeWildlife.has(key))){return 'wildlife';}
     return null;
   }
   clearDialogIsolation(restoreFocus=true){
@@ -2595,11 +2793,12 @@ class Component extends DCLogic {
     const key=this.activeDialogKey();
     const dialog=key?document.querySelector('[data-pg-dialog="'+key+'"]'):null;
     if(this._activeDialogKey===key&&this._activeDialogEl===dialog){return;}
-    const wasOpen=!!this._activeDialogKey;
+    const previousKey=this._activeDialogKey,wasOpen=!!previousKey;
+    if(!previousKey&&key&&this.state.gardenWhisper){this.suspendGardenWhisper();}
     this.clearDialogIsolation(!key);
     this._activeDialogKey=key;
     this._activeDialogEl=dialog;
-    if(!dialog){return;}
+    if(!dialog){if(previousKey&&!key&&this.state.gardenWhisper){this.later(()=>this.scheduleGardenWhisper(this.state.gardenWhisper,120),0);}return;}
     if(!wasOpen){this._dialogReturnFocus=document.activeElement;}
     const siblings=[];
     let node=dialog;
@@ -2676,7 +2875,7 @@ class Component extends DCLogic {
       if(!wasDragging){ return; }
       const moved=Math.hypot(ev.clientX-sx,ev.clientY-sy);
       if(moved<14){ return; } // tiny jitter — let the normal click happen instead
-      self._justDragged=true; setTimeout(()=>{ self._justDragged=false; },200);
+      self._justDragged=true; self.later(()=>{ self._justDragged=false; },200);
       let el=document.elementFromPoint(ev.clientX,ev.clientY);
       while(el && el.getAttribute && !el.getAttribute('data-plot') && !el.getAttribute('data-give-target')){ el=el.parentElement; }
       if(el && el.getAttribute && el.getAttribute('data-give-target')){
@@ -2704,26 +2903,27 @@ class Component extends DCLogic {
     try{
       const s=this.state;
       const pendingGate=s.gate&&(s.gate.status==='won'||s.gate.status==='lost')?s.gate:null;
-      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,lastSystemChange:s.lastSystemChange||null,_n:this._n,_g:this._g}));
+      const pendingGardenReflections=Array.from(new Set([s.gardenReflection,...(s.gardenReflectionQueue||[])].filter(Boolean).map(r=>r.id))).filter(id=>(s.gardenReflectionsSeen||[]).indexOf(id)<0);
+      const pendingGardenWhispers=[s.gardenWhisper,...(s.gardenWhisperQueue||[])].filter(w=>w&&typeof w.key==='string'&&typeof w.text==='string').map(w=>({key:w.key,text:w.text}));
+      const pendingVisit=s.visit&&this.visitDefs[s.visit.key]&&['ask','won','lost'].indexOf(s.visit.status)>=0?{key:s.visit.key,status:s.visit.status,picked:Array.isArray(s.visit.picked)?s.visit.picked:[]}:null;
+      const pendingGuildCards=Array.from(new Set([s.guildCard,...(s.guildCardQueue||[])].filter(Boolean)));
+      const pendingArrivals=Array.from(new Set((s.arrivalQueue||[]).filter(Boolean)));
+      const pendingGardenCinematic=s.gardenCinematic&&this.seasonDefs[s.gardenCinematic.season]?s.gardenCinematic.season:null;
+      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,_n:this._n,_g:this._g}));
     }catch(e){}
   }
   componentDidUpdate(){
     this.syncDialogAccess();
     const st=this.state;
-    if(this._prevPlaced===undefined){ this._prevPlaced=st.placed; this._prevToast=st.toast; this._prevWhisper=st.gardenWhisper; this._prevPulse=st.gardenPulse; this._prevAwarded=(st.awarded||[]).length; this._prevJourneyCount=this.journeyModel(st).done; this.persist(); return; }
+    if(this._prevPlaced===undefined){this.capturePreviousState(st);this._suppressFx=false;this.persist();if((st.gardenReflectionQueue||[]).length){this.scheduleGardenReflection(500);}return;}
     const prevPlaced=this._prevPlaced, prevToast=this._prevToast, prevWhisper=this._prevWhisper, prevPulse=this._prevPulse, prevAwarded=this._prevAwarded, prevJourneyCount=this._prevJourneyCount||0;
     const journeyCount=this.journeyModel(st).done;
     this._prevPlaced=st.placed; this._prevToast=st.toast; this._prevWhisper=st.gardenWhisper; this._prevPulse=st.gardenPulse; this._prevAwarded=(st.awarded||[]).length;this._prevJourneyCount=journeyCount;
     if(this._suppressFx){ this._suppressFx=false; this.persist(); return; }
-    if(st.gardenWhisper && st.gardenWhisper!==prevWhisper){
-      clearTimeout(this._tt);clearTimeout(this._whisperT);this.speakGarden(st.gardenWhisper.key);
-      const words=(st.gardenWhisper.text||'').trim().split(/\s+/).filter(Boolean).length;
-      const shown=6000+Math.max(0,words-12)*200;
-      const current=st.gardenWhisper;this._whisperT=setTimeout(()=>{if(this.state.gardenWhisper===current){this.dismissGardenWhisper();}},shown);
-    }
+    if(st.gardenWhisper && st.gardenWhisper!==prevWhisper){this.scheduleGardenWhisper(st.gardenWhisper);}
     if(journeyCount>prevJourneyCount){
-      const ref=this.reflectionForCount(journeyCount),seen=st.gardenReflectionsSeen||[];
-      if(ref&&seen.indexOf(ref.id)<0){this.setState(s=>({gardenReflectionsSeen:[...(s.gardenReflectionsSeen||[]),ref.id]}));this.queueGardenReflection(ref);}
+      const seen=st.gardenReflectionsSeen||[];
+      [3,5].filter(n=>prevJourneyCount<n&&journeyCount>=n).map(n=>this.reflectionForCount(n)).filter(ref=>ref&&seen.indexOf(ref.id)<0).forEach(ref=>this.queueGardenReflection(ref));
     }
     if(st.toast && !st.gardenWhisper && (st.toast!==prevToast||(prevWhisper&&!st.gardenWhisper))){
       clearTimeout(this._tt);
@@ -2740,9 +2940,9 @@ class Component extends DCLogic {
       const fresh=this.activeGuilds(st.placed).filter(g=>disc.indexOf(g.key)<0);
       if(fresh.length){
         const introduceGuildVoice=!st.guildVoicePlayed;
-        this.setState(s=>({discovered:[...(s.discovered||[]),...fresh.map(g=>g.key)],shares:s.shares+fresh.length,guildCard:fresh[0].key,guildVoicePlayed:s.guildVoicePlayed||introduceGuildVoice,toast:null}),()=>{
-          setTimeout(()=>this.playGuild(),150);
-          if(introduceGuildVoice){setTimeout(()=>this.speakGarden('guild-discovered'),520);}
+        this.setState(s=>{const keys=fresh.map(g=>g.key),hasCard=!!s.guildCard;return {discovered:[...(s.discovered||[]),...keys],shares:s.shares+fresh.length,guildCard:s.guildCard||keys[0],guildCardQueue:[...(s.guildCardQueue||[]),...keys.slice(hasCard?0:1)],toast:null};},()=>{
+          this.later(()=>this.playGuild(),150);
+          if(introduceGuildVoice){this.scheduleGuildVoice();}
         });
       }
       if(st.placed.length>prevPlaced.length){
@@ -2750,8 +2950,8 @@ class Component extends DCLogic {
         if(planted){this.playPlacement(planted.type);}else{this.playPop();}
         const before=this.activeOf(prevPlaced), after=this.activeOf(st.placed);
         const arrivedKeys=this.wildlife.filter(w=>after.has(w.key)&&!before.has(w.key)).map(w=>w.key);
-        if(arrivedKeys.length){setTimeout(()=>this.playSound('wildlife',{volume:.44,throttle:700}),210);}
-        arrivedKeys.slice(0,3).forEach((k,i)=>setTimeout(()=>this.playSpecies(k),380+i*520));
+        if(arrivedKeys.length){this.later(()=>this.playSound('wildlife',{volume:.44,throttle:700}),210);}
+        arrivedKeys.slice(0,3).forEach((k,i)=>this.later(()=>this.playSpecies(k),380+i*520));
       } else if(st.placed.length<prevPlaced.length){
         if(this._gaveJust){ this._gaveJust=false; this.playGive(); } else { this.playThud(); }
       }
@@ -2800,7 +3000,7 @@ class Component extends DCLogic {
       const wasDragging=dragging;
       cleanup();
       if(!wasDragging){ return; }
-      self._justDragged=true; setTimeout(()=>{ self._justDragged=false; },180);
+      self._justDragged=true; self.later(()=>{ self._justDragged=false; },180);
       let el=document.elementFromPoint(ev.clientX,ev.clientY);
       while(el && el.getAttribute && !el.getAttribute('data-plot')){ el=el.parentElement; }
       if(!el || !el.getAttribute){ if(info.mode==='add'){ self.flash('Drop it on the green plot to plant it.'); } return; }
@@ -3182,7 +3382,7 @@ class Component extends DCLogic {
       }
       return ns;
     });
-    setTimeout(()=>this.playSparkle(),120);
+    this.later(()=>this.playSparkle(),120);
   }
   rakeLeaves(){
     this.setState(s=>{
@@ -3221,16 +3421,12 @@ class Component extends DCLogic {
   preloadAudio(){
     if(this._audioCache){return;}
     this._audioCache={};this._activeSfx=new Set();this._lastSound={};
-    Object.keys(this.audioFiles).forEach(k=>{const a=new Audio(this.audioFiles[k]);a.preload='auto';this._audioCache[k]=a;});
-    this._gardenVoiceCache={};Object.keys(this.gardenVoiceFiles).forEach(k=>{const a=new Audio(this.gardenVoiceFiles[k]);a.preload='metadata';this._gardenVoiceCache[k]=a;});
-    this._storyVoiceCache=this.storyScenes.map(d=>{const a=new Audio(d.voice);a.preload='auto';return a;});
-    this.ensureStoryAudio();
-    this.ensureGameMusic();
   }
   playSound(key,options={}){
     if(this.state.muted){return null;}
     this.preloadAudio();
-    const base=this._audioCache[key];if(!base){return null;}
+    let base=this._audioCache[key];
+    if(!base){const src=this.audioFiles[key];if(!src){return null;}base=new Audio(src);base.preload='none';this._audioCache[key]=base;}
     const now=Date.now(), throttle=(options.throttle!=null)?options.throttle:70;
     if(this._lastSound[key]&&now-this._lastSound[key]<throttle){return null;}
     this._lastSound[key]=now;
@@ -3272,20 +3468,27 @@ class Component extends DCLogic {
     clearTimeout(this._duckT);const active={garden:this._gameMusic,season:this._seasonMusic,reflection:this._reflectionMusic}[this._musicMode];
     if(active&&this._musicMode){this.fadeAudio(active,this.musicTarget(this._musicMode),720);}
   }
-  stopGardenVoice(){
+  stopGardenVoice(owner=null){
+    if(owner&&this._gardenVoiceId!==owner){return false;}
     if(this._gardenVoice){this._gardenVoice.pause();try{this._gardenVoice.currentTime=0;}catch(_){}this._gardenVoice=null;}
+    this._gardenVoiceId=null;
     this.restoreMusicAfterVoice();
+    return true;
   }
-  speakGarden(id){
-    if(this.state.muted){return;}this.playSound('gardenVoice',{volume:.3,throttle:1200});
-    const src=this.gardenVoiceFiles[id];if(!src){this.duckMusic(2600);return;}
+  speakGarden(id,options={}){
+    if(this.state.muted){return null;}this.playSound('gardenVoice',{volume:.3,throttle:1200});
+    const src=this.gardenVoiceFiles[id];if(!src){return null;}
     if(this._gardenVoice){this._gardenVoice.pause();this._gardenVoice=null;}
     this.duckMusic(12000);
-    const base=this._gardenVoiceCache&&this._gardenVoiceCache[id];const a=base?base.cloneNode(true):new Audio(src);a.preload='auto';a.volume=.95;a.muted=!!this.state.muted;this._gardenVoice=a;
-    a.addEventListener('loadedmetadata',()=>{if(isFinite(a.duration)){this.duckMusic(Math.max(3600,(a.duration+1)*1000));}},{once:true});
-    const finish=()=>{if(this._gardenVoice===a){this._gardenVoice=null;this.restoreMusicAfterVoice();}};
-    a.addEventListener('ended',finish,{once:true});a.addEventListener('error',finish,{once:true});
-    const p=a.play();if(p&&p.catch){p.catch(finish);}
+    const a=new Audio(src);a.preload='auto';a.volume=.95;a.muted=!!this.state.muted;this._gardenVoice=a;this._gardenVoiceId=id;
+    a.addEventListener('loadedmetadata',()=>{if(this._gardenVoice===a&&isFinite(a.duration)){this.duckMusic(Math.max(3600,(a.duration+1)*1000));}},{once:true});
+    let playSettled=false;
+    const started=()=>{if(playSettled){return;}playSettled=true;if(this._gardenVoice===a&&this._gardenVoiceId===id&&typeof options.onPlaying==='function'){options.onPlaying(a);}};
+    const finish=()=>{if(this._gardenVoice===a){this._gardenVoice=null;this._gardenVoiceId=null;this.restoreMusicAfterVoice();}};
+    const failed=()=>{if(!playSettled&&typeof options.onFailure==='function'){options.onFailure(a);}playSettled=true;finish();};
+    a.addEventListener('playing',started,{once:true});a.addEventListener('ended',finish,{once:true});a.addEventListener('error',failed,{once:true});
+    const p=a.play();if(p&&p.then){p.then(started).catch(failed);}
+    return a;
   }
   ensureStoryAudio(){
     if(!this._storyMusic){this._storyMusic=new Audio('assets/audio/story/intro-music.mp3');this._storyMusic.preload='auto';this._storyMusic.volume=.42;}
@@ -3300,16 +3503,34 @@ class Component extends DCLogic {
     this.ensureStoryAudio();
     const def=this.storyScenes[scene];if(!def){return;}
     if(this._storyVoice){this._storyVoice.pause();}
+    const token=(this._storyPlaybackToken||0)+1;this._storyPlaybackToken=token;
+    this.clearStoryTimer();
     if(seekBed){const cue=this.storyCue(scene);this.seekAudio(this._storyMusic,cue);this.seekAudio(this._storyAmbience,cue%30);}
-    [this._storyMusic,this._storyAmbience].forEach(a=>{a.muted=!!this.state.muted;const p=a.play();if(p&&p.catch){p.catch(()=>{});}});
+    [this._storyMusic,this._storyAmbience].forEach(a=>{a.muted=!!this.state.muted;if(this.state.storyPaused){a.pause();return;}const p=a.play();if(p&&p.catch){p.catch(()=>{});}});
     const voice=new Audio(def.voice);voice.preload='auto';voice.volume=.95;voice.muted=!!this.state.muted;this._storyVoice=voice;
-    const p=voice.play();if(p&&p.catch){p.catch(()=>{});}
+    const current=()=>this._storyVoice===voice&&this._storyPlaybackToken===token&&this.state.story&&this.state.storyScene===scene;
+    const armSafety=()=>{
+      if(!current()||this.state.storyPaused||this.state.storyLeaving||!def.ms){return;}
+      const audioRemaining=isFinite(voice.duration)&&voice.duration>0?Math.max(0,(voice.duration-voice.currentTime)*1000):def.ms;
+      this.armStory(Math.max(def.ms+3500,audioRemaining+6000),scene,token);
+    };
+    let failed=false;
+    const onFailure=()=>{if(failed){return;}failed=true;if(current()&&!this.state.storyPaused&&def.ms){this.armStory(Math.max(4000,def.ms),scene,token);}};
+    voice.addEventListener('playing',armSafety);
+    voice.addEventListener('waiting',()=>{if(current()){this.clearStoryTimer();}});
+    voice.addEventListener('stalled',()=>{if(current()){this.clearStoryTimer();}});
+    voice.addEventListener('ended',()=>{if(current()&&!this.state.storyPaused&&!this.state.storyLeaving&&def.ms){this.armStory(650,scene,token);}},{once:true});
+    voice.addEventListener('error',onFailure,{once:true});
+    if(this.state.storyPaused){return voice;}
+    const p=voice.play();if(p&&p.catch){p.catch(onFailure);}
+    return voice;
   }
   pauseStoryAudio(){[this._storyMusic,this._storyAmbience,this._storyVoice].forEach(a=>{if(a){a.pause();}});}
   resumeStoryAudio(){
     [this._storyMusic,this._storyAmbience,this._storyVoice].forEach(a=>{if(a&&(!a.duration||a.currentTime<a.duration)){const p=a.play();if(p&&p.catch){p.catch(()=>{});}}});
   }
   stopStoryAudio(){
+    this._storyPlaybackToken=(this._storyPlaybackToken||0)+1;
     [this._storyMusic,this._storyAmbience,this._storyVoice].forEach(a=>{if(a){a.pause();try{a.currentTime=0;}catch(_){}}});
     this._storyVoice=null;
   }
@@ -3317,11 +3538,13 @@ class Component extends DCLogic {
     const muted=!!this.state.muted;
     [this._storyMusic,this._storyAmbience,this._storyVoice,this._gameMusic,this._seasonMusic,this._reflectionMusic,this._gardenVoice].forEach(a=>{if(a){a.muted=muted;}});
     if(this._activeSfx){this._activeSfx.forEach(a=>{a.muted=muted;});}
-    if(!muted&&!this.state.story){this.setMusicMode(this._musicMode||'garden');}
+    if(!muted&&!this.state.story){this.setMusicMode(this._musicMode||'garden');if(this._gardenVoice){const remaining=isFinite(this._gardenVoice.duration)?Math.max(1200,(this._gardenVoice.duration-this._gardenVoice.currentTime+1)*1000):5000;this.duckMusic(remaining);}}
   }
   stopAllAudio(){
+    clearTimeout(this._duckT);this._duckT=null;
     this.stopStoryAudio();
-    [this._gameMusic,this._seasonMusic,this._reflectionMusic,this._gardenVoice].forEach(a=>{if(a){a.pause();}});
+    [this._gameMusic,this._seasonMusic,this._reflectionMusic,this._gardenVoice].forEach(a=>{if(a){clearInterval(a._pgFade);a._pgFade=null;a.pause();try{a.currentTime=0;}catch(_){}if(a!==this._gardenVoice){a.volume=0;}}});
+    this._gardenVoice=null;this._gardenVoiceId=null;this._musicMode=null;
     if(this._activeSfx){this._activeSfx.forEach(a=>{a.pause();});this._activeSfx.clear();}
   }
   flash(text){this.setState({toast:text});this.playSound('warning',{volume:.5,throttle:120});}
@@ -3499,10 +3722,13 @@ class Component extends DCLogic {
     return keys[0];
   }
   startGate(key,target){
+    if(this._gateOpening){return;}
+    this._gateOpening=true;
+    this.suspendGardenWhisper();
     const def=this.gateDefs()[key];
     const d=def.init(this.state,target);
     clearInterval(this._gateIv);
-    this.setState({gate:{key:key,target:target,status:'brief',d:d},toast:null,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null},()=>{this.setMusicMode('season');this.playSound('gardenVoice',{volume:.28,throttle:900});});
+    this.setState({gate:{key:key,target:target,status:'brief',d:d},toast:null,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null},()=>{this._gateOpening=false;this.setMusicMode('season');this.playSound('gardenVoice',{volume:.28,throttle:900});});
   }
   gateBegin(){
     const g=this.state.gate;if(!g||g.status!=='brief'){return;}
@@ -3584,8 +3810,8 @@ class Component extends DCLogic {
     this.setState({gate:null,gardenCinematic:cinematic},()=>{this._applySeasonNow(t);this.setMusicMode('season');this.speakGarden('cinematic-'+t.toLowerCase());});
   }
   dismissGardenCinematic(){
-    if(!this.state.gardenCinematic){return;}this.stopGardenVoice();
-    this.setState({gardenCinematic:null},()=>this.setMusicMode('garden'));
+    if(!this.state.gardenCinematic){return;}clearTimeout(this._cinematicVoiceT);this._cinematicVoiceT=null;this.stopGardenVoice('cinematic-'+this.state.gardenCinematic.season.toLowerCase());
+    this.setState({gardenCinematic:null},()=>{this.setMusicMode('garden');if(this.state.gardenWhisper){this.scheduleGardenWhisper(this.state.gardenWhisper,180);}});
   }
   buildGateView(){
     const g=this.state.gate;
@@ -3767,7 +3993,7 @@ class Component extends DCLogic {
       stop:(e)=>{if(e&&e.stopPropagation){e.stopPropagation();}}};
   }
   applySeason(k){
-    if(this.state.gate){return;}
+    if(this.state.gate||this._gateOpening||this._seasonChanging){return;}
     const ord=['Spring','Summer','Autumn','Winter'];
     const current=this.state.season||'Summer';
     if(k===current){return;}
@@ -3778,9 +4004,11 @@ class Component extends DCLogic {
     this._applySeasonNow(k);
   }
   _applySeasonNow(k){
-    if(k===(this.state.season||'Summer')){return;}
-    let sparkle=false;
+    if(k===(this.state.season||'Summer')||this._seasonChanging){return;}
+    this._seasonChanging=true;
+    const rewardSparkle=(k==='Spring'&&!this.state.springBonusDone&&this.state.placed.some(p=>p.type==='seedbank'))||(k==='Autumn'&&!this.state.autumnHarvestDone);
     this.setState(s=>{
+      if(s.season===k){return null;}
       const keptMarket=s.market.filter(m=>!m.seasons||m.seasons.indexOf(k)>=0);
       const ns={...s,season:k,toast:this.seasonDefs[k].tip,seasonFlash:{k:k,n:(this._flashN=(this._flashN||0)+1)},market:keptMarket.length?keptMarket:this.freshMarket(k),leafPiles:0,springSprouts:0};
       const hasGH=s.placed.some(p=>p.type==='greenhouse');
@@ -3814,10 +4042,9 @@ class Component extends DCLogic {
         ns.springBonusDone=true;
         ns.market=[...ns.market,{id:'sp'+(++this._g),kind:'item',type:'pollinator',seasons:['Spring'],text:'Spring sowing — your seed bank filled the swap table with free seedlings'}];
         ns.toast='🌱 Spring sowing! Your seed bank earned free seedlings on the sharing table.';
-        sparkle=true;
       }
       if(k==='Autumn'){
-        if(!s.autumnHarvestDone){ ns.autumnHarvestDone=true; ns.shares=s.shares+1; ns.toast='🍒 The cherry tree gave a surplus harvest — +1 share. Abundance is for passing on!'; sparkle=true; }
+        if(!s.autumnHarvestDone){ ns.autumnHarvestDone=true; ns.shares=s.shares+1; ns.toast='🍒 The cherry tree gave a surplus harvest — +1 share. Abundance is for passing on!'; }
         ns.leafPiles=3;
       }
       if(k==='Summer'){
@@ -3825,9 +4052,7 @@ class Component extends DCLogic {
         if(!hasStoredRain){ ns.toast='☀️ High summer — the beds are thirsty. Add safe rain harvesting for irrigation; a bird bath supports wildlife but does not water the beds.'; }
       }
       return ns;
-    });
-    this.playSeason(k);
-    if(sparkle){ setTimeout(()=>this.playSparkle(),250); }
+    },()=>{this._seasonChanging=false;this.playSeason(k);if(rewardSparkle){this.later(()=>this.playSparkle(),250);}});
     clearTimeout(this._flashT); this._flashT=setTimeout(()=>{ if(this.state.seasonFlash&&this.state.seasonFlash.k===k) this.setState({seasonFlash:null}); },1150);
     clearTimeout(this._seasonT);
     this._seasonT=setTimeout(()=>{ if((this.state.season||'Summer')===k && this.state.market.length<3 && Math.random()<0.75){ this.addGiftToMarket(); } },4200);
@@ -3863,7 +4088,7 @@ class Component extends DCLogic {
         iconBoxStyle:{width:'38px',height:'38px',borderRadius:'10px',background:'linear-gradient(160deg,#EFF4E2,#E2ECCC)',display:'grid',placeItems:'center',flex:'none',boxShadow:'inset 0 0 0 1px '+c.accent+'2E',overflow:'hidden'},
         onPointerDown:this.beginPointerDrag({mode:'add',type:type}),
         onSelect:activate,
-        onKeyDown:(ev)=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();activate();if(affordable){setTimeout(()=>{const plot=document.querySelector('[data-plot]');if(plot){plot.focus();}},0);}}}};
+        onKeyDown:(ev)=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();activate();if(affordable){this.later(()=>{const plot=document.querySelector('[data-plot]');if(plot){plot.focus();}},0);}}}};
     };
     const gStyle=(color,bg)=>({fontSize:'9.5px',fontWeight:'700',color:color,letterSpacing:'.1em',background:bg,padding:'2px 7px',borderRadius:'6px'});
     const dot=(c)=>({width:'8px',height:'8px',borderRadius:'50%',background:c});
@@ -3941,7 +4166,7 @@ class Component extends DCLogic {
       const menuOpen=st.seedMenuId===p.id;
       return {
         id:p.id,label:c.name,ariaLabel:(harvestable?'Harvest ':'Select ')+c.name+'. Use arrow keys to move it on the garden plot.',scene:art,seasonArt:cdP?null:mkSeasonArt(),seasonArtStyle:seasonArtStyle,
-        isSeedbank:p.type==='seedbank',
+        isSeedbank:p.type==='seedbank',notSeedbank:p.type!=='seedbank',
         seedBtnStyle:{marginTop:'2px',background:menuOpen?'#5E7E4A':'#8A6B3F',border:'none',color:'#F7F1E3',fontSize:'10px',fontWeight:'700',padding:'2px 8px',borderRadius:'8px',cursor:'pointer',fontFamily:'inherit',boxShadow:'0 2px 6px -2px rgba(0,0,0,.4)',whiteSpace:'nowrap'},
         onSeedMenu:(e)=>{if(e&&e.stopPropagation){e.stopPropagation();}this.setState(s=>({seedMenuId:s.seedMenuId===p.id?null:p.id}));},
         seedMenuOpen:menuOpen,
@@ -3956,7 +4181,7 @@ class Component extends DCLogic {
           return {type:ct,name:this.catalog[ct].name,art:this.sprites[ct],
             badge:wp?wp.s.map(k2=>this.seasonDefs[k2].emoji).join(''):'',
             title:off?(this.catalog[ct].name+' — '+wp.why+' Plantable: '+wp.s.join(' & ')):('Plant '+this.catalog[ct].name+' next to the seed bank — free seed'),
-            style:{display:'flex',alignItems:'center',gap:'8px',padding:'4px 7px',borderRadius:'9px',background:'#fff',border:'1px solid #EBE2D0',fontSize:'11.5px',fontWeight:'600',color:'#3A3527',cursor:off?'not-allowed':'pointer',opacity:off?.45:1,userSelect:'none'},
+            style:{display:'flex',alignItems:'center',gap:'8px',width:'100%',padding:'4px 7px',borderRadius:'9px',background:'#fff',border:'1px solid #EBE2D0',fontFamily:'inherit',fontSize:'11.5px',fontWeight:'600',textAlign:'left',color:'#3A3527',cursor:off?'not-allowed':'pointer',opacity:off?.45:1,userSelect:'none'},
             onPlant:plantSeed,onKeyDown:(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();plantSeed(e);}}};
         }):[],
         tokenStyle:{position:'absolute',left:p.x+'%',top:p.y+'%',transform:'translate(-50%,-86%)',display:'flex',flexDirection:'column',alignItems:'center',gap:'0',cursor:harvestable?'pointer':'grab',touchAction:'none',zIndex:menuOpen?85:(selected?60:Math.round(5+p.y/4))},
@@ -4285,9 +4510,10 @@ class Component extends DCLogic {
     const storyIndex=Math.max(0,Math.min(this.storyScenes.length-1,st.storyScene||0));
     const storyDef=this.storyScenes[storyIndex];
     const storyDrift=[[-.7,-.35],[.6,-.5],[-.45,.45],[.55,.25],[-.4,-.3],[.45,-.15],[0,-.35]];
+    const transparentStoryFrame='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
     const storyFrames=this.storyScenes.map((d,i)=>{
       const on=i===storyIndex, drift=storyDrift[i]||[0,0];
-      return {src:d.src,style:{opacity:on?1:0,zIndex:on?2:1,objectPosition:d.position||'50% 50%',transform:'translate3d('+drift[0]+'%,'+drift[1]+'%,0) scale('+(on?'1.025':'1.09')+')',transitionDuration:'1.45s,'+Math.max(7,(d.ms||9000)/1000)+'s'}};
+      return {src:Math.abs(i-storyIndex)<=1?d.src:transparentStoryFrame,style:{opacity:on?1:0,zIndex:on?2:1,objectPosition:d.position||'50% 50%',transform:'translate3d('+drift[0]+'%,'+drift[1]+'%,0) scale('+(on?'1.025':'1.09')+')',transitionDuration:'1.45s,'+Math.max(7,(d.ms||9000)/1000)+'s'}};
     });
     const storyDots=this.storyScenes.map((d,i)=>({className:'pg-story-dot'+(i===storyIndex?' is-current':''),label:'Chapter '+(i+1)+': '+d.title,onClick:()=>this.goStory(i)}));
     const particleSeeds=[[12,24,0,5.8],[23,71,1.2,7.1],[38,19,2.4,6.4],[51,62,.6,7.6],[64,28,3.1,6.1],[76,74,1.8,7.3],[88,35,.3,6.8],[17,48,3.8,7.8],[58,83,2.1,6.6],[82,57,4.2,7.4]];
@@ -4298,6 +4524,10 @@ class Component extends DCLogic {
     const completionButtonStyle={marginTop:'11px',width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:'7px',background:reflectionReady?'linear-gradient(150deg,#688A50,#4A6B3B)':'linear-gradient(150deg,#8A7A5D,#6E7C60)',border:'none',color:'#F2E9D2',fontWeight:'700',fontSize:'13px',padding:'10px',borderRadius:'11px',cursor:'pointer',fontFamily:"'Bricolage Grotesque',sans-serif",boxShadow:'0 8px 18px -9px rgba(63,92,51,.7)',transition:'transform .15s'};
 
     return {
+      ambientVideoVisible:!st.story,
+      ambientVideoPoster:'assets/story/story-01-menet.webp',
+      ambientVideoWebm:'assets/video/garden-ambient-loop.webm',
+      ambientVideoMp4:'assets/video/garden-ambient-loop.mp4',
       storyVisible:!!st.story,
       storyClass:'pg-story'+(st.storyLeaving?' is-leaving':''),
       storyCover:!!st.story&&!st.storyStarted,
@@ -4319,8 +4549,8 @@ class Component extends DCLogic {
       onPlayStory:()=>this.replayStory(false),
       introVisible:!!st.intro,
       introBtnLabel:st.placed.length>0?'Back to garden 🌱':'Start gardening 🌱',
-      onChooseGuided:()=>this.setState({intro:false,introSeen:true,mode:'guided',gardenWhisper:st.placed.length?null:{key:'begin',text:'Feed me first. Everything visible begins with the life beneath.'}}),
-      onChooseExplore:()=>this.setState({intro:false,introSeen:true,mode:'explore',gardenWhisper:null}),
+      onChooseGuided:()=>this.closeIntro('guided'),
+      onChooseExplore:()=>this.closeIntro('explore'),
       guidedJourneyVisible:guided,freeExplore:!guided,
       journeyEyebrow:guidedEndingReady?'Six acts woven together':(journey.ready?'One last relationship':journey.current.eyebrow),
       journeyLabel:guidedEndingReady?'The garden is ready to reflect':(journey.ready?'Connect what you have built':journey.current.label),
@@ -4328,7 +4558,7 @@ class Component extends DCLogic {
       journeyIcon:designIcon(guidedEndingReady?designIcons.voice:(journey.ready?designIcons.guild:journeyIconSrc)),
       journeyDone:journey.done,journeyTotal:journey.total,
       journeyBarStyle:{height:'100%',width:Math.round(journey.done/journey.total*100)+'%',borderRadius:'5px',background:'linear-gradient(90deg,#8FB565,#5E7E4A)',transition:'width .55s ease'},
-      onSwitchExplore:()=>this.setState({mode:'explore',gardenWhisper:null}),
+      onSwitchExplore:()=>this.setState({mode:'explore'}),
       onSwitchGuided:()=>this.setState({mode:'guided'}),
       economyVisible:!guided||journey.index>=1||journey.ready,
       worldToolsVisible:!guided||journey.index>=5||journey.ready,
@@ -4336,16 +4566,16 @@ class Component extends DCLogic {
       wildlifeVisible:!guided||journey.index>=3||journey.ready,
       hasPendingGuild:!!pendingGuild&&!st.plantType&&(!guided||journey.index>=5||journey.ready),
       pendingGuildText:pendingGuild?(this.catalog[pendingGuild.types[0]].name+' and '+this.catalog[pendingGuild.types[1]].name+' could form a guild — move them side by side! ✦'):'',
-      plotClass:'pg-season-'+season.toLowerCase()+(st.plantType?' plot-drop-hot':''),
-      onStartIntro:()=>this.setState({intro:false,introSeen:true}),
-      onOpenIntro:()=>this.setState({intro:true,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null}),
+      plotClass:(st.story?'pg-plot-suspended':'pg-plot')+' pg-season-'+season.toLowerCase()+(st.plantType?' plot-drop-hot':''),
+      onStartIntro:()=>this.closeIntro(),
+      onOpenIntro:()=>this.openIntro(),
       muted:!!st.muted,soundOn:!st.muted,
       soundButtonLabel:st.muted?'Turn sound on':'Mute garden sounds',
-      onToggleMute:()=>{const wasMuted=this.state.muted;this.setState({muted:!wasMuted},()=>{this.syncAudioMute();if(wasMuted&&!this.state.story){this.playDing();}});},
+      onToggleMute:()=>{const wasMuted=this.state.muted;this.setState({muted:!wasMuted},()=>{this.syncAudioMute();if(wasMuted&&!this.state.story){this.playDing();if(!this._gardenVoice){this.resumeVisibleGardenVoice();}}});},
       shares:st.shares,budget:st.budget,given:st.given,nextAt:nextAt,
       givenLabel:(st.given<6?('Sharing '+st.given+' / 6 · garden goal'):(st.given>=30?('Shared '+st.given+' · full circle 🌿'):('Shared '+st.given+' / '+nextAt+' · next community milestone'))),
       givenBarStyle:{width:givenPct+'%',height:'100%',background:'linear-gradient(90deg,#8FB565,#5E7E4A)',borderRadius:'4px',transition:'width .5s'},
-      onReset:()=>{const s=this.state;const meaningful=s.placed.length>0||(s.journeyMoments||[]).length>0||Object.keys(s.gardenEffects||{}).length>0||(s.sharedActs||0)>0||(s.given||0)>0||Object.values(s.basket||{}).some(n=>n>0)||!!s.harvestEver||!!s.reflectionOpened;if(meaningful&&!window.confirm('Start over? Your garden, learning journey, harvest and community history will be cleared.')){return;}this._n=0;this._g=0;const ns=this.freshState(false);ns.season='Summer';ns.market=this.freshMarket('Summer');ns.cherryPicks=3;ns.springSprouts=0;ns.leafPiles=0;this.setState(ns);},
+      onReset:()=>this.resetGarden(),
       groups:groups,
       plotAriaLabel:st.plantType?('Garden plot. '+this.catalog[st.plantType].name+' selected. Move the planting marker with arrow keys and press Enter to plant.'):'Garden plot. Select a garden element first, or use Tab to explore placed elements and seasonal harvests.',
       onMapKeyDown:(e)=>this.onMapKeyDown(e),
@@ -4400,7 +4630,8 @@ class Component extends DCLogic {
       placedView:placedView,critterView:critterView,
       systemLinksArt:systemLinksArt,guildLinksArt:guildLinksArt,guildLabels:guildLabels,guildCount:discCount,
       guildCardVisible:!!cardDef,guildCard:guildCardData,guildCardFresh:!!cardDef&&!st.guildReview,
-      onDismissGuild:()=>{this.stopGardenVoice();this.setState({guildCard:null,guildReview:false});},
+      onDismissGuild:()=>this.dismissGuild(),
+      onReplayGuildVoice:()=>this.playGuildVoice(),
       guildListView:guildListView,showGuildList:!!st.showGuilds,
       onToggleGuildList:()=>this.setState(s=>({showGuilds:!s.showGuilds})),
       isEmpty:st.placed.length===0,
@@ -4431,7 +4662,7 @@ class Component extends DCLogic {
       gateVisible:!!st.gate,
       gateView:this.buildGateView(),
       gardenReflectionVisible:!!st.gardenReflection,gardenReflectionText:st.gardenReflection?st.gardenReflection.text:'',gardenReflectionNote:st.gardenReflection?st.gardenReflection.note:'',onDismissGardenReflection:()=>this.dismissGardenReflection(),onReplayGardenReflection:()=>this.replayGardenReflection(),
-      gardenCinematicVisible:!!st.gardenCinematic,gardenCinematicSeason:st.gardenCinematic?st.gardenCinematic.season:'',gardenCinematicTitle:st.gardenCinematic?st.gardenCinematic.title:'',gardenCinematicText:st.gardenCinematic?st.gardenCinematic.text:'',gardenCinematicImageEl:st.gardenCinematic?E('img',{className:'pg-cinematic-image',src:st.gardenCinematic.image,alt:'The community garden at Menet in '+st.gardenCinematic.season,loading:'eager',draggable:false}):null,onDismissGardenCinematic:()=>this.dismissGardenCinematic(),
+      gardenCinematicVisible:!!st.gardenCinematic,gardenCinematicSeason:st.gardenCinematic?st.gardenCinematic.season:'',gardenCinematicTitle:st.gardenCinematic?st.gardenCinematic.title:'',gardenCinematicText:st.gardenCinematic?st.gardenCinematic.text:'',gardenCinematicImageEl:st.gardenCinematic?E('img',{className:'pg-cinematic-image',src:st.gardenCinematic.image,alt:'The community garden at Menet in '+st.gardenCinematic.season,loading:'eager',draggable:false}):null,onReplayGardenCinematic:()=>{if(st.gardenCinematic){this.setMusicMode('season');this.speakGarden('cinematic-'+st.gardenCinematic.season.toLowerCase());}},onDismissGardenCinematic:()=>this.dismissGardenCinematic(),
       visitVisible:!!st.visit,
       visitView:this.buildVisitView(),
       onDismissArrival:()=>this.setState(s=>{
@@ -4445,8 +4676,8 @@ class Component extends DCLogic {
       completionButtonLabel:reflectionReady?'🌻 Complete my garden story':('◌ Reflect on my garden · '+(guided?(journey.done+'/'+journey.total):(nextStep.done+'/'+nextStep.total))),
       completionAriaLabel:reflectionReady?'Open the garden ending and learning certificate':'Reflect on the garden and see what remains to learn',
       completionButtonStyle:completionButtonStyle,
-      onOpenSummary:()=>{this.setState({showSummary:true,reflectionOpened:true,endingSeen:reflectionReady?true:st.endingSeen,guildCard:null,showGuilds:false,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null},()=>{this.setMusicMode('reflection');if(reflectionReady){this.speakGarden('ending');}});this.playGive();},
-      onCloseSummary:()=>{this.stopGardenVoice();this.setState({showSummary:false},()=>this.setMusicMode('garden'));},
+      onOpenSummary:()=>{this.suspendGardenWhisper();this.setState({showSummary:true,reflectionOpened:true,endingSeen:reflectionReady?true:st.endingSeen,guildCard:null,showGuilds:false,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null},()=>{this.setMusicMode('reflection');if(reflectionReady){this.speakGarden('ending');}});this.playGive();},
+      onCloseSummary:()=>this.closeSummary(),
       summaryTitle:reflectionReady?"The Garden Remembers":"Garden Reflection",
       summaryEyebrow:reflectionReady?'Le Jardin · A living ending':'Pause · Notice · Choose',
       summaryCertificateAttr:reflectionReady?'1':'0',summaryCloseLabel:reflectionReady?'Close learning certificate':'Close garden reflection',summaryNameLabel:reflectionReady?'Gardener name on the learning certificate':'Gardener name for this reflection',

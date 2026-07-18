@@ -76,10 +76,7 @@ try {
   }
   check((await page.locator('body').innerText()).trim().length > 500, 'the game renders meaningful content');
   const ambientVideo = page.locator('video.pg-game-ambient');
-  check(await ambientVideo.count() === 1, 'the calm garden background video is present');
-  await page.waitForFunction(() => document.querySelector('video.pg-game-ambient')?.readyState >= 2, null, { timeout: 8000 }).catch(() => {});
-  const ambientState = await ambientVideo.evaluate(video => ({ muted: video.muted, defaultMuted: video.defaultMuted, loop: video.loop, autoplay: video.autoplay, readyState: video.readyState }));
-  check((ambientState.muted || ambientState.defaultMuted) && ambientState.loop && ambientState.autoplay && ambientState.readyState >= 2, 'the background video is muted, looped, and ready to play');
+  check(await ambientVideo.count() === 0, 'the calm garden background video stays unloaded behind the opening story');
   check(await page.getByRole('button', { name: /Begin the story/i }).isVisible(), 'the cinematic story is the first entry point');
   await page.waitForTimeout(900);
   await page.screenshot({ path: path.join(artifacts, '01-story-cover.png') });
@@ -89,6 +86,10 @@ try {
   check(await page.getByTestId('choose-guided').isVisible(), 'the intro offers Guided Journey and Free Garden instead of a manual');
   await page.getByTestId('choose-guided').click();
   await page.waitForTimeout(200);
+  check(await ambientVideo.count() === 1, 'the calm garden background video appears after entering the garden');
+  await page.waitForFunction(() => document.querySelector('video.pg-game-ambient')?.readyState >= 2, null, { timeout: 8000 }).catch(() => {});
+  const ambientState = await ambientVideo.evaluate(video => ({ muted: video.muted, defaultMuted: video.defaultMuted, loop: video.loop, autoplay: video.autoplay, readyState: video.readyState }));
+  check((ambientState.muted || ambientState.defaultMuted) && ambientState.loop && ambientState.autoplay && ambientState.readyState >= 2, 'the background video is muted, looped, and ready to play');
   await page.evaluate(() => { Math.random = () => 0.99; });
   check(await textVisible('Begin with my soil'), 'guided play begins with one clear soil action');
   check(await page.getByText('Compost', { exact: true }).first().isVisible(), 'the first palette exposes a soil tool');

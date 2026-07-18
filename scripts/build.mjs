@@ -42,13 +42,35 @@ html = html.replace(
     '    script.onerror = reject;',
     '    document.head.appendChild(script);',
     '  });',
+    '  const showError = (error) => {',
+    '    console.error("Game failed to start", error);',
+    '    const bootScreen = document.getElementById("pg-boot");',
+    '    if (!bootScreen) return;',
+    '    bootScreen.classList.add("pg-boot-error");',
+    '    bootScreen.setAttribute("role", "alert");',
+    '    const box = bootScreen.firstElementChild;',
+    '    const status = box && box.querySelector("span");',
+    '    if (status) status.textContent = "Le Jardin needs another moment";',
+    '    if (box && !box.querySelector("[data-pg-boot-detail]")) {',
+    '      const detail = document.createElement("p");',
+    '      detail.dataset.pgBootDetail = "1";',
+    '      detail.textContent = "The game could not finish loading. Check your connection, then try again.";',
+    '      const retry = document.createElement("button");',
+    '      retry.type = "button";',
+    '      retry.dataset.testid = "boot-retry";',
+    '      retry.textContent = "Try again";',
+    '      retry.addEventListener("click", () => window.location.reload());',
+    '      box.append(detail, retry);',
+    '      retry.focus();',
+    '    }',
+    '  };',
     '  const boot = async () => {',
     '    const response = await fetch("game.fragment.html");',
     '    if (!response.ok) throw new Error("Game content could not be loaded");',
     '    document.body.insertAdjacentHTML("beforeend", await response.text());',
     '    await sources.reduce((ready, src) => ready.then(() => load(src)), Promise.resolve());',
     '  };',
-    '  requestAnimationFrame(() => requestAnimationFrame(() => boot().catch((error) => console.error("Game failed to start", error))));',
+    '  requestAnimationFrame(() => requestAnimationFrame(() => boot().catch(showError)));',
     '})();',
     '</script>',
   ].join("\n"),
@@ -80,7 +102,21 @@ const gameEnd = gameScriptEnd + "</script>".length;
 const fragment = html.slice(gameStart, gameEnd);
 html = html.slice(0, gameStart) + html.slice(gameEnd);
 
-await writeFile(outputPath, html, "utf8");
-await writeFile(fragmentPath, fragment, "utf8");
-console.log(`Built ${path.relative(root, outputPath)} loading shell (${html.length} characters).`);
-console.log(`Built ${path.relative(root, fragmentPath)} game content (${fragment.length} characters).`);
+if (process.argv.includes("--check")) {
+  const [currentHtml, currentFragment] = await Promise.all([
+    readFile(outputPath, "utf8"),
+    readFile(fragmentPath, "utf8"),
+  ]);
+  const stale = [];
+  if (currentHtml !== html) stale.push(path.relative(root, outputPath));
+  if (currentFragment !== fragment) stale.push(path.relative(root, fragmentPath));
+  if (stale.length) {
+    throw new Error(`Generated production files are stale: ${stale.join(", ")}. Run node scripts/build.mjs.`);
+  }
+  console.log("Generated production files match the canonical source.");
+} else {
+  await writeFile(outputPath, html, "utf8");
+  await writeFile(fragmentPath, fragment, "utf8");
+  console.log(`Built ${path.relative(root, outputPath)} loading shell (${html.length} characters).`);
+  console.log(`Built ${path.relative(root, fragmentPath)} game content (${fragment.length} characters).`);
+}
