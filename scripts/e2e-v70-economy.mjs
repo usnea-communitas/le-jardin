@@ -393,44 +393,80 @@ try {
   );
 
   // -----------------------------------------------------------------------
-  // Explicit payment: auto placement must wait when two sources are valid.
+  // Persistent payment intent: the visible toggle chooses the preferred
+  // source without interrupting every placement with another modal.
   // -----------------------------------------------------------------------
-  await resetApp({ shares: 10, budget: 300, paymentChoice: null });
+  await resetApp({ shares: 10, budget: 300, payWith: 'shares', paymentChoice: null });
   const paymentBefore = await page.evaluate(() => {
     const state = window.__PERMAGARDEN_APP__.state;
     return { shares: state.shares, budget: state.budget, placed: state.placed.length };
   });
   await placeType('compost', 36, 72, 'auto');
-  const paymentPending = await page.evaluate(() => {
-    const state = window.__PERMAGARDEN_APP__.state;
-    const visibleDialogs = Array.from(document.querySelectorAll('[role="dialog"]')).filter(dialog => {
-      const style = getComputedStyle(dialog);
-      const rect = dialog.getBoundingClientRect();
-      return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0;
-    }).map(dialog => dialog.textContent.replace(/\s+/g, ' ').trim());
+  const sharePayment = await page.evaluate(() => {
+    const app = window.__PERMAGARDEN_APP__;
+    const item = app.state.placed.at(-1);
     return {
-      paymentChoice: state.paymentChoice,
-      shares: state.shares,
-      budget: state.budget,
-      placed: state.placed.length,
-      visibleDialogs
+      paymentChoice: app.state.paymentChoice,
+      payWith: app.state.payWith,
+      shares: app.state.shares,
+      budget: app.state.budget,
+      placed: app.state.placed.length,
+      paidMethod: item?.paidMethod,
+      paidAmount: item?.paidAmount
     };
   });
   check(
-    paymentPending.paymentChoice && paymentPending.paymentChoice.type === 'compost',
-    'auto placement opens paymentChoice when both barter and euros are available',
-    paymentPending
+    sharePayment.paymentChoice === null && sharePayment.paidMethod === 'barter' &&
+      sharePayment.shares < paymentBefore.shares && sharePayment.budget === paymentBefore.budget &&
+      sharePayment.placed === paymentBefore.placed + 1,
+    'the default shares preference places immediately and spends only participation shares',
+    { paymentBefore, sharePayment }
   );
+
+  await resetApp({ shares: 10, budget: 300, payWith: 'shares', paymentChoice: null });
+  await page.getByTestId('pay-euro-toggle').click();
+  await settle();
+  const euroPreference = await page.evaluate(() => ({
+    payWith: window.__PERMAGARDEN_APP__.state.payWith,
+    euroPressed: document.querySelector('[data-testid="pay-euro-toggle"]')?.getAttribute('aria-pressed'),
+    sharePressed: document.querySelector('[data-testid="pay-shares-toggle"]')?.getAttribute('aria-pressed'),
+    storedPayWith: JSON.parse(localStorage.getItem(window.__PERMAGARDEN_APP__.STORE) || '{}').payWith
+  }));
   check(
-    paymentPending.shares === paymentBefore.shares && paymentPending.budget === paymentBefore.budget &&
-      paymentPending.placed === paymentBefore.placed,
-    'opening paymentChoice spends nothing and places nothing before confirmation',
-    { paymentBefore, paymentPending }
+    euroPreference.payWith === 'euro' && euroPreference.storedPayWith === 'euro' &&
+      euroPreference.euroPressed === 'true' && euroPreference.sharePressed === 'false',
+    'the visible Fund toggle records, persists and communicates the preferred payment source',
+    euroPreference
   );
+  const euroBefore = await page.evaluate(() => {
+    const app = window.__PERMAGARDEN_APP__;
+    return { shares: app.state.shares, budget: app.state.budget, placed: app.state.placed.length, expected: app.effectivePrice('compost', app.state).price };
+  });
+  await placeType('compost', 40, 68, 'auto');
+  const euroPayment = await page.evaluate(() => {
+    const app = window.__PERMAGARDEN_APP__;
+    const item = app.state.placed.at(-1);
+    return { shares: app.state.shares, budget: app.state.budget, placed: app.state.placed.length, paidMethod: item?.paidMethod, paidAmount: item?.paidAmount };
+  });
   check(
-    paymentPending.visibleDialogs.some(text => /share/i.test(text) && /€|euro/i.test(text)),
-    'the pending payment choice is rendered as an accessible dialog with both sources explained',
-    paymentPending.visibleDialogs
+    euroPayment.paidMethod === 'buy' && euroPayment.shares === euroBefore.shares &&
+      euroPayment.budget === euroBefore.budget - euroBefore.expected && euroPayment.placed === euroBefore.placed + 1,
+    'the Fund preference places immediately and spends only the effective euro price',
+    { euroBefore, euroPayment }
+  );
+
+  await resetApp({ shares: 10, budget: 0, payWith: 'euro', paymentChoice: null });
+  await placeType('compost', 44, 66, 'auto');
+  const fallbackPayment = await page.evaluate(() => {
+    const state = window.__PERMAGARDEN_APP__.state;
+    const item = state.placed.at(-1);
+    return { paymentChoice: state.paymentChoice, shares: state.shares, budget: state.budget, placed: state.placed.length, paidMethod: item?.paidMethod };
+  });
+  check(
+    fallbackPayment.paymentChoice === null && fallbackPayment.paidMethod === 'barter' &&
+      fallbackPayment.shares < 10 && fallbackPayment.budget === 0 && fallbackPayment.placed === 1,
+    'an unavailable preferred source falls back to the other valid source instead of blocking play',
+    fallbackPayment
   );
 
   // -----------------------------------------------------------------------

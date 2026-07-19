@@ -355,6 +355,58 @@ try {
     );
   });
 
+  await runCase('reflection vignette layers', async () => {
+    const reflection = {
+      id: 'three-layers',
+      voiceId: 'reflection-three',
+      text: 'Soil, water and food answer one another.',
+      note: 'A connected garden learns through relationships.'
+    };
+    await setAppState({
+      story: false,
+      intro: false,
+      showSummary: false,
+      gate: null,
+      visit: null,
+      gardenCinematic: null,
+      guildCard: null,
+      gardenReflection: reflection,
+      gardenReflectionQueue: []
+    });
+    const art = page.locator('.pg-reflection-art');
+    await art.waitFor({ state: 'visible' });
+    await page.waitForFunction(() => Array.from(document.querySelectorAll('.pg-reflection-art img')).every(image => image.complete && image.naturalWidth > 0));
+    const threeLayers = await art.evaluate(element => ({
+      sources: Array.from(element.querySelectorAll('img')).map(image => new URL(image.src).pathname),
+      animation: getComputedStyle(element.querySelector('.pg-reflection-motif')).animationName
+    }));
+    check(
+      threeLayers.sources.length === 2 &&
+        threeLayers.sources.some(source => /three-layers-answer-background\.webp$/i.test(source)) &&
+        threeLayers.sources.some(source => /three-layers-answer-motif\.webp$/i.test(source)),
+      'the three-layers reflection loads its real background and transparent motif instead of a literal template URL',
+      threeLayers
+    );
+    check(
+      /pgReflectionBreathe/i.test(threeLayers.animation),
+      'the reflection motif receives the intended calm breathing animation',
+      threeLayers
+    );
+
+    await setAppState({
+      season: 'Winter',
+      gardenReflection: { ...reflection, id: 'seasonal-observation' }
+    });
+    await page.waitForFunction(() => Array.from(document.querySelectorAll('.pg-reflection-art img')).every(image => /garden-sleeps-winter/.test(image.src) && image.complete && image.naturalWidth > 0));
+    const winterSources = await art.locator('img').evaluateAll(images => images.map(image => new URL(image.src).pathname));
+    check(
+      winterSources.length === 2 && winterSources.every(source => /garden-sleeps-winter-(?:background|motif)\.webp$/i.test(source)),
+      'a general winter reflection uses the sleeping-garden layer pair',
+      winterSources
+    );
+    await setAppState({ gardenReflection: null, season: 'Summer' });
+  });
+
   await runCase('first-cycle reflection versus certificate', async () => {
     await setAppState({
       mode: 'explore',

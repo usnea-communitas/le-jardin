@@ -1,7 +1,7 @@
 # Permaculture Garden — kompletní kontext pro Codex
 
 > Předávací dokument. Vysvětluje **co** hra je, **jak** je postavená a **proč** jsme jednotlivé
-> věci implementovali. Aktuální verze: **v70**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
+> věci implementovali. Aktuální verze: **v73**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
 > (needituj bundle `index.html` — ten se generuje).
 
 ---
@@ -211,7 +211,7 @@ skip link, sémantické nadpisy a landmarky, opravdové button prvky a vícerozm
 
 Od **v70** má hra férovější a čitelnější dlouhodobou smyčku. První vedený průchod končí reflexí;
 certifikát se odemyká až po skutečně prosperující zahradě napříč čtyřmi obdobími, aktivních guildách,
-sdílení, sklizni a více vyzkoušených výzvách. Volba mezi barterem a eury je explicitní, semena jsou
+sdílení, sklizni a více vyzkoušených výzvách. Volba mezi barterem a eury je viditelná a záměrná, semena jsou
 omezena na jeden balíček dané plodiny za sezónu a komunitní dar nikdy přímo nevydělává osobní měnu.
 Zimní stav rozlišuje chráněné, spící a ztracené mladé plodiny. Zahrada navíc vizuálně roste ve třech
 malovaných fázích (prázdná, rozvíjející se, prosperující), sdílený fond ukazuje číslo i očekávaný dopad
@@ -222,6 +222,15 @@ Komunitní nabídky lze převzít až po prvním skutečném daru, jejich převz
 a jeden dar/sezónní stav dovolí jen jednu ruční kontrolu nových nabídek; nalezení nabídky nikdy samo
 nepřipíše osobní měnu. Export certifikátu se připravuje až na kliknutí a vkládá malovanou mapu i
 všechny použité WebP prvky přímo do SVG, takže stažený soubor zůstává úplný i offline.
+
+Od **v73** nahrazuje opakovaný platební modal trvalý přepínač **Shares / Fund** v levé paletě.
+Preferovaný zdroj se ukládá; pokud není dostupný, umístění bezpečně použije druhý platný zdroj místo
+zablokování hry. Zasloužené reflexe mají dvouvrstvou akvarelovou vignetu
+(`assets/reflections/*-background.webp` + `*-motif.webp`) s velmi pomalým dýcháním motivu a plnou
+podporou `prefers-reduced-motion`. Obraz se vybírá podle typu reflexe a zimní obecné reflexe používají
+spící zasněženou zahradu. Season-gate dialog je vyrenderovaný na nejvyšší úrovni aplikace, aby jeho
+`position: fixed` nebyl omezen předkem s `backdrop-filter`. Dynamické obrazové cesty v DC template se
+vždy předávají přes `sc-camel-src`, nikdy jako doslovný `src` s `{{ }}`.
 
 ### 4.11 Zvuk
 Od **v60** se nepoužívají procedurální oscilátory ani Web Audio tóny. Celý zvuk je postavený na

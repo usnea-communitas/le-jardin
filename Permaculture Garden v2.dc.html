@@ -493,6 +493,11 @@ html,body{margin:0;padding:0}
 .pg-mode-button{text-align:left;border-radius:16px;padding:15px;border:1.5px solid #ded4c1;background:#fffdf8;color:#3d4434;cursor:pointer;font-family:inherit;transition:transform .15s,border-color .15s,box-shadow .15s}
 .pg-mode-button:hover{transform:translateY(-2px);border-color:#8cab6c;box-shadow:0 12px 24px -20px rgba(40,65,25,.7)}
 .pg-reflection-block{background:#fffdf6;border:1px solid #e8ddc6;border-radius:13px;padding:10px 12px;margin-bottom:9px}
+.pg-reflection-art{position:relative;z-index:1;width:148px;height:148px;margin:14px auto 4px;border-radius:50%;overflow:hidden;box-shadow:inset 0 0 0 3px rgba(140,171,108,.4),0 16px 34px -18px rgba(60,80,30,.55)}
+.pg-reflection-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pg-reflection-art .pg-reflection-motif{transform-origin:50% 58%;animation:pgReflectionBreathe 9s ease-in-out infinite;will-change:transform}
+@keyframes pgReflectionBreathe{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(0,-4px,0) scale(1.012)}}
+@media (prefers-reduced-motion: reduce){.pg-reflection-art .pg-reflection-motif{animation:none}}
 .pg-game-shell [style*="color:#A99E86"],.pg-game-shell [style*="rgb(169, 158, 134)"],.pg-game-shell [style*="color:#9A8F77"],.pg-game-shell [style*="rgb(154, 143, 119)"],.pg-game-shell [style*="color:#8A7E66"],.pg-game-shell [style*="rgb(138, 126, 102)"],.pg-game-shell .pg-footer-note{color:#6F6552!important}
 /* ===== Le Jardin production design system · Lovable + Picsart handoff ===== */
 .pg-game-shell{
@@ -792,6 +797,13 @@ html,body{margin:0;padding:0}
           <button sc-camel-on-click="{{ onSwitchExplore }}" style="position:relative;z-index:1;margin-top:9px;padding:3px 0;border:0;background:transparent;color:#7B856E;font-size:10.5px;font-weight:700;cursor:pointer;font-family:inherit">Open every tool instead</button>
         </section>
       </sc-if>
+      <div class="pg-panel" title="Both choices build the same element. Shares represent contributed time and knowledge; euros the project fund. Elements with only one option ignore this switch." style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:13px;padding:6px 7px;display:flex;align-items:center;gap:6px;flex:none">
+        <span style="font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#8B8471;padding-left:4px;flex:none">Pay with</span>
+        <div style="flex:1;display:flex;gap:4px">
+          <button data-testid="pay-shares-toggle" sc-camel-on-click="{{ onSetPayShares }}" aria-pressed="{{ payWithShares }}" style="{{ payToggleSharesStyle }}">🌱 Shares</button>
+          <button data-testid="pay-euro-toggle" sc-camel-on-click="{{ onSetPayEuro }}" aria-pressed="{{ payWithEuroPressed }}" style="{{ payToggleEuroStyle }}">€ Fund</button>
+        </div>
+      </div>
       <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
         <section class="pg-panel pg-palette-section" style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:16px;padding:13px;box-shadow:0 10px 26px -20px rgba(60,50,30,.65)">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span style="{{ g.dotStyle }}"></span><h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13.5px;color:#3A3527;margin:0">{{ g.title }}</h2></div>
@@ -812,7 +824,7 @@ html,body{margin:0;padding:0}
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v70</span>
+      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v73</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
@@ -1037,93 +1049,7 @@ html,body{margin:0;padding:0}
               </div>
             </sc-if>
 
-            <sc-if value="{{ gateVisible }}" hint-placeholder-val="{{ false }}">
-              <div sc-camel-on-click="{{ gateView.stop }}" style="position:fixed;inset:0;z-index:700;background:rgba(35,45,30,.58);backdrop-filter:blur(5px);display:grid;place-items:center;padding:10px">
-                <div class="pg-gate-dialog" data-pg-dialog="gate" role="dialog" aria-modal="true" aria-label="Garden challenge on the way to {{ gateView.target }}: {{ gateView.title }}" tabindex="-1" style="max-height:96%;overflow-y:auto;border:1.5px solid #D7E3BC;border-radius:26px;box-shadow:0 34px 90px -26px rgba(15,28,10,.82);animation:floatIn .35s ease">
-                  <div class="pg-gate-hero">
-                    {{ gateView.image }}
-                    <div class="pg-gate-hero-copy">
-                      <div style="font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#F1E4B6">The garden speaks · {{ gateView.target }} {{ gateView.seasonEmoji }}</div>
-                      <h2>{{ gateView.title }}</h2>
-                    </div>
-                  </div>
-                  <div class="pg-gate-body">
-                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px">
-                      <div style="display:flex;align-items:center;gap:8px;color:#526546;font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase"><img class="pg-system-icon" src="assets/ui/icons/season.svg" alt="">One principle for this gate</div>
-                      <span style="font-size:10.5px;font-weight:800;color:#4F6942;background:#E7EED5;border:1px solid #CAD8AF;padding:5px 10px;border-radius:16px;white-space:nowrap">{{ gateView.principle }}</span>
-                    </div>
 
-                  <sc-if value="{{ gateView.briefing }}" hint-placeholder-val="{{ false }}">
-                    <div style="position:relative;overflow:hidden;background:linear-gradient(135deg,#F5F0E3,#EAF1DA);border:1px solid #DDD5C1;border-radius:20px;padding:24px 25px 22px;text-align:center">
-                      <div style="position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.38);right:-42px;top:-70px"></div>
-                      <div style="font-size:10px;font-weight:800;color:#9B7A3C;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px">I have something to show you</div>
-                      <div class="pg-gate-story" style="max-width:680px;margin:0 auto 18px">“{{ gateView.gardenVoice }}”</div>
-                      <div style="font-size:12px;line-height:1.5;color:#665D4D;max-width:680px;margin:0 auto 17px">{{ gateView.story }}</div>
-                      <div style="background:rgba(255,253,246,.82);border:1px solid #E4DAC4;border-radius:14px;padding:12px 15px;text-align:left;max-width:550px;margin:0 auto">
-                        <div style="font-size:9px;font-weight:800;color:#8A7E66;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px">Your mission</div>
-                        <div style="font-size:12.5px;line-height:1.5;color:#514A3C">{{ gateView.prompt }}</div>
-                      </div>
-                      <div style="max-width:550px;margin:10px auto 0;padding:9px 12px;border-radius:12px;background:#3F5138;color:#F7F1E3;font-size:11.5px;line-height:1.45;text-align:left">{{ gateView.seasonPreview }}</div>
-                    </div>
-                    <div style="display:flex;justify-content:center;margin-top:14px">
-                      <button sc-camel-on-click="{{ gateView.onBegin }}" style="background:#5E7E4A;border:none;color:#F7F1E3;font-family:inherit;font-weight:800;font-size:13px;padding:11px 25px;border-radius:12px;cursor:pointer;box-shadow:0 8px 18px -12px rgba(48,76,32,.7)">Start challenge →</button>
-                    </div>
-                  </sc-if>
-
-                  <sc-if value="{{ gateView.inChallenge }}" hint-placeholder-val="{{ false }}">
-                    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:#F5F0E3;border-radius:12px;padding:8px 11px;margin-bottom:10px">
-                      <div style="font-size:11.5px;color:#5F584A;line-height:1.35">{{ gateView.prompt }}</div>
-                      <span style="font-size:10.5px;font-weight:800;color:#5E7E4A;white-space:nowrap">{{ gateView.progressText }}</span>
-                    </div>
-                    <sc-if value="{{ gateView.hasFeedback }}" hint-placeholder-val="{{ false }}">
-                      <div role="status" aria-live="polite" style="{{ gateView.feedbackStyle }}">{{ gateView.feedback }}</div>
-                    </sc-if>
-                    <sc-if value="{{ gateView.hasTimer }}" hint-placeholder-val="{{ false }}">
-                      <div style="height:6px;border-radius:4px;background:#E4DAC4;overflow:hidden;margin-bottom:10px"><div style="{{ gateView.timerStyle }}"></div></div>
-                    </sc-if>
-                    <div data-testid="gate-board" sc-camel-on-click="{{ gateView.onBoardClick }}" sc-camel-on-pointer-move="{{ gateView.onBoardMove }}" style="{{ gateView.boardStyle }}">
-                      <sc-for list="{{ gateView.tiles }}" as="t" hint-placeholder-count="0">
-                        <div sc-camel-on-click="{{ t.onClick }}" sc-camel-on-key-down="{{ t.onKeyDown }}" role="{{ t.role }}" tabindex="{{ t.tabIndex }}" aria-label="{{ t.title }}" title="{{ t.title }}" style="{{ t.style }}">
-                          <sc-if value="{{ t.art }}" hint-placeholder-val="{{ false }}"><span style="{{ t.artStyle }}">{{ t.art }}</span></sc-if>
-                          <sc-if value="{{ t.label }}" hint-placeholder-val="{{ false }}"><span style="{{ t.labelStyle }}">{{ t.label }}</span></sc-if>
-                          <sc-if value="{{ t.note }}" hint-placeholder-val="{{ false }}"><span style="{{ t.noteStyle }}">{{ t.note }}</span></sc-if>
-                        </div>
-                      </sc-for>
-                    </div>
-                    <sc-if value="{{ gateView.hasButtons }}" hint-placeholder-val="{{ false }}">
-                      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">
-                        <sc-for list="{{ gateView.buttons }}" as="gb" hint-placeholder-count="0">
-                          <button sc-camel-on-click="{{ gb.onClick }}" style="{{ gb.style }}" style-hover="transform:translateY(-1px)">
-                            <span style="display:block">{{ gb.label }}</span>
-                            <sc-if value="{{ gb.note }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:9.5px;font-weight:600;opacity:.78;margin-top:2px">{{ gb.note }}</span></sc-if>
-                          </button>
-                        </sc-for>
-                      </div>
-                    </sc-if>
-                  </sc-if>
-
-                  <sc-if value="{{ gateView.showResult }}" hint-placeholder-val="{{ false }}">
-                    <div style="{{ gateView.resultStyle }}">
-                      <div style="width:54px;height:54px;border-radius:50%;margin:0 auto 10px;background:#EAF1DA;display:grid;place-items:center;font-size:28px">{{ gateView.resultEmoji }}</div>
-                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;margin-bottom:6px">{{ gateView.resultTitle }}</div>
-                      <div style="font-size:12.5px;line-height:1.55">{{ gateView.lesson }}</div>
-                      <sc-if value="{{ gateView.hasImpact }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;background:rgba(255,253,246,.72);border:1px solid rgba(94,126,74,.22);border-radius:11px;padding:8px 10px;font-size:11.5px;font-weight:700;color:#4D643E">↳ {{ gateView.impactLabel }} · {{ gateView.impact }}</div></sc-if>
-                      <div style="margin-top:10px;padding-top:9px;border-top:1px solid rgba(94,126,74,.2);font-size:10.5px;font-weight:700;color:#6D7E5C">Skill practised · {{ gateView.skill }}</div>
-                    </div>
-                    <div style="display:flex;gap:8px;justify-content:center;margin-top:13px">
-                      <sc-if value="{{ gateView.canRetry }}" hint-placeholder-val="{{ false }}">
-                        <button sc-camel-on-click="{{ gateView.onRetry }}" style="background:#fff;border:1.5px solid #CBBFA4;color:#5A5240;font-weight:700;font-size:12px;padding:9px 16px;border-radius:10px;cursor:pointer;font-family:inherit">↻ Try again</button>
-                      </sc-if>
-                      <button sc-camel-on-click="{{ gateView.onFinish }}" style="background:#5E7E4A;border:none;color:#F2E9D2;font-weight:800;font-size:12.5px;padding:10px 21px;border-radius:11px;cursor:pointer;font-family:inherit">{{ gateView.continueLabel }}</button>
-                    </div>
-                  </sc-if>
-                  <sc-if value="{{ gateView.canSkip }}" hint-placeholder-val="{{ false }}">
-                    <div style="text-align:center;margin-top:10px"><button sc-camel-on-click="{{ gateView.onFinish }}" style="background:none;border:none;color:#A99E86;font-size:10.5px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:underline">Skip this challenge →</button></div>
-                  </sc-if>
-                  </div>
-                </div>
-              </div>
-            </sc-if>
 
             <sc-if value="{{ visitVisible }}" hint-placeholder-val="{{ false }}">
               <div style="position:absolute;inset:0;z-index:62;background:rgba(44,53,37,.42);backdrop-filter:blur(2px);display:grid;place-items:center">
@@ -1415,11 +1341,106 @@ html,body{margin:0;padding:0}
     </div>
   </main>
 
+  <!-- Season gate: top-level so position:fixed escapes backdrop-filter containing blocks -->
+  <sc-if value="{{ gateVisible }}" hint-placeholder-val="{{ false }}">
+              <div sc-camel-on-click="{{ gateView.stop }}" style="position:fixed;inset:0;z-index:700;background:rgba(35,45,30,.58);backdrop-filter:blur(5px);display:grid;place-items:center;padding:10px">
+                <div class="pg-gate-dialog" data-pg-dialog="gate" role="dialog" aria-modal="true" aria-label="Garden challenge on the way to {{ gateView.target }}: {{ gateView.title }}" tabindex="-1" style="max-height:96%;overflow-y:auto;border:1.5px solid #D7E3BC;border-radius:26px;box-shadow:0 34px 90px -26px rgba(15,28,10,.82);animation:floatIn .35s ease">
+                  <div class="pg-gate-hero">
+                    {{ gateView.image }}
+                    <div class="pg-gate-hero-copy">
+                      <div style="font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#F1E4B6">The garden speaks · {{ gateView.target }} {{ gateView.seasonEmoji }}</div>
+                      <h2>{{ gateView.title }}</h2>
+                    </div>
+                  </div>
+                  <div class="pg-gate-body">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px">
+                      <div style="display:flex;align-items:center;gap:8px;color:#526546;font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase"><img class="pg-system-icon" src="assets/ui/icons/season.svg" alt="">One principle for this gate</div>
+                      <span style="font-size:10.5px;font-weight:800;color:#4F6942;background:#E7EED5;border:1px solid #CAD8AF;padding:5px 10px;border-radius:16px;white-space:nowrap">{{ gateView.principle }}</span>
+                    </div>
+
+                  <sc-if value="{{ gateView.briefing }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:relative;overflow:hidden;background:linear-gradient(135deg,#F5F0E3,#EAF1DA);border:1px solid #DDD5C1;border-radius:20px;padding:24px 25px 22px;text-align:center">
+                      <div style="position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.38);right:-42px;top:-70px"></div>
+                      <div style="font-size:10px;font-weight:800;color:#9B7A3C;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px">I have something to show you</div>
+                      <div class="pg-gate-story" style="max-width:680px;margin:0 auto 18px">“{{ gateView.gardenVoice }}”</div>
+                      <div style="font-size:12px;line-height:1.5;color:#665D4D;max-width:680px;margin:0 auto 17px">{{ gateView.story }}</div>
+                      <div style="background:rgba(255,253,246,.82);border:1px solid #E4DAC4;border-radius:14px;padding:12px 15px;text-align:left;max-width:550px;margin:0 auto">
+                        <div style="font-size:9px;font-weight:800;color:#8A7E66;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px">Your mission</div>
+                        <div style="font-size:12.5px;line-height:1.5;color:#514A3C">{{ gateView.prompt }}</div>
+                      </div>
+                      <div style="max-width:550px;margin:10px auto 0;padding:9px 12px;border-radius:12px;background:#3F5138;color:#F7F1E3;font-size:11.5px;line-height:1.45;text-align:left">{{ gateView.seasonPreview }}</div>
+                    </div>
+                    <div style="display:flex;justify-content:center;margin-top:14px">
+                      <button sc-camel-on-click="{{ gateView.onBegin }}" style="background:#5E7E4A;border:none;color:#F7F1E3;font-family:inherit;font-weight:800;font-size:13px;padding:11px 25px;border-radius:12px;cursor:pointer;box-shadow:0 8px 18px -12px rgba(48,76,32,.7)">Start challenge →</button>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ gateView.inChallenge }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:#F5F0E3;border-radius:12px;padding:8px 11px;margin-bottom:10px">
+                      <div style="font-size:11.5px;color:#5F584A;line-height:1.35">{{ gateView.prompt }}</div>
+                      <span style="font-size:10.5px;font-weight:800;color:#5E7E4A;white-space:nowrap">{{ gateView.progressText }}</span>
+                    </div>
+                    <sc-if value="{{ gateView.hasFeedback }}" hint-placeholder-val="{{ false }}">
+                      <div role="status" aria-live="polite" style="{{ gateView.feedbackStyle }}">{{ gateView.feedback }}</div>
+                    </sc-if>
+                    <sc-if value="{{ gateView.hasTimer }}" hint-placeholder-val="{{ false }}">
+                      <div style="height:6px;border-radius:4px;background:#E4DAC4;overflow:hidden;margin-bottom:10px"><div style="{{ gateView.timerStyle }}"></div></div>
+                    </sc-if>
+                    <div data-testid="gate-board" sc-camel-on-click="{{ gateView.onBoardClick }}" sc-camel-on-pointer-move="{{ gateView.onBoardMove }}" style="{{ gateView.boardStyle }}">
+                      <sc-for list="{{ gateView.tiles }}" as="t" hint-placeholder-count="0">
+                        <div sc-camel-on-click="{{ t.onClick }}" sc-camel-on-key-down="{{ t.onKeyDown }}" role="{{ t.role }}" tabindex="{{ t.tabIndex }}" aria-label="{{ t.title }}" title="{{ t.title }}" style="{{ t.style }}">
+                          <sc-if value="{{ t.art }}" hint-placeholder-val="{{ false }}"><span style="{{ t.artStyle }}">{{ t.art }}</span></sc-if>
+                          <sc-if value="{{ t.label }}" hint-placeholder-val="{{ false }}"><span style="{{ t.labelStyle }}">{{ t.label }}</span></sc-if>
+                          <sc-if value="{{ t.note }}" hint-placeholder-val="{{ false }}"><span style="{{ t.noteStyle }}">{{ t.note }}</span></sc-if>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <sc-if value="{{ gateView.hasButtons }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">
+                        <sc-for list="{{ gateView.buttons }}" as="gb" hint-placeholder-count="0">
+                          <button sc-camel-on-click="{{ gb.onClick }}" style="{{ gb.style }}" style-hover="transform:translateY(-1px)">
+                            <span style="display:block">{{ gb.label }}</span>
+                            <sc-if value="{{ gb.note }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:9.5px;font-weight:600;opacity:.78;margin-top:2px">{{ gb.note }}</span></sc-if>
+                          </button>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                  </sc-if>
+
+                  <sc-if value="{{ gateView.showResult }}" hint-placeholder-val="{{ false }}">
+                    <div style="{{ gateView.resultStyle }}">
+                      <div style="width:54px;height:54px;border-radius:50%;margin:0 auto 10px;background:#EAF1DA;display:grid;place-items:center;font-size:28px">{{ gateView.resultEmoji }}</div>
+                      <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;margin-bottom:6px">{{ gateView.resultTitle }}</div>
+                      <div style="font-size:12.5px;line-height:1.55">{{ gateView.lesson }}</div>
+                      <sc-if value="{{ gateView.hasImpact }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;background:rgba(255,253,246,.72);border:1px solid rgba(94,126,74,.22);border-radius:11px;padding:8px 10px;font-size:11.5px;font-weight:700;color:#4D643E">↳ {{ gateView.impactLabel }} · {{ gateView.impact }}</div></sc-if>
+                      <div style="margin-top:10px;padding-top:9px;border-top:1px solid rgba(94,126,74,.2);font-size:10.5px;font-weight:700;color:#6D7E5C">Skill practised · {{ gateView.skill }}</div>
+                    </div>
+                    <div style="display:flex;gap:8px;justify-content:center;margin-top:13px">
+                      <sc-if value="{{ gateView.canRetry }}" hint-placeholder-val="{{ false }}">
+                        <button sc-camel-on-click="{{ gateView.onRetry }}" style="background:#fff;border:1.5px solid #CBBFA4;color:#5A5240;font-weight:700;font-size:12px;padding:9px 16px;border-radius:10px;cursor:pointer;font-family:inherit">↻ Try again</button>
+                      </sc-if>
+                      <button sc-camel-on-click="{{ gateView.onFinish }}" style="background:#5E7E4A;border:none;color:#F2E9D2;font-weight:800;font-size:12.5px;padding:10px 21px;border-radius:11px;cursor:pointer;font-family:inherit">{{ gateView.continueLabel }}</button>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ gateView.canSkip }}" hint-placeholder-val="{{ false }}">
+                    <div style="text-align:center;margin-top:10px"><button sc-camel-on-click="{{ gateView.onFinish }}" style="background:none;border:none;color:#A99E86;font-size:10.5px;font-weight:600;cursor:pointer;font-family:inherit;text-decoration:underline">Skip this challenge →</button></div>
+                  </sc-if>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
   <!-- Garden Speaks · pattern 02: earned reflection -->
   <sc-if value="{{ gardenReflectionVisible }}" hint-placeholder-val="{{ false }}">
     <div class="pg-garden-dialog-backdrop" sc-camel-on-click="{{ onDismissGardenReflection }}">
       <div class="pg-garden-reflection" data-pg-dialog="garden-reflection" role="dialog" aria-modal="true" aria-label="The garden reflects" tabindex="-1" sc-camel-on-click="{{ stopProp }}">
         <div style="position:relative;z-index:1;display:flex;align-items:center;gap:9px;color:#4D6644;font-size:9.5px;font-weight:900;letter-spacing:.18em;text-transform:uppercase"><img class="pg-system-icon" src="assets/ui/icons/garden-voice.svg" alt="">The garden reflects</div>
+        <sc-if value="{{ gardenReflectionVisible }}" hint-placeholder-val="{{ false }}">
+          <div class="pg-reflection-art" aria-hidden="true">
+            <img sc-camel-src="{{ gardenReflectionBackgroundSrc }}" alt="" draggable="false">
+            <img class="pg-reflection-motif" sc-camel-src="{{ gardenReflectionMotifSrc }}" alt="" draggable="false">
+          </div>
+        </sc-if>
         <div class="pg-garden-reflection-voice">“{{ gardenReflectionText }}”</div>
         <div style="position:relative;z-index:1;font-size:12px;line-height:1.55;color:#6A6151;padding-top:12px;border-top:1px solid rgba(112,88,53,.18)">{{ gardenReflectionNote }}</div>
         <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:18px">
@@ -2463,6 +2484,12 @@ class Component extends DCLogic {
     return null;
   }
   reflectionById(id){return id==='three-layers'?this.reflectionForCount(3):(id==='fair-share'?this.reflectionForCount(5):null);}
+  reflectionArtBase(st){
+    const id=st.gardenReflection&&st.gardenReflection.id;
+    if(id==='three-layers'){return 'three-layers-answer';}
+    if(id==='fair-share'){return 'gift-travels-onward';}
+    return (st.season==='Winter')?'garden-sleeps-winter':'garden-listens';
+  }
   queueGardenReflection(ref){
     if(!ref){return;}
     const s=this.state,seen=s.gardenReflectionsSeen||[],active=s.gardenReflection;
@@ -2740,7 +2767,7 @@ class Component extends DCLogic {
           const pendingPassage=pendingCinematicSeason?(this.seasonPassages[pendingCinematicSeason]||{}):null;
           const pendingCinematic=pendingCinematicSeason?{season:pendingCinematicSeason,title:pendingPassage.title||('Welcome, '+pendingCinematicSeason),text:pendingPassage.voice||'',image:pendingPassage.image||''}:null;
           restored=true;
-          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,seedAllowance:(s.seedAllowance&&typeof s.seedAllowance==='object')?s.seedAllowance:{},grownHarvests:num(s.grownHarvests,0),preservedCount:num(s.preservedCount,0),paymentChoice:null,muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
+          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,payWith:(s.payWith==='euro'?'euro':'shares'),seedAllowance:(s.seedAllowance&&typeof s.seedAllowance==='object')?s.seedAllowance:{},grownHarvests:num(s.grownHarvests,0),preservedCount:num(s.preservedCount,0),paymentChoice:null,muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
           this.setState({gardenWhisper:pendingWhispers[0]||null,gardenWhisperQueue:pendingWhispers.slice(1),gardenReflectionQueue:pendingReflections,gardenReflectionsSeen:reflectionSeen,visit:pendingVisit,guildCard:pendingGuildCards[0]||null,guildCardQueue:pendingGuildCards.slice(1),arrivalQueue:pendingArrivals,gardenCinematic:pendingCinematic},()=>{this.capturePreviousState();this._suppressFx=false;if(pendingWhispers.length){this.scheduleGardenWhisper(pendingWhispers[0]);}if(pendingReflections.length){this.scheduleGardenReflection(500);}if(pendingCinematic){this.scheduleCinematicVoice();}if(pendingGuildCards.length&&!this.state.guildVoicePlayed){this.scheduleGuildVoice();}});
         }
       }
@@ -2975,7 +3002,7 @@ class Component extends DCLogic {
       const pendingGuildCards=Array.from(new Set([s.guildCard,...(s.guildCardQueue||[])].filter(Boolean)));
       const pendingArrivals=Array.from(new Set((s.arrivalQueue||[]).filter(Boolean)));
       const pendingGardenCinematic=s.gardenCinematic&&this.seasonDefs[s.gardenCinematic.season]?s.gardenCinematic.season:null;
-      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,_n:this._n,_g:this._g}));
+      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g}));
     }catch(e){}
   }
   componentDidUpdate(){
@@ -3171,7 +3198,10 @@ class Component extends DCLogic {
     if(via==='gift'){ pay={source:'gift',amount:0}; }
     else if(via==='barter'&&options.barter){pay={source:'barter',amount:e.barter};}
     else if(via==='buy'&&options.buy){pay={source:'buy',amount:eff.price,used:eff.used};}
-    else if(via==='auto'&&options.barter&&options.buy){this.setState({paymentChoice:{type:type,x:x,y:y,barter:e.barter,buy:eff.price,used:eff.used}});return;}
+    else if(via==='auto'&&options.barter&&options.buy){
+      if((s.payWith||'shares')==='euro'){pay={source:'buy',amount:eff.price,used:eff.used};}
+      else {pay={source:'barter',amount:e.barter};}
+    }
     else if(options.barter){ pay={source:'barter',amount:e.barter}; }
     else if(options.buy){ pay={source:'buy',amount:eff.price,used:eff.used}; }
     else if(cdef&&e.barter===0){pay={source:'seed',amount:0};}
@@ -3397,7 +3427,7 @@ class Component extends DCLogic {
     if(this.state.giveMode){ this.setState({giveMode:false,toast:null}); return; }
     if(!this.sharingUnlocked(this.state)){this.flash('The sharing table opens in the community act. Build the garden’s four living layers first.');return;}
     const eligible=(this.state.placed||[]).some(p=>this.elementGiftEligibility(p.id,this.state).eligible);
-    if(!eligible){ this.flash('No established spare yet. Grow a harvest to share, or keep two copies of an element for at least one seasonal turn.'); return; }
+    if(!eligible){ this.flash('No established spare yet. '+this.firstGiftHint(this.state)); return; }
     this.setState({giveMode:true,plantType:null,selectedPlacedId:null,toast:'🌿 Choose an established duplicate. Your garden keeps one; the spare continues through the community. (Esc cancels)'});
   }
   gardenPillars(placed){
@@ -3405,14 +3435,32 @@ class Component extends DCLogic {
     return {Soil:t.has('compost')||t.has('mulch')||t.has('hugel'),Water:t.has('rain'),Food:t.has('hugel')||t.has('arch')||t.has('herbspiral')||t.has('greenhouse')||t.has('appletree')||Array.from(t).some(k=>k.indexOf('crop_')===0),Shelter:t.has('bughotel')||t.has('birdhouse')||t.has('pollinator')};
   }
   reciprocityUnlocked(st=this.state){return (st.sharedActs||0)>0;}
+  PROPAGABLE={compost:'a bucket of finished compost',mulch:'a share of the mulch pile',herbspiral:'rooted herb cuttings'};
+  firstGiftHint(st=this.state){
+    const season=st.season||'Summer';
+    if(season==='Summer'&&(st.cherryPicks||0)>0){return 'In summer, the ripe cherries on your tree are the easiest first gift 🍒 — click a glowing cluster, then share from the basket.';}
+    const b=st.basket||{};
+    const bKey=Object.keys(b).find(k=>(b[k]||0)>0&&this.produceMeta[k]&&(!this.produceMeta[k].seasons||this.produceMeta[k].seasons.indexOf(season)>=0));
+    if(bKey&&this.produceMeta[bKey]){return 'Your basket holds '+this.produceMeta[bKey].name.toLowerCase()+' — sharing harvest counts as a real gift. 🧺';}
+    const prop=(st.placed||[]).find(p=>this.PROPAGABLE[p.type]&&(st.seasonTurns||0)-(p.placedAtTurn||0)>=1);
+    if(prop){return 'Your established '+this.catalog[prop.type].name.toLowerCase()+' can spare '+this.PROPAGABLE[prop.type]+' — it stays in the garden while the gift travels.';}
+    return 'Easiest first gifts: pick ripe produce in season, or let compost, mulch or herbs establish one seasonal turn — they can share a division without leaving your garden.';
+  }
   elementGiftEligibility(id,st=this.state){
     const item=(st.placed||[]).find(p=>p.id===id);
     if(!item){return {eligible:false,reason:'That element is no longer in the garden.'};}
     if(!this.sharingUnlocked(st)){return {eligible:false,reason:'Complete the four living layers before opening the community table.'};}
     if(this.cropDefs[item.type]){return {eligible:false,reason:'Share the harvested produce, not an unharvested crop.'};}
+    const established=(st.seasonTurns||0)-(item.placedAtTurn||0)>=1;
     const copies=(st.placed||[]).filter(p=>p.type===item.type);
-    if(copies.length<2){return {eligible:false,reason:'Keep one living example in the garden; only an established duplicate is surplus.'};}
-    if((st.seasonTurns||0)-(item.placedAtTurn||0)<1){return {eligible:false,reason:'This element is newly placed. Let it establish through one seasonal turn first.'};}
+    if(copies.length<2){
+      if(this.PROPAGABLE[item.type]){
+        if(!established){return {eligible:false,reason:'Newly placed — let it establish through one seasonal turn, then it can spare '+this.PROPAGABLE[item.type]+'.'};}
+        return {eligible:true,mode:'division',reason:'Established and abundant — it can spare '+this.PROPAGABLE[item.type]+' while staying in your garden.'};
+      }
+      return {eligible:false,reason:'Keep one living example in the garden; only an established duplicate is surplus. '+this.firstGiftHint(st)};
+    }
+    if(!established){return {eligible:false,reason:'This element is newly placed. Let it establish through one seasonal turn first.'};}
     return {eligible:true,reason:'Established duplicate available as a genuine spare.'};
   }
   elementGiftReward(type,st=this.state){return 0;}
@@ -3530,14 +3578,15 @@ class Component extends DCLogic {
     const eligibility=this.elementGiftEligibility(id,this.state);
     if(!eligibility.eligible){this.flash(eligibility.reason);return;}
     const reward=this.elementGiftReward(type,this.state);
+    const division=eligibility.mode==='division';
     this._gaveJust=true;
     this.setState(s=>{
       const person=this.communityRecipientFor(type,s.sharedActs||0);
-      const placed=s.placed.filter(p=>p.id!==id);
+      const placed=division?s.placed:s.placed.filter(p=>p.id!==id);
       let ns={...s, placed:placed, giveMode:false, selectedPlacedId:null,
         pool:Math.min(100,s.pool+10), goodwill:s.goodwill+1, shares:s.shares+reward, given:s.given+1, sharedActs:(s.sharedActs||0)+1,rewardedGiftTypes:Array.from(new Set([...(s.rewardedGiftTypes||[]),type])),
         communityMemory:[{id:'cm'+Date.now(),person:person,text:this.communityReply(person,c.name.toLowerCase())},...(s.communityMemory||[])].slice(0,4),
-        toast:'🌿 Your established spare '+c.name.toLowerCase()+' reached the shared table. The community pool grew; your personal shares did not.'};
+        toast:division?('🌿 You shared '+this.PROPAGABLE[type]+' — your '+c.name.toLowerCase()+' stays and keeps giving. The community pool grew.'):('🌿 Your established spare '+c.name.toLowerCase()+' reached the shared table. The community pool grew; your personal shares did not.')};
       ns=this.applyMilestones(ns);
       ns=this.addJourneyMoment(ns,'share','What leaves my gate is not lost. It becomes someone else’s beginning.');
       return ns;
@@ -4564,7 +4613,7 @@ class Component extends DCLogic {
       {done:water,label:'Connect water to plants',why:'Catch water, then place it close enough to serve a growing area.'},
       {done:food,label:'Grow food in layers',why:'Combine edible plants, perennial structure and flowering partners.'},
       {done:shelter,label:'Connect a habitat',why:'Shelter becomes stronger when food, water and quiet cover are nearby.'},
-        {done:community,label:'Let a gift circulate',why:'Share one genuine surplus, then notice how the shared pool and community care respond.'},
+        {done:community,label:'Let a gift circulate',why:community?'Share one genuine surplus, then notice how the shared pool and community care respond.':('Share one genuine surplus. '+this.firstGiftHint(st))},
       {done:journey.steps[5].done,label:'Complete a seasonal challenge',why:'Turn the season and let the lesson change your garden state.'},
       {done:!!st.harvestEver,label:'Harvest & preserve',why:'Pick ripe crops in season and keep suitable surplus for later.'},
       {done:discCount>0,label:'Form a plant guild',why:'Place two complementary partners side by side.'}
@@ -4735,7 +4784,12 @@ class Component extends DCLogic {
       onToggleStoryPause:()=>this.toggleStoryPause(),
       onReplayStory:()=>this.replayStory(true),
       onPlayStory:()=>this.replayStory(false),
-      paymentChoiceVisible:!!st.paymentChoice,
+      paymentChoiceVisible:false,payWithEuroPressed:(st.payWith==='euro'),
+      payWithShares:(st.payWith||'shares')!=='euro',
+      onSetPayShares:()=>{if((this.state.payWith||'shares')!=='shares'){this.setState({payWith:'shares',toast:'🌱 Paying with participation shares — contributed time and knowledge.'});}},
+      onSetPayEuro:()=>{if(this.state.payWith!=='euro'){this.setState({payWith:'euro',toast:'€ Paying from the project garden fund.'});}},
+      payToggleSharesStyle:{flex:'1',border:'1.5px solid '+((st.payWith||'shares')!=='euro'?'#8CAB6C':'transparent'),background:(st.payWith||'shares')!=='euro'?'#EDF4DE':'transparent',color:(st.payWith||'shares')!=='euro'?'#3E5A33':'#8B8471',borderRadius:'9px',padding:'5px 4px',font:'700 10.5px inherit',cursor:'pointer',transition:'all .15s'},
+      payToggleEuroStyle:{flex:'1',border:'1.5px solid '+(st.payWith==='euro'?'#C9A24A':'transparent'),background:st.payWith==='euro'?'#F8EFDA':'transparent',color:st.payWith==='euro'?'#8A6B1F':'#8B8471',borderRadius:'9px',padding:'5px 4px',font:'700 10.5px inherit',cursor:'pointer',transition:'all .15s'},
       paymentName:st.paymentChoice&&this.catalog[st.paymentChoice.type]?this.catalog[st.paymentChoice.type].name:'this element',
       paymentBarter:st.paymentChoice?st.paymentChoice.barter:0,paymentBuy:st.paymentChoice?st.paymentChoice.buy:0,
       paymentMaterialsNote:st.paymentChoice&&(st.paymentChoice.used||[]).length?('The euro option already includes reclaimed '+st.paymentChoice.used.map(k=>this.MATS[k].name.toLowerCase()).join(', ')+'.'):'Nothing is spent until you choose.',
@@ -4854,7 +4908,7 @@ class Component extends DCLogic {
       ghostTargets:ghostTargets,
       gateVisible:!!st.gate,
       gateView:this.buildGateView(),
-      gardenReflectionVisible:!!st.gardenReflection,gardenReflectionText:st.gardenReflection?st.gardenReflection.text:'',gardenReflectionNote:st.gardenReflection?st.gardenReflection.note:'',onDismissGardenReflection:()=>this.dismissGardenReflection(),onReplayGardenReflection:()=>this.replayGardenReflection(),
+      gardenReflectionVisible:!!st.gardenReflection,gardenReflectionText:st.gardenReflection?st.gardenReflection.text:'',gardenReflectionBackgroundSrc:'assets/reflections/'+this.reflectionArtBase(st)+'-background.webp',gardenReflectionMotifSrc:'assets/reflections/'+this.reflectionArtBase(st)+'-motif.webp',gardenReflectionNote:st.gardenReflection?st.gardenReflection.note:'',onDismissGardenReflection:()=>this.dismissGardenReflection(),onReplayGardenReflection:()=>this.replayGardenReflection(),
       gardenCinematicVisible:!!st.gardenCinematic,gardenCinematicSeason:st.gardenCinematic?st.gardenCinematic.season:'',gardenCinematicTitle:st.gardenCinematic?st.gardenCinematic.title:'',gardenCinematicText:st.gardenCinematic?st.gardenCinematic.text:'',gardenCinematicImageEl:st.gardenCinematic?E('img',{className:'pg-cinematic-image',src:st.gardenCinematic.image,alt:'The community garden at Menet in '+st.gardenCinematic.season,loading:'eager',draggable:false}):null,onReplayGardenCinematic:()=>{if(st.gardenCinematic){this.setMusicMode('season');this.speakGarden('cinematic-'+st.gardenCinematic.season.toLowerCase());}},onDismissGardenCinematic:()=>this.dismissGardenCinematic(),
       visitVisible:!!st.visit,
       visitView:this.buildVisitView(),
