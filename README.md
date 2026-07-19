@@ -1,89 +1,150 @@
 # Permaculture Garden — Le Jardin
 
-Statická edukativní hra o permakulturní zahradě, sezónnosti a ekonomice sdílení.
+**A story-led educational game where every placement becomes a relationship, every season changes the lesson, and GPT‑5.6 Luna helps the garden reflect on what the player has actually built.**
 
-## Zdroj a build
+[Play the public production build](https://permaculture-garden-new.vercel.app/)
 
-Hlavní editovatelný zdroj je `Permaculture Garden v2.dc.html`. Produkční `index.html` ani
-`game.fragment.html` se neupravují ručně:
+## Why this garden exists
+
+The game is inspired by a real permaculture garden in the small French village of Menet. The creator's partner joined an Erasmus+ volunteering programme there and helped a group of young people care for the garden, learn together and move the project forward.
+
+Permaculture Garden was conceived first as a learning experience for that community. Its longer-term purpose is to support schools, youth programmes, environmental organisations and other community projects that want to introduce ecology, systems thinking and fair sharing through play. It is an independent project and is not affiliated with or endorsed by Erasmus+.
+
+## What the player does
+
+Players design a living garden rather than optimise isolated objects. They place soil, water, food and habitat elements; discover useful guilds; welcome wildlife; grow and preserve seasonal harvests; and contribute genuine surplus to a community sharing table. Eleven educational season challenges turn permaculture ideas into decisions with immediate explanatory feedback.
+
+The experience includes:
+
+- a seven-scene, first-person cinematic introduction narrated by the Garden of Menet;
+- a guided first journey and a free-exploration mode;
+- four seasons with crop windows, dormancy, preservation and ecological change;
+- eleven replayable learning challenges without timers or punitive failure;
+- seven plant and infrastructure guilds, ten wildlife relationships and a visual relationship score;
+- a fair-share economy in which community gifts never become personal currency;
+- earned reflections, a learning journal and an exportable garden certificate;
+- an optional **Living Lesson** powered by GPT‑5.6 Luna.
+
+The current experience is designed and tested for desktop and laptop browsers. It is free to play and needs no account.
+
+## Two-minute judge path
+
+1. Open the [production game](https://permaculture-garden-new.vercel.app/).
+2. Choose **Explore freely** during onboarding.
+3. Add at least two elements, for example **Compost** and **Rain harvesting**.
+4. In **Design connections**, select **Listen to your garden · GPT‑5.6 Luna**.
+5. Read the observation, relationship explanation and Socratic question.
+6. Choose **Try this experiment**, then make the proposed change on the plot.
+7. Reopen the reflection: the deterministic engine measures the new state and records evidence if the experiment succeeded.
+
+For the fuller learning journey, follow the guided path through soil, water, food, habitat, sharing, a guild and a harvest, then advance through the seasons.
+
+## Meaningful GPT‑5.6 integration
+
+**The Garden Reflects — Living Lesson** makes GPT‑5.6 Luna part of the learning loop rather than placing a generic chatbot beside the game:
+
+1. The client derives a bounded, anonymous snapshot from the player's current garden.
+2. `lib/living-lesson.js` creates two to four valid, measurable design experiments from that state.
+3. `api/garden-reflection.js` sends the snapshot and trusted candidates to `openai/gpt-5.6-luna` through Vercel AI Gateway.
+4. GPT‑5.6 selects one candidate and expresses the current relationships as a first-person garden observation, a concise ecological explanation and one Socratic question.
+5. The player accepts the experiment and changes the real garden.
+6. The deterministic engine—not the model—checks the new state and records the evidence.
+
+GPT‑5.6 cannot invent an action, modify the economy, award points or decide whether its own experiment passed. Model output is structured, normalised and matched back to the server-generated candidate list. A reviewed deterministic lesson keeps the feature useful and clearly labels it **Garden wisdom offline** if live inference is unavailable.
+
+### Privacy, safety and cost boundaries
+
+- No provider credential is shipped to the browser. Production requests authenticate with Vercel's automatically supplied OIDC token.
+- The model receives only garden element types, season, relationship metrics and explanations, and bounded progression counts. Player name, free-text reflections and the save file are excluded.
+- The server regenerates candidates and validates the structured response before returning it.
+- Application code does not log prompts or player state. Routing identifiers are hashed.
+- Stable state fingerprints enable caching. The client allows three uncached requests per browser per day, while the function adds burst, client and global limits, a 12-second timeout and a 320-token output cap.
+- If credit, authentication or the provider is unavailable, the endpoint returns a deterministic lesson without further model cost and without breaking the game.
+
+## How Codex shaped the project
+
+Codex was the primary engineering collaborator throughout OpenAI Build Week. The creator supplied the educational intent, lived context, taste and product decisions; Codex helped turn those decisions into a reliable product:
+
+- audited the existing prototype from game-design, art-direction, player and accessibility perspectives;
+- redesigned the eleven minigames around learning, retry and explanatory feedback;
+- implemented the cinematic onboarding, organic audio system, garden voice and unified visual language;
+- hardened saving, resets, modal queues, season transitions, reduced-motion behaviour and keyboard semantics;
+- rebuilt progression, sharing, winter crop logic, reflections and the final certificate around observable player actions;
+- designed the bounded Living Lesson architecture and its safety, privacy, cost and outage behaviour;
+- wrote deterministic unit/API tests and full-browser regression journeys;
+- repeatedly verified local builds and the deployed Vercel experience before release.
+
+Important human decisions included keeping money secondary to sharing, refusing to convert gifts directly into personal reward, making educational mistakes recoverable, giving GPT‑5.6 a reflective rather than authoritative role, and preserving the Garden of Menet as a poetic first-person narrator.
+
+## OpenAI Build Week provenance
+
+This project existed before the Submission Period. The last pre-period commit is [`ceec978`](https://github.com/martinpazdernik-source/Permaculture-Garden-new/commit/ceec9780de07829620d8ce2fce50e09de8bcf30d), committed at **07:58 PDT on 13 July 2026**, two minutes before the official 09:00 PDT start. That baseline was a deployable single-file prototype containing the core placement garden, seasons, guilds, wildlife, sharing and basic onboarding/minigames.
+
+Only work added after the official start is presented for Build Week judging. From the baseline to v75, the dated Git history records **214 changed files, 17,871 insertions and 225 deletions**, including:
+
+- recoverable source, a reproducible build pipeline and local vendoring;
+- repaired game flow, accessibility and loading resilience;
+- complete redesign of all eleven educational challenges;
+- the seven-scene story introduction and a fully regenerated organic soundscape;
+- one coherent onboarding/game visual system, cinematic season passages and a living garden voice;
+- hardened state recovery, event queues, progression and fair-share economy;
+- earned reflection vignettes, lasting learning evidence and payment-choice improvements;
+- extensive automated journey, resilience, accessibility, economy and visual regression coverage;
+- the v74 Living Lesson, the v75 production move to GPT‑5.6 Luna and v76 submission documentation/media attribution.
+
+The chronological evidence begins with commit `1e8b215` after the start and continues through the current `main` history. [`BUILD_WEEK.md`](BUILD_WEEK.md) contains the compact submission handoff and exact judge path.
+
+## Architecture
+
+The editable source is `Permaculture Garden v2.dc.html`. Do not edit generated `index.html` or `game.fragment.html` by hand.
+
+- `scripts/build.mjs` creates a small instant loading shell and the generated game fragment.
+- `scripts/check.mjs` validates logic syntax, local resources and production invariants.
+- `lib/living-lesson.js` is the shared deterministic experiment engine.
+- `api/garden-reflection.js` is the protected Vercel Function and GPT‑5.6 boundary.
+- `assets/` contains local WebP art, MP3 audio, fonts, icons and the background video.
+- `vendor/` contains the local React and Design Component runtime used by the static game.
+
+Player progress is stored locally in the browser. No account or external database is required.
+
+## Install, build and test
+
+Requirements: Node.js 20+ and npm.
 
 ```powershell
-node scripts/build.mjs
-node scripts/check.mjs
-```
-
-Build vytvoří malou okamžitou načítací stránku `index.html` a herní obsah
-`game.fragment.html`. React/DC runtime je lokálně v `vendor/`, fonty v `assets/fonts/` a herní
-obrázky v `assets/*.webp`. Organické vyprávění, hudba a herní efekty jsou v `assets/audio/`.
-
-Volitelná regenerace zvuku používá lokální, Git-em ignorovaný `ELEVENLABS_API_KEY` v `.env`:
-
-```powershell
-.\scripts\generate-audio.ps1
-.\scripts\normalize-audio.ps1
-# Jen nové repliky zahrady:
-.\scripts\normalize-audio.ps1 -GardenVoiceOnly
-```
-
-Klíč se nikdy necommitne ani nenasazuje do Vercelu; hra při běhu používá jen hotové MP3 soubory.
-Třináct finálních replik Voice 1 je v `assets/audio/garden-voice/`; jejich přesné titulky a mapování
-udržuje `manifest.json`.
-
-## Living Lesson · GPT‑5.6 Luna
-
-Od v74 obsahuje pravý panel funkci **The Garden Reflects — Living Lesson**; v75 přepíná její
-produkční model na cenově úspornou GPT‑5.6 Luna. Po alespoň dvou
-smysluplných herních aktech pošle Vercel Function `api/garden-reflection.js` do modelu
-`openai/gpt-5.6-luna` pouze omezený anonymní snímek zahrady: sezónu, typy umístěných prvků,
-čtyři systémové hodnoty a jejich vysvětlení, vzniklé vazby, postup, guildy a počty sdílení,
-sklizní a výzev. Neposílá jméno hráče, poznámku z reflexe ani obsah `localStorage`.
-
-Model formuluje hlas zahrady, stručné vysvětlení vztahu a sokratovskou otázku. Nemůže měnit
-ekonomiku, skóre, herní pravidla ani definovat vlastní úkol: server vždy znovu vytvoří 2–4
-důvěryhodné experimenty pomocí sdíleného deterministického enginu `lib/living-lesson.js` a
-výstup GPT‑5.6 Luna smí pouze jeden z nich vybrat. Dokončení experimentu vyhodnocuje stejný engine
-z reálné změny herního stavu.
-
-Autentizace v produkci používá automatický `VERCEL_OIDC_TOKEN`; OpenAI API klíč se nevytváří,
-neukládá do prohlížeče ani neposílá do repozitáře. Při chybě AI Gateway, vyčerpání kreditu,
-limitu, timeoutu nebo offline režimu vrátí hra plnohodnotnou předem zkontrolovanou reflexi.
-Ochranu nákladů tvoří lokální cache podle otisku stavu, nejvýše 3 nové požadavky denně z jednoho
-prohlížeče, serverové limity, 12s timeout a maximálně 320 výstupních tokenů. Vercel AI Gateway má
-navíc zůstat bez automatického dobíjení. GPT‑5.6 Luna používá zakoupené AI Gateway kredity za
-aktuální katalogovou cenu $1 za milion vstupních a $6 za milion výstupních tokenů. Pokud kredit
-dojde, endpoint správně přejde do offline větve a nic dalšího neúčtuje. Limity aplikace drží jeden
-nový uncached požadavek hluboko pod jedním centem podle délky vstupu.
-
-Lokální statický server nemá Vercel Function ani OIDC, takže UI přejde automaticky do offline
-větve. Samotnou funkci a engine lze ověřit bez klíče:
-
-```powershell
-npm install
+npm ci
+npm run generate
 npm test
+```
 
-# Volitelný browser průchod, když na portu 8787 běží lokální server:
-$env:CODEX_NODE_MODULES="C:\cesta\k\bundled\node_modules"
+To serve the static build locally:
+
+```powershell
+python -m http.server 8787 --bind 127.0.0.1
+```
+
+Then open `http://127.0.0.1:8787/`. The local static server has no Vercel Function or OIDC identity, so the Living Lesson intentionally exercises its offline path.
+
+Optional browser verification, with Playwright available through `CODEX_NODE_MODULES`:
+
+```powershell
+$env:CODEX_NODE_MODULES="C:\path\to\playwright\node_modules"
 npm run test:e2e:living-lesson
 
-# Skutečný produkční endpoint a UI s GPT‑5.6 Luna:
 $env:GAME_URL="https://permaculture-garden-new.vercel.app/"
 $env:LIVING_LESSON_LIVE_API="1"
 $env:EXPECTED_LESSON_MODE="ai"
 node scripts/e2e-living-lesson.mjs
 ```
 
-## Lokální test
+The automated coverage includes snapshot sanitisation, stable fingerprints, trusted candidate generation, response normalisation, deterministic completion metrics, method/input/origin boundaries, cache reuse, UI unlock, model/source labels, economy invariance, experiment persistence and outage fallback.
 
-```powershell
-python -m http.server 8787 --bind 127.0.0.1
-```
+## Deployment
 
-Potom otevři `http://127.0.0.1:8787/`.
+GitHub `main` is connected to Vercel. A push runs the production deployment for the static game and `api/garden-reflection.js`; Vercel installs locked dependencies from `package-lock.json`. The project uses the **Other** framework preset with no custom build command and intentionally has no `vercel.json`.
 
-## Nasazení
+For Build Week judging, the repository remains private and is shared directly with the two official judging addresses required by the rules.
 
-GitHub repozitář je propojený s Vercel projektem. Produkce se nasadí automaticky po sloučení do
-větve `main`. Framework preset je `Other`, bez vlastního Build Commandu; nasazuje se commitnutý
-kořenový `index.html` a `game.fragment.html` spolu s `assets/`, `vendor/`, `favicon.ico` a Vercel
-Function v `api/`. Vercel při nasazení nainstaluje závislosti z `package-lock.json`. Do projektu
-nepřidávat `vercel.json`.
+## Rights and acknowledgements
+
+The entrant directed and assembled the game's original design, writing, code and generated media. Visual and audio generations were produced through the entrant's own tool accounts and then edited and integrated specifically for this project. Open-source runtime dependencies retain their own licences. Detailed provenance and the pre-submission rights check are recorded in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
