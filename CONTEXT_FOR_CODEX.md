@@ -242,9 +242,10 @@ otázku; nesmí měnit pravidla, ekonomiku ani cíl.
 
 Serverová hranice je Vercel Function `api/garden-reflection.js`. V produkci používá automatický
 `VERCEL_OIDC_TOKEN`, takže projekt nepotřebuje OpenAI API klíč. Cache, klientský limit 3 nových
-požadavků denně, serverové limity, 320 výstupních tokenů a 12s timeout chrání bezplatný Gateway
-kredit. Vercel vyžaduje platnou kartu na účtu i k odemčení bezplatného kreditu; auto top-up má
-zůstat vypnutý. Dokud vlastník kartu nepřidá, 403 bezpečně používá fallback bez modelového nákladu.
+požadavků denně, serverové limity, 320 výstupních tokenů a 12s timeout chrání placený Gateway
+kredit. GPT‑5.6 Terra vyžaduje zakoupené AI Gateway kredity; samotná karta a bezplatný zůstatek jej
+neodemknou. Auto top-up má zůstat vypnutý. Dokud kredit není k dispozici, 403 bezpečně používá
+fallback bez modelového nákladu.
 Chybějící autentizace, 402/429, timeout, výpadek i offline režim vracejí plnohodnotný
 deterministický fallback označený **Garden wisdom offline**. Aktivní experiment a posledních osm
 dokončených se bezpečně ukládají do existujícího save. Soutěžní architektura a judge path jsou v

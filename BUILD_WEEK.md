@@ -40,9 +40,10 @@ in `Permaculture Garden v2.dc.html`.
 - Responses are cached by deterministic state fingerprint. The client permits three uncached calls
   per day, the function adds burst/client/global limits, output is capped at 320 tokens and total
   model time at 12 seconds.
-- Auto top-up should remain disabled. Vercel requires a valid card on file before it unlocks even
-  the free Gateway credit; until the project owner adds one, a 403 safely uses the reviewed fallback
-  and creates no model charge. A missing gateway, 402, 429, timeout or provider error likewise
+- Auto top-up should remain disabled. GPT‑5.6 Terra requires purchased AI Gateway credits; a card
+  on file and the free balance alone do not unlock this frontier model. Until the project owner buys
+  credits, a 403 safely uses the reviewed fallback and creates no model charge. A missing gateway,
+  402, 429, timeout or provider error likewise
   returns a deterministic lesson with HTTP 200, so cost controls never break the game.
 
 ## Built with Codex
@@ -63,7 +64,7 @@ the direct GPT‑5.6 runtime feature and its testable safety boundary.
 6. Follow its action on the plot. The card updates from current evidence to a completed experiment.
 7. Reopen the feature after changing the garden to see that the lesson follows the new state.
 
-The modal labels a live result **Living Lesson · GPT‑5.6**. If the free gateway allowance is
+The modal labels a live result **Living Lesson · GPT‑5.6**. If paid Gateway credit is
 unavailable, it transparently labels the reviewed continuity path **Garden wisdom offline**.
 
 ## Reproducible verification
@@ -78,7 +79,7 @@ npm run test:e2e:living-lesson
 
 $env:GAME_URL="https://permaculture-garden-new.vercel.app/"
 $env:LIVING_LESSON_LIVE_API="1"
-$env:EXPECTED_LESSON_MODE="fallback" # change to "ai" after Gateway credit is unlocked
+$env:EXPECTED_LESSON_MODE="fallback" # change to "ai" after paid Gateway credit is available
 node scripts/e2e-living-lesson.mjs
 ```
 
@@ -98,7 +99,8 @@ through public UI and `localStorage` behavior.
 - [x] Public production URL and public Git history
 - [x] Clear fallback when live inference is unavailable
 - [x] Privacy and cost boundaries documented and tested
-- [ ] Project owner adds a valid card in Vercel to unlock the free AI Gateway credit, with auto top-up off
+- [x] Project owner adds a valid payment card in Vercel
+- [ ] Project owner purchases AI Gateway credits for GPT‑5.6, with auto top-up off
 - [ ] Record the final demo video after production verification
 - [ ] Add the required public user-feedback evidence and link/quote to the Devpost submission
 - [ ] Complete the final Devpost description, screenshots and team details

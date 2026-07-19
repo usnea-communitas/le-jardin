@@ -48,9 +48,11 @@ neukládá do prohlížeče ani neposílá do repozitáře. Při chybě AI Gatew
 limitu, timeoutu nebo offline režimu vrátí hra plnohodnotnou předem zkontrolovanou reflexi.
 Ochranu nákladů tvoří lokální cache podle otisku stavu, nejvýše 3 nové požadavky denně z jednoho
 prohlížeče, serverové limity, 12s timeout a maximálně 320 výstupních tokenů. Vercel AI Gateway má
-navíc zůstat bez automatického dobíjení. Vercel vyžaduje platnou platební kartu na účtu i pro
-odemčení bezplatného Gateway kreditu; dokud ji vlastník projektu nepřidá, endpoint správně přejde
-do offline větve a nic neúčtuje.
+navíc zůstat bez automatického dobíjení. Pro model GPT‑5.6 Terra je vedle platební karty nutné
+zakoupit placené Gateway kredity; samotný bezplatný zůstatek tento model neodemkne. Dokud placený
+kredit není k dispozici, endpoint správně přejde do offline větve a nic neúčtuje. Aktuální katalogová
+cena Terra je $2.50 za milion vstupních a $15 za milion výstupních tokenů; limity aplikace proto drží
+jeden nový uncached požadavek v řádu zlomků centu až nízkých jednotek centů podle délky vstupu.
 
 Lokální statický server nemá Vercel Function ani OIDC, takže UI přejde automaticky do offline
 větve. Samotnou funkci a engine lze ověřit bez klíče:
