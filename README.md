@@ -62,6 +62,12 @@ npm test
 # Volitelný browser průchod, když na portu 8787 běží lokální server:
 $env:CODEX_NODE_MODULES="C:\cesta\k\bundled\node_modules"
 npm run test:e2e:living-lesson
+
+# Skutečný produkční endpoint a UI (před odemčením kreditu očekává fallback, potom ai):
+$env:GAME_URL="https://permaculture-garden-new.vercel.app/"
+$env:LIVING_LESSON_LIVE_API="1"
+$env:EXPECTED_LESSON_MODE="fallback" # po přidání karty změnit na "ai"
+node scripts/e2e-living-lesson.mjs
 ```
 
 ## Lokální test

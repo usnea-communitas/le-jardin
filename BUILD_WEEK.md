@@ -75,12 +75,20 @@ npm test
 python -m http.server 8787 --bind 127.0.0.1
 $env:CODEX_NODE_MODULES="C:\path\to\playwright\node_modules"
 npm run test:e2e:living-lesson
+
+$env:GAME_URL="https://permaculture-garden-new.vercel.app/"
+$env:LIVING_LESSON_LIVE_API="1"
+$env:EXPECTED_LESSON_MODE="fallback" # change to "ai" after Gateway credit is unlocked
+node scripts/e2e-living-lesson.mjs
 ```
 
 Coverage includes snapshot sanitization, stable fingerprints, trusted candidate generation,
 structured-output normalization, all deterministic completion metrics, method/input/origin
 boundaries, no-credential fallback, UI unlock, GPT labeling, cache reuse, economy invariance,
 experiment persistence, automatic completion and outage fallback.
+The same browser harness can run against production without relying on the localhost-only React
+test handle; it verifies the deployed endpoint, cache, economy invariance and persisted experiment
+through public UI and `localStorage` behavior.
 
 ## Submission checklist
 
