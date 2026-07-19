@@ -47,11 +47,15 @@ assert.equal(crossOrigin.statusCode, 403);
 
 const oldOidc = process.env.VERCEL_OIDC_TOKEN;
 const oldGateway = process.env.AI_GATEWAY_API_KEY;
+const oldForcedFallback = process.env.LIVING_LESSON_FORCE_FALLBACK;
 delete process.env.VERCEL_OIDC_TOKEN;
 delete process.env.AI_GATEWAY_API_KEY;
+process.env.LIVING_LESSON_FORCE_FALLBACK = "1";
 const fallback = await call("POST", { clientId: "garden_12345678", snapshot }, { "content-type": "application/json", origin: "https://garden.example", host: "garden.example" });
 if (oldOidc !== undefined) process.env.VERCEL_OIDC_TOKEN = oldOidc;
 if (oldGateway !== undefined) process.env.AI_GATEWAY_API_KEY = oldGateway;
+if (oldForcedFallback === undefined) delete process.env.LIVING_LESSON_FORCE_FALLBACK;
+else process.env.LIVING_LESSON_FORCE_FALLBACK = oldForcedFallback;
 assert.equal(fallback.statusCode, 200);
 assert.equal(fallback.body.ok, true);
 assert.equal(fallback.body.mode, "fallback");

@@ -108,7 +108,7 @@ module.exports = async function handler(req, res) {
     && takeLimit("global", 240, 24 * 60 * 60 * 1000);
   if (!allowed) return send(res, 200, fallback(snapshot, candidates, "rate_limit"));
 
-  if (!process.env.VERCEL_OIDC_TOKEN && !process.env.AI_GATEWAY_API_KEY) {
+  if (process.env.LIVING_LESSON_FORCE_FALLBACK === "1") {
     return send(res, 200, fallback(snapshot, candidates, "gateway_unavailable"));
   }
 
