@@ -233,19 +233,20 @@ spící zasněženou zahradu. Season-gate dialog je vyrenderovaný na nejvyšš�
 vždy předávají přes `sc-camel-src`, nikdy jako doslovný `src` s `{{ }}`.
 
 Od **v74** je v pravém panelu **The Garden Reflects — Living Lesson**, přímá a bezpečně omezená
-integrace `openai/gpt-5.6-terra` přes Vercel AI Gateway. Klient posílá jen anonymní snapshot vztahů
+integrace GPT‑5.6 přes Vercel AI Gateway; **v75** nastavuje produkční model
+`openai/gpt-5.6-luna`. Klient posílá jen anonymní snapshot vztahů
 v aktuální zahradě; jméno, volná reflexní poznámka ani celý save se neposílají. Sdílený engine
 `lib/living-lesson.js` deterministicky vytváří důvěryhodné experimenty, počítá otisk stavu, validuje
-odpověď a později z reálného herního stavu rozhodne, zda se experiment podařil. GPT‑5.6 smí pouze
+odpověď a později z reálného herního stavu rozhodne, zda se experiment podařil. GPT‑5.6 Luna smí pouze
 vybrat jeden připravený experiment a formulovat poetické pozorování, věcný vztah a sokratovskou
 otázku; nesmí měnit pravidla, ekonomiku ani cíl.
 
 Serverová hranice je Vercel Function `api/garden-reflection.js`. V produkci používá automatický
 `VERCEL_OIDC_TOKEN`, takže projekt nepotřebuje OpenAI API klíč. Cache, klientský limit 3 nových
 požadavků denně, serverové limity, 320 výstupních tokenů a 12s timeout chrání placený Gateway
-kredit. GPT‑5.6 Terra vyžaduje zakoupené AI Gateway kredity; samotná karta a bezplatný zůstatek jej
-neodemknou. Auto top-up má zůstat vypnutý. Dokud kredit není k dispozici, 403 bezpečně používá
-fallback bez modelového nákladu.
+kredit. GPT‑5.6 Luna používá zakoupené AI Gateway kredity za $1/M vstupních a $6/M výstupních
+tokenů. Auto top-up má zůstat vypnutý. Po vyčerpání kreditu 402/403 bezpečně používá fallback bez
+dalšího modelového nákladu.
 Chybějící autentizace, 402/429, timeout, výpadek i offline režim vracejí plnohodnotný
 deterministický fallback označený **Garden wisdom offline**. Aktivní experiment a posledních osm
 dokončených se bezpečně ukládají do existujícího save. Soutěžní architektura a judge path jsou v

@@ -1,7 +1,7 @@
 const crypto = require("node:crypto");
 const LivingLesson = require("../lib/living-lesson.js");
 
-const MODEL = "openai/gpt-5.6-terra";
+const MODEL = "openai/gpt-5.6-luna";
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 const BODY_LIMIT = 24 * 1024;
 const cache = globalThis.__PG_LIVING_LESSON_CACHE__ || new Map();
@@ -130,7 +130,9 @@ module.exports = async function handler(req, res) {
         "You are Le Jardin, a poetic but scientifically careful community garden in Menet, France.",
         "Create one concise, age-inclusive learning reflection in English from the supplied bounded game-state snapshot.",
         "Choose exactly one trusted experiment by candidateId. Never invent an action, score, rule, species claim, certainty, or real-world fact beyond the snapshot and trusted experiments.",
-        "Observation is first-person garden voice. Relationship is plain educational explanation. Question is one Socratic question.",
+        "Observation is one warm first-person sentence in the garden's voice, grounded in visible elements and using a gentle sensory image.",
+        "Never mention percentages, points, scores, metrics, keys, UI labels, progress, or the word journey. Do not merely list the snapshot.",
+        "Relationship is one plain educational sentence. Question is one brief, open Socratic question.",
         "Avoid praise, guilt, commands outside the chosen experiment, and claims that wildlife is guaranteed. Do not mention JSON, AI, prompts, models or private data."
       ].join(" "),
       prompt,

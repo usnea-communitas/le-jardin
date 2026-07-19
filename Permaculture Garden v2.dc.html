@@ -861,7 +861,7 @@ html,body{margin:0;padding:0}
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v74</span>
+      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v75</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
@@ -1274,7 +1274,7 @@ html,body{margin:0;padding:0}
           </sc-if>
         </div>
         <div class="pg-living-lesson-card" data-testid="living-lesson-card">
-          <div class="pg-living-lesson-kicker"><img src="assets/ui/icons/garden-voice.svg" alt="">Living Lesson · GPT-5.6</div>
+          <div class="pg-living-lesson-kicker"><img src="assets/ui/icons/garden-voice.svg" alt="">Living Lesson · GPT-5.6 Luna</div>
           <sc-if value="{{ livingLessonExperimentVisible }}" hint-placeholder-val="false">
             <div class="pg-living-lesson-progress">
               <strong>{{ livingLessonExperimentTitle }}</strong>
@@ -1482,7 +1482,7 @@ html,body{margin:0;padding:0}
               </div>
             </sc-if>
 
-  <!-- Living Lesson · bounded GPT-5.6 reflection with deterministic experiment -->
+  <!-- Living Lesson · bounded GPT-5.6 Luna reflection with deterministic experiment -->
   <sc-if value="{{ livingLessonVisible }}" hint-placeholder-val="false">
     <div class="pg-garden-dialog-backdrop" sc-camel-on-click="{{ onCloseLivingLesson }}">
       <div class="pg-living-lesson-dialog" data-pg-dialog="living-lesson" role="dialog" aria-modal="true" aria-labelledby="pg-living-lesson-title" tabindex="-1" sc-camel-on-click="{{ stopProp }}">
@@ -1506,7 +1506,7 @@ html,body{margin:0;padding:0}
             <p style="color:#65705a"><strong>Why:</strong> {{ livingLessonWhy }}</p>
             <p style="margin-bottom:0;color:#3f5b38"><strong>Evidence:</strong> {{ livingLessonSuccess }}</p>
           </div>
-          <div class="pg-living-lesson-trust">Only a small anonymous snapshot of this garden was used. GPT‑5.6 can shape this reflection, but it cannot change game rules, scores, prices or success conditions. When AI is unavailable, the same feature continues with reviewed garden wisdom.</div>
+          <div class="pg-living-lesson-trust">Only a small anonymous snapshot of this garden was used. GPT‑5.6 Luna can shape this reflection, but it cannot change game rules, scores, prices or success conditions. When AI is unavailable, the same feature continues with reviewed garden wisdom.</div>
           <div class="pg-living-lesson-actions">
             <button class="pg-living-lesson-secondary" sc-camel-on-click="{{ onCloseLivingLesson }}">Keep observing</button>
             <button class="pg-primary-action" data-testid="living-lesson-accept" sc-camel-on-click="{{ onAcceptLivingLesson }}">Try this experiment →</button>
@@ -4723,7 +4723,7 @@ class Component extends DCLogic {
       valueStyle:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'10px',fontWeight:'800',color:v.value<35?'#B5613A':(v.value<65?'#9A7428':'#4E6B3D')}}));
     const lessonBox=st.livingLesson,lesson=lessonBox&&lessonBox.lesson,lessonExperiment=st.livingLessonExperiment;
     const lessonUnlocked=this.livingLessonUnlocked(st),lessonActive=!!(lessonExperiment&&lessonExperiment.status==='active');
-    const livingLessonButtonLabel=!lessonUnlocked?'Listen after two learning acts':(lessonActive?'Experiment in progress':(lessonExperiment&&lessonExperiment.status==='completed'?'Ask for a new Living Lesson':'Listen to your garden · GPT-5.6'));
+    const livingLessonButtonLabel=!lessonUnlocked?'Listen after two learning acts':(lessonActive?'Experiment in progress':(lessonExperiment&&lessonExperiment.status==='completed'?'Ask for a new Living Lesson':'Listen to your garden · GPT-5.6 Luna'));
     const livingLessonButtonHint=!lessonUnlocked?'Complete any two learning acts so the garden has relationships to reflect on.':(lessonActive?'Complete the active experiment before beginning another.':'Create a state-aware reflection and one measurable garden experiment.');
 
     const statusText=score===0?'A bare plot — ready to begin':score<40?'A living beginning':score<70?'Connections taking shape':score<100?'A flourishing design':'A richly connected design';
@@ -5125,7 +5125,7 @@ class Component extends DCLogic {
       showSummary:!!st.showSummary,
       stopProp:(e)=>e.stopPropagation(),
       livingLessonVisible:!!lessonBox,livingLessonLoading:!!lessonBox&&lessonBox.status==='loading',livingLessonReady:!!lesson,
-      livingLessonEyebrow:lesson&&lesson.source==='ai'?'Living Lesson · GPT-5.6':'Living Lesson · Garden wisdom offline',
+      livingLessonEyebrow:lesson&&lesson.source==='ai'?'Living Lesson · GPT-5.6 Luna':'Living Lesson · Garden wisdom offline',
       livingLessonObservation:lesson?lesson.observation:'',livingLessonRelationship:lesson?lesson.relationship:'',livingLessonQuestion:lesson?lesson.question:'',
       livingLessonTitle:lesson&&lesson.experiment?lesson.experiment.title:'',livingLessonAction:lesson&&lesson.experiment?lesson.experiment.action:'',livingLessonWhy:lesson&&lesson.experiment?lesson.experiment.why:'',livingLessonSuccess:lesson&&lesson.experiment?lesson.experiment.success:'',
       onOpenLivingLesson:()=>this.openLivingLesson(),onCloseLivingLesson:()=>this.closeLivingLesson(),onAcceptLivingLesson:()=>this.acceptLivingLesson(),

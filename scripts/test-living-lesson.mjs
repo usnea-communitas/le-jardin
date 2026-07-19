@@ -41,7 +41,7 @@ const normalized = lesson.normalizeLesson({
   observation: "<b>I notice a quiet edge.</b>",
   relationship: "Connected habitat can offer food, cover and water without guaranteeing a visitor.",
   question: "Which edge could become more connected?"
-}, base, candidates, { source: "ai", model: "openai/gpt-5.6-terra" });
+}, base, candidates, { source: "ai", model: "openai/gpt-5.6-luna" });
 assert.equal(normalized.candidateId, candidates[0].id);
 assert.equal(normalized.focus, candidates[0].focus);
 assert.ok(!normalized.observation.includes("<b>"));

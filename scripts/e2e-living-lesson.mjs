@@ -70,8 +70,8 @@ if (liveApi) {
       observation: "I notice one relationship waiting for a helpful neighbour.",
       relationship: "Connected placement helps one element's useful output meet another element's need.",
       question: "What changes when you place the next element for a relationship rather than in isolation?"
-    }, body.snapshot, candidates, { source: "ai", model: "openai/gpt-5.6-terra" });
-    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, mode: "ai", model: "openai/gpt-5.6-terra", lesson }) });
+    }, body.snapshot, candidates, { source: "ai", model: "openai/gpt-5.6-luna" });
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, mode: "ai", model: "openai/gpt-5.6-luna", lesson }) });
   });
 }
 
@@ -94,12 +94,18 @@ try {
   await button.waitFor({ state: "visible" });
   await button.scrollIntoViewIfNeeded();
   check(await button.isEnabled(), "Living Lesson unlocks once the garden has enough state to reflect on");
+  const liveResponsePromise = liveApi ? page.waitForResponse(response => /\/api\/garden-reflection(?:\?|$)/.test(response.url()) && response.request().method() === "POST") : null;
   await button.click();
+  const livePayload = liveResponsePromise ? await (await liveResponsePromise).json() : null;
   const dialog = page.locator('[data-pg-dialog="living-lesson"]');
   await dialog.waitFor({ state: "visible" });
   const eyebrow = (await dialog.locator(".pg-living-lesson-kicker").first().textContent()).trim();
-  const resolvedMode = eyebrow.includes("GPT-5.6") ? "ai" : "fallback";
+  const resolvedMode = eyebrow.includes("GPT-5.6 Luna") ? "ai" : "fallback";
   check(expectedMode === "either" || resolvedMode === expectedMode, "Living Lesson reports the expected inference mode", { expectedMode, resolvedMode, eyebrow });
+  if (livePayload && resolvedMode === "ai") {
+    check(livePayload.model === "openai/gpt-5.6-luna", "production API identifies GPT-5.6 Luna as the serving model", { model: livePayload.model });
+    check(livePayload.lesson?.source === "ai" && livePayload.lesson?.promptVersion === "living-lesson-v2", "production lesson preserves its AI provenance and prompt version", { source: livePayload.lesson?.source, promptVersion: livePayload.lesson?.promptVersion });
+  }
   check((await dialog.textContent()).includes("One small experiment"), "the reflection resolves into one trusted experiment");
   check((await savedGame()).budget === budgetBefore, "the reflection cannot change the game economy");
   if (process.env.SCREENSHOT_PATH) await page.screenshot({ path: process.env.SCREENSHOT_PATH, fullPage: true });

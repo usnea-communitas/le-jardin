@@ -33,7 +33,7 @@ const snapshot = {
 
 const get = await call("GET", null);
 assert.equal(get.statusCode, 200);
-assert.equal(get.body.model, "openai/gpt-5.6-terra");
+assert.equal(get.body.model, "openai/gpt-5.6-luna");
 assert.equal(get.body.auth, "vercel-oidc");
 
 const method = await call("DELETE", null);
