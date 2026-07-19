@@ -1,7 +1,7 @@
 # Permaculture Garden — kompletní kontext pro Codex
 
 > Předávací dokument. Vysvětluje **co** hra je, **jak** je postavená a **proč** jsme jednotlivé
-> věci implementovali. Aktuální verze: **v73**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
+> věci implementovali. Aktuální verze: **v76**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
 > (needituj bundle `index.html` — ten se generuje).
 
 ---
@@ -250,7 +250,14 @@ dalšího modelového nákladu.
 Chybějící autentizace, 402/429, timeout, výpadek i offline režim vracejí plnohodnotný
 deterministický fallback označený **Garden wisdom offline**. Aktivní experiment a posledních osm
 dokončených se bezpečně ukládají do existujícího save. Soutěžní architektura a judge path jsou v
-`BUILD_WEEK.md`; testy v `scripts/test-living-lesson*.mjs` a `scripts/e2e-living-lesson.mjs`.
+`BUILD_WEEK.md`; anglické field-ready texty jsou v `DEVPOST_SUBMISSION.md`.
+
+Od **v76** je repozitář připravený pro OpenAI Build Week: kořenové `README.md` je kompletně anglicky,
+jasně odděluje poslední před-soutěžní commit `ceec978` od práce po začátku Submission Period, popisuje
+spolupráci s Codexem, instalaci, testy i GPT‑5.6 architekturu. `THIRD_PARTY_NOTICES.md` eviduje původ
+médií a aktuální licenční odkazy. Onboarding/help panel obsahuje nenápadné textové přiznání Kling AI,
+ElevenLabs, Picsart a Lovable, takže čistá video smyčka zůstává bez vodoznaku, ale její původ není skrytý.
+Testy Living Lesson zůstávají v `scripts/test-living-lesson*.mjs` a `scripts/e2e-living-lesson.mjs`.
 
 ### 4.11 Zvuk
 Od **v60** se nepoužívají procedurální oscilátory ani Web Audio tóny. Celý zvuk je postavený na
