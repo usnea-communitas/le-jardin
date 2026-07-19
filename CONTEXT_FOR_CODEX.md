@@ -232,6 +232,24 @@ spící zasněženou zahradu. Season-gate dialog je vyrenderovaný na nejvyšš�
 `position: fixed` nebyl omezen předkem s `backdrop-filter`. Dynamické obrazové cesty v DC template se
 vždy předávají přes `sc-camel-src`, nikdy jako doslovný `src` s `{{ }}`.
 
+Od **v74** je v pravém panelu **The Garden Reflects — Living Lesson**, přímá a bezpečně omezená
+integrace `openai/gpt-5.6-terra` přes Vercel AI Gateway. Klient posílá jen anonymní snapshot vztahů
+v aktuální zahradě; jméno, volná reflexní poznámka ani celý save se neposílají. Sdílený engine
+`lib/living-lesson.js` deterministicky vytváří důvěryhodné experimenty, počítá otisk stavu, validuje
+odpověď a později z reálného herního stavu rozhodne, zda se experiment podařil. GPT‑5.6 smí pouze
+vybrat jeden připravený experiment a formulovat poetické pozorování, věcný vztah a sokratovskou
+otázku; nesmí měnit pravidla, ekonomiku ani cíl.
+
+Serverová hranice je Vercel Function `api/garden-reflection.js`. V produkci používá automatický
+`VERCEL_OIDC_TOKEN`, takže projekt nepotřebuje OpenAI API klíč. Cache, klientský limit 3 nových
+požadavků denně, serverové limity, 320 výstupních tokenů a 12s timeout chrání bezplatný Gateway
+kredit. Vercel vyžaduje platnou kartu na účtu i k odemčení bezplatného kreditu; auto top-up má
+zůstat vypnutý. Dokud vlastník kartu nepřidá, 403 bezpečně používá fallback bez modelového nákladu.
+Chybějící autentizace, 402/429, timeout, výpadek i offline režim vracejí plnohodnotný
+deterministický fallback označený **Garden wisdom offline**. Aktivní experiment a posledních osm
+dokončených se bezpečně ukládají do existujícího save. Soutěžní architektura a judge path jsou v
+`BUILD_WEEK.md`; testy v `scripts/test-living-lesson*.mjs` a `scripts/e2e-living-lesson.mjs`.
+
 ### 4.11 Zvuk
 Od **v60** se nepoužívají procedurální oscilátory ani Web Audio tóny. Celý zvuk je postavený na
 organických MP3 nahrávkách v `assets/audio/`:
@@ -282,7 +300,8 @@ Uživatel nasazuje **GitHub → Vercel**. Pravidla (od 2026-07-09):
 2. `node scripts/check.mjs` ověří syntaxi herní logiky a lokální zdroje.
 3. Do GitHubu se posílá celý kořen projektu: `index.html`, `game.fragment.html`, `assets/`,
    `vendor/`, zdroj i skripty.
-4. Vercel nasazuje větev `main` automaticky jako statický web.
+4. Vercel nasazuje větev `main` automaticky: statickou hru a od v74 také serverovou Function
+   `api/garden-reflection.js`; závislosti instaluje z `package-lock.json`.
 5. **NEPŘIDÁVAT `vercel.json`** (výslovný pokyn — ruší starší pravidlo).
 
 Verze se značí v patičce palety (`v62`, …) a bumpuje při každém významném vydání.

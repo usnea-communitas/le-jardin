@@ -3,8 +3,15 @@ import { execFile } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import path from "node:path";
+import { createRequire } from "node:module";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const require = createRequire(import.meta.url);
+const livingLesson = require(path.join(root, "lib", "living-lesson.js"));
+if (!livingLesson || typeof livingLesson.buildCandidates !== "function" || typeof livingLesson.checkExperiment !== "function") {
+  throw new Error("Living Lesson engine did not load correctly.");
+}
+require(path.join(root, "api", "garden-reflection.js"));
 const execFileAsync = promisify(execFile);
 const generated = await execFileAsync(process.execPath, [path.join(root, "scripts", "build.mjs"), "--check"], { cwd: root });
 process.stdout.write(generated.stdout);

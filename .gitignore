@@ -1,9 +1,11 @@
 .env
 .env.*
 !.env.example
+node_modules/
 .codex-*.log
 .playwright-mcp/
 .tmp/
 debug.log
 test-results/
 v*-audit-*.png
+.vercel/

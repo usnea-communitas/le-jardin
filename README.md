@@ -29,6 +29,41 @@ Klíč se nikdy necommitne ani nenasazuje do Vercelu; hra při běhu používá 
 Třináct finálních replik Voice 1 je v `assets/audio/garden-voice/`; jejich přesné titulky a mapování
 udržuje `manifest.json`.
 
+## Living Lesson · GPT‑5.6
+
+Od v74 obsahuje pravý panel funkci **The Garden Reflects — Living Lesson**. Po alespoň dvou
+smysluplných herních aktech pošle Vercel Function `api/garden-reflection.js` do modelu
+`openai/gpt-5.6-terra` pouze omezený anonymní snímek zahrady: sezónu, typy umístěných prvků,
+čtyři systémové hodnoty a jejich vysvětlení, vzniklé vazby, postup, guildy a počty sdílení,
+sklizní a výzev. Neposílá jméno hráče, poznámku z reflexe ani obsah `localStorage`.
+
+Model formuluje hlas zahrady, stručné vysvětlení vztahu a sokratovskou otázku. Nemůže měnit
+ekonomiku, skóre, herní pravidla ani definovat vlastní úkol: server vždy znovu vytvoří 2–4
+důvěryhodné experimenty pomocí sdíleného deterministického enginu `lib/living-lesson.js` a
+výstup GPT‑5.6 smí pouze jeden z nich vybrat. Dokončení experimentu vyhodnocuje stejný engine
+z reálné změny herního stavu.
+
+Autentizace v produkci používá automatický `VERCEL_OIDC_TOKEN`; OpenAI API klíč se nevytváří,
+neukládá do prohlížeče ani neposílá do repozitáře. Při chybě AI Gateway, vyčerpání kreditu,
+limitu, timeoutu nebo offline režimu vrátí hra plnohodnotnou předem zkontrolovanou reflexi.
+Ochranu nákladů tvoří lokální cache podle otisku stavu, nejvýše 3 nové požadavky denně z jednoho
+prohlížeče, serverové limity, 12s timeout a maximálně 320 výstupních tokenů. Vercel AI Gateway má
+navíc zůstat bez automatického dobíjení. Vercel vyžaduje platnou platební kartu na účtu i pro
+odemčení bezplatného Gateway kreditu; dokud ji vlastník projektu nepřidá, endpoint správně přejde
+do offline větve a nic neúčtuje.
+
+Lokální statický server nemá Vercel Function ani OIDC, takže UI přejde automaticky do offline
+větve. Samotnou funkci a engine lze ověřit bez klíče:
+
+```powershell
+npm install
+npm test
+
+# Volitelný browser průchod, když na portu 8787 běží lokální server:
+$env:CODEX_NODE_MODULES="C:\cesta\k\bundled\node_modules"
+npm run test:e2e:living-lesson
+```
+
 ## Lokální test
 
 ```powershell
@@ -41,5 +76,6 @@ Potom otevři `http://127.0.0.1:8787/`.
 
 GitHub repozitář je propojený s Vercel projektem. Produkce se nasadí automaticky po sloučení do
 větve `main`. Framework preset je `Other`, bez vlastního Build Commandu; nasazuje se commitnutý
-kořenový `index.html` a `game.fragment.html` spolu s `assets/`, `vendor/` a `favicon.ico`. Do
-projektu nepřidávat `vercel.json`.
+kořenový `index.html` a `game.fragment.html` spolu s `assets/`, `vendor/`, `favicon.ico` a Vercel
+Function v `api/`. Vercel při nasazení nainstaluje závislosti z `package-lock.json`. Do projektu
+nepřidávat `vercel.json`.

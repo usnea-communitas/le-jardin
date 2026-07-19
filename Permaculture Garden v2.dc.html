@@ -20,6 +20,7 @@ html,body{margin:0;min-height:100%;background:#f4efe3}
 #pg-boot.pg-boot-error svg{animation:none}
 @keyframes pgBootLeaf{50%{transform:translateY(-5px) rotate(3deg)}}
 </style>
+<script src="lib/living-lesson.js"></script>
 <script src="a642a266-8af5-4398-9a56-263a98de83c8"></script>
 
 </head>
@@ -571,6 +572,42 @@ html,body{margin:0;padding:0}
 .pg-garden-reflection{position:relative;width:min(520px,94vw);padding:28px 30px 24px;border:1px solid rgba(113,88,52,.3);border-radius:24px;background:linear-gradient(155deg,#fffaf0,#eee3cd);box-shadow:0 34px 82px -28px rgba(14,25,13,.86);overflow:hidden;animation:floatIn .42s ease}
 .pg-garden-reflection:after{content:"";position:absolute;right:-18px;top:-18px;width:160px;height:160px;background:url("assets/ui/ornaments/corner-canopy.svg") center/contain no-repeat;opacity:.1;pointer-events:none}
 .pg-garden-reflection-voice{font:italic 20px/1.5 Georgia,'Times New Roman',serif;color:#34412f;margin:12px 0 20px;text-wrap:balance}
+.pg-living-lesson-card{position:relative;margin-top:10px;padding:11px 12px;border:1px solid rgba(95,122,77,.29);border-radius:13px;background:linear-gradient(145deg,rgba(244,241,226,.96),rgba(224,235,207,.88));overflow:hidden}
+.pg-living-lesson-card:after{content:"";position:absolute;right:-22px;top:-27px;width:105px;height:105px;background:url("assets/ui/ornaments/corner-canopy.svg") center/contain no-repeat;opacity:.09;pointer-events:none}
+.pg-living-lesson-card>*{position:relative;z-index:1}
+.pg-living-lesson-kicker{display:flex;align-items:center;gap:7px;font-size:8.5px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#536d48}
+.pg-living-lesson-kicker img{width:17px;height:17px}
+.pg-living-lesson-card h3{margin:5px 0 4px;font:700 14px/1.2 Georgia,'Times New Roman',serif;color:#30402d}
+.pg-living-lesson-card p{margin:0;font-size:10.5px;line-height:1.4;color:#625b4d}
+.pg-living-lesson-trigger{width:100%;margin-top:9px;padding:9px 10px;border:1px solid #4f6b43;border-radius:10px;background:linear-gradient(145deg,#668455,#395334);color:#fff9ea;font:800 10.5px 'Hanken Grotesk',sans-serif;cursor:pointer;box-shadow:0 11px 20px -15px rgba(30,51,27,.95)}
+.pg-living-lesson-trigger:disabled{cursor:not-allowed;opacity:.56;box-shadow:none}
+.pg-living-lesson-progress{margin-top:8px;padding-top:8px;border-top:1px solid rgba(89,111,73,.17)}
+.pg-living-lesson-progress strong{display:block;font-size:10.5px;color:#364d32;margin-bottom:3px}
+.pg-living-lesson-dialog{position:relative;width:min(650px,94vw);max-height:92vh;overflow-y:auto;padding:28px 30px 25px;border:1px solid rgba(113,88,52,.31);border-radius:25px;background:linear-gradient(155deg,#fffaf0,#eee3cd);box-shadow:0 34px 82px -28px rgba(14,25,13,.9);animation:floatIn .42s ease}
+.pg-living-lesson-dialog:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 82% 8%,rgba(203,220,177,.48),transparent 30%),linear-gradient(115deg,transparent 58%,rgba(255,255,255,.34));pointer-events:none}
+.pg-living-lesson-dialog:after{content:"";position:absolute;right:-18px;top:-18px;width:180px;height:180px;background:url("assets/ui/ornaments/corner-canopy.svg") center/contain no-repeat;opacity:.11;pointer-events:none}
+.pg-living-lesson-dialog>*{position:relative;z-index:1}
+.pg-living-lesson-close{position:absolute;z-index:2;right:14px;top:14px;width:30px;height:30px;border:1px solid rgba(105,87,59,.22);border-radius:9px;background:rgba(255,252,243,.72);color:#645b4c;font-size:13px;cursor:pointer}
+.pg-living-lesson-title{margin:8px 35px 5px 0;font:700 clamp(25px,4vw,34px)/1.05 Georgia,'Times New Roman',serif;color:#2e3d2b;letter-spacing:-.025em}
+.pg-living-lesson-subtitle{font-size:11px;line-height:1.45;color:#706856;margin-bottom:17px}
+.pg-living-lesson-loading{display:grid;place-items:center;min-height:220px;text-align:center;color:#536a49}
+.pg-living-lesson-orbit{width:55px;height:55px;margin-bottom:15px;border:2px solid rgba(90,119,74,.2);border-top-color:#5e7e4a;border-radius:50%;animation:pgLessonTurn 1.2s linear infinite}
+@keyframes pgLessonTurn{to{transform:rotate(360deg)}}
+.pg-living-lesson-voice{padding:16px 18px;border:1px solid rgba(105,130,84,.27);border-radius:16px;background:linear-gradient(145deg,rgba(244,248,233,.9),rgba(232,239,216,.78));font:italic 20px/1.48 Georgia,'Times New Roman',serif;color:#34432f;text-wrap:balance}
+.pg-living-lesson-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:11px 0}
+.pg-living-lesson-block{padding:12px 13px;border:1px solid rgba(110,88,55,.17);border-radius:13px;background:rgba(255,252,244,.68)}
+.pg-living-lesson-block span{display:block;margin-bottom:5px;font-size:8.5px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#8a7654}
+.pg-living-lesson-block p{margin:0;font-size:12px;line-height:1.48;color:#514b40}
+.pg-living-lesson-question{margin:11px 0;padding:11px 14px;border-left:3px solid #c49a44;background:rgba(248,239,214,.64);font:italic 15px/1.45 Georgia,'Times New Roman',serif;color:#4d493b}
+.pg-living-lesson-experiment{padding:14px 15px;border:1px solid rgba(88,115,71,.28);border-radius:15px;background:rgba(239,244,226,.82)}
+.pg-living-lesson-experiment h3{margin:4px 0 6px;font:700 17px/1.2 Georgia,'Times New Roman',serif;color:#31452f}
+.pg-living-lesson-experiment p{margin:0 0 7px;font-size:12px;line-height:1.46;color:#514b40}
+.pg-living-lesson-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:16px}
+.pg-living-lesson-actions button{border-radius:11px;padding:10px 14px;font:800 11px 'Hanken Grotesk',sans-serif;cursor:pointer}
+.pg-living-lesson-secondary{border:1px solid rgba(95,114,80,.3);background:rgba(255,252,243,.7);color:#526249}
+.pg-living-lesson-trust{margin-top:13px;padding-top:11px;border-top:1px solid rgba(107,87,57,.17);font-size:9.5px;line-height:1.45;color:#7a705f}
+@media(max-width:600px){.pg-living-lesson-dialog{padding:24px 18px 20px}.pg-living-lesson-grid{grid-template-columns:1fr}.pg-living-lesson-voice{font-size:18px}}
+@media(prefers-reduced-motion:reduce){.pg-living-lesson-orbit{animation:none;border-color:#5e7e4a}}
 .pg-guild-voice{margin:0 0 13px;padding:10px 12px;border:1px solid rgba(111,134,96,.22);border-radius:12px;background:linear-gradient(145deg,#f4f1e4,#e7edda);font:italic 13px/1.48 Georgia,'Times New Roman',serif;color:#43523b}
 .pg-cinematic{position:absolute;inset:0;z-index:720;background:#162017;overflow:hidden;display:grid;place-items:center;animation:pgCineIn .65s ease both}
 .pg-cinematic-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;animation:pgCineDrift 13s ease-out both}
@@ -824,7 +861,7 @@ html,body{margin:0;padding:0}
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v73</span>
+      <div class="pg-footer-note" title="Drag an element onto the plot — or click it, then click a spot. ♻ means the community can help you build it; 🌰 seeds are free from the seed bank." style="font-size:10.5px;color:#A99E86;line-height:1.5;padding:2px 4px 8px">Drag onto the plot · ♻ = build by sharing <span style="opacity:.55">v74</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
@@ -1236,6 +1273,21 @@ html,body{margin:0;padding:0}
             <div tabindex="0" aria-label="{{ nextStep.label }}. {{ nextStep.why }}" title="{{ nextStep.why }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13.5px;color:#2C3525;line-height:1.15;cursor:help">{{ nextStep.label }}</div>
           </sc-if>
         </div>
+        <div class="pg-living-lesson-card" data-testid="living-lesson-card">
+          <div class="pg-living-lesson-kicker"><img src="assets/ui/icons/garden-voice.svg" alt="">Living Lesson · GPT-5.6</div>
+          <sc-if value="{{ livingLessonExperimentVisible }}" hint-placeholder-val="false">
+            <div class="pg-living-lesson-progress">
+              <strong>{{ livingLessonExperimentTitle }}</strong>
+              <p>{{ livingLessonExperimentAction }}</p>
+              <p style="margin-top:4px;color:#526749;font-weight:700">{{ livingLessonExperimentProgress }}</p>
+            </div>
+          </sc-if>
+          <sc-if value="{{ livingLessonNoExperiment }}" hint-placeholder-val="true">
+            <h3>Ask what the garden notices</h3>
+            <p>A short reflection becomes one testable design experiment. The garden rules stay deterministic.</p>
+          </sc-if>
+          <button class="pg-living-lesson-trigger" data-testid="living-lesson-button" sc-camel-on-click="{{ onOpenLivingLesson }}" disabled="{{ livingLessonLocked }}" aria-disabled="{{ livingLessonLocked }}" title="{{ livingLessonButtonHint }}">{{ livingLessonButtonLabel }}</button>
+        </div>
         <button class="pg-primary-action pg-completion-action" data-testid="reflection-button" sc-camel-on-click="{{ onOpenSummary }}" aria-label="{{ completionAriaLabel }}" style="{{ completionButtonStyle }}" style-hover="transform:translateY(-2px)">{{ completionButtonLabel }}</button>
       </section>
 
@@ -1429,6 +1481,40 @@ html,body{margin:0;padding:0}
                 </div>
               </div>
             </sc-if>
+
+  <!-- Living Lesson · bounded GPT-5.6 reflection with deterministic experiment -->
+  <sc-if value="{{ livingLessonVisible }}" hint-placeholder-val="false">
+    <div class="pg-garden-dialog-backdrop" sc-camel-on-click="{{ onCloseLivingLesson }}">
+      <div class="pg-living-lesson-dialog" data-pg-dialog="living-lesson" role="dialog" aria-modal="true" aria-labelledby="pg-living-lesson-title" tabindex="-1" sc-camel-on-click="{{ stopProp }}">
+        <button class="pg-living-lesson-close" sc-camel-on-click="{{ onCloseLivingLesson }}" aria-label="Close Living Lesson">✕</button>
+        <div class="pg-living-lesson-kicker"><img src="assets/ui/icons/garden-voice.svg" alt="">{{ livingLessonEyebrow }}</div>
+        <h2 class="pg-living-lesson-title" id="pg-living-lesson-title">The garden reflects</h2>
+        <div class="pg-living-lesson-subtitle">A state-aware learning moment from Le Jardin — grounded in the relationships already visible on your plot.</div>
+        <sc-if value="{{ livingLessonLoading }}" hint-placeholder-val="false">
+          <div class="pg-living-lesson-loading" role="status" aria-live="polite"><div><div class="pg-living-lesson-orbit" aria-hidden="true"></div><strong>Listening between the elements…</strong><div style="font-size:11px;margin-top:6px;color:#746b5b">The garden is reading relationships, not judging your score.</div></div></div>
+        </sc-if>
+        <sc-if value="{{ livingLessonReady }}" hint-placeholder-val="false">
+          <div class="pg-living-lesson-voice">“{{ livingLessonObservation }}”</div>
+          <div class="pg-living-lesson-grid">
+            <div class="pg-living-lesson-block"><span>What connects</span><p>{{ livingLessonRelationship }}</p></div>
+            <div class="pg-living-lesson-block"><span>A question to carry</span><p>{{ livingLessonQuestion }}</p></div>
+          </div>
+          <div class="pg-living-lesson-experiment">
+            <div class="pg-living-lesson-kicker">One small experiment</div>
+            <h3>{{ livingLessonTitle }}</h3>
+            <p>{{ livingLessonAction }}</p>
+            <p style="color:#65705a"><strong>Why:</strong> {{ livingLessonWhy }}</p>
+            <p style="margin-bottom:0;color:#3f5b38"><strong>Evidence:</strong> {{ livingLessonSuccess }}</p>
+          </div>
+          <div class="pg-living-lesson-trust">Only a small anonymous snapshot of this garden was used. GPT‑5.6 can shape this reflection, but it cannot change game rules, scores, prices or success conditions. When AI is unavailable, the same feature continues with reviewed garden wisdom.</div>
+          <div class="pg-living-lesson-actions">
+            <button class="pg-living-lesson-secondary" sc-camel-on-click="{{ onCloseLivingLesson }}">Keep observing</button>
+            <button class="pg-primary-action" data-testid="living-lesson-accept" sc-camel-on-click="{{ onAcceptLivingLesson }}">Try this experiment →</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
 
   <!-- Garden Speaks · pattern 02: earned reflection -->
   <sc-if value="{{ gardenReflectionVisible }}" hint-placeholder-val="{{ false }}">
@@ -2426,7 +2512,7 @@ class Component extends DCLogic {
   freshState(intro){
     const season=this.state?(this.state.season||'Summer'):'Summer';
     const openStory=!!intro;
-    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},grownHarvests:0,preservedCount:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null};
+    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],livingLesson:null,livingLessonExperiment:null,livingLessonHistory:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},grownHarvests:0,preservedCount:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null};
   }
   hasJourneyMoment(st,key){return (st.journeyMoments||[]).indexOf(key)>=0;}
   addJourneyMoment(ns,key,whisper){
@@ -2512,6 +2598,103 @@ class Component extends DCLogic {
     const ref=this.state.gardenReflection;if(!ref){return;}this.stopGardenVoice(ref.voiceId);this.setState(s=>({gardenReflection:null,gardenReflectionsSeen:(s.gardenReflectionsSeen||[]).indexOf(ref.id)>=0?(s.gardenReflectionsSeen||[]):[...(s.gardenReflectionsSeen||[]),ref.id]}),()=>{this.setMusicMode('garden');this.scheduleGardenReflection(650);});
   }
   replayGardenReflection(){const r=this.state.gardenReflection;if(r){this.speakGarden(r.voiceId);}}
+  lessonEngine(){return typeof window!=='undefined'?window.PermacultureLivingLesson:null;}
+  livingLessonSnapshot(st=this.state){
+    const engine=this.lessonEngine();if(!engine){return null;}
+    const systems=this.gardenSystems(st),journey=this.journeyModel(st);
+    const systemKey=(name)=>({"Living soil":'soil',"Water security":'water',"Food web":'food',"Habitat":'habitat'}[name]||'');
+    return engine.sanitizeSnapshot({
+      season:st.season,
+      placedTypes:(st.placed||[]).map(p=>p.type),
+      systems:systems.view.reduce((out,item)=>{out[item.key]={value:item.value,reason:item.reason};return out;},{}),
+      links:systems.links.map(link=>({kind:link.kind,label:link.label,fromType:link.a.type,toType:link.b.type})),
+      journey:{done:journey.done,total:journey.total,currentKey:journey.current.key,completedKeys:journey.steps.filter(step=>step.done).map(step=>step.key)},
+      sharedActs:st.sharedActs||0,
+      completedChallenges:Object.keys(st.gatesPlayed||{}).filter(key=>!!st.gatesPlayed[key]),
+      guildKeys:this.activeGuilds(st.placed||[]).map(g=>g.key),
+      harvests:st.grownHarvests||0,
+      preserved:st.preservedCount||0,
+      lastChange:st.lastSystemChange?{system:systemKey(st.lastSystemChange.system),delta:st.lastSystemChange.delta,text:st.lastSystemChange.text}:null
+    });
+  }
+  livingLessonUnlocked(st=this.state){return st.mode==='explore'||this.journeyModel(st).done>=2||(st.placed||[]).length>=2;}
+  lessonCacheRead(fingerprint){
+    try{
+      const raw=JSON.parse(localStorage.getItem('permagarden_living_lessons_v1')||'{}');
+      const now=Date.now(),entries=raw&&raw.entries&&typeof raw.entries==='object'?raw.entries:{};
+      Object.keys(entries).forEach(key=>{if(!entries[key]||Number(entries[key].expires)<=now){delete entries[key];}});
+      const found=entries[fingerprint];
+      localStorage.setItem('permagarden_living_lessons_v1',JSON.stringify({entries:entries}));
+      return found&&found.lesson?found.lesson:null;
+    }catch(_){return null;}
+  }
+  lessonCacheWrite(lesson,ttl=7*24*60*60*1000){
+    try{
+      const raw=JSON.parse(localStorage.getItem('permagarden_living_lessons_v1')||'{}');
+      const entries=raw&&raw.entries&&typeof raw.entries==='object'?raw.entries:{};
+      entries[lesson.fingerprint]={lesson:lesson,expires:Date.now()+ttl,savedAt:Date.now()};
+      const keys=Object.keys(entries).sort((a,b)=>(entries[b].savedAt||0)-(entries[a].savedAt||0));
+      keys.slice(12).forEach(key=>delete entries[key]);
+      localStorage.setItem('permagarden_living_lessons_v1',JSON.stringify({entries:entries}));
+    }catch(_){}
+  }
+  livingLessonClientId(){
+    try{
+      const key='permagarden_living_lesson_client_v1',stored=localStorage.getItem(key);
+      if(stored&&/^[a-zA-Z0-9_-]{8,80}$/.test(stored)){return stored;}
+      const made='garden_'+((window.crypto&&crypto.randomUUID)?crypto.randomUUID():Math.random().toString(36).slice(2)+Date.now().toString(36)).replace(/[^a-zA-Z0-9_-]/g,'');
+      localStorage.setItem(key,made);return made;
+    }catch(_){return 'garden_'+Math.random().toString(36).slice(2)+Date.now().toString(36);}
+  }
+  takeLivingLessonQuota(){
+    try{
+      const key='permagarden_living_lesson_quota_v1',day=new Date().toISOString().slice(0,10),raw=JSON.parse(localStorage.getItem(key)||'{}');
+      const count=raw.day===day?Number(raw.count)||0:0;if(count>=3){return false;}
+      localStorage.setItem(key,JSON.stringify({day:day,count:count+1}));return true;
+    }catch(_){return true;}
+  }
+  finishLivingLesson(lesson,snapshot,candidates){
+    if(this._unmounted||!this.state.livingLesson){return;}
+    const engine=this.lessonEngine();if(!engine){return;}
+    const normalized=engine.normalizeLesson(lesson,snapshot,candidates,{source:lesson&&lesson.source==='ai'?'ai':'fallback',model:lesson&&lesson.model});
+    this.setState({livingLesson:{status:'ready',lesson:normalized}});
+  }
+  openLivingLesson(){
+    const engine=this.lessonEngine();
+    if(!engine||!this.livingLessonUnlocked()){this.flash('Let soil and water begin their conversation first — complete two learning acts, then listen again.');return;}
+    if(this.state.livingLessonExperiment&&this.state.livingLessonExperiment.status==='active'){this.flash('Your Living Lesson experiment is still active. Change the garden, then watch its evidence here.');return;}
+    const snapshot=this.livingLessonSnapshot(),candidates=engine.buildCandidates(snapshot),fingerprint=engine.fingerprint(snapshot);
+    this.suspendGardenWhisper();this.setState({livingLesson:{status:'loading',fingerprint:fingerprint}});
+    const cached=this.lessonCacheRead(fingerprint);
+    if(cached){this.finishLivingLesson(cached,snapshot,candidates);return;}
+    const useFallback=(reason)=>{
+      const lesson=engine.fallbackLesson(snapshot,candidates);lesson.fallbackReason=reason;
+      this.lessonCacheWrite(lesson,30*60*1000);this.finishLivingLesson(lesson,snapshot,candidates);
+    };
+    if(typeof navigator!=='undefined'&&navigator.onLine===false){useFallback('offline');return;}
+    if(!this.takeLivingLessonQuota()){useFallback('daily_limit');return;}
+    if(this._lessonAbort){this._lessonAbort.abort();}
+    const controller=typeof AbortController!=='undefined'?new AbortController():null;this._lessonAbort=controller;
+    const timeout=setTimeout(()=>{if(controller){controller.abort();}},14000);this._lessonTimeout=timeout;
+    fetch('/api/garden-reflection',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clientId:this.livingLessonClientId(),snapshot:snapshot}),signal:controller?controller.signal:undefined})
+      .then(response=>{if(!response.ok){throw new Error('lesson_http_'+response.status);}return response.json();})
+      .then(data=>{
+        if(!data||!data.lesson){throw new Error('lesson_invalid');}
+        const lesson=engine.normalizeLesson(data.lesson,snapshot,candidates,{source:data.mode==='ai'?'ai':'fallback',model:data.model});
+        this.lessonCacheWrite(lesson,data.mode==='ai'?7*24*60*60*1000:30*60*1000);this.finishLivingLesson(lesson,snapshot,candidates);
+      })
+      .catch(error=>{if(!this._unmounted&&this.state.livingLesson){useFallback(error&&error.name==='AbortError'?'timeout':'unavailable');}})
+      .finally(()=>{clearTimeout(timeout);if(this._lessonAbort===controller){this._lessonAbort=null;}this._lessonTimeout=null;});
+  }
+  closeLivingLesson(){
+    if(this._lessonAbort){this._lessonAbort.abort();this._lessonAbort=null;}clearTimeout(this._lessonTimeout);this._lessonTimeout=null;
+    this.setState({livingLesson:null},()=>{if(!this.activeDialogKey()){this.setMusicMode('garden');}});
+  }
+  acceptLivingLesson(){
+    const engine=this.lessonEngine(),box=this.state.livingLesson,lesson=box&&box.lesson;if(!engine||!lesson){return;}
+    const experiment=engine.startExperiment(this.livingLessonSnapshot(),lesson.experiment,lesson);
+    this.setState({livingLesson:null,livingLessonExperiment:experiment,toast:'Living Lesson begun — '+experiment.candidate.success},()=>this.persist());
+  }
   capturePreviousState(st=this.state){
     this._prevPlaced=st.placed;
     this._prevToast=st.toast;
@@ -2529,6 +2712,7 @@ class Component extends DCLogic {
     clearInterval(this._gateIv);this._gateIv=null;
     ['_tt','_pulseT','_whisperT','_whisperStartT','_replayT','_reflectionT','_guildVoiceT','_cinematicVoiceT','_duckT','_storyTimer','_storyExitTimer','_flashT','_seasonT'].forEach(k=>{clearTimeout(this[k]);this[k]=null;});
     if(this._delayedWork){this._delayedWork.forEach(id=>clearTimeout(id));this._delayedWork.clear();}
+    if(this._lessonAbort){this._lessonAbort.abort();this._lessonAbort=null;}clearTimeout(this._lessonTimeout);this._lessonTimeout=null;
     this._storyDeadline=0;this._storyRemaining=0;
   }
   dismissGuild(){
@@ -2698,6 +2882,7 @@ class Component extends DCLogic {
       if(this.state.story){return;}
       if(this.state.gardenCinematic){this.dismissGardenCinematic();return;}
       if(this.state.gardenReflection){this.dismissGardenReflection();return;}
+      if(this.state.livingLesson){this.closeLivingLesson();return;}
       if(this.state.showSummary){this.closeSummary();return;}
       if(this.state.paymentChoice){this.cancelPayment();return;}
       if(this.state.guildCard){this.dismissGuild();return;}
@@ -2766,8 +2951,11 @@ class Component extends DCLogic {
           const pendingCinematicSeason=this.seasonDefs[s.pendingGardenCinematic]?s.pendingGardenCinematic:null;
           const pendingPassage=pendingCinematicSeason?(this.seasonPassages[pendingCinematicSeason]||{}):null;
           const pendingCinematic=pendingCinematicSeason?{season:pendingCinematicSeason,title:pendingPassage.title||('Welcome, '+pendingCinematicSeason),text:pendingPassage.voice||'',image:pendingPassage.image||''}:null;
+          const lessonEngine=this.lessonEngine();
+          const restoredLessonExperiment=lessonEngine?lessonEngine.sanitizeExperiment(s.livingLessonExperiment):null;
+          const restoredLessonHistory=lessonEngine?lessonEngine.sanitizeHistory(s.livingLessonHistory):[];
           restored=true;
-          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,payWith:(s.payWith==='euro'?'euro':'shares'),seedAllowance:(s.seedAllowance&&typeof s.seedAllowance==='object')?s.seedAllowance:{},grownHarvests:num(s.grownHarvests,0),preservedCount:num(s.preservedCount,0),paymentChoice:null,muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
+          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],livingLesson:null,livingLessonExperiment:restoredLessonExperiment,livingLessonHistory:restoredLessonHistory,gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,payWith:(s.payWith==='euro'?'euro':'shares'),seedAllowance:(s.seedAllowance&&typeof s.seedAllowance==='object')?s.seedAllowance:{},grownHarvests:num(s.grownHarvests,0),preservedCount:num(s.preservedCount,0),paymentChoice:null,muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
           this.setState({gardenWhisper:pendingWhispers[0]||null,gardenWhisperQueue:pendingWhispers.slice(1),gardenReflectionQueue:pendingReflections,gardenReflectionsSeen:reflectionSeen,visit:pendingVisit,guildCard:pendingGuildCards[0]||null,guildCardQueue:pendingGuildCards.slice(1),arrivalQueue:pendingArrivals,gardenCinematic:pendingCinematic},()=>{this.capturePreviousState();this._suppressFx=false;if(pendingWhispers.length){this.scheduleGardenWhisper(pendingWhispers[0]);}if(pendingReflections.length){this.scheduleGardenReflection(500);}if(pendingCinematic){this.scheduleCinematicVoice();}if(pendingGuildCards.length&&!this.state.guildVoicePlayed){this.scheduleGuildVoice();}});
         }
       }
@@ -2861,6 +3049,7 @@ class Component extends DCLogic {
     if(st.story){return 'story';}
     if(st.gardenCinematic){return 'garden-cinematic';}
     if(st.gardenReflection){return 'garden-reflection';}
+    if(st.livingLesson){return 'living-lesson';}
     if(st.showSummary){return 'summary';}
     if(st.paymentChoice){return 'payment';}
     if(st.intro){return 'intro';}
@@ -3002,7 +3191,10 @@ class Component extends DCLogic {
       const pendingGuildCards=Array.from(new Set([s.guildCard,...(s.guildCardQueue||[])].filter(Boolean)));
       const pendingArrivals=Array.from(new Set((s.arrivalQueue||[]).filter(Boolean)));
       const pendingGardenCinematic=s.gardenCinematic&&this.seasonDefs[s.gardenCinematic.season]?s.gardenCinematic.season:null;
-      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g}));
+      const lessonEngine=this.lessonEngine();
+      const livingLessonExperiment=lessonEngine?lessonEngine.sanitizeExperiment(s.livingLessonExperiment):null;
+      const livingLessonHistory=lessonEngine?lessonEngine.sanitizeHistory(s.livingLessonHistory):[];
+      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,livingLessonExperiment:livingLessonExperiment,livingLessonHistory:livingLessonHistory,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g}));
     }catch(e){}
   }
   componentDidUpdate(){
@@ -3051,6 +3243,14 @@ class Component extends DCLogic {
       }
     }
     if((st.awarded||[]).length>prevAwarded){ this.playSparkle(); }
+    const lessonEngine=this.lessonEngine(),experiment=st.livingLessonExperiment;
+    if(lessonEngine&&experiment&&experiment.status==='active'){
+      const checked=lessonEngine.checkExperiment(experiment,this.livingLessonSnapshot(st));
+      if(checked&&(checked.status!==experiment.status||checked.progress!==experiment.progress)){
+        const completed=checked.status==='completed';
+        this.setState(s=>({livingLessonExperiment:checked,livingLessonHistory:completed?lessonEngine.sanitizeHistory([...(s.livingLessonHistory||[]),checked]):(s.livingLessonHistory||[]),toast:completed?'✦ Living Lesson complete — the garden holds new evidence.':s.toast}));
+      }
+    }
     this.persist();
   }
 
@@ -4521,6 +4721,10 @@ class Component extends DCLogic {
     const systemView=systems.view.map(v=>({name:v.name,emoji:v.emoji,icon:designIcon(designIcons[v.key]||designIcons.voice),value:v.value,reason:v.reason,hasLearned:v.learned.length>0,learned:v.learned.join(' · '),
       barStyle:{height:'100%',width:v.value+'%',borderRadius:'5px',background:v.key==='water'?'#6F9DB2':(v.key==='food'?'#C99A3C':(v.key==='habitat'?'#7A9A58':'#8A6B3F')),transition:'width .55s ease'},
       valueStyle:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'10px',fontWeight:'800',color:v.value<35?'#B5613A':(v.value<65?'#9A7428':'#4E6B3D')}}));
+    const lessonBox=st.livingLesson,lesson=lessonBox&&lessonBox.lesson,lessonExperiment=st.livingLessonExperiment;
+    const lessonUnlocked=this.livingLessonUnlocked(st),lessonActive=!!(lessonExperiment&&lessonExperiment.status==='active');
+    const livingLessonButtonLabel=!lessonUnlocked?'Listen after two learning acts':(lessonActive?'Experiment in progress':(lessonExperiment&&lessonExperiment.status==='completed'?'Ask for a new Living Lesson':'Listen to your garden · GPT-5.6'));
+    const livingLessonButtonHint=!lessonUnlocked?'Complete any two learning acts so the garden has relationships to reflect on.':(lessonActive?'Complete the active experiment before beginning another.':'Create a state-aware reflection and one measurable garden experiment.');
 
     const statusText=score===0?'A bare plot — ready to begin':score<40?'A living beginning':score<70?'Connections taking shape':score<100?'A flourishing design':'A richly connected design';
     const ringColor=score<40?'#C2703D':score<75?'#D2A24C':'#5E7E4A';
@@ -4920,6 +5124,13 @@ class Component extends DCLogic {
       }),
       showSummary:!!st.showSummary,
       stopProp:(e)=>e.stopPropagation(),
+      livingLessonVisible:!!lessonBox,livingLessonLoading:!!lessonBox&&lessonBox.status==='loading',livingLessonReady:!!lesson,
+      livingLessonEyebrow:lesson&&lesson.source==='ai'?'Living Lesson · GPT-5.6':'Living Lesson · Garden wisdom offline',
+      livingLessonObservation:lesson?lesson.observation:'',livingLessonRelationship:lesson?lesson.relationship:'',livingLessonQuestion:lesson?lesson.question:'',
+      livingLessonTitle:lesson&&lesson.experiment?lesson.experiment.title:'',livingLessonAction:lesson&&lesson.experiment?lesson.experiment.action:'',livingLessonWhy:lesson&&lesson.experiment?lesson.experiment.why:'',livingLessonSuccess:lesson&&lesson.experiment?lesson.experiment.success:'',
+      onOpenLivingLesson:()=>this.openLivingLesson(),onCloseLivingLesson:()=>this.closeLivingLesson(),onAcceptLivingLesson:()=>this.acceptLivingLesson(),
+      livingLessonLocked:!lessonUnlocked||lessonActive,livingLessonButtonLabel:livingLessonButtonLabel,livingLessonButtonHint:livingLessonButtonHint,
+      livingLessonExperimentVisible:!!lessonExperiment,livingLessonNoExperiment:!lessonExperiment,livingLessonExperimentTitle:lessonExperiment?lessonExperiment.candidate.title:'',livingLessonExperimentAction:lessonExperiment?lessonExperiment.candidate.action:'',livingLessonExperimentProgress:lessonExperiment?lessonExperiment.progress:'',
       completionButtonLabel:flourishingReady?'🌻 Open my learning certificate':(firstCycleReady?'🌿 Reflect on my first garden cycle':('◌ Reflect on my garden · '+(guided?(journey.done+'/'+journey.total):(nextStep.done+'/'+nextStep.total)))),
       completionAriaLabel:flourishingReady?'Open the flourishing garden learning certificate':(firstCycleReady?'Reflect on the completed first learning cycle':'Reflect on the garden and see what remains to learn'),
       completionButtonStyle:completionButtonStyle,
