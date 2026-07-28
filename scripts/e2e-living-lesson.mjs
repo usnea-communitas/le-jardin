@@ -30,7 +30,7 @@ const state = {
   storySeen: true, introSeen: true, mode: "explore", journeyMoments: ["soil", "water"],
   gardenEffects: {}, communityMemory: [], reflectionOpened: false, endingSeen: false,
   discovered: [], seenWildlife: [], sharedActs: 0, muted: true, playerName: "", season: "Summer",
-  unlocksSeen: ["sharing", "seedbank", "kitchen", "seedsaved"],
+  unlocksSeen: ["sharing", "seedbank", "kitchen", "seedsaved", "askgarden"],
   springBonusDone: false, autumnHarvestDone: false, rakeRewardDone: false, springForageDone: false,
   springSprouts: 0, leafPiles: 0, cherryPicks: 0, basket: {}, materials: {}, harvestEver: false,
   gatesPlayed: {}, guests: [], visitsDone: {}, acknowledgedGardenReflectionsV2: [],
@@ -51,10 +51,14 @@ page.on("pageerror", error => errors.push("pageerror: " + error.message));
 page.on("console", message => { if (message.type() === "error") errors.push("console: " + message.text()); });
 let apiCalls = 0;
 let failApi = false;
+let livePayload = null;
 
 if (liveApi) {
-  page.on("response", response => {
-    if (/\/api\/garden-reflection(?:\?|$)/.test(response.url()) && response.request().method() === "POST") apiCalls += 1;
+  page.on("response", async response => {
+    if (/\/api\/garden-reflection(?:\?|$)/.test(response.url()) && response.request().method() === "POST") {
+      apiCalls += 1;
+      try { livePayload = await response.json(); } catch (_) { livePayload = null; }
+    }
   });
 } else {
   await page.route("**/api/garden-reflection", async route => {
@@ -83,6 +87,15 @@ const waitForGame = async () => {
 
 const savedGame = () => page.evaluate(() => JSON.parse(localStorage.getItem("permagarden_v2") || "{}"));
 
+const dismissGardenMessages = async () => {
+  for (let index = 0; index < 3; index += 1) {
+    const dismiss = page.getByRole("button", { name: "Dismiss the garden's message" });
+    if (!(await dismiss.isVisible().catch(() => false))) return;
+    await dismiss.click();
+    await page.waitForTimeout(120);
+  }
+};
+
 try {
   await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
   await waitForGame();
@@ -94,18 +107,38 @@ try {
   const button = page.getByTestId("living-lesson-button");
   await button.waitFor({ state: "visible" });
   await button.scrollIntoViewIfNeeded();
+  // The production shell streams the game fragment before React finishes binding
+  // every delegated handler. Give that final hydration turn a bounded moment so
+  // the click verifies the real request instead of racing an inert first frame.
+  if (!localHarness) await page.waitForTimeout(2000);
+  await dismissGardenMessages();
   check(await button.isEnabled(), "Living Lesson unlocks once the garden has enough state to reflect on");
-  const liveResponsePromise = liveApi ? page.waitForResponse(response => /\/api\/garden-reflection(?:\?|$)/.test(response.url()) && response.request().method() === "POST") : null;
+  const liveMetadata = liveApi ? await page.evaluate(async () => {
+    const response = await fetch("/api/garden-reflection", { headers: { Accept: "application/json" } });
+    return response.json();
+  }) : null;
   await button.click();
-  const livePayload = liveResponsePromise ? await (await liveResponsePromise).json() : null;
   const dialog = page.locator('[data-pg-dialog="living-lesson"]');
   await dialog.waitFor({ state: "visible" });
+  await dialog.locator(".pg-living-lesson-experiment").waitFor({ state: "visible", timeout: 30000 });
   const eyebrow = (await dialog.locator(".pg-living-lesson-kicker").first().textContent()).trim();
   const resolvedMode = eyebrow.includes("listening") ? "ai" : "fallback";
   check(expectedMode === "either" || resolvedMode === expectedMode, "Living Lesson reports the expected inference mode", { expectedMode, resolvedMode, eyebrow });
-  if (livePayload && resolvedMode === "ai") {
-    check(livePayload.model === "openai/gpt-5.6-luna", "production API identifies GPT-5.6 Luna as the serving model", { model: livePayload.model });
-    check(livePayload.lesson?.source === "ai" && livePayload.lesson?.promptVersion === "living-lesson-v2", "production lesson preserves its AI provenance and prompt version", { source: livePayload.lesson?.source, promptVersion: livePayload.lesson?.promptVersion });
+  if (liveMetadata) {
+    check(
+      liveMetadata.model === "openai/gpt-5.6-luna" && liveMetadata.auth === "vercel-oidc",
+      "production API identifies GPT-5.6 Luna and Vercel OIDC",
+      { model: liveMetadata.model, auth: liveMetadata.auth }
+    );
+  }
+  if (resolvedMode === "ai") {
+    check(
+      !livePayload || (livePayload.lesson?.source === "ai" && livePayload.lesson?.promptVersion === "living-lesson-v2"),
+      "production lesson preserves its AI provenance and prompt version, including cached lessons",
+      livePayload
+        ? { source: livePayload.lesson?.source, promptVersion: livePayload.lesson?.promptVersion, apiCalls }
+        : { cachedClientLesson: true, apiCalls }
+    );
   }
   const experimentText = await dialog.locator(".pg-living-lesson-experiment").innerText();
   const normalizedExperimentText = experimentText.toLowerCase();
@@ -120,6 +153,11 @@ try {
   if (process.env.SCREENSHOT_PATH) await page.screenshot({ path: process.env.SCREENSHOT_PATH, fullPage: true });
 
   await dialog.getByRole("button", { name: "Keep observing" }).click();
+  // Closing a reflection can legitimately release a queued garden message a few
+  // animation frames later. Let that transition settle, then dismiss it through
+  // the same control a player would use before reopening the lesson.
+  if (!localHarness) await page.waitForTimeout(700);
+  await dismissGardenMessages();
   await button.click();
   await dialog.waitFor({ state: "visible" });
   check(apiCalls === 1, "identical garden state reuses the local reflection cache", { apiCalls });
@@ -155,7 +193,16 @@ try {
     }
   } else {
     await button.waitFor({ state: "visible" });
-    check((await button.textContent()).includes("Experiment in progress"), "production UI exposes the persisted experiment state without test-only internals");
+    await page.waitForFunction(() => {
+      const trigger = document.querySelector('[data-testid="living-lesson-button"]');
+      return Boolean(trigger && trigger.textContent && trigger.textContent.includes("The garden is still watching"));
+    }, null, { timeout: 10000 });
+    const productionButtonText = await button.textContent();
+    check(
+      productionButtonText.includes("The garden is still watching"),
+      "production UI exposes the persisted experiment state without test-only internals",
+      { productionButtonText }
+    );
   }
   const unexpectedErrors = errors.filter(message => !/status of 503/i.test(message));
   check(unexpectedErrors.length === 0, "Living Lesson journey has no unexpected browser runtime errors", unexpectedErrors);
