@@ -55,6 +55,7 @@ const savedState = {
   seenWildlife,
   sharedActs: 0,
   rewardedGiftTypes: [],
+  unlocksSeen: ['sharing', 'seedbank', 'kitchen', 'askgarden', 'seedsaved'],
   seasonTurns: 0,
   seedAllowance: {},
   grownHarvests: 0,

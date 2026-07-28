@@ -477,7 +477,7 @@ try {
       check(dialogs.length === 1 && dialogs[0] === 'garden-cinematic',
         'cinematic and resident story are never stacked', dialogs);
       check(during.loop === during.expectedLoop && during.mediaTag === 'VIDEO' &&
-          /autumn-loop\.mp4$/i.test(during.mediaSrc || ''),
+          /autumn-loop\.webm$/i.test(during.mediaSrc || ''),
         'cinematic restore preserves and renders the seasonal video loop', during);
 
       await page.evaluate(() => window.__PERMAGARDEN_APP__.dismissGardenCinematic());

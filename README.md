@@ -2,11 +2,13 @@
 
 **A story-led educational game where every placement becomes a relationship, every season changes the lesson, and GPT‑5.6 Luna helps the garden reflect on what the player has actually built.**
 
-[Play the current v78 playtest](https://permaculture-garden-playtest.vercel.app/)
+[Play the current v79 playtest](https://permaculture-garden-playtest.vercel.app/)
 
 This is the separate post-submission playtest line. The OpenAI Build Week repository,
 deployment and Devpost entry remain frozen at the submitted version; see
 [`COMPETITION_FREEZE.md`](COMPETITION_FREEZE.md).
+The complete Claude-handoff reconciliation and v79 verification record is in
+[`HANDOFF-AUDIT-v79.md`](HANDOFF-AUDIT-v79.md).
 
 ## Why this garden exists
 
@@ -16,7 +18,7 @@ Permaculture Garden was conceived first as a learning experience for that commun
 
 ## What the player does
 
-Players design a living garden rather than optimise isolated objects. They place soil, water, food and habitat elements; discover useful guilds; welcome wildlife; grow and preserve seasonal harvests; and contribute genuine surplus to a community sharing table. Eleven educational season challenges turn permaculture ideas into decisions with immediate explanatory feedback.
+Players design a living garden rather than optimise isolated objects. They place soil, water, food and habitat elements; discover useful design connections; welcome wildlife; grow and preserve seasonal harvests; and contribute genuine surplus to a community sharing table. Eleven educational season challenges turn permaculture ideas into decisions with immediate explanatory feedback.
 
 The experience includes:
 
@@ -24,7 +26,7 @@ The experience includes:
 - a guided first journey and a free-exploration mode;
 - four seasons with crop windows, dormancy, preservation and ecological change;
 - eleven replayable learning challenges without timers or punitive failure;
-- seven plant and infrastructure guilds, ten wildlife relationships and a visual relationship score;
+- eight pairwise design connections, ten wildlife relationships and a visual relationship score; the game explicitly distinguishes a useful pair from a complete plant guild;
 - a fair-share economy in which community gifts never become personal currency;
 - earned reflections, a learning journal and an exportable garden certificate;
 - an optional **Living Lesson** powered by GPT‑5.6 Luna.
@@ -33,7 +35,7 @@ Desktop remains the reference experience, while the same garden is now designed 
 
 ## Two-minute judge path
 
-1. Open the [v78 playtest](https://permaculture-garden-playtest.vercel.app/).
+1. Open the [v79 playtest](https://permaculture-garden-playtest.vercel.app/).
 2. Choose **Explore freely** during onboarding.
 3. Add at least two elements, for example **Compost** and **Rain harvesting**.
 4. In **Design connections**, select **Listen to your garden · GPT‑5.6 Luna**.
@@ -41,7 +43,7 @@ Desktop remains the reference experience, while the same garden is now designed 
 6. Choose **Try this experiment**, then make the proposed change on the plot.
 7. Reopen the reflection: the deterministic engine measures the new state and records evidence if the experiment succeeded.
 
-For the fuller learning journey, follow the guided path through soil, water, food, habitat, sharing, a guild and a harvest, then advance through the seasons.
+For the fuller learning journey, follow the guided path through soil, water, food, habitat, sharing, a design connection and a harvest, then advance through the seasons.
 
 ## Meaningful GPT‑5.6 integration
 
@@ -124,7 +126,7 @@ npm test
 To serve the static build locally:
 
 ```powershell
-python -m http.server 8787 --bind 127.0.0.1
+node scripts/static-server.mjs 8787
 ```
 
 Then open `http://127.0.0.1:8787/`. The local static server has no Vercel Function or OIDC identity, so the Living Lesson intentionally exercises its offline path.
@@ -147,7 +149,7 @@ $env:EXPECTED_LESSON_MODE="ai"
 node scripts/e2e-living-lesson.mjs
 ```
 
-Responsive browser coverage spans 13 representative viewports from 320×568 to 1920×1080. It verifies adaptive navigation, safe-area and overflow boundaries, 44-pixel touch targets, the exact 7:5 interactive plot on adaptive layouts, tap-to-place and tap-to-move behaviour, orientation-preserved state, all four Garden Book chapters and all eleven learning challenges.
+Responsive browser coverage spans 13 representative viewports from 320×568 to 1920×1080. It verifies adaptive navigation, safe-area and overflow boundaries, 44-pixel touch targets, the exact 7:5 interactive plot on adaptive layouts, tap-to-place and tap-to-move behaviour, orientation-preserved state, all six Garden Book chapters and all eleven learning challenges.
 
 The broader automated coverage includes snapshot sanitisation, stable fingerprints, trusted candidate generation, response normalisation, deterministic completion metrics, method/input/origin boundaries, cache reuse, UI unlock, model/source labels, economy invariance, experiment persistence, resident-story scheduling and outage fallback.
 

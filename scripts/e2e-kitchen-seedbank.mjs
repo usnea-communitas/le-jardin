@@ -235,28 +235,71 @@ const kitchenState = { ...base, placed: [{ id: 'k1', type: 'kitchen', x: 50, y: 
   await context.close();
 }
 
-// ---- 6. A fruit tree has to grow up ----------------------------------------
+// ---- 6. A fruit tree needs time, compatible blossom and insect habitat -------
 {
-  const treeState = { ...base, season: 'Summer', seasonTurns: 6,
-    placed: [{ id: 't1', type: 'appletree', x: 40, y: 40, placedAtTurn: 5, appleReady: false },
-             { id: 't2', type: 'appletree', x: 60, y: 40, placedAtTurn: 0, appleReady: false }] };
+  const treeState = { ...base, season: 'Summer', seasonTurns: 7,
+    placed: [
+      { id: 't1', type: 'appletree', x: 38, y: 40, placedAtTurn: 7, appleReady: false },
+      { id: 't2', type: 'appletree', x: 55, y: 40, placedAtTurn: 0, appleReady: false },
+      { id: 't3', type: 'appletree', x: 68, y: 40, placedAtTurn: 0, appleReady: false },
+      { id: 't4', type: 'appletree', x: 12, y: 15, placedAtTurn: 0, appleReady: false },
+      { id: 'flowers', type: 'pollinator', x: 61, y: 55 }
+    ] };
   const { context, page } = await open(treeState);
   const trees = await page.evaluate(async () => {
     const app = window.__PERMAGARDEN_APP__;
-    const growth = app.state.placed.map(p => ({ id: p.id, seasons: app.treeSeasons(app.state, p), growth: app.treeGrowth(app.state, p) }));
+    const growth = app.state.placed.filter(p => p.type === 'appletree')
+      .map(p => ({ id: p.id, seasons: app.treeSeasons(app.state, p), growth: app.treeGrowth(app.state, p) }));
     app._applySeasonNow('Autumn');
     await new Promise(r => setTimeout(r, 900));
-    return { growth, ready: app.state.placed.map(p => ({ id: p.id, apples: !!p.appleReady })) };
+    return { growth, ready: app.state.placed.filter(p => p.type === 'appletree').map(p => ({ id: p.id, apples: !!p.appleReady })) };
   });
   const young = trees.ready.find(t => t.id === 't1');
-  const old = trees.ready.find(t => t.id === 't2');
+  const partnered = trees.ready.filter(t => t.id === 't2' || t.id === 't3');
+  const lone = trees.ready.find(t => t.id === 't4');
   check(young && !young.apples, 'a sapling bears nothing in its first autumn', trees);
-  check(old && old.apples, 'a tree that has had time bears fruit in autumn', trees);
-  check(trees.growth[0].growth < trees.growth[1].growth, 'a young tree is drawn smaller than a grown one', trees.growth);
+  check(partnered.length === 2 && partnered.every(t => t.apples),
+    'two established nearby trees with flowering habitat can set the game harvest', trees);
+  check(lone && !lone.apples,
+    'an established but isolated tree does not receive an automatic harvest', trees);
+  check(trees.growth.find(t => t.id === 't1').growth < trees.growth.find(t => t.id === 't2').growth,
+    'a young tree is drawn smaller than a grown one', trees.growth);
   await context.close();
 }
 
-// ---- 7. The new guild and the book -----------------------------------------
+// ---- 7. Mulch shelters hardy young crops, not every crop indiscriminately ----
+{
+  const winterState = { ...base, season: 'Autumn', seasonTurns: 7, placed: [
+    { id: 'm', type: 'mulch', x: 15, y: 20 },
+    { id: 'g', type: 'greenhouse', x: 25, y: 20 },
+    { id: 'root', type: 'crop_root', x: 35, y: 45, stage: 1 },
+    { id: 'cabbage', type: 'crop_cabbage', x: 45, y: 45, stage: 1 },
+    { id: 'potato', type: 'crop_potato', x: 55, y: 45, stage: 1 },
+    { id: 'leafy', type: 'crop_leafy', x: 65, y: 45, stage: 1 },
+    { id: 'herb', type: 'crop_herb', x: 75, y: 45, stage: 1 }
+  ] };
+  const { context, page } = await open(winterState);
+  const winter = await page.evaluate(async () => {
+    const app = window.__PERMAGARDEN_APP__;
+    app._applySeasonNow('Winter');
+    await new Promise(r => setTimeout(r, 900));
+    return {
+      crops: app.state.placed.filter(p => app.cropDefs[p.type])
+        .map(p => ({ id: p.id, type: p.type, stage: p.stage, winterState: p.winterState })),
+      toast: app.state.toast
+    };
+  });
+  const byId = Object.fromEntries(winter.crops.map(p => [p.id, p]));
+  check(byId.root?.winterState === 'dormant' && byId.cabbage?.winterState === 'dormant',
+    'mulch lets the modeled hardy roots and cabbage wait through winter', winter);
+  check(byId.leafy?.winterState === 'protected' && byId.leafy.stage === 2,
+    'the greenhouse protects the modeled leafy crop and lets it keep growing', winter);
+  check(!byId.potato && !byId.herb,
+    'mulch alone no longer makes frost-sensitive young potatoes and herbs winter-proof', winter);
+  await context.close();
+}
+
+// ---- 8. The design connections and the book --------------------------------
 {
   const { context, page } = await open({ ...base, placed: [] });
   const book = await page.evaluate(() => {
@@ -268,19 +311,19 @@ const kitchenState = { ...base, placed: [{ id: 'k1', type: 'kitchen', x: 50, y: 
       everyGuildDescribed: app.guildDefs.every(g => !!app.guildWho[g.key]),
       keepingTab: app.bookTabDefs.some(t => t.key === 'keeping'),
       keepingCount: keeping.length,
-      hedged: keeping.filter(e => /may |varies|mostly|often|depends|not always|can all|consult|tested|does not/i.test(e.why || '')).length,
+      hedged: keeping.filter(e => /may |varies|mostly|often|depends|not always|can all|consult|tested|does not|follow current|food-safety/i.test(e.why || '')).length,
       unsafe: keeping.filter(e => /you should can|safe to can|guaranteed safe/i.test(e.why || '')).length
     };
   });
-  check(book.hasNectarCover, 'mulch beside a flower strip is a discoverable guild');
-  check(book.everyGuildDescribed, 'every guild including the new one says who it may serve');
+  check(book.hasNectarCover, 'mulch beside a flower strip is a discoverable design connection');
+  check(book.everyGuildDescribed, 'every connection says who it may serve');
   check(book.keepingTab && book.keepingCount === 6, 'the book has a Keeping chapter covering all four methods and seed', book);
   check(book.hedged === book.keepingCount, 'every keeping entry stays cautious about real food safety', book);
   check(book.unsafe === 0, 'no entry claims a method is guaranteed safe');
   await context.close();
 }
 
-// ---- 8. Both scenes work on a phone and a tablet ---------------------------
+// ---- 9. Both scenes work on a phone and a tablet ---------------------------
 for (const viewport of [{ width: 390, height: 844 }, { width: 820, height: 1180 }]) {
   const label = viewport.width + 'x' + viewport.height;
   const { context, page } = await open({ ...kitchenState, placed: [
@@ -316,4 +359,4 @@ if (failures) {
   console.log('\n' + failures + ' check(s) failed.');
   process.exit(1);
 }
-console.log('\nKitchen and seed bank audit passed: four honest methods, drag and tap both work, seed follows the harvest, trees take their time.');
+console.log('\nKitchen and seed bank audit passed: four honest methods, drag and tap both work, seed follows the harvest, trees need time and partners, and winter protection stays crop-specific.');

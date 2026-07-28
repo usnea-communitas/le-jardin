@@ -103,6 +103,7 @@ const resetApp = async (patch = {}) => {
       season: 'Summer',
       seasonTurns: 0,
       rewardedGiftTypes: [],
+      unlocksSeen: ['sharing', 'seedbank', 'kitchen', 'askgarden', 'seedsaved'],
       paymentChoice: null,
       journeyMoments: [],
       gardenEffects: {},

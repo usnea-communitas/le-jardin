@@ -32,7 +32,7 @@ if (!['localhost', '127.0.0.1', '[::1]', '::1'].includes(parsedUrl.hostname)) {
 const BOOK_TABS = [
   { key: 'elements', label: 'Elements', entries: 21, leaves: 22, spreads: 11 },
   { key: 'wildlife', label: 'Who may visit', entries: 10, leaves: 11, spreads: 6 },
-  { key: 'guilds', label: 'Guilds', entries: 8, leaves: 9, spreads: 5 },
+  { key: 'guilds', label: 'Connections', entries: 8, leaves: 9, spreads: 5 },
   { key: 'principles', label: 'Principles', entries: 11, leaves: 12, spreads: 6 },
   { key: 'balance', label: 'Balance', entries: 4, leaves: 5, spreads: 3 },
   { key: 'keeping', label: 'Keeping', entries: 6, leaves: 7, spreads: 4 }
