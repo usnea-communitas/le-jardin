@@ -51,6 +51,7 @@ const savedState = {
   discovered: [],
   seenWildlife: [],
   sharedActs: 0,
+  unlocksSeen: ['sharing', 'seedbank', 'kitchen', 'askgarden', 'seedsaved'],
   muted: true,
   playerName: '',
   season: 'Summer',

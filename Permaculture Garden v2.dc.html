@@ -554,6 +554,7 @@ html,body{margin:0;padding:0}
 .pg-journey-card:before{content:"";position:absolute;left:16px;right:16px;bottom:9px;height:18px;background:url("assets/ui/ornaments/divider-sprig.svg") center/92px auto no-repeat;opacity:.09;pointer-events:none}
 .pg-element-chip{background:rgba(255,251,241,.76)!important;border-color:rgba(119,96,63,.16)!important;border-radius:13px!important;box-shadow:0 6px 15px -16px rgba(42,35,23,.8)!important}
 .pg-element-chip:hover{background:#fffaf0!important;border-color:rgba(111,134,96,.5)!important;box-shadow:0 12px 23px -17px rgba(34,47,29,.9)!important}
+.pg-element-term{display:block;margin-top:2px;font-size:9.5px!important;line-height:1.2;color:#756c5b;font-weight:500;white-space:normal}
 .pg-map-panel{border-radius:23px!important;background:linear-gradient(145deg,#fffaf0,#eee1c8)!important;border-color:rgba(104,80,45,.25)!important}
 .pg-map-toolbar{position:relative;min-height:54px;background:linear-gradient(90deg,rgba(255,251,239,.92),rgba(242,233,214,.88));border-bottom:1px solid rgba(109,85,51,.16)}
 .pg-map-toolbar:after{content:"";position:absolute;right:14px;top:1px;width:130px;height:56px;background:url("assets/ui/ornaments/divider-sprig.svg") center/contain no-repeat;opacity:.12;pointer-events:none}
@@ -580,6 +581,7 @@ html,body{margin:0;padding:0}
 .pg-garden-whisper-mark{width:35px;height:35px;border-radius:50%;background:#dce7ca;color:var(--pg-moss);padding:7px}
 .pg-garden-whisper-mark img{width:100%;height:100%;display:block;object-fit:contain}
 .pg-garden-whisper-text{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.42;color:#394333;font-style:italic}
+.pg-garden-whisper-dismiss{width:28px!important;height:28px!important;min-width:28px;min-height:28px;display:grid;place-items:center;padding:0}
 .pg-whisper-art{width:52px;height:52px;flex:none;border-radius:14px;object-fit:cover;box-shadow:0 8px 18px -12px rgba(40,60,25,.8),inset 0 0 0 1px rgba(120,145,95,.35);animation:pgReflectionBreathe 9s ease-in-out infinite}
 @media (prefers-reduced-motion: reduce){.pg-whisper-art{animation:none}}
 .pg-whisper-replay{position:absolute;left:50%;bottom:17px;transform:translateX(-50%);z-index:47;border:1px solid rgba(112,133,94,.34);background:rgba(251,247,235,.94);color:#516347;border-radius:999px;padding:6px 11px;font:700 10.5px 'Hanken Grotesk',sans-serif;cursor:pointer;box-shadow:0 8px 20px -15px rgba(27,44,23,.8)}
@@ -1054,6 +1056,7 @@ button,input,select,textarea{font-family:inherit}
   .pg-pest-relief,.pg-primary-action{min-height:44px}
   .pg-kit-tool,.pg-kit-item,.pg-kit-give,.pg-kit-act,.pg-header-place,.pg-unlock-go,.pg-unlock-later{min-height:44px}
   .pg-living-lesson-close{min-width:44px;min-height:44px}
+  .pg-garden-whisper-dismiss{width:44px!important;height:44px!important;min-width:44px;min-height:44px}
   .pg-game-sidebar,.pg-community-pane{-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
   .pg-gate-dialog{max-height:calc(100dvh - 20px)!important}
   .pg-gate-dialog .pg-gate-actions button{min-width:min(190px,100%)!important}
@@ -1403,7 +1406,7 @@ button,input,select,textarea{font-family:inherit}
             <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
               <div class="pg-element-chip" data-drag-type="{{ it.type }}" role="button" tabindex="0" aria-label="{{ it.ariaLabel }}" sc-camel-on-click="{{ it.onSelect }}" sc-camel-on-key-down="{{ it.onKeyDown }}" title="{{ it.hint }}" style="{{ it.chipStyle }}" style-hover="transform:translateY(-2px);box-shadow:0 9px 18px -10px rgba(60,50,30,.6)">
                 <span style="{{ it.iconBoxStyle }}"><span style="width:32px;height:32px;display:block">{{ it.art }}</span></span>
-                <span style="flex:1;min-width:0">{{ it.name }}</span>
+                <span style="flex:1;min-width:0"><span>{{ it.name }}</span><sc-if value="{{ it.hasTermHelp }}" hint-placeholder-val="{{ false }}"><span class="pg-element-term">{{ it.termHelp }}</span></sc-if></span>
                 <span style="display:flex;align-items:center;gap:4px;flex:none">
                   <sc-if value="{{ it.barterable }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:2px;background:#EAF1DC;color:#5E7E4A;font-size:9.5px;font-weight:700;padding:1.5px 6px;border-radius:6px">{{ it.reuseIcon }} {{ it.barter }}</span></sc-if>
                   <sc-if value="{{ it.moneyOnly }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;background:#F4EBDD;color:#7A5D18;font-size:9.5px;font-weight:700;padding:1.5px 6px;border-radius:6px">buy only</span></sc-if>
@@ -1416,7 +1419,7 @@ button,input,select,textarea{font-family:inherit}
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#6E6552;line-height:1.55;padding:2px 4px 8px"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span style="opacity:.5">v78</span>
+      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#6E6552;line-height:1.55;padding:2px 4px 8px"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span style="opacity:.5">v79</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button class="pg-return-guided" sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
@@ -1443,7 +1446,7 @@ button,input,select,textarea{font-family:inherit}
             </div>
             <button class="pg-next-season" sc-camel-on-click="{{ nextSeason.onClick }}" title="Advance to {{ nextSeason.name }}" aria-label="Advance to {{ nextSeason.name }}" style="display:flex;align-items:center;gap:5px;background:#55743F;border:1px solid #46612F;border-radius:20px;padding:5px 11px 5px 12px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:700;color:#FFFCF2;letter-spacing:.01em;box-shadow:0 2px 5px -2px rgba(50,60,30,.5);white-space:nowrap" style-hover="background:#688A52;transform:translateY(-1px)">Next season <span style="font-size:12px">{{ nextSeason.icon }}</span> <span style="font-size:12px;opacity:.85">→</span></button>
             <div style="position:relative">
-              <button class="pg-guild-toggle" sc-camel-on-click="{{ onToggleGuildList }}" title="Peek at the possible pairings — or keep guessing blind!" aria-label="Open discovered guilds, {{ guildCount }} of {{ guildTotal }}" style="font-size:11px;color:#7A5D18;background:#FBF3DC;border:1px solid #E0C583;padding:5px 11px;border-radius:20px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s" style-hover="background:#F6E9C4">✦ Guilds {{ guildCount }}/{{ guildTotal }} ▾</button>
+              <button class="pg-guild-toggle" sc-camel-on-click="{{ onToggleGuildList }}" title="Explore the pairwise design connections you have discovered" aria-label="Open discovered design connections, {{ guildCount }} of {{ guildTotal }}" style="font-size:11px;color:#7A5D18;background:#FBF3DC;border:1px solid #E0C583;padding:5px 11px;border-radius:20px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s" style-hover="background:#F6E9C4">✦ Connections {{ guildCount }}/{{ guildTotal }} ▾</button>
             </div>
           </div>
           </sc-if>
@@ -1555,7 +1558,7 @@ button,input,select,textarea{font-family:inherit}
 
             <!-- guild ghost targets -->
             <sc-for list="{{ ghostTargets }}" as="g" hint-placeholder-count="0">
-              <div role="button" tabindex="0" aria-label="Plant here to form a guild" sc-camel-on-click="{{ g.onPlace }}" sc-camel-on-key-down="{{ g.onKeyDown }}" title="Plant here to form a guild" style="{{ g.style }}">
+              <div role="button" tabindex="0" aria-label="Plant here to form a design connection" sc-camel-on-click="{{ g.onPlace }}" sc-camel-on-key-down="{{ g.onKeyDown }}" title="Plant here to form a design connection" style="{{ g.style }}">
                 <span style="font-size:20px;line-height:1;color:#7A5D18">✦</span>
               </div>
             </sc-for>
@@ -1634,7 +1637,7 @@ button,input,select,textarea{font-family:inherit}
                   <div style="font-size:10px;font-weight:800;letter-spacing:.17em;text-transform:uppercase;color:#718263;margin-bottom:2px">The garden notices</div>
                   <div class="pg-garden-whisper-text">“{{ gardenWhisperText }}”</div>
                 </div>
-                <button sc-camel-on-click="{{ onDismissGardenWhisper }}" aria-label="Dismiss the garden's message" style="width:25px;height:25px;border-radius:50%;background:rgba(255,255,255,.48);border:1px solid #D0D9BD;color:#657558;cursor:pointer;flex:none">×</button>
+                <button class="pg-garden-whisper-dismiss" sc-camel-on-click="{{ onDismissGardenWhisper }}" aria-label="Dismiss the garden's message" style="border-radius:50%;background:rgba(255,255,255,.48);border:1px solid #D0D9BD;color:#657558;cursor:pointer;flex:none">×</button>
               </div>
             </sc-if>
 
@@ -1842,7 +1845,7 @@ button,input,select,textarea{font-family:inherit}
           <summary style="cursor:pointer;font-weight:800;color:#4E6044">About this learning model</summary>
           <div style="padding-top:7px">This is a practice plot inspired by the real youth-run community garden in Menet — not a literal site plan or scientific assessment. Camille, Noa, Léa, Malik, Anaïs and Baptiste are fictional composite characters.<br><span style="color:#415C36;font-weight:700">“Shares” are game tokens for participation. A real fair share may be time, care, knowledge, access or surplus, without expecting equal repayment.</span></div>
         </details>
-        <div class="pg-systems-list" style="border-top:1px solid #EFE7D6;padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:8px" aria-label="Learning-game model of garden connections">
+        <div class="pg-systems-list" role="group" style="border-top:1px solid #EFE7D6;padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:8px" aria-label="Learning-game model of garden connections">
           <div style="font-size:10px;font-weight:800;color:#8A7E66;letter-spacing:.11em;text-transform:uppercase">Relationships, not checkboxes</div>
           <sc-for list="{{ systemView }}" as="sv" hint-placeholder-count="4">
             <div class="pg-system-row" tabindex="0" role="progressbar" aria-valuenow="{{ sv.value }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ sv.name }}. {{ sv.reason }}" title="{{ sv.reason }}">
@@ -2455,7 +2458,7 @@ button,input,select,textarea{font-family:inherit}
             <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;color:#2C3525;line-height:1.15">{{ sumStatus }}</div>
             <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:6px;font-size:11px;color:#7A6E58;font-weight:600">
               <span>🐾 {{ sumCritterCount }}/10 potential wild neighbours</span>
-              <span>✦ {{ sumGuildCount }}/{{ guildTotal }} guilds</span>
+              <span>✦ {{ sumGuildCount }}/{{ guildTotal }} design connections</span>
               <span class="pg-icon-label">{{ reuseIconSummary }} {{ sumShares }} given</span>
             </div>
           </div>
@@ -2473,7 +2476,7 @@ button,input,select,textarea{font-family:inherit}
         </sc-if>
 
         <sc-if value="{{ hasGuilds }}" hint-placeholder-val="{{ false }}">
-          <div style="font-size:9.5px;font-weight:700;color:#9A8F77;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Guilds discovered</div>
+          <div style="font-size:9.5px;font-weight:700;color:#9A8F77;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Design connections discovered</div>
           <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
             <sc-for list="{{ sumGuilds }}" as="sg" hint-placeholder-count="2">
               <span style="background:#FBF3DC;border:1px solid #E0C583;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;color:#7A5D18">{{ sg }}</span>
@@ -2654,13 +2657,13 @@ button,input,select,textarea{font-family:inherit}
 
   <sc-if value="{{ showGuildList }}" hint-placeholder-val="{{ false }}">
     <div class="pg-modal-backdrop" sc-camel-on-click="{{ onToggleGuildList }}" style="position:absolute;inset:0;background:rgba(44,53,37,.57);backdrop-filter:blur(4px);z-index:56;display:flex;justify-content:flex-end;align-items:center;padding:22px;animation:gfade .2s ease">
-      <div data-pg-dialog="guild-list" role="dialog" aria-modal="true" aria-label="Discovered guilds" tabindex="-1" sc-camel-on-click="{{ stopProp }}" style="width:min(340px,90%);max-height:84%;background:#FBF8F1;border:1px solid #E0C583;border-radius:18px;box-shadow:0 24px 60px -24px rgba(80,60,10,.6);display:flex;flex-direction:column;overflow:hidden;animation:gslideR .32s cubic-bezier(.2,.7,.3,1)">
+      <div data-pg-dialog="guild-list" role="dialog" aria-modal="true" aria-label="Discovered design connections" tabindex="-1" sc-camel-on-click="{{ stopProp }}" style="width:min(340px,90%);max-height:84%;background:#FBF8F1;border:1px solid #E0C583;border-radius:18px;box-shadow:0 24px 60px -24px rgba(80,60,10,.6);display:flex;flex-direction:column;overflow:hidden;animation:gslideR .32s cubic-bezier(.2,.7,.3,1)">
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:17px 19px 13px;border-bottom:1px solid #EFE2C6;flex:none">
           <div style="min-width:0">
-            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;color:#2C3525;line-height:1.1">✦ Plant guilds</div>
-            <div style="font-size:12px;color:#9A8F77;margin-top:3px;line-height:1.4">{{ guildCount }}/{{ guildTotal }} discovered · place two partners side by side to form one</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;color:#2C3525;line-height:1.1">✦ Design connections</div>
+            <div style="font-size:12px;color:#746B59;margin-top:3px;line-height:1.4">{{ guildCount }}/{{ guildTotal }} discovered · each pair is one useful connection, not a complete plant guild by itself</div>
           </div>
-          <button class="pg-guild-close" sc-camel-on-click="{{ onToggleGuildList }}" title="Close" aria-label="Close discovered guilds" style="width:30px;height:30px;flex:none;border-radius:9px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;cursor:pointer;display:grid;place-items:center;font-size:15px" style-hover="border-color:#B5613A;color:#B5613A">✕</button>
+          <button class="pg-guild-close" sc-camel-on-click="{{ onToggleGuildList }}" title="Close" aria-label="Close discovered design connections" style="width:30px;height:30px;flex:none;border-radius:9px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;cursor:pointer;display:grid;place-items:center;font-size:15px" style-hover="border-color:#B5613A;color:#B5613A">✕</button>
         </div>
         <div style="flex:1;min-height:0;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px">
           <sc-for list="{{ guildListView }}" as="gd" hint-placeholder-count="7">
@@ -2711,7 +2714,7 @@ button,input,select,textarea{font-family:inherit}
           <sc-if value="{{ guildCardFresh }}" hint-placeholder-val="{{ true }}">
             <span style="display:inline-flex;align-items:center;gap:4px;background:#EAF1DC;color:#4E6B3D;font-size:11px;font-weight:700;padding:3px 10px;border-radius:14px">{{ reuseIconGuild }} +1 game share</span>
           </sc-if>
-          <button type="button" sc-camel-on-click="{{ onReplayGuildVoice }}" aria-label="Replay the garden voice for this guild" style="margin-left:auto;background:#FFFDF6;border:1px solid #D8CEB8;color:#5E6F4E;font-weight:700;font-size:12px;padding:9px 12px;border-radius:11px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s,border-color .15s" style-hover="background:#F2F6E9;border-color:#9BAE7E">↻ Garden voice</button>
+          <button type="button" sc-camel-on-click="{{ onReplayGuildVoice }}" aria-label="Replay the garden voice for this design connection" style="margin-left:auto;background:#FFFDF6;border:1px solid #D8CEB8;color:#5E6F4E;font-weight:700;font-size:12px;padding:9px 12px;border-radius:11px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s,border-color .15s" style-hover="background:#F2F6E9;border-color:#9BAE7E">↻ Garden voice</button>
           <button sc-camel-on-click="{{ onDismissGuild }}" style="background:#C99A3C;border:none;color:#fff;font-weight:700;font-size:12px;padding:9px 20px;border-radius:11px;cursor:pointer;font-family:inherit;transition:background .15s" style-hover="background:#7A5D18">Lovely!</button>
         </div>
       </div>
@@ -3006,7 +3009,7 @@ class Component extends DCLogic {
     return {
       compost:{name:'Compost',group:'soil',catLabel:'Soil & nutrient cycling',accent:'#B5613A',icon:I.compost,
         desc:'A three-stage bin system that turns kitchen scraps and garden waste into dark, living soil.',
-        why:'It keeps many local organic materials in the nutrient cycle, returning them to the soil instead of treating them as waste.',
+        why:'It keeps many local organic materials in the nutrient cycle, returning them to the soil instead of treating them as waste. Compost heaps can shelter wildlife, including hedgehogs, so check carefully before turning or forking one.',
         attracts:['Earthworms','Beetles','Decomposer fungi']},
       hugel:{name:'Hügelkultur bed',group:'soil',catLabel:'Soil & nutrient cycling',accent:'#B5613A',icon:I.hugel,
         desc:'An experimental raised bed with woody material beneath organic matter, soil and mulch.',
@@ -3026,11 +3029,11 @@ class Component extends DCLogic {
         attracts:['Some solitary insects','Beetles']},
       arch:{name:'Growing arch',group:'food',catLabel:'Food, seed & season',accent:'#5E7E4A',icon:I.arch,
         desc:'A vertical structure for climbing plants — beans, peas, cucumbers and small squash.',
-        why:'It grows far more food per square metre and uses the edge effect to create cool, shaded microclimates.',
+        why:'Vertical growing can make useful growing space above a small footprint and cast a cooler edge nearby, although yield and shade depend on crop, sun, soil and care. Beans and peas also host nitrogen-fixing bacteria in root nodules; that relationship feeds the plant first, not the whole bed automatically.',
         attracts:['Bees']},
       herbspiral:{name:'Herb spiral',group:'food',catLabel:'Food, seed & season',accent:'#5E7E4A',icon:I.herbspiral,
         desc:'A spiral mound that packs many herbs into one sunny footprint.',
-        why:'Its wet-to-dry microclimates let thirsty and drought-loving herbs share a single bed.',
+        why:'Its height and aspect may create somewhat wetter, drier, sunnier and shadier pockets, but the result depends on soil, rainfall, construction and the site. Observe the pockets rather than assuming every spiral behaves the same.',
         attracts:['Bees','Butterflies']},
       pollinator:{name:'Flower strip',group:'habitat',catLabel:'Habitat',accent:'#5E7E4A',icon:I.pollinator,
         desc:'A strip of locally suitable flowering plants and perennials along the beds.',
@@ -3038,7 +3041,7 @@ class Component extends DCLogic {
         attracts:['Bees','Butterflies','Ladybugs']},
       greenhouse:{name:'Greenhouse',group:'food',catLabel:'Food, seed & season',accent:'#5E7E4A',icon:I.greenhouse,
         desc:'A glass or polytunnel house for raising seedlings and prolonging the season.',
-        why:'It extends harvests at both ends of the year and protects tender crops from late frosts.',
+        why:'It can extend harvests at both ends of the year and buffer some cold, wind and rain. An unheated structure is not frost-proof, so tender crops may still need fleece, a cloche or another suitable protection.',
         attracts:['Early seedlings']},
       seedbank:{name:'Seed bank',group:'food',catLabel:'Food, seed & season',accent:'#5E7E4A',icon:I.seedbank,
         desc:'Labelled, fully dry seed saved from healthy open-pollinated plants and stored for another season.',
@@ -3046,7 +3049,7 @@ class Component extends DCLogic {
         attracts:['Future harvests']},
       birdbath:{name:'Bird bath',group:'water',catLabel:'Water care',accent:'#C99A3C',icon:I.birdbath,
         desc:'A shallow, regularly cleaned drinking and bathing place for wildlife — separate from crop irrigation.',
-        why:'Fresh shallow water with an easy escape route can support birds and insects through dry spells. Change it often; it does not store enough water for thirsty beds.',
+        why:'Fresh shallow water with an easy escape route can support birds and insects through dry spells. When birds are using it, replace the water daily and clean the bath at least weekly to reduce disease spread. It does not store enough water for thirsty beds.',
         attracts:['Birds']},
       birdhouse:{name:'Bird house',group:'habitat',catLabel:'Habitat',accent:'#C99A3C',icon:I.birdhouse,
         desc:'A nest box for cavity-nesting birds.',
@@ -3061,8 +3064,8 @@ class Component extends DCLogic {
         why:'It turns the garden into an open-air classroom for every visitor who walks through.',
         attracts:['Curious learners']},
       appletree:{name:'Apple tree',group:'food',catLabel:'Food, seed & season',accent:'#5E7E4A',icon:I.seedbank,
-        desc:'A young apple tree from the community seed swap — blossom in spring, fruit in autumn.',
-        why:'A fruit tree is the garden’s long game: one planting feeds people, bees and birds for decades.',
+        desc:'A young grafted apple tree from the community swap — planted while dormant, then given years to establish.',
+        why:'A fruit tree is the garden’s long game. Most apples need pollen from a different compatible cultivar flowering at the same time, carried by insects. In this training garden, place two established apple trees near a flower strip or herb spiral before expecting fruit.',
         attracts:['Bees','Birds']},
       kitchen:{name:'Garden kitchen',group:'people',catLabel:'People & learning',accent:'#5E7E4A',icon:I.bench,
         desc:'An outdoor kitchen with a stove, worktop and shelves for preserving the harvest.',
@@ -3070,7 +3073,7 @@ class Component extends DCLogic {
         attracts:['People & preserves']},
       crop_potato:{name:'Potatoes',group:'seeds',catLabel:'Seed bank',accent:'#6F5530',icon:I.seedbank,crop:true,
         desc:'Seed potatoes from the community seed bank — plant in spring, hill up with mulch.',
-        why:'A staple crop: one bucket of seed potatoes becomes a whole autumn harvest.',
+        why:'A healthy seed tuber can form several new tubers, but yield varies with variety, weather, water, soil and disease. In warm, wet spells, watch for late blight rather than treating an autumn harvest as guaranteed.',
         attracts:['Earthworms']},
       crop_root:{name:'Root vegetables',group:'seeds',catLabel:'Seed bank',accent:'#6F5530',icon:I.seedbank,crop:true,
         desc:'Carrots and beets from saved seed — they store all winter in sand.',
@@ -3162,7 +3165,7 @@ class Component extends DCLogic {
   kitchenStageDef(st){return this.stationDef(st.kitchenStage||'simmer')||this.kitchenStations[0];}
   seedLore={
     crop_potato:{keeps:'Saved as whole seed tubers, kept frost-free and dark until the soil warms.',
-      note:'Potatoes are grown from tubers rather than true seed. Certified seed potato reduces the risk of carrying disease into a new bed, which is why gardeners often buy fresh stock rather than saving their own.'},
+      note:'Potatoes are grown from tubers rather than true seed. Certified seed potato reduces the risk of carrying disease into a new bed, which is why gardeners often buy fresh stock rather than saving their own. Late blight spreads quickly in warm, wet weather; do not put infected foliage in a home compost heap, and follow current local disposal guidance.'},
     crop_root:{keeps:'Carrots and beets set seed in their second year, not their first.',
       note:'A root left in the ground over winter will flower the following summer and set seed then. Both cross readily with relatives nearby, so saved seed does not always come true to the parent.'},
     crop_leafy:{keeps:'Lettuce runs to seed in heat, and the seed is easy to catch.',
@@ -3192,9 +3195,19 @@ class Component extends DCLogic {
   }
   // Biennials: the root or head you harvest IS the plant that would have flowered.
   BIENNIAL=['crop_root','crop_cabbage'];
-  TREE_MATURITY=4;
+  // One turn is one season. A grafted dwarf apple may begin bearing after roughly
+  // two to three years, not after its first trip around the calendar.
+  TREE_MATURITY=8;
+  WINTER_MULCH_CROPS=['crop_root','crop_cabbage'];
   treeSeasons(st,p){return Math.max(0,(st.seasonTurns||0)-(p.placedAtTurn||0));}
   treeGrowth(st,p){return Math.min(1,this.treeSeasons(st,p)/this.TREE_MATURITY);};
+  plotDistance(a,b){return Math.hypot(((Number(a.x)||0)-(Number(b.x)||0))*1.4,(Number(a.y)||0)-(Number(b.y)||0));}
+  applePollinationReady(st,p){
+    const placed=st.placed||[];
+    const partner=placed.some(q=>q.id!==p.id&&q.type==='appletree'&&this.treeSeasons(st,q)>=this.TREE_MATURITY&&this.plotDistance(p,q)<=42);
+    const flowers=placed.some(q=>(q.type==='pollinator'||q.type==='herbspiral')&&this.plotDistance(p,q)<=32);
+    return partner&&flowers;
+  }
   MATS={planks:{name:'Wood planks',img:'material-planks',value:40},window:{name:'Old window',img:'material-window',value:50},bricks:{name:'Bricks',img:'material-bricks',value:40},straw:{name:'Straw bale',img:'material-straw',value:20}};
   buildUses={kitchen:['planks','window','bricks','straw'],greenhouse:['window','planks']};
   harvestArt=(()=>{const E=React.createElement;
@@ -3439,10 +3452,10 @@ class Component extends DCLogic {
       tip:'❄️ Winter changes, rather than empties, the garden. Different species overwinter in different stages and places; resident birds and subtle signs of soil life may remain. The table offers wood, prunings and stored materials, while mulch protects the soil surface.'}
   };
   seasonPassages={
-    Spring:{image:'assets/season-passages/spring.webp',loop:'assets/season-passages/spring-loop.mp4',title:'The soil loosens its breath',voice:'The frost has loosened its hold. New companions arrive carefully, and last year’s rain rises through the soil.'},
-    Summer:{image:'assets/season-passages/summer.webp',loop:'assets/season-passages/summer-loop.mp4',title:'Everything asks for relationship',voice:'My leaves are full of light. Water, shade and many kinds of flower decide whether abundance can keep its balance.'},
-    Autumn:{image:'assets/season-passages/autumn.webp',loop:'assets/season-passages/autumn-loop.mp4',title:'A gift becomes tomorrow',voice:'Fruit, leaves and seed are arriving together. What is shared, stored or returned now will shape the quiet months.'},
-    Winter:{image:'assets/season-passages/winter.webp',loop:'assets/season-passages/winter-loop.mp4',title:'Quiet is another kind of work',voice:'I have drawn my energy inward. Beneath cover and bark, many lives wait without becoming absent.'}
+    Spring:{image:'assets/season-passages/spring.webp',loop:'assets/season-passages/spring-loop.webm',title:'The soil loosens its breath',voice:'The frost has loosened its hold. New companions arrive carefully, and last year’s rain rises through the soil.'},
+    Summer:{image:'assets/season-passages/summer.webp',loop:'assets/season-passages/summer-loop.webm',title:'Everything asks for relationship',voice:'My leaves are full of light. Water, shade and many kinds of flower decide whether abundance can keep its balance.'},
+    Autumn:{image:'assets/season-passages/autumn.webp',loop:'assets/season-passages/autumn-loop.webm',title:'A gift becomes tomorrow',voice:'Fruit, leaves and seed are arriving together. What is shared, stored or returned now will shape the quiet months.'},
+    Winter:{image:'assets/season-passages/winter.webp',loop:'assets/season-passages/winter-loop.webm',title:'Quiet is another kind of work',voice:'I have drawn my energy inward. Beneath cover and bark, many lives wait without becoming absent.'}
   };
   fallSpots=[{l:8,d:0,t:7},{l:18,d:2.1,t:8.5},{l:28,d:4.4,t:7.6},{l:40,d:1.2,t:9},{l:52,d:3.5,t:7.2},{l:63,d:.6,t:8.2},{l:72,d:5,t:7.8},{l:83,d:2.8,t:8.8},{l:92,d:4,t:7.4},{l:47,d:6,t:8}];
   pileSpots=[{x:33,y:56},{x:63,y:82},{x:80,y:42}];
@@ -3503,7 +3516,7 @@ class Component extends DCLogic {
     const viewportWidth=typeof window!=='undefined'?window.innerWidth:1440;
     const viewportHeight=typeof window!=='undefined'?window.innerHeight:900;
     const viewportMode=viewportWidth>=1180?'desktop':(viewportWidth>=768&&viewportHeight>=600?'tablet':'phone');
-    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,movingPlacedId:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:[],residentSeasons:{},residentWinters:{},pestActive:null,pestSeasons:{},pestCleared:{},pestRelief:{},pestBeatsSeen:[],pestStory:null,pestLastSettled:null,livingLesson:null,livingLessonExperiment:null,livingLessonHistory:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:[],grownHarvests:0,preservedCount:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null,bookOpen:false,bookTab:'elements',bookLeaf:0,bookDir:'fwd',kitchenOpen:false,kitchenPick:null,kitchenNote:null,kitchenBusy:null,kitchenStage:'simmer',kitchenDragging:false,kitchenOver:null,viewportMode:viewportMode,viewportWidth:viewportWidth,viewportHeight:viewportHeight,phonePane:'garden',tabletPane:'build',headerMenuOpen:false};
+    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,movingPlacedId:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:[],residentSeasons:{},residentWinters:{},pestActive:null,pestSeasons:{},pestCleared:{},pestRelief:{},pestBeatsSeen:[],pestStory:null,pestLastSettled:null,livingLesson:null,livingLessonExperiment:null,livingLessonHistory:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:[],grownHarvests:0,preservedCount:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null,bookOpen:false,bookTab:'elements',bookLeaf:0,bookDir:'fwd',kitchenOpen:false,kitchenPick:null,kitchenNote:null,kitchenBusy:null,kitchenStage:'simmer',kitchenDragging:false,kitchenOver:null,kitchenMotionFailed:{},gateMotionFailed:{},seedbankMotionFailed:false,viewportMode:viewportMode,viewportWidth:viewportWidth,viewportHeight:viewportHeight,phonePane:'garden',tabletPane:'build',headerMenuOpen:false};
   }
   hasJourneyMoment(st,key){return (st.journeyMoments||[]).indexOf(key)>=0;}
   milestoneArt={soil:'assets/milestones/soil.webp',water:'assets/milestones/water.webp',food:'assets/milestones/food.webp',shelter:'assets/milestones/shelter.webp',share:'assets/milestones/share.webp',challenge:'assets/milestones/challenge.webp'};
@@ -3645,9 +3658,10 @@ class Component extends DCLogic {
     const hasCrop=(p)=>(p.crops||[]).some(t=>types.has(t));
     const allyPresent=(p)=>this.pestAllyKeys(p).some(k=>activeWildlife.has(k));
     let active=ns.pestActive||null;
+    let pestReturned=null;
     if(active){
       const p=this.pestPressures.find(x=>x.key===active);
-      if(!p||!hasCrop(p)||allyPresent(p)){
+      if(!p||!hasCrop(p)||allyPresent(p)||cleared[active]){
         if(p&&allyPresent(p)){cleared[p.key]=true;}
         active=null;lastSettled=turns;
       }else{
@@ -3658,10 +3672,14 @@ class Component extends DCLogic {
     // klid mezi přemnoženími: zahrada nikdy nepálí dvě rány po sobě
     const calm=lastSettled===null||(turns-lastSettled)>=2;
     if(!active&&allowOnset&&calm&&turns>=2){
-      const cand=this.pestPressures.find(p=>!cleared[p.key]&&(p.seasons||[]).indexOf(season)>=0&&hasCrop(p)&&!allyPresent(p));
-      if(cand){active=cand.key;seasons[cand.key]=(seasons[cand.key]||0)+1;}
+      const cand=this.pestPressures.find(p=>(p.seasons||[]).indexOf(season)>=0&&hasCrop(p)&&!allyPresent(p));
+      if(cand){
+        active=cand.key;
+        seasons[cand.key]=(seasons[cand.key]||0)+1;
+        if(cleared[cand.key]){pestReturned=cand.key;}
+      }
     }
-    return {pestActive:active,pestSeasons:seasons,pestCleared:cleared,pestRelief:relief,pestLastSettled:lastSettled===null?null:lastSettled};
+    return {pestActive:active,pestSeasons:seasons,pestCleared:cleared,pestRelief:relief,pestLastSettled:lastSettled===null?null:lastSettled,pestReturned:pestReturned};
   }
   pestMissingText(st){
     const key=st.pestStory?st.pestStory.pest:st.pestActive;
@@ -3673,12 +3691,12 @@ class Component extends DCLogic {
   }
   pestHeldTypes(st){
     const key=st.pestActive;
-    if(!key||(st.pestRelief||{})[key]){return [];}
+    if(!key||(st.pestRelief||{})[key]||(st.pestCleared||{})[key]){return [];}
     const p=this.pestPressures.find(x=>x.key===key);
     return p?(p.crops||[]):[];
   }
   lessonFocusArt={soil:'assets/learning/mulch.webp',water:'assets/learning/rain.webp',food:'assets/learning/hugel.webp',habitat:'assets/learning/shelter.webp',sharing:'assets/learning/kitchen.webp',relationships:'assets/learning/pexeso.webp',season:'assets/learning/season.webp'};
-  bookTabDefs=[{key:'elements',label:'Elements',intro:'Everything you can place in the garden — what it is, why it matters, and which lives it may support.'},{key:'wildlife',label:'Who may visit',intro:'Neighbours who may arrive when conditions suit them. None of them are promised; gardens differ.'},{key:'guilds',label:'Guilds',intro:'What happens between elements. A guild is a relationship, not a recipe.'},{key:'principles',label:'Principles',intro:'The lessons the garden teaches through its challenges — observation before action.'},{key:'balance',label:'Balance',intro:'When something multiplies beyond what the rest can absorb, it is describing an absence. These pages are about reading that, not about winning against it.'},{key:'keeping',label:'Keeping',intro:'A season gives more than a week can eat. These pages are about the two ways a garden carries itself forward — food kept, and seed kept.'}];
+  bookTabDefs=[{key:'elements',label:'Elements',intro:'Everything you can place in the garden — what it is, why it matters, and which lives it may support.'},{key:'wildlife',label:'Who may visit',intro:'Neighbours who may arrive when conditions suit them. None of them are promised; gardens differ.'},{key:'guilds',label:'Connections',intro:'Pairwise design connections between elements. A full plant guild usually weaves several compatible species and functions together; one nearby pair is only a beginning.'},{key:'principles',label:'Principles',intro:'The lessons the garden teaches through its challenges — observation before action.'},{key:'balance',label:'Balance',intro:'When something multiplies beyond what the rest can absorb, it is describing an absence. These pages are about reading that, not about winning against it.'},{key:'keeping',label:'Keeping',intro:'A season gives more than a week can eat. These pages are about the two ways a garden carries itself forward — food kept, and seed kept.'}];
   keepingEntries=[
     {key:'why',name:'Why anything is kept at all',meta:'Principle',art:'assets/kitchen/station-cauldron.webp',
       desc:'Abundance arrives all at once. Hunger does not.',
@@ -3698,8 +3716,8 @@ class Component extends DCLogic {
       tags:['Cabbage','Roots','Salt']},
     {key:'store',name:'Simply keeping',meta:'The cold store',art:'assets/kitchen/station-store.webp',
       desc:'Some crops need no processing at all — only the right dark.',
-      why:'Potatoes and many roots stay dormant in cool, dark, slightly humid conditions and can last months untouched. It is the least work of any method and the easiest to get wrong: warmth wakes them, light greens potatoes, and damaged roots spoil the rest around them. How long any crop keeps varies with variety, ripeness and the store itself, so check what you have put away rather than trusting a number.',
-      tags:['Potatoes','Roots','Sand']},
+      why:'Potatoes and many roots can keep for months when stored correctly, but they do not want identical conditions. Keep potatoes cool, dark, dry and ventilated; light, damage and sprouting can raise natural glycoalkaloids, so do not eat green, sprouted or bitter parts. Many roots prefer a slightly damper store such as sand. Check every crop regularly and follow current food-safety guidance.',
+      tags:['Potatoes','Roots','Darkness']},
     {key:'seed',name:'Keeping seed',meta:'The seed bank',art:'assets/seedbank/scene.webp',
       desc:'The only harvest that makes next year possible.',
       why:'Seed saved from your own garden is adapted a little to your own ground, and costs nothing to sow again. How easily it comes true varies enormously: lettuce mostly selfs and is forgiving, brassicas cross with every relative nearby, and biennials like carrot only flower in their second year. Seed given away is also the only seed that survives a bad year in one garden.',
@@ -3842,7 +3860,7 @@ class Component extends DCLogic {
       return this.wildlife.map(w=>({key:w.key,name:w.name,meta:'Wild neighbour',art:img('assets/book/wl-'+w.key+'.webp','cover'),desc:w.tip||'',why:w.why||'',hasTags:false,tags:[]}));
     }
     if(tab==='guilds'){
-      return this.guildDefs.map(g=>({key:g.key,name:(g.emoji?g.emoji+' ':'')+g.name,meta:'Relationship between elements',art:img('assets/book/'+((g.types||[])[0]||'')+'.webp','cover'),desc:g.what||'',why:g.why||'',hasTags:!!(g.types&&g.types.length),tags:(g.types||[]).map(t=>({name:(this.catalog[t]&&this.catalog[t].name)||t}))}));
+      return this.guildDefs.map(g=>({key:g.key,name:(g.emoji?g.emoji+' ':'')+g.name,meta:'Pairwise design connection',art:img('assets/book/'+((g.types||[])[0]||'')+'.webp','cover'),desc:g.what||'',why:g.why||'',hasTags:!!(g.types&&g.types.length),tags:(g.types||[]).map(t=>({name:(this.catalog[t]&&this.catalog[t].name)||t}))}));
     }
     if(tab==='balance'){
       return this.balanceEntries.map(b=>({key:b.key,name:b.name,meta:b.meta,art:img(b.art,'cover'),desc:b.desc,why:b.why,hasTags:true,tags:b.tags}));
@@ -4520,7 +4538,7 @@ class Component extends DCLogic {
             const rel=Math.max(0,Math.floor(num(s.pestRelief&&s.pestRelief[p.key],0)));
             if(rel){restoredPestRelief[p.key]=rel;}
           });
-          const restoredPestActive=(typeof s.pestActive==='string'&&pestKeys.has(s.pestActive)&&!restoredPestCleared[s.pestActive])?s.pestActive:null;
+          const restoredPestActive=(typeof s.pestActive==='string'&&pestKeys.has(s.pestActive))?s.pestActive:null;
           const restoredPestSettled=typeof s.pestLastSettled==='number'&&isFinite(s.pestLastSettled)?Math.max(0,Math.floor(s.pestLastSettled)):null;
           const pendingCinematicSeason=this.seasonDefs[s.pendingGardenCinematic]?s.pendingGardenCinematic:null;
           const pendingPassage=pendingCinematicSeason?(this.seasonPassages[pendingCinematicSeason]||{}):null;
@@ -4823,7 +4841,7 @@ class Component extends DCLogic {
       const fresh=this.activeGuilds(st.placed).filter(g=>disc.indexOf(g.key)<0);
       if(fresh.length){
         const introduceGuildVoice=!st.guildVoicePlayed;
-        this.setState(s=>{const keys=fresh.map(g=>g.key),firstEver=(s.discovered||[]).length===0&&!s.guildCard;return {discovered:[...(s.discovered||[]),...keys],shares:s.shares+fresh.length,guildCard:firstEver?keys[0]:s.guildCard,guildCardQueue:s.guildCardQueue||[],toast:firstEver?null:('✦ New active guild: '+fresh.map(g=>g.name).join(', ')+' — noticing a relationship adds '+(fresh.length===1?'a share':fresh.length+' shares')+'. Open the guild journal when you want the full story.')};},()=>{
+        this.setState(s=>{const keys=fresh.map(g=>g.key),firstEver=(s.discovered||[]).length===0&&!s.guildCard;return {discovered:[...(s.discovered||[]),...keys],shares:s.shares+fresh.length,guildCard:firstEver?keys[0]:s.guildCard,guildCardQueue:s.guildCardQueue||[],toast:firstEver?null:('✦ New design connection: '+fresh.map(g=>g.name).join(', ')+' — noticing a relationship adds '+(fresh.length===1?'a share':fresh.length+' shares')+'. Open Connections in the Garden Book when you want the full story.')};},()=>{
           this.later(()=>this.playGuild(),150);
           if(introduceGuildVoice&&this.state.guildCard){this.scheduleGuildVoice();}
         });
@@ -5437,7 +5455,7 @@ class Component extends DCLogic {
     if(!firstCycleReady){reasons.push(journey.ready?'Connect two complementary elements close enough to form a visible relationship.':journey.current.why);}
     if((st.seasonTurns||0)<4){reasons.push('Observe the design through a full turn of four seasons.');}
     if(systems.view.some(v=>v.value<45)){reasons.push('Bring every resilience relationship to at least 45%.');}
-    if(activeGuilds<2){reasons.push('Keep at least two plant or people guilds active in the current design.');}
+    if(activeGuilds<2){reasons.push('Keep at least two useful design connections active in the current garden.');}
     if((st.sharedActs||0)<2){reasons.push('Let two genuine gifts circulate without expecting personal repayment.');}
     if(!st.harvestEver){reasons.push('Grow and harvest something from this garden.');}
     if(challengeKinds<3){reasons.push('Retain learning from at least three different seasonal challenges.');}
@@ -5456,7 +5474,7 @@ class Component extends DCLogic {
     const textLines=(value,x,y,max=48,color='#4f5848')=>wrap(value,max).map((line,i)=>`<text x="${x}" y="${y+i*23}" font-family="'Hanken Grotesk',sans-serif" font-size="18" fill="${color}">${esc(line)}</text>`).join('');
     const systems=this.gardenSystems(state),weakest=systems.view.slice().sort((a,b)=>a.value-b.value)[0];
     const learnedKey=(state.lastChallengeKey&&Number((state.gardenEffects||{})[state.lastChallengeKey]))?state.lastChallengeKey:Object.keys(state.gardenEffects||{}).filter(k=>Number((state.gardenEffects||{})[k])).pop();
-    const learned=({mulch:'Protect the most vulnerable soil first.',compost:'Waste becomes fertility when air, moisture, greens and browns are balanced.',hugel:'Treat woody beds as site-specific experiments and observe them over time.',rain:'Screen stored water and give every overflow a safe route.',kitchen:'Match each harvest with a suitable low-energy way of keeping.',ladybug:'Support balance with habitat, patience and targeted protection.',bee:'Design flowering habitat through time, not for one colourful moment.',shelter:'Different lives need different winter refuges.',pexeso:'A guild is an exchange of needs and yields.',seeds:'Save suitable mature seed with care for crop biology.',quiz:'Observe the whole system before reacting to one symptom.'}[learnedKey]||'Observe relationships before adding more objects.');
+    const learned=({mulch:'Protect the most vulnerable soil first.',compost:'Waste becomes fertility when air, moisture, greens and browns are balanced.',hugel:'Treat woody beds as site-specific experiments and observe them over time.',rain:'Screen stored water and give every overflow a safe route.',kitchen:'Match each harvest with a suitable low-energy way of keeping.',ladybug:'Support balance with habitat, patience and targeted protection.',bee:'Design flowering habitat through time, not for one colourful moment.',shelter:'Different lives need different winter refuges.',pexeso:'A design connection links needs and yields; a full guild weaves several such roles together.',seeds:'Save suitable mature seed with care for crop biology.',quiz:'Observe the whole system before reacting to one symptom.'}[learnedKey]||'Observe relationships before adding more objects.');
     const decision=(state.reflectionNote||((state.lastSystemChange||{}).text)||('You built a connected '+stats.status.toLowerCase()+'.')).slice(0,220);
     const realActions={soil:'Cover one small patch of bare soil with suitable organic material.',water:'Watch one rainfall and notice where water can be slowed or safely collected.',food:'Grow one edible plant together with a flowering companion.',habitat:'Leave one quiet pesticide-free refuge with water, food and shelter.'};
     const action=realActions[(weakest||{}).key]||realActions.soil;
@@ -5468,7 +5486,7 @@ class Component extends DCLogic {
       <text x="600" y="79" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="20" font-weight="800" letter-spacing="4" fill="#8a6a1f">LE JARDIN · PERMACULTURE GARDEN</text><text x="600" y="128" text-anchor="middle" font-family="Georgia,serif" font-size="45" font-weight="700" fill="#2c3525">Certificate of Learning</text>
       <g clip-path="url(#map)"><image ${'href'}="${mapHref}" x="55" y="155" width="1090" height="360" preserveAspectRatio="xMidYMid slice"/><rect x="55" y="155" width="1090" height="360" fill="#172313" opacity=".10"/>${placedArt}</g><rect x="55" y="155" width="1090" height="360" rx="22" fill="none" stroke="#e4d4a9" stroke-width="3"/>
       <rect x="55" y="535" width="1090" height="244" rx="22" fill="#fbf8f1" stroke="#e2d6bd" stroke-width="2"/><circle cx="155" cy="635" r="67" fill="#e8efd9" stroke="#557146" stroke-width="5"/><text x="155" y="638" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="54" font-weight="800" fill="#2c3525">${stats.score}</text><text x="155" y="670" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="12" font-weight="800" letter-spacing="1" fill="#56654e">GARDEN RESILIENCE</text>
-      <text x="255" y="578" font-family="'Hanken Grotesk',sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#9a7428">GROWN WITH CARE BY</text><text x="255" y="619" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#3f5c33">${name}</text><text x="255" y="650" font-family="'Hanken Grotesk',sans-serif" font-size="19" font-weight="700" fill="#2c3525">${esc(stats.status)} · ${stats.wildlife}/10 habitat matches · ${stats.guilds}/${this.guildDefs.length} active guilds · ${stats.given} gifts</text>
+      <text x="255" y="578" font-family="'Hanken Grotesk',sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#9a7428">GROWN WITH CARE BY</text><text x="255" y="619" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#3f5c33">${name}</text><text x="255" y="650" font-family="'Hanken Grotesk',sans-serif" font-size="19" font-weight="700" fill="#2c3525">${esc(stats.status)} · ${stats.wildlife}/10 habitat matches · ${stats.guilds}/${this.guildDefs.length} active connections · ${stats.given} gifts</text>
       <text x="255" y="690" font-family="'Hanken Grotesk',sans-serif" font-size="14" font-weight="800" letter-spacing="1.5" fill="#8a6a1f">A DECISION I CAN EXPLAIN</text>${textLines(decision,255,715,49)}
       <text x="745" y="690" font-family="'Hanken Grotesk',sans-serif" font-size="14" font-weight="800" letter-spacing="1.5" fill="#8a6a1f">A PRINCIPLE I LEARNED</text>${textLines(learned,745,715,39)}
       <text x="255" y="770" font-family="'Hanken Grotesk',sans-serif" font-size="15" font-weight="700" fill="#415c36">Next real-world act: ${esc(action)}</text><text x="76" y="805" font-family="'Hanken Grotesk',sans-serif" font-size="15" fill="#756c5b">${date} · ${esc(strengths)}</text><text x="1124" y="805" text-anchor="end" font-family="'Hanken Grotesk',sans-serif" font-size="15" font-weight="700" fill="#8a6a1f">Care for earth · Care for people · Fair share</text>
@@ -5756,7 +5774,7 @@ class Component extends DCLogic {
     const p=this.state.placed.find(x=>x.id===id);if(!p)return;
     const name=(this.catalog[p.type]||{}).name||'this element';
     const refund=p.paidMethod==='barter'?(p.paidAmount+' share'+(p.paidAmount===1?'':'s')):(p.paidMethod==='buy'?('€'+p.paidAmount):'no payment');
-    if(!window.confirm('Remove '+name+' from the garden?\n\nRefund: '+refund+'. Wildlife or guilds that depend on it may leave until you rebuild their habitat.')){return;}
+    if(!window.confirm('Remove '+name+' from the garden?\n\nRefund: '+refund+'. Wildlife or design connections that depend on it may leave until you rebuild their habitat.')){return;}
     this.setState(s=>{
       const before=this.gardenSystems(s);
       const shares=s.shares+(p.paidMethod==='barter'?p.paidAmount:0);
@@ -5859,12 +5877,12 @@ class Component extends DCLogic {
           {k:'leaves',label:'Deep leaf pile',note:'dry and undisturbed'},{k:'stems',label:'Hollow stems',note:'many tiny cavities'},
           {k:'compost',label:'Active compost',note:'moist and frost-buffered'},{k:'woody',label:'Dense woody corner',note:'sheltered stems and bark'}
         ]})},
-      pexeso:{title:'Complete the guild',emoji:'✦',principle:'Connect, don’t collect',
+      pexeso:{title:'Complete the connection',emoji:'✦',principle:'Connect, don’t collect',
         avail:(st,k)=>(st.discovered||[]).length>=2,
-        story:'A guild is more than two nearby objects: each partner should solve a need for the other and create a useful relationship.',
-        prompt:'For each familiar garden element, choose the partner that completes a working guild you have already discovered.',
+        story:'One useful pair is the beginning of a design connection. A fuller plant guild weaves several compatible species and functions together.',
+        prompt:'For each familiar garden element, choose the partner that completes a useful connection you have already discovered.',
         skill:'designing relationships between garden elements',
-        lesson:'A proposed guild connects possible needs and yields — heat, water, shelter, food or learning — but each relationship remains a hypothesis to observe and adjust in the real site.',
+        lesson:'A proposed connection links possible needs and yields — heat, water, shelter, food or learning — but each relationship remains a hypothesis to observe and adjust on the real site. A full guild combines several such roles.',
         init:(st)=>{const defs=this.guildDefs.filter(gd=>(st.discovered||[]).indexOf(gd.key)>=0).slice(0,3);
           const all=this.guildDefs.map(gd=>gd.types[1]);
           const qs=defs.map(gd=>({g:gd.key,name:gd.name,base:gd.types[0],answer:gd.types[1],why:gd.why,
@@ -5943,7 +5961,7 @@ class Component extends DCLogic {
       ladybug:{systemKey:'habitat',system:'Habitat',text:'Predators have food and shelter, while young plants receive targeted protection.',voice:'You did not silence every insect. You rebuilt the conversation between them.'},
       bee:{systemKey:'food',system:'Food web',text:'The planting plan reduces seasonal gaps in nectar and pollen.',voice:'One flowering season now hands the work to the next.'},
       shelter:{systemKey:'habitat',system:'Habitat',text:'Different winter refuges now support different kinds of garden life.',voice:'Even while I sleep, I am not empty. You left safe rooms for the quiet season.'},
-      pexeso:{systemKey:null,system:'Relationship insight',text:'You practised reading a guild as an exchange of needs and yields, not a collection of objects.',voice:'You looked between the elements — that is where my strongest design lives.'},
+      pexeso:{systemKey:null,system:'Relationship insight',text:'You practised reading a design connection as an exchange of needs and yields, not a collection of objects.',voice:'You looked between the elements — that is where my strongest design lives.'},
       seeds:{systemKey:'food',system:'Food web',text:'Healthy, mature seed from suitable plants has been selected for the next sowing.',voice:'Tomorrow’s garden is already folded into a handful of careful seed.'},
       quiz:{systemKey:null,system:'Observation insight',text:'You practised decisions that account for several parts of the system at once.',voice:'You paused before acting. That small pause is one of the best tools you can bring me.'}
     };
@@ -6061,7 +6079,7 @@ class Component extends DCLogic {
         return 'won';
       })}];
     } else if(g.key==='hugel'){
-      const L={logs:{name:'Logs & trunks',img:'mg-logs',note:'large water reservoir'},branches:{name:'Branches & twigs',img:'mg-branches',note:'fill the large gaps'},leaves:{name:'Leaves & straw',img:'mg-strawleaves',note:'carbon-rich blanket'},compost:{name:'Finished compost',img:'mg-compost',note:'nutrients near roots'},soil:{name:'Topsoil & plants',img:'mg-soil',note:'living growing layer'}};
+      const L={logs:{name:'Logs & trunks',img:'mg-logs',note:'form the woody base'},branches:{name:'Branches & twigs',img:'mg-branches',note:'fill larger gaps'},leaves:{name:'Leaves & straw',img:'mg-strawleaves',note:'add a carbon-rich layer'},compost:{name:'Finished compost',img:'mg-compost',note:'place fertility near roots'},soil:{name:'Topsoil & plants',img:'mg-soil',note:'make the living growing layer'}};
       progressText=d.placed.length+'/5 layers'+((d.mist||0)?' · '+d.mist+' way'+(d.mist===1?'':'s')+' tried':'');
       boardStyle.height='260px';boardStyle.background='linear-gradient(180deg,#DDEBCB 0 56%,#C9A875 56% 100%)';
       tiles=d.placed.map((k,idx)=>({title:L[k].name,style:{position:'absolute',left:(22+idx*3)+'%',width:(56-idx*6)+'%',bottom:(5+idx*16)+'%',height:'18%',animation:'pop .25s ease'},art:this.gimg(L[k].img),artStyle:{width:'100%',height:'100%',display:'block'}}));
@@ -6136,13 +6154,13 @@ class Component extends DCLogic {
       })}));
     } else if(g.key==='pexeso'){
       const q=d.qs[Math.min(d.i,d.qs.length-1)];
-      progressText=d.matched.length+'/'+d.qs.length+' guilds completed'+((d.mist||0)?' · '+d.mist+' way'+(d.mist===1?'':'s')+' tried':'');
+      progressText=d.matched.length+'/'+d.qs.length+' connections completed'+((d.mist||0)?' · '+d.mist+' way'+(d.mist===1?'':'s')+' tried':'');
       boardStyle.height='220px';boardStyle.background='linear-gradient(135deg,#EEF3E2,#E5E1CE)';
-      tiles=[{title:nameOf(q.base),style:{...abs(34,47,150,150),background:'#FFFDF6',border:'1.5px solid #D6DFC3',borderRadius:'24px',display:'grid',placeItems:'center',boxShadow:'0 12px 22px -20px #334526'},art:this.sprites[q.base],artStyle:{position:'absolute',top:'18px',left:'35px',width:'80px',height:'80px',display:'block'},label:nameOf(q.base),labelStyle:{position:'absolute',bottom:'18px',left:'8px',right:'8px',textAlign:'center',fontSize:'12px',fontWeight:'800',color:'#44503A'}},{title:'Choose a guild partner',style:{...abs(66,47,150,150),background:'rgba(255,253,246,.42)',border:'2px dashed #BFCBAA',borderRadius:'24px',display:'grid',placeItems:'center'},label:'+',labelStyle:{fontSize:'36px',fontWeight:'500',color:'#8FA079'},note:'Which partner completes\n'+q.name+'?',noteStyle:{position:'absolute',left:'10px',right:'10px',bottom:'22px',whiteSpace:'pre-line',textAlign:'center',fontSize:'10px',fontWeight:'800',lineHeight:'1.25',color:'#6C755F'}}];
+      tiles=[{title:nameOf(q.base),style:{...abs(34,47,150,150),background:'#FFFDF6',border:'1.5px solid #D6DFC3',borderRadius:'24px',display:'grid',placeItems:'center',boxShadow:'0 12px 22px -20px #334526'},art:this.sprites[q.base],artStyle:{position:'absolute',top:'18px',left:'35px',width:'80px',height:'80px',display:'block'},label:nameOf(q.base),labelStyle:{position:'absolute',bottom:'18px',left:'8px',right:'8px',textAlign:'center',fontSize:'12px',fontWeight:'800',color:'#44503A'}},{title:'Choose a design partner',style:{...abs(66,47,150,150),background:'rgba(255,253,246,.42)',border:'2px dashed #BFCBAA',borderRadius:'24px',display:'grid',placeItems:'center'},label:'+',labelStyle:{fontSize:'36px',fontWeight:'500',color:'#8FA079'},note:'Which partner completes\n'+q.name+'?',noteStyle:{position:'absolute',left:'10px',right:'10px',bottom:'22px',whiteSpace:'pre-line',textAlign:'center',fontSize:'10px',fontWeight:'800',lineHeight:'1.25',color:'#6C755F'}}];
       buttons=q.opts.map(k=>({label:nameOf(k),style:paleBtn(true),onClick:()=>this.gateAct(d2=>{
         const cur=d2.qs[d2.i];
         if(k!==cur.answer){d2.mist++;d2.feedback=nameOf(k)+' can be useful, but it does not complete this relationship. '+cur.why;d2.feedbackGood=false;return;}
-        d2.matched=[...d2.matched,cur.g];d2.feedback='Guild completed: '+cur.name+'. '+cur.why;d2.feedbackGood=true;d2.i++;
+        d2.matched=[...d2.matched,cur.g];d2.feedback='Connection completed: '+cur.name+'. '+cur.why;d2.feedbackGood=true;d2.i++;
         if(d2.i>=d2.qs.length){return 'won';}
       })}));
     } else if(g.key==='seeds'){
@@ -6230,14 +6248,19 @@ class Component extends DCLogic {
     const impactText={mulch:'The mulch practice now supports a mulch element while it remains in the garden.',compost:'The balanced-compost practice now supports a compost element while it remains in the garden.',hugel:'The woody-bed practice supports water awareness while the mound remains in the garden.',rain:'The safe rain-chain practice supports a rain-harvesting element while it remains in the garden.',kitchen:'The preservation plan supports food continuity while the kitchen remains in the garden.',ladybug:'The predator-support plan works while flowers and insect shelter remain connected.',bee:'The nectar-calendar plan works while flowering support remains connected to food.',shelter:'The winter-refuge plan works while habitat remains in the garden.',pexeso:'Relationship-design insight recorded — knowledge changes your next decision, not a physical meter.',seeds:'The seed-selection practice supports food continuity while the seed bank remains in the garden.',quiz:'Observation insight recorded — knowledge changes your next decision, not a physical meter.'};
     const repeated=g.status==='won'&&g.effectNew===false;
     const passage=this.seasonPassages[g.target]||{};
-    const hasMulch=this.state.placed.some(p=>p.type==='mulch'),hasGreenhouse=this.state.placed.some(p=>p.type==='greenhouse'),youngCrops=this.state.placed.filter(p=>this.cropDefs[p.type]&&(p.stage||1)<3).length;
-    const seasonPreview=g.target==='Winter'?(youngCrops?('Winter preview · '+(hasMulch?'Mulched young crops will rest safely; ':'')+(hasGreenhouse?'leafy greens in the greenhouse can keep growing; ':'')+((!hasMulch)?youngCrops+' unprotected young crop'+(youngCrops>1?'s may':' may')+' be lost to frost.':'unprotected crops remain at risk.')):'Winter preview · Soil cover and shelter still shape what survives, even when no young crops are present.'):(g.target==='Spring'?'Spring preview · Dormant growth resumes, seed allowances renew and suitable wildlife may return.':(g.target==='Autumn'?'Autumn preview · Mature apples and annual crops can be harvested; fallen leaves become a soil resource.':'Summer preview · Water storage and mulch become most valuable while fresh cherries can be harvested and shared.'));
+    const hasMulch=this.state.placed.some(p=>p.type==='mulch'),hasGreenhouse=this.state.placed.some(p=>p.type==='greenhouse');
+    const youngList=this.state.placed.filter(p=>this.cropDefs[p.type]&&(p.stage||1)<3),youngCrops=youngList.length;
+    const hardyYoung=youngList.filter(p=>this.WINTER_MULCH_CROPS.indexOf(p.type)>=0).length;
+    const leafyYoung=youngList.filter(p=>p.type==='crop_leafy').length;
+    const winterProtected=(hasMulch?hardyYoung:0)+(hasGreenhouse?leafyYoung:0);
+    const winterAtRisk=Math.max(0,youngCrops-winterProtected);
+    const seasonPreview=g.target==='Winter'?(youngCrops?('Winter preview · '+(hasMulch&&hardyYoung?hardyYoung+' hardy young crop'+(hardyYoung>1?'s can':' can')+' wait under mulch; ':'')+(hasGreenhouse&&leafyYoung?'leafy greens in the greenhouse can keep growing; ':'')+(winterAtRisk?winterAtRisk+' other young crop'+(winterAtRisk>1?'s remain':' remains')+' at risk from frost.':'the modeled young crops are protected for this turn.')):'Winter preview · Soil cover and shelter still shape what survives, even when no young crops are present.'):(g.target==='Spring'?'Spring preview · Dormant growth resumes, seed allowances renew and suitable wildlife may return.':(g.target==='Autumn'?'Autumn preview · Established, well-connected apple trees and mature annual crops can be harvested; fallen leaves become a soil resource.':'Summer preview · Water storage and mulch become most valuable while fresh cherries can be harvested and shared.'));
     const sceneImage=React.createElement('img',{className:'pg-gate-scene',src:'assets/minigames/'+g.key+'.webp',alt:def.title+' — a scene from the garden at Menet',loading:'lazy',draggable:false,onError:(e)=>{const n=e.currentTarget;if(n&&n.parentNode){n.parentNode.removeChild(n);}}});
     const passageAlt=g.target+' in the community garden at Menet';
-    const stillPassage=!passage.loop||(typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const stillPassage=!passage.loop||(this.state.gateMotionFailed||{})[g.target]||(typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     const passageImage=stillPassage
       ?React.createElement('img',{src:passage.image||'',alt:passageAlt,loading:'eager',draggable:false})
-      :React.createElement('video',{src:passage.loop,poster:passage.image||'',autoPlay:true,muted:true,loop:true,playsInline:true,preload:'auto',draggable:false,role:'img','aria-label':passageAlt,onError:(e)=>{const v=e.currentTarget;if(v&&v.parentNode){const img=document.createElement('img');img.src=passage.image||'';img.alt=passageAlt;img.draggable=false;v.parentNode.replaceChild(img,v);}}});
+      :React.createElement('video',{src:passage.loop,poster:passage.image||'',autoPlay:true,muted:true,loop:true,playsInline:true,preload:'auto',draggable:false,role:'img','aria-label':passageAlt,onError:()=>this.setState(s=>({gateMotionFailed:{...(s.gateMotionFailed||{}),[g.target]:true}}))});
     return {visible:true,dialogClass:'pg-gate-dialog pg-gate--'+g.key+' pg-gate--'+g.status,title:def.title,emoji:def.emoji,target:g.target,seasonEmoji:seasonEmoji,seasonEmblem:React.createElement('img',{className:'pg-season-emblem',src:'assets/season-passages/'+String(g.target).toLowerCase()+'-emblem.webp',alt:'',draggable:false,onError:(e)=>{const n=e.currentTarget;if(n&&n.parentNode){n.parentNode.removeChild(n);}}}),image:passageImage,scene:sceneImage,gardenVoice:passage.voice||this.gateVoice(g.key,g.target),principle:def.principle,story:def.story,prompt:def.prompt,progressText:progressText,
       tiles:tiles,buttons:play?buttons:[],hasButtons:play&&buttons.length>0,
       hasTimer:play&&timerPct!=null,timerStyle:{height:'100%',width:Math.max(0,Math.min(100,timerPct||0))+'%',background:timerColor,borderRadius:'4px',transition:'width .12s linear'},
@@ -6280,24 +6303,32 @@ class Component extends DCLogic {
       });
       ns.residentSeasons=rs;ns.residentWinters=rw;
       const pestOnsetAllowed=!(s.mode==='guided'&&!this.journeyModel(s).ready);
-      Object.assign(ns,this.stepPests(ns,k,residentActive,pestOnsetAllowed));
+      const pestStep=this.stepPests(ns,k,residentActive,pestOnsetAllowed);
+      const returnedPest=pestStep.pestReturned;
+      delete pestStep.pestReturned;
+      Object.assign(ns,pestStep);
       const pestHold=k==='Winter'?[]:this.pestHeldTypes(ns);
       let heldCrops=0;
       const hasGH=s.placed.some(p=>p.type==='greenhouse');
       const hasMulch=s.placed.some(p=>p.type==='mulch');
-      let ghSaved=false,lostCrops=0,dormantCrops=0;
+      let ghSaved=false,lostCrops=0,dormantCrops=0,appleWaiting=0;
       ns.placed=ns.placed.map(p=>{
         const cd=this.cropDefs[p.type];
         if(cd&&(p.stage||1)<3){
           if(k==='Winter'){
             if(hasGH&&p.type==='crop_leafy'){ ghSaved=true; return {...p,stage:(p.stage||1)+1,winterState:'protected'}; }
-            if(hasMulch){dormantCrops++;return {...p,winterState:'dormant'};}
+            if(hasMulch&&this.WINTER_MULCH_CROPS.indexOf(p.type)>=0){dormantCrops++;return {...p,winterState:'dormant'};}
             lostCrops++;return null;
           }
           if(pestHold.indexOf(p.type)>=0){heldCrops++;return {...p,winterState:null,pestHeld:true};}
           return {...p,stage:(p.stage||1)+1,winterState:null,pestHeld:false};
         }
-        if(p.type==='appletree'){ return {...p,appleReady:(k==='Autumn'&&this.treeSeasons(ns,p)>=this.TREE_MATURITY)}; }
+        if(p.type==='appletree'){
+          const mature=this.treeSeasons(ns,p)>=this.TREE_MATURITY;
+          const ready=k==='Autumn'&&mature&&this.applePollinationReady(ns,p);
+          if(k==='Autumn'&&mature&&!ready){appleWaiting++;}
+          return {...p,appleReady:ready};
+        }
         return p;
       }).filter(Boolean);
       if(k==='Winter'){
@@ -6314,6 +6345,10 @@ class Component extends DCLogic {
         const pp=this.pestPressures.find(x=>x.key===ns.pestActive);
         if(pp){ns.toast='🍃 '+pp.name+' are feeding here. '+heldCrops+' crop'+(heldCrops>1?'s are':' is')+' holding instead of growing — nothing is lost, but nothing is gained either.';}
       }
+      if(k!=='Winter'&&returnedPest){
+        const pp=this.pestPressures.find(x=>x.key===returnedPest);
+        if(pp){ns.toast='🍃 '+pp.name+' have returned briefly. Balance means coexistence, not permanent absence; because you have already learned this pattern, crop growth is not paused.';}
+      }
       ns.cherryPicks=(k==='Summer')?3:0;
       if(k==='Spring'){ ns.springSprouts=3; }
       if(k==='Spring'&&s.season==='Winter'){
@@ -6328,6 +6363,7 @@ class Component extends DCLogic {
       if(k==='Autumn'){
         if(!s.autumnHarvestDone){ ns.autumnHarvestDone=true; ns.pool=Math.min(100,(ns.pool||0)+3); ns.toast='🍒 The cherry tree gave a seasonal surplus. The shared pool grew by 3; harvest it if you want to make a personal gift.'; }
         ns.leafPiles=3;
+        if(appleWaiting){ns.toast=(ns.toast?ns.toast+' ':'')+'🍎 '+appleWaiting+' established apple tree'+(appleWaiting>1?'s':'')+' did not set a game harvest. Add a second established apple tree nearby — standing for a compatible cultivar — plus a nearby flower strip or herb spiral.';}
       }
       if(k==='Summer'){
         const hasStoredRain=s.placed.some(p=>p.type==='rain');
@@ -6350,6 +6386,15 @@ class Component extends DCLogic {
     },(seasons||[]).map((season,index)=>E('span',{key:season+index,style:{display:'inline-flex'}},seasonIcon(season,size))));
 
     const hasSeedbank=st.placed.some(p=>p.type==='seedbank');
+    const termHelpMap={
+      hugel:'a raised growing bed built over woody material',
+      mulch:'a protective surface cover laid without digging it into the soil',
+      rain:'covered storage for water collected from a roof',
+      arch:'a vertical support for climbing crops',
+      herbspiral:'a mounded herb bed with several exposures and moisture zones',
+      pollinator:'a long-season strip of flowering habitat',
+      seedbank:'shared, labelled storage for locally useful seed'
+    };
     const mk=(type)=>{
       const c=cat[type], e=this.econ[type];
       const isCrop=!!this.cropDefs[type];
@@ -6377,13 +6422,15 @@ class Component extends DCLogic {
         if(affordable&&this.state.viewportMode==='phone'){next.phonePane='garden';}
         this.setState(next);
       };
+      const termHelp=termHelpMap[type]||'';
       return {type:type,name:c.name,art:this.sprites[type],barterable:e.barter!=null&&!isCrop,moneyOnly:e.barter==null,isCrop:isCrop,showPrice:!isCrop,barter:e.barter,price:eff.price,
+        hasTermHelp:!!termHelp,termHelp:termHelp,
         reuseIcon:this.uiIcon('recycle',11),seedIcon:this.uiIcon('seed',11),
         hasSeasonBadge:!!winP,seasonBadge:winP?seasonIconSet(winP.s,10):null,seasonBadgeTitle:winP?('Can be planted in '+winP.s.join(' and ')):'',
         seasonBadgeStyle:{display:'inline-flex',alignItems:'center',background:offSeason?'#F6E3D3':'#EDF1E0',color:offSeason?'#B5613A':'#5E7E4A',fontSize:'10px',fontWeight:'700',padding:'1.5px 5px',borderRadius:'6px',opacity:offSeason?1:.85},
         priceStyle:{fontSize:'10px',fontWeight:discounted?'800':'600',color:discounted?'#4E6B3D':'#A99E86',minWidth:'30px',textAlign:'right'},
-        hint:offSeason?(c.name+' — '+winP.why+' Plantable: '+winP.s.join(' & ')+'.'):(seedLocked?(c.name+' — place a Seed bank first: seeds come from the community swap'):(discounted?(c.name+' — cheaper thanks to reclaimed materials from neighbours'):(affordable?c.name:(c.name+' — not affordable yet: give to earn shares')))),
-        ariaLabel:(affordable?'Select ':'Unavailable ')+c.name+(isCrop?', free seed':((e.barter!=null?', '+e.barter+' share'+(e.barter===1?'':'s'):'')+', €'+eff.price)),
+        hint:(offSeason?(c.name+' — '+winP.why+' Plantable: '+winP.s.join(' & ')+'.'):(seedLocked?(c.name+' — place a Seed bank first: seeds come from the community swap'):(discounted?(c.name+' — cheaper thanks to reclaimed materials from neighbours'):(affordable?c.name:(c.name+' — not affordable yet: give to earn shares')))))+(termHelp?' In this game: '+termHelp+'.':''),
+        ariaLabel:(affordable?'Select ':'Unavailable ')+c.name+(termHelp?', '+termHelp:'')+(isCrop?', free seed':((e.barter!=null?', '+e.barter+' share'+(e.barter===1?'':'s'):'')+', €'+eff.price)),
         chipStyle:{display:'flex',alignItems:'center',gap:'10px',width:'100%',padding:'5px 10px 5px 5px',background:(st.plantType===type?'#EDF4DE':'#fff'),border:'1px solid '+(st.plantType===type?'#5E7E4A':'#EBE2D0'),boxShadow:(st.plantType===type?'0 0 0 2px rgba(94,126,74,.35)':'none'),borderRadius:'12px',cursor:affordable?'grab':'not-allowed',fontSize:'12px',fontWeight:'600',color:'#3A3527',userSelect:'none',WebkitUserSelect:'none',touchAction:'pan-y',opacity:affordable?1:0.42,transition:'transform .15s,box-shadow .15s,border-color .15s'},
         iconBoxStyle:{width:'38px',height:'38px',borderRadius:'10px',background:'linear-gradient(160deg,#EFF4E2,#E2ECCC)',display:'grid',placeItems:'center',flex:'none',boxShadow:'inset 0 0 0 1px '+c.accent+'2E',overflow:'hidden'},
         onPointerDown:this.beginPointerDrag({mode:'add',type:type}),
@@ -6595,7 +6642,7 @@ class Component extends DCLogic {
     if(systems.values.habitat<45)missing.push('Connect wildlife shelter with food, water and undisturbed cover');
     if(!community)missing.push('Let one real surplus circulate through the Menet sharing table');
     if(systems.average>=65&&activeSet.size<10)missing.push('The design could support more kinds of wildlife — dim tiles reveal habitat relationships to explore');
-    if(st.placed.length>=3&&activeGuildList.length===0)missing.push('Try placing related elements side by side — good neighbours join into an active guild');
+    if(st.placed.length>=3&&activeGuildList.length===0)missing.push('Try placing related elements side by side — good neighbours can form a useful design connection');
 
     const I=this.ICONS;
     const pillStyle=(ok)=>({display:'inline-flex',alignItems:'center',gap:'4px',fontSize:'10px',fontWeight:'700',padding:'3px 8px',borderRadius:'7px',background:ok?'#E9F1D6':'#F1ECDF',color:ok?'#3E5A33':'#6E6552',border:'1px solid '+(ok?'#CFE0AC':'#E7DECB'),transition:'all .3s'});
@@ -6721,7 +6768,7 @@ class Component extends DCLogic {
         {done:community,label:'Let a gift circulate',why:community?'Share one genuine surplus, then notice how the shared pool and community care respond.':('Share one genuine surplus. '+this.firstGiftHint(st))},
       {done:journey.steps[5].done,label:'Complete a seasonal challenge',why:'Turn the season and let the lesson change your garden state.'},
       {done:!!st.harvestEver,label:'Harvest & preserve',why:'Pick ripe crops in season and keep suitable surplus for later.'},
-      {done:discCount>0,label:'Form a plant guild',why:'Place two complementary partners side by side.'}
+      {done:discCount>0,label:'Form a design connection',why:'Place two complementary partners side by side; a full plant guild would weave several such roles together.'}
     ];
     const _doneCount=_steps.filter(s=>s.done).length;
     const _cur=_steps.find(s=>!s.done)||_steps[_steps.length-1];
@@ -6736,7 +6783,7 @@ class Component extends DCLogic {
         pair:this.catalog[d.types[0]].name+' + '+this.catalog[d.types[1]].name,
         name:found?(d.emoji+' '+d.name):'✦ Undiscovered — place them side by side',
         found:found,
-        ariaLabel:this.catalog[d.types[0]].name+' and '+this.catalog[d.types[1]].name+(found?(' — discovered guild '+d.name):' — not discovered yet'),
+        ariaLabel:this.catalog[d.types[0]].name+' and '+this.catalog[d.types[1]].name+(found?(' — discovered design connection '+d.name):' — not discovered yet'),
         ariaDisabled:!found,
         onRowClick:found?openGuild:(()=>{}),
         onRowKeyDown:(e)=>{if(found&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openGuild();}},
@@ -6747,7 +6794,7 @@ class Component extends DCLogic {
     const guildCardData=cardDef?{
       title:cardDef.emoji+' '+cardDef.name,what:cardDef.what,why:cardDef.why,who:this.guildWho[cardDef.key],
       voice:'You looked between the elements. That is where my strongest design lives.',
-      eyebrow:st.guildReview?'A guild in your garden':'Guild discovered!',
+      eyebrow:st.guildReview?'A design connection in your garden':'Connection discovered!',
       isReview:!!st.guildReview,
       vignette:((seasonNow==='Winter'?this.winterGuildVignettes[cardDef.key]:null)||this.guildVignettes[cardDef.key]||null),
       artA:this.sprites[cardDef.types[0]],artB:this.sprites[cardDef.types[1]]
@@ -6773,7 +6820,7 @@ class Component extends DCLogic {
     if(food)strengths.push('It grows real food, stacked in clever layers');
     if(shelter)strengths.push('You made room for wild helpers, not just crops');
     if(community)strengths.push('You shared your surplus — the gift kept circulating');
-    if(activeGuildList.length>0)strengths.push('You are sustaining '+activeGuildList.length+' active guild'+(activeGuildList.length>1?'s':'')+' — elements working as a team');
+    if(activeGuildList.length>0)strengths.push('You are sustaining '+activeGuildList.length+' active design connection'+(activeGuildList.length>1?'s':'')+' — elements working as a team');
     if(activeSet.size>=7)strengths.push('The design currently matches habitat clues for '+activeSet.size+' kinds of wild neighbour');
     const weakest=systems.view.slice().sort((a,b)=>a.value-b.value)[0];
     const firstSystemLink=systems.links[0];
@@ -6781,7 +6828,7 @@ class Component extends DCLogic {
     const keyDecision=lastSystemChange?lastSystemChange.text:(firstSystemLink?('You placed '+this.catalog[firstSystemLink.a.type].name.toLowerCase()+' close to '+this.catalog[firstSystemLink.b.type].name.toLowerCase()+', creating a useful relationship instead of two isolated objects.'):(st.placed.length?('You chose '+this.catalog[st.placed[0].type].name.toLowerCase()+' as one of the garden’s first building blocks.'):'You paused to observe before filling the empty plot.'));
     const effectKeys=Object.keys(st.gardenEffects||{});
     const learnedKey=(st.lastChallengeKey&&Number((st.gardenEffects||{})[st.lastChallengeKey]))?st.lastChallengeKey:effectKeys[effectKeys.length-1];
-    const learnedPrinciple=learnedKey?({mulch:'Protect the most vulnerable soil first.',compost:'Waste becomes fertility when air, moisture, greens and browns are balanced.',hugel:'Woody beds are site-specific experiments: observe moisture, settling and fertility over time.',rain:'Water should be screened, safely stored and given a planned overflow path.',kitchen:'Different harvests need different low-energy ways of keeping.',ladybug:'Balance grows from habitat, patience and targeted protection.',bee:'A habitat must work through time, not only look colourful today.',shelter:'Different lives require different winter refuges.',pexeso:'A guild is an exchange of needs and yields.',seeds:'Save suitable open-pollinated seed with attention to health, maturity and isolation.',quiz:'Observe the whole system before reacting to one symptom.'}[learnedKey]||'Observe relationships before adding more objects.'):'Every element has needs, yields and neighbours.';
+    const learnedPrinciple=learnedKey?({mulch:'Protect the most vulnerable soil first.',compost:'Waste becomes fertility when air, moisture, greens and browns are balanced.',hugel:'Woody beds are site-specific experiments: observe moisture, settling and fertility over time.',rain:'Water should be screened, safely stored and given a planned overflow path.',kitchen:'Different harvests need different low-energy ways of keeping.',ladybug:'Balance grows from habitat, patience and targeted protection.',bee:'A habitat must work through time, not only look colourful today.',shelter:'Different lives require different winter refuges.',pexeso:'A design connection links needs and yields; a full guild weaves several such roles together.',seeds:'Save suitable open-pollinated seed with attention to health, maturity and isolation.',quiz:'Observe the whole system before reacting to one symptom.'}[learnedKey]||'Observe relationships before adding more objects.'):'Every element has needs, yields and neighbours.';
     const realActions={soil:'Cover one small patch of bare soil with leaves, straw or other suitable organic material.',water:'Watch one rainfall and notice where water could be slowed or safely collected.',food:'Grow one edible plant together with a flowering companion.',habitat:'Leave one quiet, pesticide-free refuge with water, food and shelter.'};
     const realWorldAction=realActions[weakest.key]||realActions.soil;
     const completion=this.completionModel(st);
@@ -6986,7 +7033,7 @@ class Component extends DCLogic {
       communityVisible:communityAvailable,
       wildlifeVisible:!guided||journey.index>=1||journey.ready,
       hasPendingGuild:!!pendingGuild&&!st.plantType&&(!guided||journey.index>=5||journey.ready),
-      pendingGuildText:pendingGuild?(this.catalog[pendingGuild.types[0]].name+' and '+this.catalog[pendingGuild.types[1]].name+' could form a guild — move them side by side! ✦'):'',
+      pendingGuildText:pendingGuild?(this.catalog[pendingGuild.types[0]].name+' and '+this.catalog[pendingGuild.types[1]].name+' could form a design connection — move them side by side! ✦'):'',
       plotClass:(st.story?'pg-plot-suspended':'pg-plot')+' pg-stage-'+mapStage+' pg-season-'+season.toLowerCase()+((st.plantType||st.movingPlacedId)?' plot-drop-hot':''),
       onStartIntro:()=>this.closeIntro(),
       onOpenIntro:()=>this.openIntro(),
@@ -7151,13 +7198,14 @@ class Component extends DCLogic {
       kitchenIsDragging:!!st.kitchenDragging,
       kitchenStageFire:!!this.kitchenStageDef(st).fire,
       kitchenStageSteam:!!this.kitchenStageDef(st).steam,
-      kitchenStageArtEl:E('video',{className:'pg-kit-stage-art',key:'kstage-'+(st.kitchenStage||'simmer'),
-        src:'assets/kitchen/station-'+(st.kitchenStage||'simmer')+'-loop.mp4',
-        poster:this.kitchenStageDef(st).art,autoPlay:true,muted:true,loop:true,playsInline:true,preload:'auto',draggable:false,
-        role:'img','aria-label':this.kitchenStageDef(st).name,
-        onError:(e)=>{const v=e.currentTarget;if(!v||!v.parentNode){return;}
-          const img=document.createElement('img');img.className='pg-kit-stage-art';img.alt='';img.draggable=false;img.src=v.getAttribute('poster')||'';
-          v.parentNode.replaceChild(img,v);}}),
+      kitchenStageArtEl:(st.kitchenMotionFailed||{})[st.kitchenStage||'simmer']
+        ?E('img',{className:'pg-kit-stage-art',key:'kstage-still-'+(st.kitchenStage||'simmer'),src:this.kitchenStageDef(st).art,alt:this.kitchenStageDef(st).name,draggable:false})
+        :E('video',{className:'pg-kit-stage-art',key:'kstage-'+(st.kitchenStage||'simmer'),
+          poster:this.kitchenStageDef(st).art,autoPlay:true,muted:true,loop:true,playsInline:true,preload:'auto',draggable:false,
+          role:'img','aria-label':this.kitchenStageDef(st).name,
+          onError:()=>this.setState(s=>({kitchenMotionFailed:{...(s.kitchenMotionFailed||{}),[s.kitchenStage||'simmer']:true}}))},
+          E('source',{src:'assets/kitchen/station-'+(st.kitchenStage||'simmer')+'-loop.webm',type:'video/webm'}),
+          E('source',{src:'assets/kitchen/station-'+(st.kitchenStage||'simmer')+'-loop.mp4',type:'video/mp4'})),
       kitchenActLabel:(st.kitchenPick&&this.produceMeta[st.kitchenPick])?(this.kitchenStageDef(st).act+' — '+this.produceMeta[st.kitchenPick].name):'Take something from the shelf first',
       kitchenActReady:!!(st.kitchenPick&&this.produceMeta[st.kitchenPick]),
       kitchenActIdle:!(st.kitchenPick&&this.produceMeta[st.kitchenPick]),
@@ -7188,9 +7236,11 @@ class Component extends DCLogic {
       onUnlockGo:()=>this.dismissUnlock(true),
       onUnlockLater:()=>this.dismissUnlock(false),
       seedbankVisible:!!st.seedbankOpen,
-      seedbankArtEl:E('video',{className:'pg-kit-stage-art',src:'assets/seedbank/scene-loop.mp4',poster:'assets/seedbank/scene.webp',
-        autoPlay:true,muted:true,loop:true,playsInline:true,preload:'auto',draggable:false,role:'img','aria-label':'The seed bank',
-        onError:(e)=>{const v=e.currentTarget;if(!v||!v.parentNode){return;}const img=document.createElement('img');img.className='pg-kit-stage-art pg-seed-breathe';img.alt='';img.draggable=false;img.src=v.getAttribute('poster')||'';v.parentNode.replaceChild(img,v);}}),
+      seedbankArtEl:st.seedbankMotionFailed
+        ?E('img',{className:'pg-kit-stage-art pg-seed-breathe',src:'assets/seedbank/scene.webp',alt:'The seed bank',draggable:false})
+        :E('video',{className:'pg-kit-stage-art',src:'assets/seedbank/scene-loop.mp4',poster:'assets/seedbank/scene.webp',
+          autoPlay:true,muted:true,loop:true,playsInline:true,preload:'auto',draggable:false,role:'img','aria-label':'The seed bank',
+          onError:()=>this.setState({seedbankMotionFailed:true})}),
       seedRows:this.seedCrops().map(k=>{
         const cd=this.cropDefs[k],meta=this.produceMeta[cd.produce];
         const n=(st.seedStock||{})[k]||0;

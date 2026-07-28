@@ -110,9 +110,15 @@ async function openGame(viewport, state = savedState) {
 
   const resolved = await step(['crop_leafy', 'bughotel'], 'Summer', ['ladybug'], { pestActive: 'aphid', pestSeasons: { aphid: 2 } });
   check(resolved.pestActive === null && resolved.pestCleared.aphid === true,
-    'the predator arriving resolves the outbreak for good', resolved);
-  check((await step(['crop_leafy'], 'Spring', [], { pestCleared: { aphid: true }, pestLastSettled: null })).pestActive !== 'aphid',
-    'a resolved outbreak does not come back');
+    'the predator arriving resolves the current outbreak', resolved);
+  const recurrence = await step(['crop_leafy'], 'Spring', [], { pestCleared: { aphid: true }, pestLastSettled: 4 });
+  check(recurrence.pestActive === 'aphid' && recurrence.pestReturned === 'aphid',
+    'a familiar pressure may return after the calm period if the supporting relationship disappears', recurrence);
+  const settledAgain = await step(['crop_leafy'], 'Summer', [], {
+    pestActive: 'aphid', pestCleared: { aphid: true }, pestSeasons: recurrence.pestSeasons, pestLastSettled: 4
+  });
+  check(settledAgain.pestActive === null,
+    'a learned recurrence settles after its brief observation season instead of restarting the whole penalty arc', settledAgain);
 
   const relieved = await step(['crop_leafy'], 'Summer', [], { pestActive: 'aphid', pestSeasons: { aphid: 1 }, pestRelief: { aphid: 1 } });
   check(relieved.pestActive === 'aphid' && relieved.pestRelief.aphid === 0,
@@ -123,11 +129,12 @@ async function openGame(viewport, state = savedState) {
     return {
       active: app.pestHeldTypes({ pestActive: 'aphid', pestRelief: {} }).length,
       relieved: app.pestHeldTypes({ pestActive: 'aphid', pestRelief: { aphid: 1 } }).length,
+      learned: app.pestHeldTypes({ pestActive: 'aphid', pestRelief: {}, pestCleared: { aphid: true } }).length,
       clear: app.pestHeldTypes({ pestActive: null, pestRelief: {} }).length
     };
   });
-  check(held.active > 0 && held.relieved === 0 && held.clear === 0,
-    'growth pauses only while an outbreak is active and unrelieved', held);
+  check(held.active > 0 && held.relieved === 0 && held.learned === 0 && held.clear === 0,
+    'growth pauses only for a new active and unrelieved reading, never for a learned recurrence', held);
   await context.close();
 }
 
@@ -272,4 +279,4 @@ if (failures) {
   console.log('\n' + failures + ' check(s) failed.');
   process.exit(1);
 }
-console.log('\nImbalance audit passed: outbreaks read the garden, growth only pauses, arcs unlock in order, and every device can answer.');
+console.log('\nImbalance audit passed: outbreaks read the garden, learned pressures can recur without replaying the penalty arc, stories unlock in order, and every device can answer.');

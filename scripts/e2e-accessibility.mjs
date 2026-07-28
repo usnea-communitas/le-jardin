@@ -45,6 +45,7 @@ const savedState = overrides => ({
   discovered: [],
   seenWildlife: [],
   sharedActs: 0,
+  unlocksSeen: ['sharing', 'seedbank', 'kitchen', 'askgarden', 'seedsaved'],
   muted: true,
   playerName: '',
   season: 'Summer',
@@ -239,19 +240,19 @@ try {
     escapedResult
   );
 
-  // Dismiss the queued arrival card before testing the guild dialog.
+  // Dismiss the queued arrival card before testing the connections dialog.
   await setAppState({ arrivalQueue: [], guildCard: null, guildReview: false, showGuilds: true });
   const guildDialog = page.locator('[data-pg-dialog="guild-list"]');
   await guildDialog.waitFor({ state: 'visible' });
 
-  const discoveredGuild = guildDialog.getByRole('button', { name: /discovered guild Outdoor classroom/i });
+  const discoveredGuild = guildDialog.getByRole('button', { name: /discovered design connection Outdoor classroom/i });
   await discoveredGuild.focus();
   await page.keyboard.press('Enter');
   await page.waitForFunction(() => window.__PERMAGARDEN_APP__.state.guildCard === 'classroom');
   const openedGuild = await appState(['guildCard', 'guildReview', 'showGuilds']);
   check(
     openedGuild.guildCard === 'classroom' && openedGuild.guildReview === true && openedGuild.showGuilds === false,
-    'a discovered guild row opens from the keyboard',
+    'a discovered design-connection row opens from the keyboard',
     openedGuild
   );
 
@@ -267,7 +268,7 @@ try {
   const lockedAttempt = await appState(['guildCard', 'showGuilds']);
   check(
     lockedAttempt.guildCard === null && lockedAttempt.showGuilds === true,
-    'an undiscovered guild row does not activate from Enter or Space',
+    'an undiscovered design-connection row does not activate from Enter or Space',
     { lockedLabel, ...lockedAttempt }
   );
 
