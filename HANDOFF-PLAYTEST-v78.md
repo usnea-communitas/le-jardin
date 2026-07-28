@@ -6,8 +6,8 @@
 - Vercel: <https://permaculture-garden-playtest.vercel.app/>
 - Vercel project: `permaculture-garden-playtest`
 - Hlavní větev: `main`
-- Lokální izolovaná kopie:
-  `C:\Users\marti\AppData\Local\Temp\Permaculture-Garden-Ready-2026-07-27`
+- Stabilní lokální pracovní kopie:
+  `C:\Users\marti\OneDrive\Dokumenty\Permaculture Garden Playtest`
 
 Tato větev je výhradně pro další vývoj a testování. Není propojena s původním
 soutěžním repozitářem ani původním Vercel projektem.
@@ -59,4 +59,3 @@ Původní soutěžní projekt je stále zmrazený:
 - Devpost: bez změn do vyhlášení
 
 Na tyto tři cíle se během dalšího vývoje nesmí pushovat ani deployovat.
-
