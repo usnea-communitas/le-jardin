@@ -38,6 +38,14 @@ for (const match of production.matchAll(/assets\/[a-zA-Z0-9._/-]+\.(?:webp|svg|m
   localRefs.add(match[0]);
 }
 
+// Some artwork is addressed by a bare stem that is only joined to its folder and
+// extension at render time (produceMeta img, sprite keys). A scan for literal
+// "assets/..." paths cannot see those, so resolve the stems too — a missing preserve
+// plate used to reach the browser as a silent 404.
+for (const match of production.matchAll(/img:'([a-z0-9-]+)'/g)) {
+  localRefs.add(`assets/${match[1]}.webp`);
+}
+
 const missing = [];
 for (const ref of localRefs) {
   try {

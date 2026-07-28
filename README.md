@@ -2,7 +2,11 @@
 
 **A story-led educational game where every placement becomes a relationship, every season changes the lesson, and GPT‑5.6 Luna helps the garden reflect on what the player has actually built.**
 
-[Play the public production build](https://permaculture-garden-new.vercel.app/)
+[Play the current v78 playtest](https://permaculture-garden-playtest.vercel.app/)
+
+This is the separate post-submission playtest line. The OpenAI Build Week repository,
+deployment and Devpost entry remain frozen at the submitted version; see
+[`COMPETITION_FREEZE.md`](COMPETITION_FREEZE.md).
 
 ## Why this garden exists
 
@@ -25,11 +29,11 @@ The experience includes:
 - earned reflections, a learning journal and an exportable garden certificate;
 - an optional **Living Lesson** powered by GPT‑5.6 Luna.
 
-The current experience is designed and tested for desktop and laptop browsers. It is free to play and needs no account.
+Desktop remains the reference experience, while the same garden is now designed and tested for phones and tablets in both portrait and landscape orientations. It is free to play and needs no account.
 
 ## Two-minute judge path
 
-1. Open the [production game](https://permaculture-garden-new.vercel.app/).
+1. Open the [v78 playtest](https://permaculture-garden-playtest.vercel.app/).
 2. Choose **Explore freely** during onboarding.
 3. Add at least two elements, for example **Compost** and **Rain harvesting**.
 4. In **Design connections**, select **Listen to your garden · GPT‑5.6 Luna**.
@@ -131,19 +135,32 @@ Optional browser verification, with Playwright available through `CODEX_NODE_MOD
 $env:CODEX_NODE_MODULES="C:\path\to\playwright\node_modules"
 npm run test:e2e:living-lesson
 
-$env:GAME_URL="https://permaculture-garden-new.vercel.app/"
+$env:GAME_URL="http://127.0.0.1:8787/"
+npm run test:e2e:responsive
+npm run test:e2e:touch
+npm run test:e2e:mobile-book
+npm run test:e2e:resident-state
+
+$env:GAME_URL="https://permaculture-garden-playtest.vercel.app/"
 $env:LIVING_LESSON_LIVE_API="1"
 $env:EXPECTED_LESSON_MODE="ai"
 node scripts/e2e-living-lesson.mjs
 ```
 
-The automated coverage includes snapshot sanitisation, stable fingerprints, trusted candidate generation, response normalisation, deterministic completion metrics, method/input/origin boundaries, cache reuse, UI unlock, model/source labels, economy invariance, experiment persistence and outage fallback.
+Responsive browser coverage spans 13 representative viewports from 320×568 to 1920×1080. It verifies adaptive navigation, safe-area and overflow boundaries, 44-pixel touch targets, the exact 7:5 interactive plot on adaptive layouts, tap-to-place and tap-to-move behaviour, orientation-preserved state, all four Garden Book chapters and all eleven learning challenges.
+
+The broader automated coverage includes snapshot sanitisation, stable fingerprints, trusted candidate generation, response normalisation, deterministic completion metrics, method/input/origin boundaries, cache reuse, UI unlock, model/source labels, economy invariance, experiment persistence, resident-story scheduling and outage fallback.
 
 ## Deployment
 
-GitHub `main` is connected to Vercel. A push runs the production deployment for the static game and `api/garden-reflection.js`; Vercel installs locked dependencies from `package-lock.json`. The project uses the **Other** framework preset with no custom build command and intentionally has no `vercel.json`.
+This repository's `main` branch is connected only to the separate
+`permaculture-garden-playtest` Vercel project. A push runs the playtest deployment for
+the static game and `api/garden-reflection.js`; Vercel installs locked dependencies from
+`package-lock.json`. The project uses the **Other** framework preset with no custom build
+command and intentionally has no `vercel.json`.
 
-For Build Week judging, the repository remains private and is shared directly with the two official judging addresses required by the rules.
+The frozen Build Week repository and its Vercel project are deliberately not used by
+this release line.
 
 ## Rights and acknowledgements
 

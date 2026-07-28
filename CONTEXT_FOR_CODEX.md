@@ -1,7 +1,11 @@
 # Permaculture Garden — kompletní kontext pro Codex
 
 > Předávací dokument. Vysvětluje **co** hra je, **jak** je postavená a **proč** jsme jednotlivé
-> věci implementovali. Aktuální verze: **v76**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
+> věci implementovali. Aktuální playtest verze: **v78**. Hlavní zdroj: `Permaculture Garden v2.dc.html`
+
+> **DŮLEŽITÉ:** Tato kopie patří do samostatné post-soutěžní větve
+> `Permaculture-Garden-Playtest` / `permaculture-garden-playtest`. Původní soutěžní
+> GitHub, Vercel a Devpost jsou zmrazené a nesmějí být cílem žádného zápisu.
 > (needituj bundle `index.html` — ten se generuje).
 
 ---

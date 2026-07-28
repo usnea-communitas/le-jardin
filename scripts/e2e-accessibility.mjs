@@ -84,7 +84,18 @@ const waitForApp = async () => {
 const setAppState = async patch => {
   await page.evaluate(async next => {
     const app = window.__PERMAGARDEN_APP__;
-    await new Promise(resolve => app.setState({ ...app.state, ...next }, resolve));
+    // These checks inject a dialog directly into state. Keep unrelated narrative
+    // schedulers quiet so a legitimately queued story/unlock cannot become the
+    // topmost dialog and consume Escape before the dialog under test.
+    const quiet = {
+      residentStory: null,
+      pestStory: null,
+      unlockCard: null,
+      gardenWhisper: null,
+      gardenReflection: null,
+      gardenCinematic: null
+    };
+    await new Promise(resolve => app.setState({ ...app.state, ...quiet, ...next }, resolve));
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   }, patch);
 };
@@ -116,6 +127,13 @@ try {
   });
   await page.reload({ waitUntil: 'networkidle' });
   await waitForApp();
+  await page.evaluate(() => {
+    const app = window.__PERMAGARDEN_APP__;
+    for (const key of ['_residentStoryT', '_pestStoryT', '_unlockT', '_whisperStartT', '_reflectionT']) {
+      if (app[key]) clearTimeout(app[key]);
+      app[key] = null;
+    }
+  });
 
   // -----------------------------------------------------------------------
   // The central interactive surface is exposed as a named landmark.
@@ -299,6 +317,76 @@ try {
     'prefers-reduced-motion effectively disables garden animation and transitions',
     reducedMotion
   );
+
+  // -----------------------------------------------------------------------
+  // High-density displays: the dialog itself must not acquire a UA outline,
+  // while the first keyboard control still receives the deliberate focus ring.
+  // -----------------------------------------------------------------------
+  const dprContext = await browser.newContext({
+    viewport: { width: 1280, height: 720 },
+    deviceScaleFactor: 2,
+    reducedMotion: 'reduce'
+  });
+  try {
+    const dprPage = await dprContext.newPage();
+    await dprPage.goto(baseUrl, { waitUntil: 'networkidle' });
+    await dprPage.waitForFunction(() => window.__PERMAGARDEN_APP__, null, { timeout: 15000 });
+    await dprPage.evaluate(({ key, state }) => {
+      localStorage.setItem(key, JSON.stringify(state));
+    }, {
+      key: storeKey,
+      state: savedState({
+        placed: [{ id: 'seedbank-focus', type: 'seedbank', x: 52, y: 64 }]
+      })
+    });
+    await dprPage.reload({ waitUntil: 'networkidle' });
+    await dprPage.waitForFunction(() => window.__PERMAGARDEN_APP__, null, { timeout: 15000 });
+    await dprPage.evaluate(async () => {
+      const app = window.__PERMAGARDEN_APP__;
+      await new Promise(resolve => app.setState({ seedbankOpen: true }, resolve));
+    });
+    const dprDialog = dprPage.locator('[data-pg-dialog="seedbank"]');
+    await dprDialog.waitFor({ state: 'visible' });
+    await dprDialog.focus();
+    const dialogFocus = await dprDialog.evaluate(element => {
+      const style = getComputedStyle(element);
+      return {
+        devicePixelRatio,
+        active: document.activeElement === element,
+        outlineStyle: style.outlineStyle,
+        outlineWidth: style.outlineWidth,
+        borderTopWidth: style.borderTopWidth
+      };
+    });
+    check(
+      dialogFocus.devicePixelRatio === 2 &&
+        dialogFocus.active &&
+        dialogFocus.outlineStyle === 'none',
+      'a focused dialog has no stray UA outline at 2x display scale',
+      dialogFocus
+    );
+
+    await dprPage.keyboard.press('Tab');
+    const controlFocus = await dprPage.evaluate(() => {
+      const active = document.activeElement;
+      const style = getComputedStyle(active);
+      return {
+        tag: active?.tagName || '',
+        outlineStyle: style.outlineStyle,
+        outlineWidth: style.outlineWidth,
+        boxShadow: style.boxShadow
+      };
+    });
+    check(
+      controlFocus.tag === 'BUTTON' &&
+        controlFocus.outlineStyle === 'solid' &&
+        Number.parseFloat(controlFocus.outlineWidth) >= 3,
+      'keyboard focus remains visibly styled inside the 2x dialog',
+      controlFocus
+    );
+  } finally {
+    await dprContext.close();
+  }
 
   check(browserErrors.length === 0, 'no browser console or runtime errors were recorded', browserErrors);
   console.log('ACCESSIBILITY REGRESSION COMPLETE');

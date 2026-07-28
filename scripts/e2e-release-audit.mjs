@@ -52,19 +52,36 @@ try {
       audio.addEventListener('error', () => reject(new Error(`Could not load ${file}`)), { once: true });
     });
     const durations = await Promise.all(manifest.files.map(entry => loadDuration(entry.file)));
+    // Two kinds of voice line, two honest budgets. Milestone whispers land over the plot
+    // and must stay short; the resident and pest arcs are narrated story beats shown with
+    // their own artwork in a dialog, so they run longer by design.
+    const beatIds = manifest.files.map(entry => entry.id);
+    const longForm = id => /^(aphid|slug|caterpillar|hedgehog|bee|worm)-\d$/.test(id);
     return {
       voice: manifest.voice,
       entries: manifest.files.length,
       uniqueIds: new Set(manifest.files.map(entry => entry.id)).size,
+      runtimeMappings: Object.keys(app.gardenVoiceFiles).length,
+      residentCoverage: app.residentStories
+        .flatMap(resident => resident.beats.map(beat => beat.id))
+        .every(id => manifest.files.some(entry => entry.id === id)),
       captionsComplete: manifest.files.every(entry => typeof entry.text === 'string' && entry.text.trim().length > 20),
       mapped: manifest.files.every(entry => app.gardenVoiceFiles[entry.id] === `assets/audio/garden-voice/${entry.file}`),
-      finiteDurations: durations.every(duration => Number.isFinite(duration) && duration >= 2 && duration <= 20)
+      finiteDurations: durations.every((duration, index) =>
+        Number.isFinite(duration) && duration >= 2 &&
+        duration <= (longForm(beatIds[index]) ? 32 : 12))
     };
   });
   check(voiceAudit.voice === 'The Garden of Menet', 'garden voice uses the selected Voice 1 identity');
-  check(voiceAudit.entries === 13 && voiceAudit.uniqueIds === 13, 'all 13 intentional garden voice moments are unique');
+  check(
+    voiceAudit.entries === 31 &&
+      voiceAudit.uniqueIds === 31 &&
+      voiceAudit.runtimeMappings === 31 &&
+      voiceAudit.residentCoverage,
+    'all 31 intentional garden voice moments, including resident stories, are unique and mapped'
+  );
   check(voiceAudit.captionsComplete && voiceAudit.mapped, 'every garden voice has an exact caption and runtime mapping');
-  check(voiceAudit.finiteDurations, 'all garden voice MP3 files load with deliberate short-form durations');
+  check(voiceAudit.finiteDurations, 'garden voice MP3 files respect their category budget (whispers under 12s, story beats under 32s)');
 
   await page.evaluate(() => {
     const app = window.__PERMAGARDEN_APP__;

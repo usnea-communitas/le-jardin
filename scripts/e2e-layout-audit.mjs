@@ -17,7 +17,7 @@ const { chromium } = playwright;
 const baseUrl = process.env.GAME_URL || 'http://127.0.0.1:8787/';
 const storeKey = 'permagarden_v2';
 const viewports = [
-  { width: 1024, height: 768 },
+  { width: 1180, height: 800 },
   { width: 1280, height: 720 },
   { width: 1440, height: 900 },
   { width: 1920, height: 1080 }
@@ -91,7 +91,10 @@ page.on('console', message => {
 
 const waitForApp = async () => {
   await page.waitForFunction(() => window.__PERMAGARDEN_APP__, null, { timeout: 15000 });
-  await page.waitForFunction(() => document.querySelectorAll('main.pg-game-main > *').length === 3);
+  await page.waitForFunction(() =>
+    document.querySelector('.pg-game-shell')?.getAttribute('data-viewport') === 'desktop' &&
+    document.querySelectorAll('main.pg-game-main > .pg-game-sidebar, main.pg-game-main > .pg-game-center').length === 3
+  );
   await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 };
 
@@ -214,7 +217,7 @@ const auditLayout = async viewport => {
     promptGateOverlap
   );
 
-  if (viewport.width === 1024) {
+  if (viewport.width === 1180) {
     const titleEvidence = await page.locator('.pg-map-title').evaluate(element => {
       const range = document.createRange();
       range.selectNodeContents(element);
@@ -230,7 +233,7 @@ const auditLayout = async viewport => {
     });
     check(
       titleEvidence.lines === 1 && titleEvidence.scrollWidth <= titleEvidence.clientWidth + 1,
-      '1024x768: the garden map title remains on one line',
+      '1180x800: the garden map title remains on one line',
       titleEvidence
     );
 
@@ -256,7 +259,7 @@ const auditLayout = async viewport => {
     });
     check(
       toolbarIntersections.overlaps.length === 0,
-      '1024x768: visible map-toolbar controls do not collide',
+      '1180x800: visible map-toolbar controls do not collide',
       toolbarIntersections
     );
   }

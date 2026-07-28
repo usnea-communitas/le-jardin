@@ -9,3 +9,13 @@ debug.log
 test-results/
 v*-audit-*.png
 .vercel/
+build-week-video/
+design-exploration/
+art-candidates/*
+!art-candidates/*-seedream*.jpeg
+!art-candidates/processed-crops-preview.png
+!art-candidates/processed-winter-gate-preview.png
+verification-*.png
+
+.vercel
+.env*

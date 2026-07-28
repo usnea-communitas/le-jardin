@@ -1,14 +1,21 @@
 {
-  "name": "permaculture-garden",
+  "name": "permaculture-garden-playtest",
   "private": true,
-  "version": "0.76.0",
+  "version": "0.78.0",
   "description": "A story-led educational game about designing a living permaculture garden in Menet, France.",
   "scripts": {
     "generate": "node scripts/build.mjs",
     "check": "node scripts/check.mjs",
     "test:living-lesson": "node scripts/test-living-lesson.mjs && node scripts/test-living-lesson-api.mjs",
     "test:e2e:living-lesson": "node scripts/e2e-living-lesson.mjs",
-    "test": "npm run check && npm run test:living-lesson"
+    "test:e2e:responsive": "node scripts/e2e-responsive-platforms.mjs",
+    "test:e2e:touch": "node scripts/e2e-touch-placement.mjs",
+    "test:e2e:mobile-book": "node scripts/e2e-mobile-book-gates.mjs",
+    "test:e2e:resident-state": "node scripts/e2e-resident-state.mjs",
+    "test:e2e:pest-balance": "node scripts/e2e-pest-balance.mjs",
+    "test": "npm run check && npm run test:living-lesson",
+    "test:e2e:kitchen": "node scripts/e2e-kitchen-seedbank.mjs",
+    "test:e2e:playthrough": "node scripts/e2e-playthrough.mjs"
   },
   "dependencies": {
     "ai": "^7.0.31",

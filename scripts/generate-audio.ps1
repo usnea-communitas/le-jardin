@@ -76,7 +76,27 @@ $gardenLines = @(
   @{ Name = 'season-summer'; Text = '[warmly] My leaves are full of light. Water, shade and many kinds of flower decide whether abundance can keep its balance.' },
   @{ Name = 'season-autumn'; Text = '[reflective] Fruit, leaves and seed are arriving together. What is shared, stored or returned now will shape the quiet months.' },
   @{ Name = 'season-winter'; Text = '[almost a whisper] I have drawn my energy inward. Beneath cover and bark, many lives wait without becoming absent.' },
-  @{ Name = 'ending'; Text = '[with quiet gratitude] You did not finish me. You helped me become able to continue - through another season, another visitor and another gift.' }
+  @{ Name = 'ending'; Text = '[with quiet gratitude] You did not finish me. You helped me become able to continue - through another season, another visitor and another gift.' },
+  # Resident stories - earned, multi-part moments about the lives that arrive.
+  @{ Name = 'resident-hedgehog-1'; Text = '[softly] Something moved through the leaf litter last night. Small, unhurried, certain of its way. I did not plant it and I cannot keep it - but the cover you left made the crossing possible.' },
+  @{ Name = 'resident-hedgehog-2'; Text = '[with quiet wonder] Under the wood and the mulch, through the coldest weeks, something slept and did not die. That is not luck alone. You left the corner undisturbed when tidying it would have been easier.' },
+  @{ Name = 'resident-hedgehog-3'; Text = '[warmly] There are smaller prints now beside the first. I will not promise you they all live out the year - I cannot, and neither can anyone. But a garden safe enough to sleep in has become a garden safe enough to raise young in. That is the whole of it.' },
+  @{ Name = 'resident-bee-1'; Text = '[softly] Something came from somewhere else and decided this was worth the journey. I did not call it. Word travels here in a language of scent and distance.' },
+  @{ Name = 'resident-bee-2'; Text = '[warmly] For weeks now, as one flower closed another was already waiting. That continuity is far harder to design than a single beautiful bed - and you built it without being asked to.' },
+  @{ Name = 'resident-bee-3'; Text = '[reflective] Fruit is setting where the flowers stood. I cannot tell you which visit made which fruit - that is not how any of this works. But the visitors came, the harvest followed, and both belong to the same arrangement.' },
+  @{ Name = 'resident-worm-1'; Text = '[almost a whisper] Beneath the cover something began that you will almost never see. Organic matter and a little shade were invitation enough.' },
+  @{ Name = 'resident-worm-2'; Text = '[reflective] Rain sinks differently now. Burrows and castings change where water goes and how far roots may follow. Slowly - soil keeps its own time, not ours.' },
+  @{ Name = 'resident-worm-3'; Text = '[with quiet wonder] Even through the cold months, under the mulch, the work did not stop entirely. You have made something that no longer needs you to be watching it.' },
+  # Imbalance stories - an outbreak read as a symptom, and the relationship that answers it.
+  @{ Name = 'pest-aphid-1'; Text = '[quietly concerned] The softest shoots are curling. Something small has found them, and there are many - they arrive faster than anything here can answer. I am not telling you this to alarm you. I am telling you because you asked to see what I see.' },
+  @{ Name = 'pest-aphid-2'; Text = '[reflective] You could ask what will remove them. I would rather tell you what is absent. Nothing here hunts them. There is no long flowering season to hold a predator between meals, and no dry crevice for one to pass the winter in. The aphids are not the problem - they are the reading.' },
+  @{ Name = 'pest-aphid-3'; Text = '[warmly] There are ladybugs on the same stems now. I cannot tell you they will clear every one, and I would not want them to - a predator that finishes its prey has nowhere left to live. What you built was not a weapon. It was a place for something to stay long enough to matter.' },
+  @{ Name = 'pest-slug-1'; Text = '[quietly concerned] By morning the young leaves had holes, and the trails were still bright across the soil. The damp cover you laid is good for much of what lives here. It is good for this, too.' },
+  @{ Name = 'pest-slug-2'; Text = '[reflective] Mulch holds water, feeds the soil and hides the slugs from the sun. All of that is one decision, not three. What this garden does not yet have is anything that forages here at night - no undisturbed corner, no ground cover deep enough, no reason for a night visitor to make the crossing. Shelter without a hunter is only shelter for one side.' },
+  @{ Name = 'pest-slug-3'; Text = '[warmly] Something works through the litter after dark. Slugs are still here - they will be, and that is not failure. Hedgehogs, birds and ground beetles eat many things, and the balance they keep is never a clean sweep. Fewer holes in the leaves is all I can honestly report. It is enough.' },
+  @{ Name = 'pest-caterpillar-1'; Text = '[quietly concerned] White butterflies came to the brassicas, and what they left behind is feeding now. It is easy to resent this. I would rather you look at it first - the same wings you welcomed among the flowers laid these eggs. They were never two different visitors.' },
+  @{ Name = 'pest-caterpillar-2'; Text = '[reflective] Caterpillars are food. That is not a comfort - it is a fact this garden cannot yet use, because nothing here is hunting them. No nest box, no clean shallow water, no reason for a bird to include these rows in its morning.' },
+  @{ Name = 'pest-caterpillar-3'; Text = '[warmly] Birds work the brassicas in the early hours now. Some caterpillars will still finish, become butterflies and return to the flowers, which is how it should go. You did not remove anything from this garden. You added the part that was missing, and the rest arranged itself.' }
 )
 
 foreach ($line in $gardenLines) {
@@ -122,7 +142,10 @@ $effects = @(
   @{ Name = 'season-spring'; Duration = 2.3; Influence = 0.45; Prompt = 'A gentle natural spring transition: light breeze through new leaves, two nearby birds waking, a soft wooden tone, hopeful and restrained, no voice, no synth, no music bed.' },
   @{ Name = 'season-summer'; Duration = 2.3; Influence = 0.5; Prompt = 'A gentle natural summer garden transition: warm leaves, a passing bee, faint grass movement, and one low wooden tone, sunlit and calm, no voice, no synth, no music bed.' },
   @{ Name = 'season-autumn'; Duration = 2.3; Influence = 0.5; Prompt = 'A gentle natural autumn garden transition: a small swirl of dry leaves, one apple settling into grass, and a warm hollow wooden note, no voice, no synth, no music bed.' },
-  @{ Name = 'season-winter'; Duration = 2.3; Influence = 0.5; Prompt = 'A gentle natural winter garden transition: quiet cold air, a bare branch moving, one distant bird, and a soft low wooden resonance, peaceful not ominous, no voice, no synth, no music bed.' }
+  @{ Name = 'season-winter'; Duration = 2.3; Influence = 0.5; Prompt = 'A gentle natural winter garden transition: quiet cold air, a bare branch moving, one distant bird, and a soft low wooden resonance, peaceful not ominous, no voice, no synth, no music bed.' },
+  # Garden kitchen - a seamless hearth loop that sits under the preserving scene.
+  @{ Name = 'unlock'; Duration = 2.6; Influence = 0.45; Prompt = 'A short warm handmade flourish announcing that something has just become possible in a garden: a gate latch lifting, two rising wooden kalimba-like notes, a soft brush of leaves and one quiet resonant string. Hopeful, generous, restrained, no synthesizer, no bell chime, no fantasy sparkle, no voice, no music bed.' },
+  @{ Name = 'hearth-fire'; Duration = 10; Influence = 0.75; Loop = $true; Prompt = 'A small steady wood fire burning in an open hearth beneath a cooking pot: soft continuous flame breath with irregular gentle crackles and occasional quiet pops of resin, close natural field recording, warm and homely, no roaring, no whoosh, no voice, no music.' }
 )
 
 foreach ($effect in $effects) {

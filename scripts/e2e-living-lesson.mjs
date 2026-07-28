@@ -30,6 +30,7 @@ const state = {
   storySeen: true, introSeen: true, mode: "explore", journeyMoments: ["soil", "water"],
   gardenEffects: {}, communityMemory: [], reflectionOpened: false, endingSeen: false,
   discovered: [], seenWildlife: [], sharedActs: 0, muted: true, playerName: "", season: "Summer",
+  unlocksSeen: ["sharing", "seedbank", "kitchen", "seedsaved"],
   springBonusDone: false, autumnHarvestDone: false, rakeRewardDone: false, springForageDone: false,
   springSprouts: 0, leafPiles: 0, cherryPicks: 0, basket: {}, materials: {}, harvestEver: false,
   gatesPlayed: {}, guests: [], visitsDone: {}, acknowledgedGardenReflectionsV2: [],
@@ -100,13 +101,21 @@ try {
   const dialog = page.locator('[data-pg-dialog="living-lesson"]');
   await dialog.waitFor({ state: "visible" });
   const eyebrow = (await dialog.locator(".pg-living-lesson-kicker").first().textContent()).trim();
-  const resolvedMode = eyebrow.includes("GPT-5.6 Luna") ? "ai" : "fallback";
+  const resolvedMode = eyebrow.includes("listening") ? "ai" : "fallback";
   check(expectedMode === "either" || resolvedMode === expectedMode, "Living Lesson reports the expected inference mode", { expectedMode, resolvedMode, eyebrow });
   if (livePayload && resolvedMode === "ai") {
     check(livePayload.model === "openai/gpt-5.6-luna", "production API identifies GPT-5.6 Luna as the serving model", { model: livePayload.model });
     check(livePayload.lesson?.source === "ai" && livePayload.lesson?.promptVersion === "living-lesson-v2", "production lesson preserves its AI provenance and prompt version", { source: livePayload.lesson?.source, promptVersion: livePayload.lesson?.promptVersion });
   }
-  check((await dialog.textContent()).includes("One small experiment"), "the reflection resolves into one trusted experiment");
+  const experimentText = await dialog.locator(".pg-living-lesson-experiment").innerText();
+  const normalizedExperimentText = experimentText.toLowerCase();
+  check(
+    normalizedExperimentText.includes("do this next") &&
+      normalizedExperimentText.includes("how you'll know it worked") &&
+      experimentText.length > 80,
+    "the reflection resolves into one trusted, measurable experiment",
+    { experimentText }
+  );
   check((await savedGame()).budget === budgetBefore, "the reflection cannot change the game economy");
   if (process.env.SCREENSHOT_PATH) await page.screenshot({ path: process.env.SCREENSHOT_PATH, fullPage: true });
 
@@ -133,8 +142,16 @@ try {
       failApi = true;
       await button.click();
       await dialog.waitFor({ state: "visible" });
-      await dialog.getByText("Living Lesson · Garden wisdom offline", { exact: true }).waitFor();
-      check((await dialog.textContent()).includes("One small experiment"), "reviewed fallback keeps the full learning loop available during an AI outage");
+      await dialog.getByText("The garden answers from memory", { exact: true }).waitFor();
+      const fallbackExperiment = await dialog.locator(".pg-living-lesson-experiment").innerText();
+      const normalizedFallbackExperiment = fallbackExperiment.toLowerCase();
+      check(
+        normalizedFallbackExperiment.includes("do this next") &&
+          normalizedFallbackExperiment.includes("how you'll know it worked") &&
+          fallbackExperiment.length > 80,
+        "reviewed fallback keeps the full learning loop available during an AI outage",
+        { fallbackExperiment }
+      );
     }
   } else {
     await button.waitFor({ state: "visible" });
