@@ -1,0 +1,18 @@
+.git
+.vercel
+.env
+.env.*
+node_modules
+.playwright-mcp
+.tmp
+art-candidates
+build-week-video
+design-exploration
+test-results
+debug.log
+verification-*.png
+v*-audit-*.png
+*.md
+Permaculture Garden v2.dc.html
+scripts
+
