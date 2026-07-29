@@ -564,7 +564,7 @@ html,body{margin:0;padding:0}
 .pg-living-lesson-card{position:relative;margin-top:10px;padding:11px 12px;border:1px solid rgba(95,122,77,.29);border-radius:13px;background:linear-gradient(145deg,rgba(244,241,226,.96),rgba(224,235,207,.88));overflow:hidden}
 .pg-living-lesson-card:after{content:"";position:absolute;right:-22px;top:-27px;width:105px;height:105px;background:url("assets/ui/ornaments/corner-canopy.svg") center/contain no-repeat;opacity:.09;pointer-events:none}
 .pg-living-lesson-card>*{position:relative;z-index:1}
-.pg-living-lesson-kicker{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#536d48}
+.pg-living-lesson-kicker{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#536d48}
 .pg-living-lesson-kicker img{width:17px;height:17px}
 .pg-living-lesson-card h3{margin:5px 0 4px;font:700 14px/1.2 Georgia,'Times New Roman',serif;color:#30402d}
 .pg-living-lesson-card p{margin:0;font-size:12px;line-height:1.5;color:#5A5240}
@@ -692,6 +692,11 @@ html,body{margin:0;padding:0}
 .pg-kit-item-count{font:800 11px 'Hanken Grotesk',sans-serif;color:#7A5D18}
 .pg-kit-give{margin-top:3px;border:1px solid #B9CE9F;background:#EAF1DC;color:#354B2D;border-radius:9px;padding:5px 8px;font-weight:700;font-size:10.5px;font-family:inherit;font-family:inherit;cursor:pointer}
 .pg-kit-give:hover{background:#DEE9CB}
+.pg-kit-jar-actions{display:flex;flex-direction:column;gap:4px;width:100%;margin-top:4px}
+.pg-kit-jar-actions .pg-kit-give{width:100%;margin-top:0}
+.pg-kit-sell{width:100%;border:1px solid #E2C87E;background:#FBF3DC;color:#76591B;border-radius:9px;padding:5px 7px;font:800 10px 'Hanken Grotesk',sans-serif;cursor:pointer}
+.pg-kit-sell:hover{background:#F4E4B9}
+.pg-kit-stall{border-color:#E2C87E!important;background:linear-gradient(150deg,#FFF9E8,#F4E8C8)!important}
 .pg-kit-empty{margin:0;font:italic 13px/1.55 Georgia,'Times New Roman',serif;color:#6E6552}
 .pg-kit-info{display:flex;flex-direction:column;gap:11px}
 .pg-kit-holding{display:flex;gap:10px;align-items:center;padding:10px 11px;border-radius:13px;border:1px solid #DCD0B4;background:#FFFDF7}
@@ -874,7 +879,6 @@ html,body{margin:0;padding:0}
   box-shadow:inset 0 0 0 1px rgba(244,235,204,.2),inset 0 30px 76px -44px rgba(18,33,16,.82),inset 0 -28px 58px -38px rgba(4,12,5,.9),0 16px 28px -23px rgba(12,22,11,.9)!important;
 }
 .pg-plot-grid{opacity:.18;mix-blend-mode:screen}
-.pg-garden-path{opacity:.14;mix-blend-mode:screen}
 .pg-element-chip{min-height:50px;border-radius:11px!important;background:rgba(255,252,244,.88)!important}
 .pg-soft-card,.pg-context-note,.pg-next-step{
   background:linear-gradient(145deg,rgba(250,246,234,.94),rgba(239,231,212,.9))!important;
@@ -892,6 +896,41 @@ html,body{margin:0;padding:0}
 .pg-header-story{min-height:32px;padding-right:12px}
 .pg-garden-whisper{bottom:17px;width:min(610px,88%);padding:10px 12px}
 .pg-footer-note{padding-left:3px!important}
+
+/* ===== v81 · calm controls, an adjustable desktop garden and cleaner progression ===== */
+.pg-map-tools{position:relative;z-index:3}
+.pg-view-size{position:relative;flex:none}
+.pg-view-size-toggle{height:34px;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(92,116,74,.32);border-radius:18px;background:linear-gradient(145deg,#F8F5EA,#EAF1DC);color:#47613C;padding:0 10px;font:800 11px 'Hanken Grotesk',sans-serif;cursor:pointer;white-space:nowrap;box-shadow:0 7px 17px -15px rgba(39,58,31,.9)}
+.pg-view-size-toggle:hover,.pg-view-size-toggle[aria-expanded="true"]{border-color:#6F8E5B;background:#E5EED5;color:#354E2E}
+.pg-view-size-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:190;width:258px;padding:12px;border:1px solid rgba(100,78,45,.26);border-radius:16px;background:linear-gradient(150deg,#FFFAF0,#EEE4CF);box-shadow:0 24px 48px -25px rgba(17,28,15,.86)}
+.pg-view-size-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.pg-view-size-panel-head strong{display:block;font:700 16px/1.1 Georgia,'Times New Roman',serif;color:#30402D}
+.pg-view-size-panel-head span{display:block;margin-top:3px;font-size:11px;line-height:1.35;color:#746A56}
+.pg-view-size-panel-head button{width:30px;height:30px;display:grid;place-items:center;flex:none;border:0;border-radius:9px;background:rgba(255,253,246,.7);color:#6A604C;font-size:15px;cursor:pointer}
+.pg-view-size-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.pg-view-size-option{min-width:0;border:1px solid rgba(109,88,56,.22);border-radius:11px;background:rgba(255,253,246,.76);color:#625A4A;padding:9px 5px;font:800 11px/1.2 'Hanken Grotesk',sans-serif;cursor:pointer}
+.pg-view-size-option span{display:block;margin-top:3px;font-weight:600;font-size:11px;color:#8A7E66}
+.pg-view-size-option.is-active{border-color:#6F8E5B;background:#EAF1DC;color:#36502F;box-shadow:0 0 0 2px rgba(111,142,91,.16)}
+.pg-calm-focus{padding:13px 14px;border:1px solid rgba(94,126,74,.28);border-radius:13px;background:linear-gradient(145deg,#F4F6EA,#E7EED9)}
+.pg-calm-focus-kicker{font:900 11px/1 'Hanken Grotesk',sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#6E805D;margin-bottom:7px}
+.pg-calm-focus strong{display:block;font:700 17px/1.15 Georgia,'Times New Roman',serif;color:#30402D;margin-bottom:5px}
+.pg-calm-focus p{margin:0;font-size:11.5px;line-height:1.48;color:#5D6656}
+.pg-calm-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:10px}
+.pg-calm-step{display:flex;align-items:center;justify-content:center;gap:4px;min-width:0;border-radius:8px;background:rgba(255,253,246,.7);padding:6px 4px;font-size:11px;font-weight:800;color:#756B58}
+.pg-calm-step.is-current{background:#5E7E4A;color:#FFF9EA}
+.pg-insights-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:9px;border:1px solid rgba(108,87,56,.22);border-radius:10px;background:rgba(255,253,246,.62);color:#526249;padding:8px 10px;font:800 11px 'Hanken Grotesk',sans-serif;cursor:pointer}
+.pg-insights-toggle:hover{border-color:#7F9B6B;background:#F1F5E8}
+
+@media (min-width:1180px){
+  .pg-game-shell[data-garden-size="large"] .pg-game-main{grid-template-columns:clamp(214px,15vw,248px) minmax(0,1fr) clamp(254px,18vw,292px)!important}
+  .pg-game-shell[data-garden-size="focus"] .pg-game-main{grid-template-columns:minmax(0,1fr)!important}
+  .pg-game-shell[data-garden-size="focus"] .pg-game-center{grid-column:1!important}
+  .pg-game-shell[data-garden-size="focus"] .pg-build-pane,
+  .pg-game-shell[data-garden-size="focus"] .pg-learn-pane{display:none!important}
+}
+@media (max-width:1179px){
+  .pg-view-size{display:none!important}
+}
 /* No control may fall back to the UA default (Arial). Only the family is inherited —
    sizes stay wherever they are authored, so nothing reflows. */
 button,input,select,textarea{font-family:inherit}
@@ -906,9 +945,9 @@ button,input,select,textarea{font-family:inherit}
   .pg-design-summary{gap:8px!important;margin-bottom:5px!important}
   .pg-score-visual svg{width:70px;height:70px}
   .pg-design-status{font-size:13px!important;margin-bottom:4px!important}
-  .pg-context-note{font-size:10.5px!important;line-height:1.3!important;padding:5px 7px!important}
+  .pg-context-note{font-size:11px!important;line-height:1.3!important;padding:5px 7px!important}
   .pg-systems-list{padding-top:5px!important;gap:4px!important}
-  .pg-systems-list>div:first-child{font-size:8px!important}
+  .pg-systems-list>div:first-child{font-size:11px!important}
   .pg-system-row{row-gap:2px!important}
   .pg-missing-hint{padding-top:5px!important;gap:3px!important}
   .pg-next-step{margin-top:5px!important;padding:6px 8px!important}
@@ -1250,9 +1289,35 @@ button,input,select,textarea{font-family:inherit}
   [data-certificate="1"]{position:fixed!important;inset:0!important;width:100%!important;max-width:none!important;max-height:none!important;overflow:visible!important;border:none!important;box-shadow:none!important;background:#fff!important}
   [data-certificate-actions]{display:none!important}
 }
+.pg-language-control{display:inline-flex;align-items:center;gap:7px;color:#6f6757;font-size:11px;font-weight:700}
+.pg-language-control select{min-height:34px;max-width:160px;border:1px solid #dcd2bf;border-radius:10px;background:#fffdf7;color:#3f4939;padding:5px 28px 5px 9px;font:700 11px 'Hanken Grotesk',sans-serif;cursor:pointer}
+.pg-language-story{justify-content:center;margin:0 auto 14px;padding:6px 9px;border:1px solid rgba(126,145,110,.22);border-radius:12px;background:rgba(250,248,239,.76)}
+.pg-language-menu{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 4px}
+.pg-audio-language-note{display:inline-flex;align-items:center;gap:5px;color:#7a725f;font-size:10px;font-weight:700;letter-spacing:.03em}
+.pg-audio-language-menu{display:flex;padding:0 4px 7px}
+html:lang(ru) .pg-game-shell,
+html:lang(ru) .pg-game-shell button,
+html:lang(ru) .pg-game-shell input,
+html:lang(ru) .pg-game-shell select,
+html:lang(ru) .pg-game-shell textarea{font-family:"Segoe UI","Noto Sans",Arial,sans-serif!important}
+html:lang(ru) .pg-brand-title,
+html:lang(ru) .pg-map-title,
+html:lang(ru) .pg-garden-reflection-voice,
+html:lang(ru) .pg-living-lesson-title,
+html:lang(ru) .pg-living-lesson-voice{font-family:Georgia,"Times New Roman","Noto Serif",serif!important}
+html:lang(zh-CN) .pg-game-shell,
+html:lang(zh-CN) .pg-game-shell *{font-family:"Microsoft YaHei UI","Noto Sans SC","PingFang SC","Hiragino Sans GB",sans-serif!important;line-break:strict;word-break:normal}
+html:lang(zh-CN) .pg-brand-title,
+html:lang(zh-CN) .pg-map-title,
+html:lang(zh-CN) .pg-garden-reflection-voice,
+html:lang(zh-CN) .pg-living-lesson-title,
+html:lang(zh-CN) .pg-living-lesson-voice{font-family:"Songti SC","Noto Serif SC","STSong",serif!important;font-style:normal!important}
+html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spacing:.05em!important}
+@media(max-width:1180px){.pg-header-audio-language{display:none}}
+@media(max-width:950px){.pg-header-language{display:none}.pg-language-control select{max-width:145px}}
 </style>
 </helmet>
-<div class="{{ shellClass }}" data-viewport="{{ viewportMode }}" data-phone-pane="{{ phonePane }}" data-tablet-pane="{{ tabletPane }}" style="height:100vh;display:flex;flex-direction:column;font-family:'Hanken Grotesk',sans-serif;color:#2C3525;background:#F3EEE3;overflow:hidden;position:relative">
+<div class="{{ shellClass }}" data-viewport="{{ viewportMode }}" data-phone-pane="{{ phonePane }}" data-tablet-pane="{{ tabletPane }}" data-garden-size="{{ gardenSize }}" style="height:100vh;display:flex;flex-direction:column;font-family:'Hanken Grotesk',sans-serif;color:#2C3525;background:#F3EEE3;overflow:hidden;position:relative">
 
   <a class="pg-skip-link" href="#pg-garden-plot">Skip to garden plot</a>
 
@@ -1275,7 +1340,7 @@ button,input,select,textarea{font-family:inherit}
         <svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="#EAF3DC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"></path><path d="M5 19c1-5 4-8 8-9"></path></svg>
       </div>
       <div class="pg-brand-lockup" style="min-width:0">
-        <h1 class="pg-brand-title" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;line-height:1;white-space:nowrap;margin:0"><span class="pg-brand-long">Permaculture </span><span style="color:#5E7E4A">Garden</span></h1>
+        <h1 class="pg-brand-title" data-pg-no-i18n="true" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;line-height:1;white-space:nowrap;margin:0"><span class="pg-brand-long" data-pg-no-i18n="true">Permaculture </span><span data-pg-no-i18n="true" style="color:#5E7E4A">Garden</span></h1>
         <div class="pg-brand-subtitle" style="font-size:10.5px;color:#9A8F77;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-top:3px;white-space:nowrap">Care for the earth · Care for people · Fair share</div>
       </div>
     </div>
@@ -1289,6 +1354,13 @@ button,input,select,textarea{font-family:inherit}
       </div>
       </sc-if>
       <button class="pg-header-story" sc-camel-on-click="{{ onPlayStory }}" title="Replay the opening story" aria-label="Play the opening story"><span aria-hidden="true">▶</span><span>Play story</span></button>
+      <label class="pg-language-control pg-header-language">
+        <span>Language</span>
+        <select data-testid="language-select-header" value="{{ locale }}" sc-camel-on-change="{{ onLanguageChange }}" aria-label="Game language">
+          <sc-for list="{{ languageOptions }}" as="lo"><option data-pg-no-i18n="true" value="{{ lo.code }}">{{ lo.label }}</option></sc-for>
+        </select>
+      </label>
+      <sc-if value="{{ showEnglishAudioNote }}" hint-placeholder-val="{{ false }}"><span class="pg-audio-language-note pg-header-audio-language">{{ audioLanguageNote }}</span></sc-if>
       <button class="pg-header-tool" sc-camel-on-click="{{ onToggleMute }}" title="{{ soundButtonLabel }}" aria-label="{{ soundButtonLabel }}" style="width:32px;height:32px;border-radius:10px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;cursor:pointer;display:grid;place-items:center;transition:all .15s" style-hover="border-color:#5E7E4A;color:#5E7E4A">
         <sc-if value="{{ muted }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"></path><path d="M22 9l-6 6M16 9l6 6"></path></svg></sc-if>
         <sc-if value="{{ soundOn }}" hint-placeholder-val="{{ true }}"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9.5 9.5 0 0 1 0 13"></path></svg></sc-if>
@@ -1325,6 +1397,13 @@ button,input,select,textarea{font-family:inherit}
               <button role="menuitem" sc-camel-on-click="{{ onMenuSeedbank }}"><span aria-hidden="true">{{ seedIconMenu }}</span> Seed bank</button>
             </sc-if>
             <button role="menuitem" sc-camel-on-click="{{ onMenuHelp }}"><span aria-hidden="true">?</span> How to play</button>
+            <div class="pg-language-menu" role="none">
+              <label for="pg-language-menu-select">Language</label>
+              <select id="pg-language-menu-select" data-testid="language-select-menu" value="{{ locale }}" sc-camel-on-change="{{ onLanguageChange }}" aria-label="Game language">
+                <sc-for list="{{ languageOptions }}" as="lo"><option data-pg-no-i18n="true" value="{{ lo.code }}">{{ lo.label }}</option></sc-for>
+              </select>
+            </div>
+            <sc-if value="{{ showEnglishAudioNote }}" hint-placeholder-val="{{ false }}"><div class="pg-audio-language-note pg-audio-language-menu" role="none">{{ audioLanguageNote }}</div></sc-if>
             <button role="menuitem" class="pg-header-menu-danger" sc-camel-on-click="{{ onMenuReset }}"><span aria-hidden="true">↻</span> Reset garden</button>
           </div>
         </sc-if>
@@ -1391,7 +1470,7 @@ button,input,select,textarea{font-family:inherit}
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#6E6552;line-height:1.55;padding:2px 4px 8px"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span style="opacity:.5">v79</span>
+      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#6E6552;line-height:1.55;padding:2px 4px 8px"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span style="opacity:.5">v81</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button class="pg-return-guided" sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
@@ -1409,8 +1488,28 @@ button,input,select,textarea{font-family:inherit}
               <span style="flex:none">{{ ideaIconHint }}</span><span style="overflow:hidden;text-overflow:ellipsis">{{ pendingGuildText }}</span>
             </div>
           </sc-if>
-          <sc-if value="{{ worldToolsVisible }}" hint-placeholder-val="{{ false }}">
           <div class="pg-map-tools" style="display:flex;align-items:center;gap:7px">
+            <div class="pg-view-size">
+              <button class="pg-view-size-toggle" data-testid="garden-view-size-toggle" sc-camel-on-click="{{ onToggleGardenSize }}" aria-expanded="{{ gardenSizeOpen }}" aria-haspopup="true" title="{{ gardenViewTooltip }}">
+                <span aria-hidden="true">↔</span><span>{{ gardenViewLabel }}</span>
+              </button>
+              <sc-if value="{{ gardenSizeOpen }}" hint-placeholder-val="{{ false }}">
+                <div class="pg-view-size-panel" role="group" aria-label="{{ gardenViewAria }}">
+                  <div class="pg-view-size-panel-head">
+                    <div><strong>{{ gardenViewLabel }}</strong><span>{{ gardenViewDescription }}</span></div>
+                    <button sc-camel-on-click="{{ onCloseGardenSize }}" aria-label="{{ gardenViewCloseLabel }}">✕</button>
+                  </div>
+                  <div class="pg-view-size-options">
+                    <sc-for list="{{ gardenSizeOptions }}" as="gs" hint-placeholder-count="3">
+                      <button class="{{ gs.className }}" sc-camel-on-click="{{ gs.onPick }}" aria-pressed="{{ gs.active }}">
+                        {{ gs.label }}<span>{{ gs.hint }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+            <sc-if value="{{ worldToolsVisible }}" hint-placeholder-val="{{ false }}">
             <div class="pg-season-selector" title="Seasons turn — see how the garden changes" style="display:flex;align-items:center;gap:2px;background:#F1EBDD;border:1px solid #E7DECB;border-radius:20px;padding:3px">
               <sc-for list="{{ seasonsView }}" as="sn" hint-placeholder-count="4">
                 <button sc-camel-on-click="{{ sn.onPick }}" title="{{ sn.name }}" aria-label="Show {{ sn.name }} season" aria-pressed="{{ sn.pressed }}" style="{{ sn.style }}">{{ sn.icon }}</button>
@@ -1420,8 +1519,8 @@ button,input,select,textarea{font-family:inherit}
             <div style="position:relative">
               <button class="pg-guild-toggle" sc-camel-on-click="{{ onToggleGuildList }}" title="Explore the pairwise design connections you have discovered" aria-label="Open discovered design connections, {{ guildCount }} of {{ guildTotal }}" style="font-size:11px;color:#7A5D18;background:#FBF3DC;border:1px solid #E0C583;padding:5px 11px;border-radius:20px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s" style-hover="background:#F6E9C4">✦ Connections {{ guildCount }}/{{ guildTotal }} ▾</button>
             </div>
+            </sc-if>
           </div>
-          </sc-if>
         </div>
         <sc-if value="{{ placementActive }}" hint-placeholder-val="{{ false }}">
           <div class="pg-placement-bar" role="status">
@@ -1497,12 +1596,6 @@ button,input,select,textarea{font-family:inherit}
                 {{ lp.art }}
               </div>
             </sc-for>
-
-            <!-- winding path from entrance -->
-            <svg class="pg-garden-path" sc-camel-view-box="0 0 100 100" sc-camel-preserve-aspect-ratio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
-              <path d="M50 100 C 50 84, 46 74, 49 62 C 52 52, 50 46, 49 40" stroke="#D9C9A4" stroke-width="7" fill="none" stroke-linecap="round" opacity=".75"></path>
-              <path d="M50 100 C 50 84, 46 74, 49 62 C 52 52, 50 46, 49 40" stroke="#CBB88E" stroke-width="7" fill="none" stroke-linecap="round" opacity=".4" stroke-dasharray="1.5 6"></path>
-            </svg>
 
             <!-- grass tufts & tiny meadow flowers (static decor) -->
             <div style="{{ decorWrapStyle }}">
@@ -1766,7 +1859,7 @@ button,input,select,textarea{font-family:inherit}
         </div>
         <sc-if value="{{ communityMemoryVisible }}" hint-placeholder-val="{{ false }}">
           <div style="border-top:1px solid #EFE7D6;padding-top:8px;display:flex;gap:7px;overflow-x:auto">
-            <sc-for list="{{ communityMemoryView }}" as="cm" hint-placeholder-count="2">
+            <sc-for list="{{ communityMemoryView }}" as="cm" hint-placeholder-count="0">
               <div class="pg-community-memory" style="flex:0 0 auto;max-width:250px;display:flex;align-items:flex-start;gap:7px;background:#F7F2E7;border-radius:10px;padding:7px 9px">
                 <span style="{{ cm.personStyle }}">{{ cm.personInitial }}</span><span style="font-size:10px;line-height:1.35;color:#6B6253">{{ cm.text }}</span>
               </div>
@@ -1802,6 +1895,19 @@ button,input,select,textarea{font-family:inherit}
 
       <section class="pg-panel pg-right-panel pg-design-panel" aria-labelledby="pg-design-title" style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:16px;padding:14px 15px;box-shadow:0 10px 26px -20px rgba(60,50,30,.65);flex:none">
         <div class="pg-design-heading" style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:8px;height:8px;border-radius:50%;background:#5E7E4A"></span><h2 id="pg-design-title" title="A learning-game model of useful connections, not a scientific measurement of a real garden." style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3A3527;cursor:help;margin:0">Design connections</h2></div>
+        <sc-if value="{{ insightsCollapsed }}" hint-placeholder-val="{{ true }}">
+          <div class="pg-calm-focus">
+            <div class="pg-calm-focus-kicker">{{ calmFocusKicker }}</div>
+            <strong>{{ calmFocusTitle }}</strong>
+            <p>{{ calmFocusWhy }}</p>
+            <div class="pg-calm-steps" aria-label="{{ calmStepsAria }}">
+              <span class="{{ calmChooseClass }}">{{ calmChooseLabel }}</span>
+              <span class="{{ calmPlaceClass }}">{{ calmPlaceLabel }}</span>
+              <span class="{{ calmNoticeClass }}">{{ calmNoticeLabel }}</span>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ insightsExpanded }}" hint-placeholder-val="{{ false }}">
         <div class="pg-design-summary" style="display:flex;gap:14px;align-items:center;margin-bottom:11px">
           <div class="pg-score-visual" style="flex:none">{{ scoreVisual }}</div>
           <div style="flex:1;min-width:0">
@@ -1838,10 +1944,14 @@ button,input,select,textarea{font-family:inherit}
         <sc-if value="{{ noMissing }}" hint-placeholder-val="{{ false }}">
           <div style="border-top:1px solid #EFE7D6;padding-top:9px;display:flex;align-items:center;gap:7px;font-size:12px;color:#5E7E4A;font-weight:600"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>Every learning theme is represented — keep observing the real garden.</div>
         </sc-if>
+        </sc-if>
+        <button class="pg-insights-toggle" data-testid="insights-toggle" sc-camel-on-click="{{ onToggleInsights }}" aria-expanded="{{ insightsExpanded }}">
+          <span>{{ insightsToggleLabel }}</span><span aria-hidden="true">{{ insightsToggleIcon }}</span>
+        </button>
         <div class="pg-soft-card pg-next-step" style="margin-top:12px;background:#F4EFE3;border:1px solid #E6DCC6;border-radius:12px;padding:10px 12px">
           <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px">
-            <span style="font-size:10px;font-weight:700;color:#8A7E66;letter-spacing:.1em;text-transform:uppercase">Next step · {{ nextStep.unit }} {{ nextStep.num }}/{{ nextStep.total }}</span>
-            <span style="font-size:10px;font-weight:700;color:#5E7E4A">{{ nextStep.done }}/{{ nextStep.total }} {{ nextStep.unit }} done</span>
+            <span style="font-size:10px;font-weight:700;color:#8A7E66;letter-spacing:.1em;text-transform:uppercase">{{ nextStep.kicker }}</span>
+            <span style="font-size:10px;font-weight:700;color:#5E7E4A">{{ nextStep.progress }}</span>
           </div>
           <div style="height:5px;border-radius:4px;background:#E4DAC4;overflow:hidden;margin-bottom:9px"><div style="{{ nextStep.barStyle }}"></div></div>
           <sc-if value="{{ nextStep.allDone }}" hint-placeholder-val="{{ false }}">
@@ -2186,7 +2296,10 @@ button,input,select,textarea{font-family:inherit}
                     <span class="pg-kit-item-art">{{ pv.art }}</span>
                     <span class="pg-kit-item-name">{{ pv.name }}</span>
                     <span class="pg-kit-item-count">{{ pv.count }}</span>
-                    <button class="pg-kit-give" sc-camel-on-click="{{ pv.onShare }}">To the table</button>
+                    <div class="pg-kit-jar-actions">
+                      <button class="pg-kit-give" sc-camel-on-click="{{ pv.onShare }}">{{ kitchenGiveLabel }}</button>
+                      <button class="pg-kit-sell" sc-camel-on-click="{{ pv.onSell }}" title="{{ kitchenSellTitle }}">{{ kitchenStallButton }}</button>
+                    </div>
                   </div>
                 </sc-for>
               </div>
@@ -2218,6 +2331,11 @@ button,input,select,textarea{font-family:inherit}
                 <p class="pg-kit-table-text">Anything put by can go to the table — even in deep winter, when the beds have nothing left to give.</p>
               </sc-if>
               <div class="pg-kit-tally"><span>🫙 {{ kitchenPreservedCount }} put by</span><span class="pg-icon-label">{{ reuseIconKitchenTally }} {{ kitchenGivenCount }} given</span></div>
+            </div>
+            <div class="pg-kit-table pg-kit-stall">
+              <div class="pg-kit-table-top">{{ kitchenStallLabel }}</div>
+              <p class="pg-kit-table-text">{{ kitchenStallDescription }}</p>
+              <div class="pg-kit-tally"><span>{{ kitchenStallIncomeLabel }}</span><span>{{ kitchenStallSalesLabel }}</span></div>
             </div>
           </aside>
         </div>
@@ -2517,7 +2635,14 @@ button,input,select,textarea{font-family:inherit}
             <div style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#7E916E;margin-bottom:10px">An opening story · about one minute</div>
             <h2 style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(34px,5vw,53px);letter-spacing:-.04em;line-height:1;margin:0 0 15px;color:#34412E">The Garden Is Waiting</h2>
             <p style="font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(16px,2vw,20px);line-height:1.5;color:#596351;margin:0 auto 22px;max-width:470px">At the edge of Menet, a real community garden inspired this story — and left a place in it for you.</p>
+            <label class="pg-language-control pg-language-story">
+              <span>Language</span>
+              <select data-testid="language-select-story" value="{{ locale }}" sc-camel-on-change="{{ onLanguageChange }}" aria-label="Game language">
+                <sc-for list="{{ languageOptions }}" as="lo"><option data-pg-no-i18n="true" value="{{ lo.code }}">{{ lo.label }}</option></sc-for>
+              </select>
+            </label>
             <div style="display:inline-flex;align-items:center;gap:7px;background:#E8EDD9;border:1px solid #D7E1C7;color:#647757;font-size:11px;font-weight:700;padding:7px 11px;border-radius:20px;margin-bottom:20px"><span aria-hidden="true">♫</span> Gentle sound begins when you press play · captions stay on</div>
+            <sc-if value="{{ showEnglishAudioNote }}" hint-placeholder-val="{{ false }}"><div class="pg-audio-language-note"><span aria-hidden="true">◌</span>{{ audioLanguageNote }}</div></sc-if>
             <div style="display:flex;flex-direction:column;align-items:center;gap:11px">
               <button sc-camel-on-click="{{ onBeginStory }}" class="pg-story-primary">Begin the story <span aria-hidden="true">→</span></button>
               <button sc-camel-on-click="{{ onSkipStory }}" style="border:0;background:transparent;color:#78836F;font:700 11px 'Hanken Grotesk',sans-serif;cursor:pointer;padding:5px 9px">Skip story</button>
@@ -3075,7 +3200,12 @@ class Component extends DCLogic {
   winterBugs=this.makeWinterBugs();
   guildVignettes=this.makeGuildVignettes();
   winterGuildVignettes=this.makeWinterGuildVignettes();
-  gates={Spring:'assets/gate2-spring.webp',Summer:'assets/gate2-summer.webp',Autumn:'assets/gate2-autumn.webp',Winter:'assets/gate2-winter.webp'};
+  gates={
+    Spring:'assets/gates/gate-spring-transparent.webp',
+    Summer:'assets/gates/gate-summer-transparent.webp',
+    Autumn:'assets/gates/gate-autumn-transparent.webp',
+    Winter:'assets/gates/gate-winter-transparent.webp'
+  };
   cropDefs={
     crop_potato:{produce:'potatoes',readyAt:3,window:['Autumn'],yieldN:2},
     crop_root:{produce:'roots',readyAt:3,window:['Autumn'],yieldN:2},
@@ -3195,7 +3325,7 @@ class Component extends DCLogic {
   econ={
     compost:{price:40,barter:1,gift:2,material:'reclaimed pallets'},
     hugel:{price:60,barter:2,gift:2,material:'logs and prunings'},
-    rain:{price:120,barter:null,gift:1,material:'a salvaged barrel'},
+    rain:{price:90,barter:null,gift:1,material:'a salvaged barrel'},
     mulch:{price:20,barter:1,gift:1,material:'bags of autumn leaves'},
     bughotel:{price:30,barter:1,gift:1,material:'offcuts, canes and bricks'},
     arch:{price:90,barter:2,gift:1,material:'bent hazel rods'},
@@ -3208,7 +3338,7 @@ class Component extends DCLogic {
     bench:{price:80,barter:null,gift:2,material:'old pallets'},
     sign:{price:15,barter:1,gift:1,material:'painted offcuts'},
     appletree:{price:50,barter:2,gift:2,material:'a grafted sapling from the seed swap'},
-    kitchen:{price:200,barter:null,gift:2,material:'planks, bricks and an old window'},
+    kitchen:{price:120,barter:null,gift:2,material:'planks, bricks and an old window'},
     crop_potato:{price:0,barter:0,gift:1,material:'seed potatoes from the seed bank'},
     crop_root:{price:0,barter:0,gift:1,material:'carrot and beet seed from the bank'},
     crop_leafy:{price:0,barter:0,gift:1,material:'salad seed from the bank'},
@@ -3488,7 +3618,7 @@ class Component extends DCLogic {
     const viewportWidth=typeof window!=='undefined'?window.innerWidth:1440;
     const viewportHeight=typeof window!=='undefined'?window.innerHeight:900;
     const viewportMode=viewportWidth>=1180?'desktop':(viewportWidth>=768&&viewportHeight>=600?'tablet':'phone');
-    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,movingPlacedId:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:[],residentSeasons:{},residentWinters:{},pestActive:null,pestSeasons:{},pestCleared:{},pestRelief:{},pestBeatsSeen:[],pestStory:null,pestLastSettled:null,livingLesson:null,livingLessonExperiment:null,livingLessonHistory:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:[],grownHarvests:0,preservedCount:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null,bookOpen:false,bookTab:'elements',bookLeaf:0,bookDir:'fwd',kitchenOpen:false,kitchenPick:null,kitchenNote:null,kitchenBusy:null,kitchenStage:'simmer',kitchenDragging:false,kitchenOver:null,kitchenMotionFailed:{},gateMotionFailed:{},seedbankMotionFailed:false,viewportMode:viewportMode,viewportWidth:viewportWidth,viewportHeight:viewportHeight,phonePane:'garden',tabletPane:'build',headerMenuOpen:false};
+    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,movingPlacedId:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:[],residentSeasons:{},residentWinters:{},pestActive:null,pestSeasons:{},pestCleared:{},pestRelief:{},pestBeatsSeen:[],pestStory:null,pestLastSettled:null,livingLesson:null,livingLessonExperiment:null,livingLessonHistory:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:[],grownHarvests:0,preservedCount:0,stallSales:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null,bookOpen:false,bookTab:'elements',bookLeaf:0,bookDir:'fwd',kitchenOpen:false,kitchenPick:null,kitchenNote:null,kitchenBusy:null,kitchenStage:'simmer',kitchenDragging:false,kitchenOver:null,kitchenMotionFailed:{},gateMotionFailed:{},seedbankMotionFailed:false,viewportMode:viewportMode,viewportWidth:viewportWidth,viewportHeight:viewportHeight,phonePane:'garden',tabletPane:'build',headerMenuOpen:false,gardenSize:'balanced',gardenSizeOpen:false,insightsExpanded:false};
   }
   hasJourneyMoment(st,key){return (st.journeyMoments||[]).indexOf(key)>=0;}
   milestoneArt={soil:'assets/milestones/soil.webp',water:'assets/milestones/water.webp',food:'assets/milestones/food.webp',shelter:'assets/milestones/shelter.webp',share:'assets/milestones/share.webp',challenge:'assets/milestones/challenge.webp'};
@@ -3902,7 +4032,7 @@ class Component extends DCLogic {
     this.setState(s=>{
       const nextMode=mode||s.mode||'guided';
       const begin=nextMode==='guided'&&!s.placed.length&&!s.gardenWhisper?{key:'begin',text:'Feed me first. Everything visible begins with the life beneath.'}:s.gardenWhisper;
-      return {intro:false,introSeen:true,mode:nextMode,gardenWhisper:begin};
+      return {intro:false,introSeen:true,mode:nextMode,insightsExpanded:nextMode==='explore',gardenWhisper:begin};
     },()=>{if(this.state.gardenWhisper){this.scheduleGardenWhisper(this.state.gardenWhisper,120);}});
   }
   reflectionForCount(count){
@@ -3945,6 +4075,7 @@ class Component extends DCLogic {
     const systems=this.gardenSystems(st),journey=this.journeyModel(st);
     const systemKey=(name)=>({"Living soil":'soil',"Water security":'water',"Food web":'food',"Habitat":'habitat'}[name]||'');
     return engine.sanitizeSnapshot({
+      locale:this.currentLocale(),
       season:st.season,
       placedTypes:(st.placed||[]).map(p=>p.type),
       systems:systems.view.reduce((out,item)=>{out[item.key]={value:item.value,reason:item.reason};return out;},{}),
@@ -3955,7 +4086,7 @@ class Component extends DCLogic {
       guildKeys:this.activeGuilds(st.placed||[]).map(g=>g.key),
       harvests:st.grownHarvests||0,
       preserved:st.preservedCount||0,
-      lastChange:st.lastSystemChange?{system:systemKey(st.lastSystemChange.system),delta:st.lastSystemChange.delta,text:st.lastSystemChange.text}:null
+      lastChange:st.lastSystemChange?{system:st.lastSystemChange.systemKey||systemKey(st.lastSystemChange.system),delta:st.lastSystemChange.delta,text:st.lastSystemChange.text}:null
     });
   }
   livingLessonUnlocked(st=this.state){return st.mode==='explore'||this.journeyModel(st).done>=2||(st.placed||[]).length>=2;}
@@ -4093,6 +4224,8 @@ class Component extends DCLogic {
     if(dialog==='summary'){if(this.state.endingSeen){this.speakGarden('ending');}return;}
     if(dialog==='guild'){if(!this.state.guildVoicePlayed){this.playGuildVoice();}return;}
     if(dialog==='resident-story'){const r=this.state.residentStory;if(r){this.setMusicMode('reflection');this.speakGarden(r.id);}return;}
+    if(dialog==='pest-story'){const p=this.state.pestStory;if(p){this.setMusicMode('reflection');this.speakGarden(p.id);}return;}
+    if(dialog==='gate'){const g=this.state.gate;if(g&&g.status==='won'){this.setMusicMode('reflection');this.speakGarden('challenge:'+g.key);}return;}
     if(dialog){return;}
     if(this.state.gardenWhisper){this.scheduleGardenWhisper(this.state.gardenWhisper);}
   }
@@ -4110,7 +4243,9 @@ class Component extends DCLogic {
   resetGarden(){
     const s=this.state;
     const meaningful=s.placed.length>0||(s.journeyMoments||[]).length>0||Object.keys(s.gardenEffects||{}).length>0||(s.sharedActs||0)>0||(s.given||0)>0||Object.values(s.basket||{}).some(n=>n>0)||!!s.harvestEver||!!s.reflectionOpened;
-    if(meaningful&&!window.confirm('Start over? Your garden, learning journey, harvest and community history will be cleared.')){return;}
+    const resetSource='Start over? Your garden, learning journey, harvest and community history will be cleared.';
+    const resetMessage=this.i18n()?this.i18n().translateValue(resetSource):resetSource;
+    if(meaningful&&!window.confirm(resetMessage)){return;}
     this.clearTransientWork();this.stopAllAudio();this.dragData=null;this._dragActive=false;this._gateOpening=false;this._seasonChanging=false;this._n=0;this._g=0;this._gaveJust=false;this._suppressFx=true;
     const ns=this.freshState(false);ns.season='Summer';ns.market=this.freshMarket('Summer');ns.cherryPicks=3;ns.springSprouts=0;ns.leafPiles=0;
     this.setState(ns,()=>{this.capturePreviousState();this._suppressFx=false;this.persist();this.setMusicMode('garden');});
@@ -4334,6 +4469,31 @@ class Component extends DCLogic {
     {src:'assets/story/story-07-invitation.webp',voice:'assets/audio/story/narration-07.mp3',location:'Your place in the garden',chapter:'07 · The invitation',title:'Now I need another pair of eyes',caption:'Yours. Listen closely. Notice what is missing. Help every part find its place — and help me come alive.',ms:0,position:'50% 52%'}
   ];
 
+  i18n(){
+    return typeof window!=='undefined'?window.PermacultureI18n:null;
+  }
+  currentLocale(){
+    const i18n=this.i18n();return i18n&&i18n.normalizeLocale(i18n.locale)?i18n.locale:'en';
+  }
+  voiceAudioLocale(){
+    return this.currentLocale()==='cs'?'cs':'en';
+  }
+  localizedVoiceSources(src,kind){
+    if(!src){return [];}
+    if(typeof src==='object'){
+      const english=src.en||src.default||null,czech=src.cs||null;
+      return (this.voiceAudioLocale()==='cs'?[czech,english]:[english]).filter((value,index,array)=>!!value&&array.indexOf(value)===index);
+    }
+    if(this.voiceAudioLocale()!=='cs'){return [src];}
+    const file=String(src).split('/').pop();
+    const folder=kind==='story'?'assets/audio/story/cs/':'assets/audio/garden-voice/cs/';
+    return [folder+file,src];
+  }
+  changeLanguage(event){
+    const i18n=this.i18n(),value=event&&event.target?event.target.value:event;
+    if(i18n){this.clearTransientWork();this.stopAllAudio();this.persist();i18n.setLocaleAndReload(value);}
+  }
+
   viewportModeFor(width,height){
     return width>=1180?'desktop':(width>=768&&height>=600?'tablet':'phone');
   }
@@ -4348,6 +4508,23 @@ class Component extends DCLogic {
       const target=key==='garden'?document.querySelector('[data-plot]'):document.querySelector('[data-adaptive-pane="'+key+'"]');
       if(target){try{target.focus();}catch(_){}}
     });
+  }
+  setGardenSize(size){
+    if(['balanced','large','focus'].indexOf(size)<0){return;}
+    this.setState({gardenSize:size,gardenSizeOpen:false},()=>{
+      this.persist();
+      this.later(()=>{
+        const plot=document.querySelector('[data-plot]');
+        if(plot){try{plot.focus({preventScroll:true});}catch(_){try{plot.focus();}catch(__){}}}
+      },40);
+    });
+  }
+  toggleGardenSize(){
+    if((this.state.viewportMode||'desktop')!=='desktop'){return;}
+    this.setState(s=>({gardenSizeOpen:!s.gardenSizeOpen,headerMenuOpen:false}));
+  }
+  toggleInsights(){
+    this.setState(s=>({insightsExpanded:!s.insightsExpanded}),()=>this.persist());
   }
   syncResponsiveAccess(){
     if(typeof document==='undefined'){return;}
@@ -4426,7 +4603,7 @@ class Component extends DCLogic {
         this._resizeFrame=null;
         const width=window.innerWidth,height=window.innerHeight,mode=this.viewportModeFor(width,height);
         if(mode===this.state.viewportMode&&width===this.state.viewportWidth&&height===this.state.viewportHeight){return;}
-        this.setState({viewportMode:mode,viewportWidth:width,viewportHeight:height,headerMenuOpen:mode==='phone'?this.state.headerMenuOpen:false},()=>{
+        this.setState({viewportMode:mode,viewportWidth:width,viewportHeight:height,headerMenuOpen:mode==='phone'?this.state.headerMenuOpen:false,gardenSizeOpen:mode==='desktop'?this.state.gardenSizeOpen:false},()=>{
           this.syncResponsiveAccess();
           const active=document.activeElement;
           if(active&&active.closest){
@@ -4443,9 +4620,11 @@ class Component extends DCLogic {
     window.addEventListener('resize',this._resize,{passive:true});
     window.addEventListener('orientationchange',this._resize,{passive:true});
     this._headerOutside=(e)=>{
-      if(!this.state.headerMenuOpen){return;}
-      if(e.target&&e.target.closest&&e.target.closest('.pg-header-more-wrap')){return;}
-      this.setState({headerMenuOpen:false});
+      const closest=e.target&&e.target.closest?e.target.closest.bind(e.target):null;
+      const next={};
+      if(this.state.headerMenuOpen&&!(closest&&closest('.pg-header-more-wrap'))){next.headerMenuOpen=false;}
+      if(this.state.gardenSizeOpen&&!(closest&&closest('.pg-view-size'))){next.gardenSizeOpen=false;}
+      if(Object.keys(next).length){this.setState(next);}
     };
     document.addEventListener('pointerdown',this._headerOutside,true);
     this._downCap=(e)=>{
@@ -4519,7 +4698,7 @@ class Component extends DCLogic {
           const restoredLessonExperiment=lessonEngine?lessonEngine.sanitizeExperiment(s.livingLessonExperiment):null;
           const restoredLessonHistory=lessonEngine?lessonEngine.sanitizeHistory(s.livingLessonHistory):[];
           restored=true;
-          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:restoredResidentBeats,residentSeasons:restoredResidentSeasons,residentWinters:restoredResidentWinters,pestStory:null,pestActive:restoredPestActive,pestSeasons:restoredPestSeasons,pestCleared:restoredPestCleared,pestRelief:restoredPestRelief,pestBeatsSeen:restoredPestBeats,pestLastSettled:restoredPestSettled,livingLesson:null,livingLessonExperiment:restoredLessonExperiment,livingLessonHistory:restoredLessonHistory,gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,payWith:(s.payWith==='euro'?'euro':'shares'),seedAllowance:(s.seedAllowance&&typeof s.seedAllowance==='object')?s.seedAllowance:{},seedStock:(s.seedStock&&typeof s.seedStock==='object')?s.seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:Array.isArray(s.unlocksSeen)?s.unlocksSeen:[],grownHarvests:num(s.grownHarvests,0),preservedCount:num(s.preservedCount,0),paymentChoice:null,muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
+          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',gardenSize:['balanced','large','focus'].indexOf(s.gardenSize)>=0?s.gardenSize:'balanced',gardenSizeOpen:false,insightsExpanded:!!s.insightsExpanded,journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:restoredResidentBeats,residentSeasons:restoredResidentSeasons,residentWinters:restoredResidentWinters,pestStory:null,pestActive:restoredPestActive,pestSeasons:restoredPestSeasons,pestCleared:restoredPestCleared,pestRelief:restoredPestRelief,pestBeatsSeen:restoredPestBeats,pestLastSettled:restoredPestSettled,livingLesson:null,livingLessonExperiment:restoredLessonExperiment,livingLessonHistory:restoredLessonHistory,gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,payWith:(s.payWith==='euro'?'euro':'shares'),seedAllowance:(s.seedAllowance&&typeof s.seedAllowance==='object')?s.seedAllowance:{},seedStock:(s.seedStock&&typeof s.seedStock==='object')?s.seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:Array.isArray(s.unlocksSeen)?s.unlocksSeen:[],grownHarvests:num(s.grownHarvests,0),preservedCount:num(s.preservedCount,0),stallSales:num(s.stallSales,0),paymentChoice:null,muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
           this.setState({gardenWhisper:pendingWhispers[0]||null,gardenWhisperQueue:pendingWhispers.slice(1),gardenReflectionQueue:pendingReflections,gardenReflectionsSeen:reflectionSeen,visit:pendingVisit,guildCard:pendingGuildCards[0]||null,guildCardQueue:pendingGuildCards.slice(1),arrivalQueue:pendingArrivals,gardenCinematic:pendingCinematic},()=>{this.capturePreviousState();this._suppressFx=false;if(pendingWhispers.length){this.scheduleGardenWhisper(pendingWhispers[0]);}if(pendingReflections.length){this.scheduleGardenReflection(500);}if(pendingCinematic){this.scheduleCinematicVoice();}if(pendingGuildCards.length&&!this.state.guildVoicePlayed){this.scheduleGuildVoice();}this.scheduleResidentStory(900);this.scheduleUnlock(1500);});
         }
       }
@@ -4768,7 +4947,7 @@ class Component extends DCLogic {
       const lessonEngine=this.lessonEngine();
       const livingLessonExperiment=lessonEngine?lessonEngine.sanitizeExperiment(s.livingLessonExperiment):null;
       const livingLessonHistory=lessonEngine?lessonEngine.sanitizeHistory(s.livingLessonHistory):[];
-      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,residentBeatsSeen:s.residentBeatsSeen||[],residentSeasons:s.residentSeasons||{},residentWinters:s.residentWinters||{},pestActive:s.pestActive||null,pestSeasons:s.pestSeasons||{},pestCleared:s.pestCleared||{},pestRelief:s.pestRelief||{},pestBeatsSeen:s.pestBeatsSeen||[],pestLastSettled:(typeof s.pestLastSettled==='number'?s.pestLastSettled:null),pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,livingLessonExperiment:livingLessonExperiment,livingLessonHistory:livingLessonHistory,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},seedStock:s.seedStock||{},unlocksSeen:s.unlocksSeen||[],grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g}));
+      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',gardenSize:s.gardenSize||'balanced',insightsExpanded:!!s.insightsExpanded,journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,residentBeatsSeen:s.residentBeatsSeen||[],residentSeasons:s.residentSeasons||{},residentWinters:s.residentWinters||{},pestActive:s.pestActive||null,pestSeasons:s.pestSeasons||{},pestCleared:s.pestCleared||{},pestRelief:s.pestRelief||{},pestBeatsSeen:s.pestBeatsSeen||[],pestLastSettled:(typeof s.pestLastSettled==='number'?s.pestLastSettled:null),pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,livingLessonExperiment:livingLessonExperiment,livingLessonHistory:livingLessonHistory,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},seedStock:s.seedStock||{},unlocksSeen:s.unlocksSeen||[],grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,stallSales:s.stallSales||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g}));
     }catch(e){}
   }
   componentDidUpdate(){
@@ -4907,11 +5086,11 @@ class Component extends DCLogic {
       const moved=s.placed.find(p=>p.id===id);
       let ns={...s,placed:s.placed.map(p=>p.id===id?{...p,x:x,y:y}:p),movingPlacedId:null};
       const after=this.gardenSystems(ns);
-      const changed=after.view.map((v,i)=>({name:v.name,delta:v.value-before.view[i].value,reason:v.reason})).filter(v=>v.delta!==0).sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta))[0];
+      const changed=after.view.map((v,i)=>({key:v.key,name:v.name,delta:v.value-before.view[i].value,reason:v.reason})).filter(v=>v.delta!==0).sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta))[0];
       if(changed){
         const movedName=((moved&&this.catalog[moved.type])?this.catalog[moved.type].name:'This element');
         const text='Moving '+movedName.toLowerCase()+' '+(changed.delta>0?'strengthened ':'weakened ')+changed.name.toLowerCase()+' by '+Math.abs(changed.delta)+' points. '+changed.reason;
-        ns.lastSystemChange={text:text,system:changed.name,delta:changed.delta,n:Date.now()};
+        ns.lastSystemChange={text:text,systemKey:changed.key,system:changed.name,delta:changed.delta,n:Date.now()};
         if(changed.delta>0){ns.gardenPulse={name:changed.name,delta:changed.delta,reason:changed.reason,n:Date.now()};}
         else {ns.toast='This move weakened '+changed.name+' by '+Math.abs(changed.delta)+'. '+changed.reason+' Follow the dotted links to reconnect it.';}
       }
@@ -5361,6 +5540,23 @@ class Component extends DCLogic {
     });
     this.playGive();
   }
+  sellPreserve(k){
+    const meta=this.produceMeta[k];
+    if(!meta||!meta.preserve||((this.state.basket||{})[k]||0)<1){return;}
+    const amount=25;
+    const i18n=this.i18n();
+    const title=i18n?i18n.t('economy.stall.title',null,'A jar went to the village stall'):'A jar went to the village stall';
+    const text=i18n?i18n.t('economy.stall.note',{name:meta.name,amount:amount},meta.name+' sold locally. €'+amount+' returned to the shared project fund; this is income for the garden, not a fair-share gift.'):(meta.name+' sold locally. €'+amount+' returned to the shared project fund; this is income for the garden, not a fair-share gift.');
+    const toast=i18n?i18n.t('economy.stall.toast',{amount:amount},'€'+amount+' returned to the project garden fund through the village stall.'):('€'+amount+' returned to the project garden fund through the village stall.');
+    this.setState(st=>{
+      const basket={...(st.basket||{})};
+      basket[k]=Math.max(0,(basket[k]||0)-1);
+      if(basket[k]===0){delete basket[k];}
+      return {basket:basket,budget:(st.budget||0)+amount,stallSales:(st.stallSales||0)+1,
+        kitchenNote:{tone:'done',title:title,text:text},toast:toast};
+    },()=>this.persist());
+    this.playSparkle();
+  }
   giveToTable(){
     if(this.state.giveMode){ this.setState({giveMode:false,toast:null}); return; }
     if(!this.sharingUnlocked(this.state)){this.flash('The sharing table opens in the community act. Build the garden’s four living layers first.');return;}
@@ -5564,11 +5760,23 @@ class Component extends DCLogic {
     ui:'assets/audio/game-v2/ui-soft.mp3',warning:'assets/audio/game/warning.mp3',plant:'assets/audio/game-v2/plant.mp3',water:'assets/audio/game-v2/water.mp3',compost:'assets/audio/game-v2/compost.mp3',build:'assets/audio/game-v2/build.mp3',harvest:'assets/audio/game-v2/harvest.mp3',reward:'assets/audio/game-v2/reward.mp3',guild:'assets/audio/game-v2/guild.mp3',give:'assets/audio/game-v2/give.mp3',wildlife:'assets/audio/game-v2/wildlife.mp3',gardenVoice:'assets/audio/game-v2/garden-voice.mp3',bird:'assets/audio/game/bird.mp3',bee:'assets/audio/game/bee.mp3',butterfly:'assets/audio/game/butterfly.mp3',hedgehog:'assets/audio/game/hedgehog.mp3',worm:'assets/audio/game/worm.mp3',ladybug:'assets/audio/game/ladybug.mp3',beetle:'assets/audio/game/beetle.mp3',mushroom:'assets/audio/game/mushroom.mp3',seasonSpring:'assets/audio/game-v2/season.mp3',seasonSummer:'assets/audio/game-v2/season.mp3',seasonAutumn:'assets/audio/game-v2/season.mp3',seasonWinter:'assets/audio/game-v2/season.mp3'
   };
   gardenVoiceFiles={
+    begin:'assets/audio/garden-voice/milestone-soil.mp3',
     soil:'assets/audio/garden-voice/milestone-soil.mp3',
     water:'assets/audio/garden-voice/milestone-water.mp3',
     food:'assets/audio/garden-voice/milestone-food.mp3',
     shelter:'assets/audio/garden-voice/milestone-shelter.mp3',
     share:'assets/audio/garden-voice/milestone-share.mp3',
+    'challenge:mulch':{cs:'assets/audio/garden-voice/cs/challenge-mulch.mp3',en:'assets/audio/garden-voice/challenge-mulch.mp3'},
+    'challenge:compost':{cs:'assets/audio/garden-voice/cs/challenge-compost.mp3',en:'assets/audio/garden-voice/challenge-compost.mp3'},
+    'challenge:hugel':{cs:'assets/audio/garden-voice/cs/challenge-hugel.mp3',en:'assets/audio/garden-voice/challenge-hugel.mp3'},
+    'challenge:rain':{cs:'assets/audio/garden-voice/cs/challenge-rain.mp3',en:'assets/audio/garden-voice/challenge-rain.mp3'},
+    'challenge:kitchen':{cs:'assets/audio/garden-voice/cs/challenge-kitchen.mp3',en:'assets/audio/garden-voice/challenge-kitchen.mp3'},
+    'challenge:ladybug':{cs:'assets/audio/garden-voice/cs/challenge-ladybug.mp3',en:'assets/audio/garden-voice/challenge-ladybug.mp3'},
+    'challenge:bee':{cs:'assets/audio/garden-voice/cs/challenge-bee.mp3',en:'assets/audio/garden-voice/challenge-bee.mp3'},
+    'challenge:shelter':{cs:'assets/audio/garden-voice/cs/challenge-shelter.mp3',en:'assets/audio/garden-voice/challenge-shelter.mp3'},
+    'challenge:pexeso':{cs:'assets/audio/garden-voice/cs/challenge-pexeso.mp3',en:'assets/audio/garden-voice/challenge-pexeso.mp3'},
+    'challenge:seeds':{cs:'assets/audio/garden-voice/cs/challenge-seeds.mp3',en:'assets/audio/garden-voice/challenge-seeds.mp3'},
+    'challenge:quiz':{cs:'assets/audio/garden-voice/cs/challenge-quiz.mp3',en:'assets/audio/garden-voice/challenge-quiz.mp3'},
     'guild-discovered':'assets/audio/garden-voice/guild-discovered.mp3',
     'aphid-1':'assets/audio/garden-voice/pest-aphid-1.mp3',
     'aphid-2':'assets/audio/garden-voice/pest-aphid-2.mp3',
@@ -5658,15 +5866,34 @@ class Component extends DCLogic {
     const src=this.gardenVoiceFiles[id];if(!src){return null;}
     if(this._gardenVoice){this._gardenVoice.pause();this._gardenVoice=null;}
     this.duckMusic(12000);
-    const a=new Audio(src);a.preload='auto';a.volume=.95;a.muted=!!this.state.muted;this._gardenVoice=a;this._gardenVoiceId=id;
-    a.addEventListener('loadedmetadata',()=>{if(this._gardenVoice===a&&isFinite(a.duration)){this.duckMusic(Math.max(3600,(a.duration+1)*1000));}},{once:true});
-    let playSettled=false;
-    const started=()=>{if(playSettled){return;}playSettled=true;if(this._gardenVoice===a&&this._gardenVoiceId===id&&typeof options.onPlaying==='function'){options.onPlaying(a);}};
-    const finish=()=>{if(this._gardenVoice===a){this._gardenVoice=null;this._gardenVoiceId=null;this.restoreMusicAfterVoice();}};
-    const failed=()=>{if(!playSettled&&typeof options.onFailure==='function'){options.onFailure(a);}playSettled=true;finish();};
-    a.addEventListener('playing',started,{once:true});a.addEventListener('ended',finish,{once:true});a.addEventListener('error',failed,{once:true});
-    const p=a.play();if(p&&p.then){p.then(started).catch(failed);}
-    return a;
+    const sources=this.localizedVoiceSources(src,'garden');
+    let firstAudio=null,callbackStarted=false;
+    const begin=(index)=>{
+      const a=new Audio(sources[index]);if(!firstAudio){firstAudio=a;}
+      a.preload='auto';a.volume=.95;a.muted=!!this.state.muted;this._gardenVoice=a;this._gardenVoiceId=id;
+      let sourceStarted=false,sourceFailed=false;
+      a.addEventListener('loadedmetadata',()=>{if(this._gardenVoice===a&&isFinite(a.duration)){this.duckMusic(Math.max(3600,(a.duration+1)*1000));}},{once:true});
+      const started=()=>{
+        if(sourceStarted){return;}sourceStarted=true;
+        if(!callbackStarted&&this._gardenVoice===a&&this._gardenVoiceId===id&&typeof options.onPlaying==='function'){callbackStarted=true;options.onPlaying(a);}
+      };
+      const finish=()=>{if(this._gardenVoice===a){this._gardenVoice=null;this._gardenVoiceId=null;this.restoreMusicAfterVoice();}};
+      const failed=()=>{
+        if(sourceFailed){return;}sourceFailed=true;
+        if(!sourceStarted&&index+1<sources.length&&this._gardenVoice===a){
+          try{a.pause();}catch(_){}
+          begin(index+1);
+          return;
+        }
+        if(!sourceStarted&&typeof options.onFailure==='function'){options.onFailure(a);}
+        finish();
+      };
+      a.addEventListener('playing',started,{once:true});a.addEventListener('ended',finish,{once:true});a.addEventListener('error',failed,{once:true});
+      const p=a.play();if(p&&p.then){p.then(started).catch(failed);}
+      return a;
+    };
+    begin(0);
+    return firstAudio;
   }
   ensureStoryAudio(){
     if(!this._storyMusic){this._storyMusic=new Audio('assets/audio/story/intro-music.mp3');this._storyMusic.preload='auto';this._storyMusic.volume=.42;}
@@ -5685,23 +5912,38 @@ class Component extends DCLogic {
     this.clearStoryTimer();
     if(seekBed){const cue=this.storyCue(scene);this.seekAudio(this._storyMusic,cue);this.seekAudio(this._storyAmbience,cue%30);}
     [this._storyMusic,this._storyAmbience].forEach(a=>{a.muted=!!this.state.muted;if(this.state.storyPaused){a.pause();return;}const p=a.play();if(p&&p.catch){p.catch(()=>{});}});
-    const voice=new Audio(def.voice);voice.preload='auto';voice.volume=.95;voice.muted=!!this.state.muted;this._storyVoice=voice;
-    const current=()=>this._storyVoice===voice&&this._storyPlaybackToken===token&&this.state.story&&this.state.storyScene===scene;
-    const armSafety=()=>{
-      if(!current()||this.state.storyPaused||this.state.storyLeaving||!def.ms){return;}
-      const audioRemaining=isFinite(voice.duration)&&voice.duration>0?Math.max(0,(voice.duration-voice.currentTime)*1000):def.ms;
-      this.armStory(Math.max(def.ms+3500,audioRemaining+6000),scene,token);
+    const sources=this.localizedVoiceSources(def.voice,'story');
+    let firstVoice=null;
+    const begin=(index)=>{
+      const voice=new Audio(sources[index]);if(!firstVoice){firstVoice=voice;}
+      voice.preload='auto';voice.volume=.95;voice.muted=!!this.state.muted;this._storyVoice=voice;
+      const current=()=>this._storyVoice===voice&&this._storyPlaybackToken===token&&this.state.story&&this.state.storyScene===scene;
+      let sourceStarted=false,sourceFailed=false;
+      const armSafety=()=>{
+        sourceStarted=true;
+        if(!current()||this.state.storyPaused||this.state.storyLeaving||!def.ms){return;}
+        const audioRemaining=isFinite(voice.duration)&&voice.duration>0?Math.max(0,(voice.duration-voice.currentTime)*1000):def.ms;
+        this.armStory(Math.max(def.ms+3500,audioRemaining+6000),scene,token);
+      };
+      const onFailure=()=>{
+        if(sourceFailed){return;}sourceFailed=true;
+        if(!sourceStarted&&index+1<sources.length&&current()){
+          try{voice.pause();}catch(_){}
+          begin(index+1);
+          return;
+        }
+        if(current()&&!this.state.storyPaused&&def.ms){this.armStory(Math.max(4000,def.ms),scene,token);}
+      };
+      voice.addEventListener('playing',armSafety);
+      voice.addEventListener('waiting',()=>{if(current()){this.clearStoryTimer();}});
+      voice.addEventListener('stalled',()=>{if(current()){this.clearStoryTimer();}});
+      voice.addEventListener('ended',()=>{if(current()&&!this.state.storyPaused&&!this.state.storyLeaving&&def.ms){this.armStory(650,scene,token);}},{once:true});
+      voice.addEventListener('error',onFailure,{once:true});
+      if(!this.state.storyPaused){const p=voice.play();if(p&&p.catch){p.catch(onFailure);}}
+      return voice;
     };
-    let failed=false;
-    const onFailure=()=>{if(failed){return;}failed=true;if(current()&&!this.state.storyPaused&&def.ms){this.armStory(Math.max(4000,def.ms),scene,token);}};
-    voice.addEventListener('playing',armSafety);
-    voice.addEventListener('waiting',()=>{if(current()){this.clearStoryTimer();}});
-    voice.addEventListener('stalled',()=>{if(current()){this.clearStoryTimer();}});
-    voice.addEventListener('ended',()=>{if(current()&&!this.state.storyPaused&&!this.state.storyLeaving&&def.ms){this.armStory(650,scene,token);}},{once:true});
-    voice.addEventListener('error',onFailure,{once:true});
-    if(this.state.storyPaused){return voice;}
-    const p=voice.play();if(p&&p.catch){p.catch(onFailure);}
-    return voice;
+    begin(0);
+    return firstVoice;
   }
   pauseStoryAudio(){[this._storyMusic,this._storyAmbience,this._storyVoice].forEach(a=>{if(a){a.pause();}});}
   resumeStoryAudio(){
@@ -5745,8 +5987,15 @@ class Component extends DCLogic {
     const id=this.state.selectedPlacedId;if(!id)return;
     const p=this.state.placed.find(x=>x.id===id);if(!p)return;
     const name=(this.catalog[p.type]||{}).name||'this element';
-    const refund=p.paidMethod==='barter'?(p.paidAmount+' share'+(p.paidAmount===1?'':'s')):(p.paidMethod==='buy'?('€'+p.paidAmount):'no payment');
-    if(!window.confirm('Remove '+name+' from the garden?\n\nRefund: '+refund+'. Wildlife or design connections that depend on it may leave until you rebuild their habitat.')){return;}
+    const i18n=this.i18n();
+    const localName=i18n?i18n.translateValue(name):name;
+    const refund=p.paidMethod==='barter'
+      ?(p.paidAmount+' '+(i18n?i18n.t(p.paidAmount===1?'common.share':'common.shares'):('share'+(p.paidAmount===1?'':'s'))))
+      :(p.paidMethod==='buy'?('€'+p.paidAmount):(i18n?i18n.t('common.noPayment'):'no payment'));
+    const removeMessage=i18n
+      ?i18n.t('reset.removeConfirm',{name:localName,refund:refund})
+      :('Remove '+name+' from the garden?\n\nRefund: '+refund+'. Wildlife or design connections that depend on it may leave until you rebuild their habitat.');
+    if(!window.confirm(removeMessage)){return;}
     this.setState(s=>{
       const before=this.gardenSystems(s);
       const shares=s.shares+(p.paidMethod==='barter'?p.paidAmount:0);
@@ -5755,10 +6004,10 @@ class Component extends DCLogic {
       (p.usedMaterials||[]).forEach(m=>{materials[m]=(materials[m]||0)+1;});
       let ns={...s, placed:s.placed.filter(x=>x.id!==id), shares:shares, budget:budget, materials:materials, selectedPlacedId:null, selectedType:null};
       const after=this.gardenSystems(ns);
-      const changed=after.view.map((v,i)=>({name:v.name,delta:v.value-before.view[i].value,reason:v.reason})).filter(v=>v.delta!==0).sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta))[0];
+      const changed=after.view.map((v,i)=>({key:v.key,name:v.name,delta:v.value-before.view[i].value,reason:v.reason})).filter(v=>v.delta!==0).sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta))[0];
       const consequence=changed?(' '+changed.name+' changed by '+changed.delta+'. '+changed.reason):'';
       ns.toast='↩ '+name+' removed — '+refund+(p.paidMethod==='gift'?' was needed because it was a community gift.':' returned.')+consequence;
-      if(changed){ns.lastSystemChange={text:'Removing '+name.toLowerCase()+' changed '+changed.name.toLowerCase()+' by '+changed.delta+' points. '+changed.reason,system:changed.name,delta:changed.delta,n:Date.now()};}
+      if(changed){ns.lastSystemChange={text:'Removing '+name.toLowerCase()+' changed '+changed.name.toLowerCase()+' by '+changed.delta+' points. '+changed.reason,systemKey:changed.key,system:changed.name,delta:changed.delta,n:Date.now()};}
       return ns;
     });
   }
@@ -5925,17 +6174,17 @@ class Component extends DCLogic {
   }
   applyChallengeImpact(ns,key){
     const impacts={
-      mulch:{systemKey:'soil',system:'Living soil',text:'The driest beds are now covered. Their soil can lose water more slowly in hot weather.',voice:'You read my driest places first. Now the sun reaches the leaves without stealing so much from the soil.'},
-      compost:{systemKey:'soil',system:'Living soil',text:'A balanced compost recipe can create a future supply of organic matter.',voice:'Yesterday’s scraps are warming. Nothing disappeared; it changed its work.'},
-      hugel:{systemKey:'water',system:'Water security',text:'The woody bed is now treated as a moisture-holding experiment that still needs observation.',voice:'Wood that had fallen may help rain linger beneath new roots. Watch what the mound does through dry weather.'},
-      rain:{systemKey:'water',system:'Water security',text:'Roof water now has screened storage and a planned overflow route.',voice:'The next rain will pause, fill, overflow and sink — instead of hurrying away.'},
-      kitchen:{systemKey:'food',system:'Food web',text:'The pantry plan keeps suitable harvests useful beyond their fresh season.',voice:'Summer can now leave gifts for winter.'},
-      ladybug:{systemKey:'habitat',system:'Habitat',text:'Predators have food and shelter, while young plants receive targeted protection.',voice:'You did not silence every insect. You rebuilt the conversation between them.'},
-      bee:{systemKey:'food',system:'Food web',text:'The planting plan reduces seasonal gaps in nectar and pollen.',voice:'One flowering season now hands the work to the next.'},
-      shelter:{systemKey:'habitat',system:'Habitat',text:'Different winter refuges now support different kinds of garden life.',voice:'Even while I sleep, I am not empty. You left safe rooms for the quiet season.'},
-      pexeso:{systemKey:null,system:'Relationship insight',text:'You practised reading a design connection as an exchange of needs and yields, not a collection of objects.',voice:'You looked between the elements — that is where my strongest design lives.'},
-      seeds:{systemKey:'food',system:'Food web',text:'Healthy, mature seed from suitable plants has been selected for the next sowing.',voice:'Tomorrow’s garden is already folded into a handful of careful seed.'},
-      quiz:{systemKey:null,system:'Observation insight',text:'You practised decisions that account for several parts of the system at once.',voice:'You paused before acting. That small pause is one of the best tools you can bring me.'}
+      mulch:{systemKey:'soil',system:'Living soil',text:'The driest beds are now covered. Their soil can lose water more slowly in hot weather.',voice:'My driest places came first. Now the sun can reach the leaves without taking so much from the soil.'},
+      compost:{systemKey:'soil',system:'Living soil',text:'A balanced compost recipe can create a future supply of organic matter.',voice:'Yesterday\'s scraps are warming. Nothing disappeared; only their work changed.'},
+      hugel:{systemKey:'water',system:'Water security',text:'The woody bed is now treated as a moisture-holding experiment that still needs observation.',voice:'Wood that once fell can help rain linger beneath new roots. Watch what the mound does when the dry days come.'},
+      rain:{systemKey:'water',system:'Water security',text:'Roof water now has screened storage and a planned overflow route.',voice:'The next rain will pause, fill the tank, overflow safely, and sink in — instead of hurrying away.'},
+      kitchen:{systemKey:'food',system:'Food web',text:'The pantry plan keeps suitable harvests useful beyond their fresh season.',voice:'Summer can leave gifts for winter now.'},
+      ladybug:{systemKey:'habitat',system:'Habitat',text:'Predators have food and shelter, while young plants receive targeted protection.',voice:'Not every insect had to fall silent. Instead, the conversation between the garden\'s inhabitants returned.'},
+      bee:{systemKey:'food',system:'Food web',text:'The planting plan reduces seasonal gaps in nectar and pollen.',voice:'One season of flowers now passes its work to the next.'},
+      shelter:{systemKey:'habitat',system:'Habitat',text:'Different winter refuges now support different kinds of garden life.',voice:'Even while I sleep, I am not empty. Safe shelter remains here for the quiet season.'},
+      pexeso:{systemKey:null,system:'Relationship insight',text:'You practised reading a design connection as an exchange of needs and yields, not a collection of objects.',voice:'Now you see what lives between the elements. That is where the strength of my design is found.'},
+      seeds:{systemKey:'food',system:'Food web',text:'Healthy, mature seed from suitable plants has been selected for the next sowing.',voice:'Tomorrow\'s garden is already held in a handful of carefully chosen seeds.'},
+      quiz:{systemKey:null,system:'Observation insight',text:'You practised decisions that account for several parts of the system at once.',voice:'Before action came a short pause. It is one of the best tools you can bring me.'}
     };
     const impact=impacts[key]||impacts.quiz;
     const already=!!Number((ns.gardenEffects||{})[key]);
@@ -5957,7 +6206,7 @@ class Component extends DCLogic {
         let ns={...s,gate:{...s.gate,d:d,status:res,effectNew:effectNew},shares:effectNew?s.shares+1:s.shares,gatesPlayed:{...(s.gatesPlayed||{}),[g.key]:((s.gatesPlayed||{})[g.key]||0)+1}};
         if(res==='won'){ns=this.applyChallengeImpact(ns,g.key);}
         return ns;
-      });
+      },()=>{if(res==='won'){this.setMusicMode('reflection');this.speakGarden('challenge:'+g.key);}});
       if(res==='won'){this.playSparkle();}else{this.playThud();}
     } else {
       this.setState(s=>({gate:{...s.gate,d:d}}));
@@ -5966,22 +6215,23 @@ class Component extends DCLogic {
   gateRetry(){const g=this.state.gate;if(!g){return;}this.startGate(g.key,g.target);}
   gateVoice(key,target){
     const voices={
-      mulch:'You read my driest places first. Now sunlight can reach the leaves without taking so much from the soil.',
-      compost:'Yesterday’s scraps are warming. Nothing disappeared; it simply changed its work.',
-      hugel:'Fallen wood may help the rain linger beneath new roots. Watch what this mound does through dry weather.',
-      rain:'The next rain can pause, fill, overflow and sink instead of hurrying away.',
-      kitchen:'Summer can now leave a careful gift for winter.',
-      ladybug:'You did not silence every insect. You rebuilt the conversation between them.',
-      bee:'One flowering season can now hand its work to the next.',
-      shelter:'Even while I sleep, I am not empty. You left safe rooms for the quiet season.',
-      pexeso:'You looked between the elements. That is where my strongest design lives.',
-      seeds:'Tomorrow’s garden is already folded into a handful of careful seed.',
-      quiz:'You paused before acting. That small pause is one of the best tools you can bring me.'
+      mulch:'My driest places came first. Now the sun can reach the leaves without taking so much from the soil.',
+      compost:'Yesterday\'s scraps are warming. Nothing disappeared; only their work changed.',
+      hugel:'Wood that once fell can help rain linger beneath new roots. Watch what the mound does when the dry days come.',
+      rain:'The next rain will pause, fill the tank, overflow safely, and sink in — instead of hurrying away.',
+      kitchen:'Summer can leave gifts for winter now.',
+      ladybug:'Not every insect had to fall silent. Instead, the conversation between the garden\'s inhabitants returned.',
+      bee:'One season of flowers now passes its work to the next.',
+      shelter:'Even while I sleep, I am not empty. Safe shelter remains here for the quiet season.',
+      pexeso:'Now you see what lives between the elements. That is where the strength of my design is found.',
+      seeds:'Tomorrow\'s garden is already held in a handful of carefully chosen seeds.',
+      quiz:'Before action came a short pause. It is one of the best tools you can bring me.'
     };
     return voices[key]||((this.seasonPassages[target]||{}).voice||'Stay a moment. Notice what changed before choosing what comes next.');
   }
   gateSkip(){
     const g=this.state.gate;if(!g){return;}
+    this.stopGardenVoice('challenge:'+g.key);
     if(g.status==='won'||g.status==='lost'){this.gateFinish();return;}
     clearInterval(this._gateIv);
     const t=g.target,p=this.seasonPassages[t]||{};
@@ -5990,6 +6240,7 @@ class Component extends DCLogic {
   }
   gateFinish(){
     const g=this.state.gate;if(!g){return;}
+    this.stopGardenVoice('challenge:'+g.key);
     clearInterval(this._gateIv);
     const t=g.target,p=this.seasonPassages[t]||{};
     const cinematic={season:t,title:p.title||('Welcome, '+t),text:p.voice||this.gateVoice(g.key,t),image:p.image||'',loop:p.loop||''};
@@ -6350,6 +6601,8 @@ class Component extends DCLogic {
 
   renderVals(){
     const cat=this.catalog, st=this.state, E=React.createElement;
+    const i18n=this.i18n(),locale=this.currentLocale();
+    const languageOptions=i18n&&Array.isArray(i18n.LANGUAGE_OPTIONS)?i18n.LANGUAGE_OPTIONS:[{code:'en',label:'English'}];
     const seasonIconName={Spring:'spring',Summer:'summer',Autumn:'autumn',Winter:'winter'};
     const seasonIcon=(season,size=14)=>this.uiIcon(seasonIconName[season]||'spring',size);
     const seasonIconSet=(seasons,size=12)=>E('span',{
@@ -6358,14 +6611,15 @@ class Component extends DCLogic {
     },(seasons||[]).map((season,index)=>E('span',{key:season+index,style:{display:'inline-flex'}},seasonIcon(season,size))));
 
     const hasSeedbank=st.placed.some(p=>p.type==='seedbank');
+    const localText=(key,fallback,vars)=>i18n?i18n.t(key,vars||null,fallback):fallback;
     const termHelpMap={
-      hugel:'a raised growing bed built over woody material',
-      mulch:'a protective surface cover laid without digging it into the soil',
-      rain:'covered storage for water collected from a roof',
-      arch:'a vertical support for climbing crops',
-      herbspiral:'a mounded herb bed with several exposures and moisture zones',
-      pollinator:'a long-season strip of flowering habitat',
-      seedbank:'shared, labelled storage for locally useful seed'
+      hugel:localText('termHelp.hugel','a raised growing bed built over woody material'),
+      mulch:localText('termHelp.mulch','a protective surface cover laid without digging it into the soil'),
+      rain:localText('termHelp.rain','covered storage for water collected from a roof'),
+      arch:localText('termHelp.arch','a vertical support for climbing crops'),
+      herbspiral:localText('termHelp.herbspiral','a mounded herb bed with several exposures and moisture zones'),
+      pollinator:localText('termHelp.pollinator','a long-season strip of flowering habitat'),
+      seedbank:localText('termHelp.seedbank','shared, labelled storage for locally useful seed')
     };
     const mk=(type)=>{
       const c=cat[type], e=this.econ[type];
@@ -6621,12 +6875,13 @@ class Component extends DCLogic {
     const designIcons={soil:'assets/ui/icons/living-soil.svg',water:'assets/ui/icons/water-cycle.svg',food:'assets/ui/icons/food-web.svg',habitat:'assets/ui/icons/habitat.svg',sharing:'assets/ui/icons/fair-share.svg',guild:'assets/ui/icons/guild.svg',season:'assets/ui/icons/season.svg',voice:'assets/ui/icons/garden-voice.svg'};
     const designIcon=(src,alt='')=>E('img',{src:src,alt:alt,loading:'eager',draggable:false});
     const journeyIconSrc=designIcons[(journey.current&&journey.current.key)==='shelter'?'habitat':((journey.current&&journey.current.key)==='share'?'sharing':((journey.current&&journey.current.key)==='challenge'?'season':((journey.current&&journey.current.key)||'voice')))]||designIcons.voice;
+    const giftActionCount=st.sharedActs||0;
     const pillars=[
-      {name:'Soil',ok:soil,iconSrc:designIcons.soil,tip:'Living soil '+systems.values.soil+'% — organic matter, cover and proximity all matter'},
-      {name:'Water',ok:water,iconSrc:designIcons.water,tip:'Water security '+systems.values.water+'% — catch it, then connect it to plants'},
-      {name:'Food',ok:food,iconSrc:designIcons.food,tip:'Food web '+systems.values.food+'% — edible layers benefit from flowers and seed'},
-      {name:'Habitat',ok:shelter,iconSrc:designIcons.habitat,tip:'Habitat '+systems.values.habitat+'% — shelter works best beside food and water'},
-      {name:'Sharing',ok:community,iconSrc:designIcons.sharing,tip:'Fair share — '+(st.sharedActs||0)+' gift action'+((st.sharedActs||0)===1?'':'s')+' completed'}
+      {name:localText('pillars.soil.name','Soil'),ok:soil,iconSrc:designIcons.soil,tip:localText('pillars.soil.tip','Living soil {value}% — organic matter, cover and proximity all matter',{value:systems.values.soil})},
+      {name:localText('pillars.water.name','Water'),ok:water,iconSrc:designIcons.water,tip:localText('pillars.water.tip','Water security {value}% — catch it, then connect it to plants',{value:systems.values.water})},
+      {name:localText('pillars.food.name','Food'),ok:food,iconSrc:designIcons.food,tip:localText('pillars.food.tip','Food web {value}% — edible layers benefit from flowers and seed',{value:systems.values.food})},
+      {name:localText('pillars.habitat.name','Habitat'),ok:shelter,iconSrc:designIcons.habitat,tip:localText('pillars.habitat.tip','Habitat {value}% — shelter works best beside food and water',{value:systems.values.habitat})},
+      {name:localText('pillars.sharing.name','Sharing'),ok:community,iconSrc:designIcons.sharing,tip:localText(giftActionCount===1?'pillars.sharing.tip.one':'pillars.sharing.tip.other','Fair share — {count} gift action'+(giftActionCount===1?'':'s')+' completed',{count:giftActionCount})}
     ].map(p=>({name:p.name,icon:designIcon(p.iconSrc),tip:p.tip,style:pillStyle(p.ok)}));
 
     const systemView=systems.view.map(v=>({name:v.name,emoji:v.emoji,icon:designIcon(designIcons[v.key]||designIcons.voice),value:v.value,reason:v.reason,hasLearned:v.learned.length>0,learned:v.learned.join(' · '),
@@ -6639,6 +6894,7 @@ class Component extends DCLogic {
 
     const statusText=score===0?'A bare plot — ready to begin':score<40?'A living beginning':score<70?'Connections taking shape':score<100?'A flourishing design':'A richly connected design';
     const ringColor=score<40?'#C2703D':score<75?'#D2A24C':'#5E7E4A';
+    const connectionsDialLabel=(localText('common.connections','connections')||'connections').toLocaleUpperCase(locale);
     const r=40, cc=2*Math.PI*r, off=cc*(1-score/100);
     // The label is set BELOW the dial: at 11px it measures ~79 user units against only
     // ~71 units of clear space inside the ring, so inside it the stroke cuts through it.
@@ -6646,7 +6902,7 @@ class Component extends DCLogic {
       E('circle',{key:'bg',cx:50,cy:50,r:r,fill:'none',stroke:'#EAE0CC',strokeWidth:9}),
       E('circle',{key:'fg',cx:50,cy:50,r:r,fill:'none',stroke:ringColor,strokeWidth:9,strokeLinecap:'round',strokeDasharray:cc,strokeDashoffset:off,transform:'rotate(-90 50 50)',style:{transition:'stroke-dashoffset .6s cubic-bezier(.3,.9,.3,1),stroke .4s'}}),
       E('text',{key:'n',x:50,y:48,textAnchor:'middle',dominantBaseline:'central',style:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'27px',fontWeight:'700',fill:'#2C3525'}},String(score)),
-      E('text',{key:'s',x:50,y:114,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'11px',fontWeight:'800',fill:'#655E50',letterSpacing:'.2px'}},'CONNECTIONS')
+      E('text',{key:'s',x:50,y:114,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'11px',fontWeight:'800',fill:'#655E50',letterSpacing:'.2px'}},connectionsDialLabel)
     ]);
 
     const stp=st.selectedType;
@@ -6746,7 +7002,19 @@ class Component extends DCLogic {
     const _cur=_steps.find(s=>!s.done)||_steps[_steps.length-1];
     // Guided counts six acts, Free Garden counts eight milestones. Naming the unit keeps
     // a mode switch from reading as a moved goalpost.
-    const nextStep={num:_steps.indexOf(_cur)+1,total:_steps.length,done:_doneCount,unit:guided?'acts':'milestones',label:_cur.label,why:_cur.why,allDone:_doneCount>=_steps.length,todo:_doneCount<_steps.length,pct:Math.round(_doneCount/_steps.length*100),barStyle:{width:Math.round(_doneCount/_steps.length*100)+'%',height:'100%',background:'#6E924F',borderRadius:'4px',transition:'width .4s'}};
+    const nextStepNumber=_steps.indexOf(_cur)+1;
+    const nextStepUnitSource=guided?'acts':'milestones';
+    const localeApi=this.i18n();
+    const nextStepUnit=localeApi?localeApi.translateValue(nextStepUnitSource):nextStepUnitSource;
+    const nextStepKickerFallback='Next step · '+nextStepUnit+' '+nextStepNumber+'/'+_steps.length;
+    const nextStepProgressFallback=_doneCount+'/'+_steps.length+' '+nextStepUnit+' done';
+    const nextStep={
+      num:nextStepNumber,total:_steps.length,done:_doneCount,unit:nextStepUnit,
+      kicker:localeApi?localeApi.t('journey.nextStep',{unit:nextStepUnit,number:nextStepNumber,total:_steps.length},nextStepKickerFallback):nextStepKickerFallback,
+      progress:localeApi?localeApi.t('journey.progress',{done:_doneCount,total:_steps.length,unit:nextStepUnit},nextStepProgressFallback):nextStepProgressFallback,
+      label:_cur.label,why:_cur.why,allDone:_doneCount>=_steps.length,todo:_doneCount<_steps.length,pct:Math.round(_doneCount/_steps.length*100),
+      barStyle:{width:Math.round(_doneCount/_steps.length*100)+'%',height:'100%',background:'#6E924F',borderRadius:'4px',transition:'width .4s'}
+    };
     const disc=st.discovered||[];
     const guildListView=this.guildDefs.map(d=>{
       const found=disc.indexOf(d.key)>=0;
@@ -6813,7 +7081,7 @@ class Component extends DCLogic {
       E('circle',{key:'bg',cx:50,cy:50,r:r,fill:'none',stroke:'#EAE0CC',strokeWidth:10}),
       E('circle',{key:'fg',cx:50,cy:50,r:r,fill:'none',stroke:ringColor,strokeWidth:10,strokeLinecap:'round',strokeDasharray:cc,strokeDashoffset:off,transform:'rotate(-90 50 50)'}),
       E('text',{key:'n',x:50,y:47,textAnchor:'middle',dominantBaseline:'central',style:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'30px',fontWeight:'700',fill:'#2C3525'}},String(score)),
-      E('text',{key:'s',x:50,y:114,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'13px',fontWeight:'800',fill:'#655E50',letterSpacing:'0'}},'CONNECTIONS')
+      E('text',{key:'s',x:50,y:114,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'13px',fontWeight:'800',fill:'#655E50',letterSpacing:'0'}},connectionsDialLabel)
     ]);
     const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
     const q=(st.arrivalQueue||[]).filter(k=>activeSet.has(k));
@@ -6908,9 +7176,34 @@ class Component extends DCLogic {
           buttons[next].focus();
         }};
     });
+    const gardenSize=['balanced','large','focus'].indexOf(st.gardenSize)>=0?st.gardenSize:'balanced';
+    const gardenSizeOptions=[
+      {key:'balanced',label:localText('viewSize.balanced','Balanced'),hint:localText('viewSize.balancedHint','tools + plot')},
+      {key:'large',label:localText('viewSize.large','Large'),hint:localText('viewSize.largeHint','more garden')},
+      {key:'focus',label:localText('viewSize.focus','Focus'),hint:localText('viewSize.focusHint','plot only')}
+    ].map(option=>({...option,active:gardenSize===option.key,className:'pg-view-size-option'+(gardenSize===option.key?' is-active':''),onPick:()=>this.setGardenSize(option.key)}));
+    const insightsExpanded=!!st.insightsExpanded;
+    const calmPhase=(st.plantType||st.movingPlacedId)?'place':(st.selectedPlacedId?'notice':'choose');
+    const calmFocusTitle=guided?(guidedEndingReady?'The garden is ready to reflect':journey.current.label):nextStep.label;
+    const calmFocusWhy=guided?readinessWhy:nextStep.why;
 
     return {
       shellClass:'pg-game-shell pg-viewport-'+(st.viewportMode||'desktop'),
+      gardenSize:gardenSize,
+      gardenSizeOpen:!!st.gardenSizeOpen,
+      gardenSizeOptions:gardenSizeOptions,
+      gardenViewLabel:localText('viewSize.button','Garden view'),
+      gardenViewTooltip:localText('viewSize.tooltip','Choose how much space the garden plot uses'),
+      gardenViewAria:localText('viewSize.aria','Garden view size'),
+      gardenViewDescription:localText('viewSize.description','Keep the familiar layout, give the plot more room, or focus on it completely.'),
+      gardenViewCloseLabel:localText('viewSize.close','Close garden view choices'),
+      onToggleGardenSize:()=>this.toggleGardenSize(),
+      onCloseGardenSize:()=>this.setState({gardenSizeOpen:false}),
+      locale:locale,
+      languageOptions:languageOptions,
+      onLanguageChange:(event)=>this.changeLanguage(event),
+      showEnglishAudioNote:locale!=='en'&&locale!=='cs',
+      audioLanguageNote:i18n?i18n.t('audio.englishStatus',null,'Audio: English'):'Audio: English',
       viewportMode:st.viewportMode||'desktop',
       phonePane:st.phonePane||'garden',
       tabletPane:st.tabletPane||'build',
@@ -6994,8 +7287,8 @@ class Component extends DCLogic {
       journeyIcon:designIcon(guidedEndingReady?designIcons.voice:(journey.ready?designIcons.guild:journeyIconSrc)),
       journeyDone:journey.done,journeyTotal:journey.total,
       journeyBarStyle:{height:'100%',width:Math.round(journey.done/journey.total*100)+'%',borderRadius:'5px',background:'linear-gradient(90deg,#8FB565,#5E7E4A)',transition:'width .55s ease'},
-      onSwitchExplore:()=>this.setState({mode:'explore'}),
-      onSwitchGuided:()=>this.setState({mode:'guided'}),
+      onSwitchExplore:()=>this.setState({mode:'explore',insightsExpanded:true}),
+      onSwitchGuided:()=>this.setState({mode:'guided',insightsExpanded:false}),
       economyVisible:!guided||journey.index>=1||journey.ready,
       // Seasons are the metronome the whole simulation hangs off, and the seasonal
       // challenges are the only real minigame. Held back to act six they were invisible
@@ -7089,6 +7382,18 @@ class Component extends DCLogic {
       onGiveToTableKeyDown:(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();this.giveToTable();}},
       giveZoneStyle:{flex:'none',width:'90px',alignSelf:'stretch',borderRadius:'14px',border:'2px dashed '+(st.giveMode?'#7A5D18':'#DBC286'),background:st.giveMode?'#FBF3DC':'#FDFAF0',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'5px',cursor:'pointer',userSelect:'none',textAlign:'center',padding:'6px',transition:'transform .2s,border-color .2s,background .2s',animation:st.giveMode?'giftPulse 1.6s ease-in-out infinite':'none'},
       scoreVisual:scoreVisual,statusText:statusText,pillars:pillars,systemView:systemView,nextStep:nextStep,basketView:basketView,basketVisible:basketVisible,materialsView:materialsView,materialsVisible:materialsVisible,cherrySpots:cherrySpots,kitchenPlaced:kitchenPlaced,
+      insightsExpanded:insightsExpanded,insightsCollapsed:!insightsExpanded,
+      insightsToggleLabel:insightsExpanded?localText('insights.hide','Hide the detailed garden model'):localText('insights.show','Show how the garden works'),
+      insightsToggleIcon:insightsExpanded?'−':'＋',onToggleInsights:()=>this.toggleInsights(),
+      calmFocusTitle:calmFocusTitle,calmFocusWhy:calmFocusWhy,
+      calmFocusKicker:localText('insights.onlyNow','Only this matters now'),
+      calmStepsAria:localText('insights.stepsAria','Choose, place, notice'),
+      calmChooseLabel:localText('insights.choose','1 · Choose'),
+      calmPlaceLabel:localText('insights.place','2 · Place'),
+      calmNoticeLabel:localText('insights.notice','3 · Notice'),
+      calmChooseClass:'pg-calm-step'+(calmPhase==='choose'?' is-current':''),
+      calmPlaceClass:'pg-calm-step'+(calmPhase==='place'?' is-current':''),
+      calmNoticeClass:'pg-calm-step'+(calmPhase==='notice'?' is-current':''),
       missing:missing.slice(0,1),hasMissing:missing.length>0,noMissing:missing.length===0,
       wildlifeView:wildlifeView,activeCount:activeCount,
       infoPanelVisible:!guided||!!info||journey.index>=3||journey.ready,
@@ -7148,7 +7453,7 @@ class Component extends DCLogic {
         onDragStart:this.kitchenDragStart(k),onDragEnd:()=>this.kitchenDragEnd()})),
       kitchenPreserves:basketOrder.filter(k=>this.produceMeta[k]&&this.produceMeta[k].preserve&&(basketObj[k]||0)>0).map(k=>({
         key:k,name:this.produceMeta[k].name,count:basketObj[k]||0,art:prodImg(this.produceMeta[k].img),
-        onShare:()=>this.shareProduce(k)})),
+        onShare:()=>this.shareProduce(k),onSell:()=>this.sellPreserve(k)})),
       kitchenHasFresh:basketOrder.some(k=>this.produceMeta[k]&&!this.produceMeta[k].preserve&&(basketObj[k]||0)>0),
       kitchenHasPreserves:basketOrder.some(k=>this.produceMeta[k]&&this.produceMeta[k].preserve&&(basketObj[k]||0)>0),
       kitchenShelfEmpty:!basketOrder.some(k=>(basketObj[k]||0)>0),
@@ -7196,6 +7501,15 @@ class Component extends DCLogic {
       kitchenSharingOpen:this.sharingUnlocked(st),
       kitchenPreservedCount:st.preservedCount||0,
       kitchenGivenCount:st.given||0,
+      kitchenStallSales:st.stallSales||0,
+      kitchenStallIncome:(st.stallSales||0)*25,
+      kitchenGiveLabel:localText('economy.stall.give','Give'),
+      kitchenSellTitle:localText('economy.stall.buttonTitle','Sell one jar at the village stall and return €25 to the project garden fund'),
+      kitchenStallButton:localText('economy.stall.button','Village stall · €25'),
+      kitchenStallLabel:localText('economy.stall.label','Village stall'),
+      kitchenStallDescription:localText('economy.stall.description','A jar can be gifted, or sold at the small village stall. A sale returns €25 to the shared project fund so the garden can keep investing.'),
+      kitchenStallIncomeLabel:localText('economy.stall.income','€{amount} returned',{amount:(st.stallSales||0)*25}),
+      kitchenStallSalesLabel:localText('economy.stall.sales',(st.stallSales||0)+' jar'+((st.stallSales||0)===1?'':'s')+' sold',{count:st.stallSales||0}),
       onOpenKitchen:()=>this.openKitchen(),
       onCloseKitchen:()=>this.closeKitchen(),
       unlockVisible:!!st.unlockCard,

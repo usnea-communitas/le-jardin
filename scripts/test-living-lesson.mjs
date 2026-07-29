@@ -25,10 +25,14 @@ const base = {
 
 const sanitized = lesson.sanitizeSnapshot({ ...base, season: "Moon", placedTypes: ["rain", "rain", "<script>bad</script>"] });
 assert.equal(sanitized.season, "Summer");
+assert.equal(sanitized.locale, "en");
 assert.deepEqual(sanitized.placedTypes, ["rain"]);
 assert.ok(!JSON.stringify(sanitized).includes("script"));
 assert.equal(sanitized.systems.soil.value, 22);
 assert.equal(lesson.fingerprint(base), lesson.fingerprint(JSON.parse(JSON.stringify(base))));
+assert.equal(lesson.sanitizeSnapshot({ ...base, locale: "pt-PT" }).locale, "pt-BR");
+assert.equal(lesson.sanitizeSnapshot({ ...base, locale: "pl-PL" }).locale, "pl");
+assert.notEqual(lesson.fingerprint({ ...base, locale: "en" }), lesson.fingerprint({ ...base, locale: "cs" }));
 
 const candidates = lesson.buildCandidates(base);
 assert.ok(candidates.length >= 2 && candidates.length <= 4);

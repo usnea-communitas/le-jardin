@@ -178,6 +178,10 @@ try {
     check(completed.history.length === 1, "game state completes and archives the experiment deterministically", completed);
     if (!liveApi) {
       failApi = true;
+      // Completing the trusted experiment can also release a queued garden
+      // milestone. Close that player-facing message before requesting the next
+      // lesson so this assertion tests the fallback path, not dialog stacking.
+      await dismissGardenMessages();
       await button.click();
       await dialog.waitFor({ state: "visible" });
       await dialog.getByText("The garden answers from memory", { exact: true }).waitFor();

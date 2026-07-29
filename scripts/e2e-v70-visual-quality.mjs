@@ -76,6 +76,25 @@ const savedState = overrides => ({
   gatesPlayed: {},
   guests: [],
   visitsDone: {},
+  showSummary: false,
+  gate: null,
+  visit: null,
+  gardenCinematic: null,
+  gardenWhisper: null,
+  gardenWhisperQueue: [],
+  gardenReflection: null,
+  gardenReflectionQueue: [],
+  unlockCard: null,
+  guildCard: null,
+  guildCardQueue: [],
+  arrivalQueue: [],
+  residentStory: null,
+  pestStory: null,
+  livingLesson: null,
+  bookOpen: false,
+  kitchenOpen: false,
+  seedbankOpen: false,
+  returnQueue: [],
   ...overrides
 });
 
@@ -145,6 +164,7 @@ const waitForApp = async () => {
 const setAppState = async patch => {
   await page.evaluate(async next => {
     const app = window.__PERMAGARDEN_APP__;
+    if (typeof app.clearTransientWork === 'function') app.clearTransientWork();
     await new Promise(resolve => app.setState({ ...app.state, ...next }, resolve));
     await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
   }, patch);
@@ -282,6 +302,19 @@ try {
   });
 
   await runCase('learning-model disclosure', async () => {
+    const insightsToggle = page.getByTestId('insights-toggle');
+    const calmDefault = {
+      visible: await insightsToggle.isVisible(),
+      expanded: await insightsToggle.getAttribute('aria-expanded'),
+      focusVisible: await page.locator('.pg-calm-focus').isVisible()
+    };
+    check(
+      calmDefault.visible && calmDefault.expanded === 'false' && calmDefault.focusVisible,
+      'guided play starts with the calm one-action view while keeping the model available',
+      calmDefault
+    );
+    await insightsToggle.click();
+    await page.locator('.pg-score-visual').waitFor({ state: 'visible' });
     const disclosure = await page.locator('.pg-design-panel').evaluate(panel => {
       const contextPattern = /(learning[- ]game|learning model|not (?:a )?scientific|not (?:a )?measurement|how (?:the )?(?:score|connections) works)/i;
       const details = Array.from(panel.querySelectorAll('details')).find(element => contextPattern.test(element.textContent || ''));
