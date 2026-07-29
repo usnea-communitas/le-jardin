@@ -45,13 +45,20 @@ try {
       if (!response.ok) throw new Error(`Garden voice manifest returned ${response.status}`);
       return response.json();
     });
-    const loadDuration = file => new Promise((resolve, reject) => {
-      const audio = new Audio(`assets/audio/garden-voice/${file}`);
+    const loadPathDuration = file => new Promise((resolve, reject) => {
+      const audio = new Audio(file);
       audio.preload = 'metadata';
       audio.addEventListener('loadedmetadata', () => resolve(audio.duration), { once: true });
       audio.addEventListener('error', () => reject(new Error(`Could not load ${file}`)), { once: true });
     });
-    const durations = await Promise.all(manifest.files.map(entry => loadDuration(entry.file)));
+    const durations = await Promise.all(
+      manifest.files.map(entry => loadPathDuration(`assets/audio/garden-voice/${entry.file}`))
+    );
+    const challengeMappings = Object.entries(app.gardenVoiceFiles)
+      .filter(([id]) => id.startsWith('challenge:'));
+    const challengeDurations = await Promise.all(
+      challengeMappings.flatMap(([, localized]) => [localized.en, localized.cs]).map(loadPathDuration)
+    );
     // Two kinds of voice line, two honest budgets. Milestone whispers land over the plot
     // and must stay short; the resident and pest arcs are narrated story beats shown with
     // their own artwork in a dialog, so they run longer by design.
@@ -62,6 +69,13 @@ try {
       entries: manifest.files.length,
       uniqueIds: new Set(manifest.files.map(entry => entry.id)).size,
       runtimeMappings: Object.keys(app.gardenVoiceFiles).length,
+      challengeMappings: challengeMappings.length,
+      challengeCoverage: challengeMappings.every(([id, localized]) => {
+        const key = id.slice('challenge:'.length);
+        return localized &&
+          localized.en === `assets/audio/garden-voice/challenge-${key}.mp3` &&
+          localized.cs === `assets/audio/garden-voice/cs/challenge-${key}.mp3`;
+      }),
       residentCoverage: app.residentStories
         .flatMap(resident => resident.beats.map(beat => beat.id))
         .every(id => manifest.files.some(entry => entry.id === id)),
@@ -69,19 +83,24 @@ try {
       mapped: manifest.files.every(entry => app.gardenVoiceFiles[entry.id] === `assets/audio/garden-voice/${entry.file}`),
       finiteDurations: durations.every((duration, index) =>
         Number.isFinite(duration) && duration >= 2 &&
-        duration <= (longForm(beatIds[index]) ? 32 : 12))
+        duration <= (longForm(beatIds[index]) ? 32 : 12)),
+      finiteChallengeDurations: challengeDurations.every(duration =>
+        Number.isFinite(duration) && duration >= 2 && duration <= 12)
     };
   });
   check(voiceAudit.voice === 'The Garden of Menet', 'garden voice uses the selected Voice 1 identity');
   check(
     voiceAudit.entries === 31 &&
       voiceAudit.uniqueIds === 31 &&
-      voiceAudit.runtimeMappings === 31 &&
+      voiceAudit.runtimeMappings === 43 &&
+      voiceAudit.challengeMappings === 11 &&
+      voiceAudit.challengeCoverage &&
       voiceAudit.residentCoverage,
-    'all 31 intentional garden voice moments, including resident stories, are unique and mapped'
+    'all 42 intentional garden voice moments, including bilingual challenges and resident stories, are unique and mapped'
   );
   check(voiceAudit.captionsComplete && voiceAudit.mapped, 'every garden voice has an exact caption and runtime mapping');
   check(voiceAudit.finiteDurations, 'garden voice MP3 files respect their category budget (whispers under 12s, story beats under 32s)');
+  check(voiceAudit.finiteChallengeDurations, 'English and Czech challenge voices stay within the short-form voice budget');
 
   await page.evaluate(() => {
     const app = window.__PERMAGARDEN_APP__;

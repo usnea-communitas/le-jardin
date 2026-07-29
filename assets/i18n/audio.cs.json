@@ -1,0 +1,407 @@
+{
+  "locale": "cs",
+  "languageCode": "cs",
+  "voice": {
+    "id": "Ks7JQ2YMsS1TBefsBD27",
+    "name": "The Garden of Menet",
+    "model": "eleven_v3",
+    "outputFormat": "mp3_44100_128",
+    "seed": 240517,
+    "targetLufs": -16,
+    "truePeakDb": -2
+  },
+  "cues": [
+    {
+      "id": "story-01",
+      "kind": "story",
+      "targetPath": "assets/audio/story/cs/narration-01.mp3",
+      "input": "[softly] Na kraji Menetu, pod kopci a širým francouzským nebem… čekám.",
+      "caption": "Na kraji Menetu, pod kopci a širým francouzským nebem… čekám.",
+      "durationMs": 5680
+    },
+    {
+      "id": "story-02",
+      "kind": "story",
+      "targetPath": "assets/audio/story/cs/narration-02.mp3",
+      "input": "[reflective] Ticho neznamená prázdnotu. V mé půdě si kořeny hledají cestu — a tisíc drobných životů čeká.",
+      "caption": "Ticho neznamená prázdnotu. V mé půdě si kořeny hledají cestu — a tisíc drobných životů čeká.",
+      "durationMs": 8480
+    },
+    {
+      "id": "story-03",
+      "kind": "story",
+      "targetPath": "assets/audio/story/cs/narration-03.mp3",
+      "input": "[concerned] Samotné slunce ale nestačí. Holá půda ztrácí vodu. Osamělé rostliny slábnou. A co se nesdílí… mizí.",
+      "caption": "Samotné slunce ale nestačí. Holá půda ztrácí vodu. Osamělé rostliny slábnou. A co se nesdílí… mizí.",
+      "durationMs": 9600
+    },
+    {
+      "id": "story-04",
+      "kind": "story",
+      "targetPath": "assets/audio/story/cs/narration-04.mp3",
+      "input": "[with quiet hope] Pak přišly mladé ruce. Ne s dokonalým plánem, ale s otázkami, semínky — a odvahou začít.",
+      "caption": "Pak přišly mladé ruce. Ne s dokonalým plánem, ale s otázkami, semínky — a odvahou začít.",
+      "durationMs": 7520
+    },
+    {
+      "id": "story-05",
+      "kind": "story",
+      "targetPath": "assets/audio/story/cs/narration-05.mp3",
+      "input": "[warmly] Zachytili déšť. Mulč ochladil půdu. Květy přivolaly opylovače. Z toho, co včera zbývalo, vyrostl nový život.",
+      "caption": "Zachytili déšť. Mulč ochladil půdu. Květy přivolaly opylovače. Z toho, co včera zbývalo, vyrostl nový život.",
+      "durationMs": 9840
+    },
+    {
+      "id": "story-06",
+      "kind": "story",
+      "targetPath": "assets/audio/story/cs/narration-06.mp3",
+      "input": "[with growing wonder] Stala jsem se živou sítí: půdou a vodou, živočichy a lidmi, úrodou a štědrostí.",
+      "caption": "Stala jsem se živou sítí: půdou a vodou, živočichy a lidmi, úrodou a štědrostí.",
+      "durationMs": 8000
+    },
+    {
+      "id": "story-07",
+      "kind": "story",
+      "targetPath": "assets/audio/story/cs/narration-07.mp3",
+      "input": "[almost a whisper] Teď potřebuji tvé oči. Naslouchej. Všímej si, co chybí. Pomoz každé části najít její místo… a pomoz mi ožít.",
+      "caption": "Teď potřebuji tvé oči. Naslouchej. Všímej si, co chybí. Pomoz každé části najít její místo… a pomoz mi ožít.",
+      "durationMs": 11360
+    },
+    {
+      "id": "soil",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/milestone-soil.mp3",
+      "input": "[softly] Nejdřív mě nasyť. Všechno, co vidíš, začíná životem pod povrchem.",
+      "caption": "Nejdřív mě nasyť. Všechno, co vidíš, začíná životem pod povrchem.",
+      "durationMs": 5520
+    },
+    {
+      "id": "water",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/milestone-water.mp3",
+      "input": "[gently] Déšť by neměl hned odtéct. Dej mu užitečné místo, kde se může na chvíli zastavit.",
+      "caption": "Déšť by neměl hned odtéct. Dej mu užitečné místo, kde se může na chvíli zastavit.",
+      "durationMs": 5840
+    },
+    {
+      "id": "food",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/milestone-food.mp3",
+      "input": "[warmly] Ať jedno místo živí kořeny, listy i plody — a také lidi, kteří o mě pečují.",
+      "caption": "Ať jedno místo živí kořeny, listy i plody — a také lidi, kteří o mě pečují.",
+      "durationMs": 6400
+    },
+    {
+      "id": "shelter",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/milestone-shelter.mp3",
+      "input": "[with quiet wonder] Nech trochu prostoru i životům, kterých si možná zpočátku ani nevšimneš.",
+      "caption": "Nech trochu prostoru i životům, kterých si možná zpočátku ani nevšimneš.",
+      "durationMs": 3280
+    },
+    {
+      "id": "share",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/milestone-share.mp3",
+      "input": "[warmly] Co opustí mou branku, není ztracené. Stává se začátkem pro někoho dalšího.",
+      "caption": "Co opustí mou branku, není ztracené. Stává se začátkem pro někoho dalšího.",
+      "durationMs": 6320
+    },
+    {
+      "id": "guild-discovered",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/guild-discovered.mp3",
+      "input": "[with growing wonder] Teď už vidíš i to, co je mezi jednotlivými prvky. Právě v jejich vztazích spočívá síla mého uspořádání.",
+      "caption": "Teď už vidíš i to, co je mezi jednotlivými prvky. Právě v jejich vztazích spočívá síla mého uspořádání.",
+      "durationMs": 8400
+    },
+    {
+      "id": "reflection-three",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/reflection-three.mp3",
+      "input": "[reflective] Cítím, jak si půda, voda a úroda začínají navzájem odpovídat. Odolnost roste v jejich rozhovoru.",
+      "caption": "Cítím, jak si půda, voda a úroda začínají navzájem odpovídat. Odolnost roste v jejich rozhovoru.",
+      "durationMs": 7920
+    },
+    {
+      "id": "reflection-share",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/reflection-share.mp3",
+      "input": "[warmly] Vzniklo tu místo pro životy, které možná nikdy nepotkáš. A jeden dar mohl pokračovat dál za mou branku.",
+      "caption": "Vzniklo tu místo pro životy, které možná nikdy nepotkáš. A jeden dar mohl pokračovat dál za mou branku.",
+      "durationMs": 8960
+    },
+    {
+      "id": "cinematic-spring",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/season-spring.mp3",
+      "input": "[softly, with new hope] Mráz povolil své sevření. Noví společníci přicházejí opatrně a loňský déšť stoupá půdou vzhůru.",
+      "caption": "Mráz povolil své sevření. Noví společníci přicházejí opatrně a loňský déšť stoupá půdou vzhůru.",
+      "durationMs": 8560
+    },
+    {
+      "id": "cinematic-summer",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/season-summer.mp3",
+      "input": "[warmly] Mé listy jsou plné světla. Voda, stín a rozmanité květy rozhodují, zda si hojnost udrží rovnováhu.",
+      "caption": "Mé listy jsou plné světla. Voda, stín a rozmanité květy rozhodují, zda si hojnost udrží rovnováhu.",
+      "durationMs": 8720
+    },
+    {
+      "id": "cinematic-autumn",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/season-autumn.mp3",
+      "input": "[reflective] Plody, listí i semena přicházejí najednou. To, co teď sdílíš, uchováš nebo vrátíš půdě, utváří tiché měsíce před námi.",
+      "caption": "Plody, listí i semena přicházejí najednou. To, co teď sdílíš, uchováš nebo vrátíš půdě, utváří tiché měsíce před námi.",
+      "durationMs": 10160
+    },
+    {
+      "id": "cinematic-winter",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/season-winter.mp3",
+      "input": "[almost a whisper] Stáhla jsem svou sílu dovnitř. Pod přikrývkou půdy a pod kůrou čeká mnoho životů — skrytých, ale stále přítomných.",
+      "caption": "Stáhla jsem svou sílu dovnitř. Pod přikrývkou půdy a pod kůrou čeká mnoho životů — skrytých, ale stále přítomných.",
+      "durationMs": 10480
+    },
+    {
+      "id": "challenge:mulch",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-mulch.mp3",
+      "input": "[warmly] Nejdřív přišla řada na má nejsušší místa. Teď slunce dosáhne k listům, aniž by půdě tolik bralo.",
+      "caption": "Nejdřív přišla řada na má nejsušší místa. Teď slunce dosáhne k listům, aniž by půdě tolik bralo.",
+      "durationMs": 7200
+    },
+    {
+      "id": "challenge:compost",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-compost.mp3",
+      "input": "[softly] Včerejší zbytky se zahřívají. Nic nezmizelo, jen se proměnila jejich práce.",
+      "caption": "Včerejší zbytky se zahřívají. Nic nezmizelo, jen se proměnila jejich práce.",
+      "durationMs": 6480
+    },
+    {
+      "id": "challenge:hugel",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-hugel.mp3",
+      "input": "[reflective] Dřevo, které kdysi spadlo, může pomoci dešti zůstat déle pod novými kořeny. Sleduj, co ten val udělá za sucha.",
+      "caption": "Dřevo, které kdysi spadlo, může pomoci dešti zůstat déle pod novými kořeny. Sleduj, co ten val udělá za sucha.",
+      "durationMs": 8400
+    },
+    {
+      "id": "challenge:rain",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-rain.mp3",
+      "input": "[gently] Příští déšť se zastaví, naplní nádrž, bezpečně přeteče a vsákne se — místo aby spěchal pryč.",
+      "caption": "Příští déšť se zastaví, naplní nádrž, bezpečně přeteče a vsákne se — místo aby spěchal pryč.",
+      "durationMs": 8720
+    },
+    {
+      "id": "challenge:kitchen",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-kitchen.mp3",
+      "input": "[warmly] Léto teď může zanechat dary i pro zimu.",
+      "caption": "Léto teď může zanechat dary i pro zimu.",
+      "durationMs": 2560
+    },
+    {
+      "id": "challenge:ladybug",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-ladybug.mp3",
+      "input": "[with quiet wonder] Nemusel utichnout všechen hmyz. Místo toho se obnovil rozhovor mezi jeho obyvateli.",
+      "caption": "Nemusel utichnout všechen hmyz. Místo toho se obnovil rozhovor mezi jeho obyvateli.",
+      "durationMs": 7680
+    },
+    {
+      "id": "challenge:bee",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-bee.mp3",
+      "input": "[with quiet wonder] Jedna sezóna květů teď předává svou práci další.",
+      "caption": "Jedna sezóna květů teď předává svou práci další.",
+      "durationMs": 4000
+    },
+    {
+      "id": "challenge:shelter",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-shelter.mp3",
+      "input": "[almost a whisper] Ani když spím, nejsem prázdná. Pro tiché období tu zůstaly bezpečné úkryty.",
+      "caption": "Ani když spím, nejsem prázdná. Pro tiché období tu zůstaly bezpečné úkryty.",
+      "durationMs": 7440
+    },
+    {
+      "id": "challenge:pexeso",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-pexeso.mp3",
+      "input": "[with growing wonder] Už vidíš i to, co je mezi jednotlivými prvky — právě tam žije síla mého uspořádání.",
+      "caption": "Už vidíš i to, co je mezi jednotlivými prvky — právě tam žije síla mého uspořádání.",
+      "durationMs": 6960
+    },
+    {
+      "id": "challenge:seeds",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-seeds.mp3",
+      "input": "[softly] Zítřejší zahrada je už ukrytá v hrsti pečlivě vybraných semen.",
+      "caption": "Zítřejší zahrada je už ukrytá v hrsti pečlivě vybraných semen.",
+      "durationMs": 4720
+    },
+    {
+      "id": "challenge:quiz",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/challenge-quiz.mp3",
+      "input": "[reflective] Než přišel čin, přišla krátká pauza. Je to jeden z nejlepších nástrojů, které mi můžeš přinést.",
+      "caption": "Než přišel čin, přišla krátká pauza. Je to jeden z nejlepších nástrojů, které mi můžeš přinést.",
+      "durationMs": 7680
+    },
+    {
+      "id": "hedgehog-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/resident-hedgehog-1.mp3",
+      "input": "[softly] Někdo se v noci pohyboval spadaným listím. Malý, nespěchající, jistý svou cestou. Nepřivolala jsem ho a nemohu si ho ponechat — ale úkryt, který tu zůstal, mu umožnil projít.",
+      "caption": "Někdo se v noci pohyboval spadaným listím. Malý, nespěchající, jistý svou cestou. Nepřivolala jsem ho a nemohu si ho ponechat — ale úkryt, který tu zůstal, mu umožnil projít.",
+      "durationMs": 16320
+    },
+    {
+      "id": "hedgehog-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/resident-hedgehog-2.mp3",
+      "input": "[with quiet wonder] Pod dřevem a mulčem něco přečkalo nejchladnější týdny ve spánku. Není to jen štěstí. Jeden kout zůstal nerušený, i když by bylo snazší ho uklidit.",
+      "caption": "Pod dřevem a mulčem něco přečkalo nejchladnější týdny ve spánku. Není to jen štěstí. Jeden kout zůstal nerušený, i když by bylo snazší ho uklidit.",
+      "durationMs": 12160
+    },
+    {
+      "id": "hedgehog-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/resident-hedgehog-3.mp3",
+      "input": "[warmly] Vedle prvních stop jsou teď i menší. Nemohu slíbit, že všechny přežijí celý rok — to nemůže nikdo. Ale zahrada bezpečná ke spánku se stala zahradou bezpečnou i pro mláďata. A právě o to jde.",
+      "caption": "Vedle prvních stop jsou teď i menší. Nemohu slíbit, že všechny přežijí celý rok — to nemůže nikdo. Ale zahrada bezpečná ke spánku se stala zahradou bezpečnou i pro mláďata. A právě o to jde.",
+      "durationMs": 13920
+    },
+    {
+      "id": "bee-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/resident-bee-1.mp3",
+      "input": "[softly] Někdo přiletěl odjinud a rozhodl se, že tahle cesta stojí za to. Nepřivolala jsem ho. Zpráva se tu šíří jazykem vůní a vzdáleností.",
+      "caption": "Někdo přiletěl odjinud a rozhodl se, že tahle cesta stojí za to. Nepřivolala jsem ho. Zpráva se tu šíří jazykem vůní a vzdáleností.",
+      "durationMs": 11040
+    },
+    {
+      "id": "bee-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/resident-bee-2.mp3",
+      "input": "[warmly] Už několik týdnů je tu po zavření jednoho květu připravený další. Taková návaznost se navrhuje mnohem hůř než jediný krásný záhon — a vznikla díky tvé péči, aniž by si o ni kdo řekl.",
+      "caption": "Už několik týdnů je tu po zavření jednoho květu připravený další. Taková návaznost se navrhuje mnohem hůř než jediný krásný záhon — a vznikla díky tvé péči, aniž by si o ni kdo řekl.",
+      "durationMs": 15040
+    },
+    {
+      "id": "bee-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/resident-bee-3.mp3",
+      "input": "[reflective] Tam, kde byly květy, se teď nasazují plody. Nedokážu říct, která návštěva dala vzniknout kterému plodu — takhle to nefunguje. Ale návštěvníci přišli, úroda je následovala a obojí patří k témuž uspořádání.",
+      "caption": "Tam, kde byly květy, se teď nasazují plody. Nedokážu říct, která návštěva dala vzniknout kterému plodu — takhle to nefunguje. Ale návštěvníci přišli, úroda je následovala a obojí patří k témuž uspořádání.",
+      "durationMs": 16800
+    },
+    {
+      "id": "worm-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/resident-worm-1.mp3",
+      "input": "[almost a whisper] Pod přikrývkou začalo něco, co téměř nikdy neuvidíš. Jako pozvání stačila organická hmota a trochu stínu.",
+      "caption": "Pod přikrývkou začalo něco, co téměř nikdy neuvidíš. Jako pozvání stačila organická hmota a trochu stínu.",
+      "durationMs": 8480
+    },
+    {
+      "id": "worm-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/resident-worm-2.mp3",
+      "input": "[reflective] Déšť se teď vsakuje jinak. Chodbičky a půda zpracovaná žížalami mění cestu vody i to, kam až mohou kořeny. Půda má svůj vlastní čas — ne náš.",
+      "caption": "Déšť se teď vsakuje jinak. Chodbičky a půda zpracovaná žížalami mění cestu vody i to, kam až mohou kořeny. Půda má svůj vlastní čas — ne náš.",
+      "durationMs": 11600
+    },
+    {
+      "id": "worm-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/resident-worm-3.mp3",
+      "input": "[with quiet wonder] Ani v chladných měsících se práce pod mulčem úplně nezastavila. Vzniklo tu něco, co už nepotřebuje být pod neustálým dohledem.",
+      "caption": "Ani v chladných měsících se práce pod mulčem úplně nezastavila. Vzniklo tu něco, co už nepotřebuje být pod neustálým dohledem.",
+      "durationMs": 8880
+    },
+    {
+      "id": "aphid-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/pest-aphid-1.mp3",
+      "input": "[quietly concerned] Nejmladší výhonky se kroutí. Našlo je něco drobného — a není samo. Přibývají rychleji, než na ně tady cokoli stačí odpovědět. Neříkám ti to proto, abych tě vyděsila. Říkám ti to, protože chceš vidět to, co vidím já.",
+      "caption": "Nejmladší výhonky se kroutí. Našlo je něco drobného — a není samo. Přibývají rychleji, než na ně tady cokoli stačí odpovědět. Neříkám ti to proto, abych tě vyděsila. Říkám ti to, protože chceš vidět to, co vidím já.",
+      "durationMs": 17120
+    },
+    {
+      "id": "aphid-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/pest-aphid-2.mp3",
+      "input": "[reflective] Můžeš se ptát, co je odstraní. Raději ti řeknu, co tu chybí. Nic je neloví. Chybí dlouhá sezóna květů, která by uživila jejich lovce mezi dvěma hostinami, i suchá škvíra, kde by přečkal zimu. Mšice nejsou problém — jsou zprávou o tom, co tu schází.",
+      "caption": "Můžeš se ptát, co je odstraní. Raději ti řeknu, co tu chybí. Nic je neloví. Chybí dlouhá sezóna květů, která by uživila jejich lovce mezi dvěma hostinami, i suchá škvíra, kde by přečkal zimu. Mšice nejsou problém — jsou zprávou o tom, co tu schází.",
+      "durationMs": 21920
+    },
+    {
+      "id": "aphid-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/pest-aphid-3.mp3",
+      "input": "[warmly] Na stejných stoncích jsou teď slunéčka. Nemohu slíbit, že odstraní každou mšici — a ani bych to nechtěla. Lovec, který sní všechnu kořist, už nemá kde žít. Nevznikla tu zbraň. Vzniklo místo, kde může zůstat dost dlouho, aby jeho přítomnost začala mít význam.",
+      "caption": "Na stejných stoncích jsou teď slunéčka. Nemohu slíbit, že odstraní každou mšici — a ani bych to nechtěla. Lovec, který sní všechnu kořist, už nemá kde žít. Nevznikla tu zbraň. Vzniklo místo, kde může zůstat dost dlouho, aby jeho přítomnost začala mít význam.",
+      "durationMs": 19920
+    },
+    {
+      "id": "slug-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/pest-slug-1.mp3",
+      "input": "[quietly concerned] Ráno byly mladé listy děravé a přes půdu se stále leskly stopy slizu. Vlhká přikrývka prospívá mnoha zdejším životům. A také tomuto.",
+      "caption": "Ráno byly mladé listy děravé a přes půdu se stále leskly stopy slizu. Vlhká přikrývka prospívá mnoha zdejším životům. A také tomuto.",
+      "durationMs": 11600
+    },
+    {
+      "id": "slug-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/pest-slug-2.mp3",
+      "input": "[reflective] Mulč zadržuje vodu, živí půdu a skrývá slimáky před sluncem. Je to jedno rozhodnutí, ne tři. Zatím tu však není nic, co by po nocích hledalo potravu. Chybí nerušený kout, hlubší půdní pokryv i důvod, aby tudy noční návštěvník prošel. Úkryt bez lovce je úkrytem jen pro jednu stranu.",
+      "caption": "Mulč zadržuje vodu, živí půdu a skrývá slimáky před sluncem. Je to jedno rozhodnutí, ne tři. Zatím tu však není nic, co by po nocích hledalo potravu. Chybí nerušený kout, hlubší půdní pokryv i důvod, aby tudy noční návštěvník prošel. Úkryt bez lovce je úkrytem jen pro jednu stranu.",
+      "durationMs": 23520
+    },
+    {
+      "id": "slug-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/pest-slug-3.mp3",
+      "input": "[warmly] Po setmění teď někdo prochází listím. Slimáci tu stále jsou — a budou, což není selhání. Ježci, ptáci a střevlíci jedí mnoho různých věcí; rovnováha, kterou udržují, nikdy neznamená úplné vyčištění. Mohu poctivě říct jen to, že listy mají méně děr. To stačí.",
+      "caption": "Po setmění teď někdo prochází listím. Slimáci tu stále jsou — a budou, což není selhání. Ježci, ptáci a střevlíci jedí mnoho různých věcí; rovnováha, kterou udržují, nikdy neznamená úplné vyčištění. Mohu poctivě říct jen to, že listy mají méně děr. To stačí.",
+      "durationMs": 24880
+    },
+    {
+      "id": "caterpillar-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/pest-caterpillar-1.mp3",
+      "input": "[quietly concerned] Bělásci přiletěli k brukvím a to, co po sobě zanechali, se teď živí. Je snadné se zlobit. Raději se nejprve podívej: stejná křídla vítaná mezi květy nakladla i tato vajíčka. Nikdy to nebyli dva různí návštěvníci.",
+      "caption": "Bělásci přiletěli k brukvím a to, co po sobě zanechali, se teď živí. Je snadné se zlobit. Raději se nejprve podívej: stejná křídla vítaná mezi květy nakladla i tato vajíčka. Nikdy to nebyli dva různí návštěvníci.",
+      "durationMs": 17440
+    },
+    {
+      "id": "caterpillar-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/pest-caterpillar-2.mp3",
+      "input": "[reflective] Housenky jsou potravou. Není to útěcha, ale skutečnost, kterou tato zahrada zatím neumí využít, protože je tu nic neloví. Žádná budka, žádná čistá mělká voda, žádný důvod, aby pták zahrnul tyto řádky do své ranní cesty.",
+      "caption": "Housenky jsou potravou. Není to útěcha, ale skutečnost, kterou tato zahrada zatím neumí využít, protože je tu nic neloví. Žádná budka, žádná čistá mělká voda, žádný důvod, aby pták zahrnul tyto řádky do své ranní cesty.",
+      "durationMs": 17840
+    },
+    {
+      "id": "caterpillar-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/pest-caterpillar-3.mp3",
+      "input": "[warmly] Ptáci teď brzy ráno prohledávají brukve. Některé housenky přesto dokončí proměnu, stanou se motýly a vrátí se ke květům — tak je to správně. Nic odsud nezmizelo. Jen přibyla chybějící část a zbytek se uspořádal sám.",
+      "caption": "Ptáci teď brzy ráno prohledávají brukve. Některé housenky přesto dokončí proměnu, stanou se motýly a vrátí se ke květům — tak je to správně. Nic odsud nezmizelo. Jen přibyla chybějící část a zbytek se uspořádal sám.",
+      "durationMs": 17680
+    },
+    {
+      "id": "ending",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/cs/ending.mp3",
+      "input": "[with quiet gratitude] Nejsem hotová — a právě v tom je smysl. Díky tvé péči mohu pokračovat: další sezónou, další návštěvou i dalším darem.",
+      "caption": "Nejsem hotová — a právě v tom je smysl. Díky tvé péči mohu pokračovat: další sezónou, další návštěvou i dalším darem.",
+      "durationMs": 10880
+    }
+  ]
+}

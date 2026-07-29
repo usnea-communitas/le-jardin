@@ -35,6 +35,7 @@ const get = await call("GET", null);
 assert.equal(get.statusCode, 200);
 assert.equal(get.body.model, "openai/gpt-5.6-luna");
 assert.equal(get.body.auth, "vercel-oidc");
+assert.deepEqual(get.body.locales, ["en", "cs", "de", "fr", "es", "pt-BR", "pl", "ru", "zh-CN"]);
 
 const method = await call("DELETE", null);
 assert.equal(method.statusCode, 405);
@@ -62,5 +63,13 @@ assert.equal(fallback.body.mode, "fallback");
 assert.equal(fallback.body.fallbackReason, "gateway_unavailable");
 assert.ok(fallback.body.lesson.experiment.action.length > 10);
 assert.equal(fallback.headers["Cache-Control"], "no-store");
+
+process.env.LIVING_LESSON_FORCE_FALLBACK = "1";
+const localizedFallback = await call("POST", {
+  clientId: "garden_87654321",
+  snapshot: { ...snapshot, locale: "zh-Hans-CN" }
+}, { "content-type": "application/json", origin: "https://garden.example", host: "garden.example" });
+delete process.env.LIVING_LESSON_FORCE_FALLBACK;
+assert.equal(localizedFallback.body.lesson.fingerprint.startsWith("living-lesson-v3-i18n-"), true);
 
 console.log("Living Lesson API fallback and boundary tests passed.");

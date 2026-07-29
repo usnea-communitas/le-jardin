@@ -1,0 +1,92 @@
+{
+  "locale": "en",
+  "languageCode": "en",
+  "voice": {
+    "id": "Ks7JQ2YMsS1TBefsBD27",
+    "name": "The Garden of Menet",
+    "model": "eleven_v3",
+    "outputFormat": "mp3_44100_128",
+    "seed": 240517,
+    "targetLufs": -16,
+    "truePeakDb": -2
+  },
+  "cues": [
+    {
+      "id": "challenge:mulch",
+      "targetPath": "assets/audio/garden-voice/challenge-mulch.mp3",
+      "input": "[warmly] My driest places came first. Now the sun can reach the leaves without taking so much from the soil.",
+      "caption": "My driest places came first. Now the sun can reach the leaves without taking so much from the soil.",
+      "durationMs": 7280
+    },
+    {
+      "id": "challenge:compost",
+      "targetPath": "assets/audio/garden-voice/challenge-compost.mp3",
+      "input": "[softly] Yesterday's scraps are warming. Nothing disappeared; only their work changed.",
+      "caption": "Yesterday's scraps are warming. Nothing disappeared; only their work changed.",
+      "durationMs": 7520
+    },
+    {
+      "id": "challenge:hugel",
+      "targetPath": "assets/audio/garden-voice/challenge-hugel.mp3",
+      "input": "[reflective] Wood that once fell can help rain linger beneath new roots. Watch what the mound does when the dry days come.",
+      "caption": "Wood that once fell can help rain linger beneath new roots. Watch what the mound does when the dry days come.",
+      "durationMs": 9280
+    },
+    {
+      "id": "challenge:rain",
+      "targetPath": "assets/audio/garden-voice/challenge-rain.mp3",
+      "input": "[with quiet hope] The next rain will pause, fill the tank, overflow safely, and sink in — instead of hurrying away.",
+      "caption": "The next rain will pause, fill the tank, overflow safely, and sink in — instead of hurrying away.",
+      "durationMs": 8800
+    },
+    {
+      "id": "challenge:kitchen",
+      "targetPath": "assets/audio/garden-voice/challenge-kitchen.mp3",
+      "input": "[warmly] Summer can leave gifts for winter now.",
+      "caption": "Summer can leave gifts for winter now.",
+      "durationMs": 2720
+    },
+    {
+      "id": "challenge:ladybug",
+      "targetPath": "assets/audio/garden-voice/challenge-ladybug.mp3",
+      "input": "[gently] Not every insect had to fall silent. Instead, the conversation between the garden's inhabitants returned.",
+      "caption": "Not every insect had to fall silent. Instead, the conversation between the garden's inhabitants returned.",
+      "durationMs": 7680
+    },
+    {
+      "id": "challenge:bee",
+      "targetPath": "assets/audio/garden-voice/challenge-bee.mp3",
+      "input": "[with growing wonder] One season of flowers now passes its work to the next.",
+      "caption": "One season of flowers now passes its work to the next.",
+      "durationMs": 3840
+    },
+    {
+      "id": "challenge:shelter",
+      "targetPath": "assets/audio/garden-voice/challenge-shelter.mp3",
+      "input": "[softly] Even while I sleep, I am not empty. Safe shelter remains here for the quiet season.",
+      "caption": "Even while I sleep, I am not empty. Safe shelter remains here for the quiet season.",
+      "durationMs": 6880
+    },
+    {
+      "id": "challenge:pexeso",
+      "targetPath": "assets/audio/garden-voice/challenge-pexeso.mp3",
+      "input": "[with quiet delight] Now you see what lives between the elements. That is where the strength of my design is found.",
+      "caption": "Now you see what lives between the elements. That is where the strength of my design is found.",
+      "durationMs": 7920
+    },
+    {
+      "id": "challenge:seeds",
+      "targetPath": "assets/audio/garden-voice/challenge-seeds.mp3",
+      "input": "[tenderly] Tomorrow's garden is already held in a handful of carefully chosen seeds.",
+      "caption": "Tomorrow's garden is already held in a handful of carefully chosen seeds.",
+      "durationMs": 4720
+    },
+    {
+      "id": "challenge:quiz",
+      "targetPath": "assets/audio/garden-voice/challenge-quiz.mp3",
+      "input": "[reflective] Before action came a short pause. It is one of the best tools you can bring me.",
+      "caption": "Before action came a short pause. It is one of the best tools you can bring me.",
+      "durationMs": 6160
+    }
+  ]
+}

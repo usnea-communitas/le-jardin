@@ -72,7 +72,10 @@ try {
     const media = {
       audio: requests.filter(url => /\.(?:mp3|wav|ogg)(?:\?|$)/i.test(url)),
       video: requests.filter(url => /\.(?:webm|mp4)(?:\?|$)/i.test(url)),
-      storyFrames: requests.filter(url => /\/assets\/story\/story-\d+[^/]*\.webp(?:\?|$)/i.test(url))
+      // A browser may request the same responsive image twice while the story
+      // shell settles. The resilience contract is about how many distinct
+      // frames are warmed, not transport-level retries.
+      storyFrames: [...new Set(requests.filter(url => /\/assets\/story\/story-\d+[^/]*\.webp(?:\?|$)/i.test(url)))]
     };
     check(media.audio.length === 0, 'the unopened story makes no eager audio request', media);
     check(media.video.length === 0, 'ambient video stays unloaded behind the story cover', media);
