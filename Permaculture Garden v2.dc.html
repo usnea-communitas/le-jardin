@@ -633,10 +633,15 @@ html,body{margin:0;padding:0}
 .pg-nudge-text strong{font:800 13.5px 'Hanken Grotesk',sans-serif;color:#5E4A16}
 .pg-nudge-text small{font:600 12px/1.45 'Hanken Grotesk',sans-serif;color:#6E6552}
 @keyframes pgCherryCall{0%,100%{filter:drop-shadow(0 3px 4px rgba(40,30,10,.35)) drop-shadow(0 0 6px rgba(201,154,60,.85));transform:translate(-50%,-50%) scale(1)}50%{filter:drop-shadow(0 3px 6px rgba(40,30,10,.4)) drop-shadow(0 0 16px rgba(255,196,64,1));transform:translate(-50%,-50%) scale(1.16)}}
+.pg-cherry-cluster{isolation:isolate;border-radius:50%;outline:none}
+.pg-cherry-cluster:before{content:"";position:absolute;inset:-9px;z-index:-1;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,239,140,.9) 0%,rgba(255,207,63,.52) 38%,rgba(255,190,45,.16) 62%,transparent 74%);box-shadow:0 0 9px 3px rgba(255,213,77,.64),0 0 23px 8px rgba(255,194,45,.28);animation:pgRipeAura 2.7s ease-in-out infinite}
+.pg-cherry-cluster:focus-visible{outline:3px solid #FFF3A0;outline-offset:5px}
+.pg-cherry-cluster img{position:relative;z-index:1;filter:saturate(1.22) contrast(1.06)}
+@keyframes pgRipeAura{0%,100%{opacity:.72;transform:scale(.9)}50%{opacity:1;transform:scale(1.12)}}
 .pg-cherry-call{animation:pgCherryCall 3.2s ease-in-out infinite!important}
 @keyframes pgShareCall{0%,100%{box-shadow:0 0 0 0 rgba(94,126,74,.55)}60%{box-shadow:0 0 0 8px rgba(94,126,74,0)}}
 .pg-share-call{animation:pgShareCall 3.4s ease-in-out infinite}
-@media (prefers-reduced-motion:reduce){.pg-nudge-bar,.pg-cherry-call,.pg-share-call{animation:none!important}}
+@media (prefers-reduced-motion:reduce){.pg-nudge-bar,.pg-cherry-call,.pg-share-call,.pg-cherry-cluster:before{animation:none!important}}
 @media (prefers-reduced-motion:reduce){.pg-living-lesson-trigger:after{animation:none;opacity:0}}
 .pg-living-lesson-trigger:disabled{cursor:not-allowed;opacity:.56;box-shadow:none}
 .pg-living-lesson-progress{margin-top:8px;padding-top:8px;border-top:1px solid rgba(89,111,73,.17)}
@@ -931,7 +936,7 @@ html,body{margin:0;padding:0}
 .pg-view-size{position:relative;flex:none}
 .pg-view-size-toggle{height:34px;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(92,116,74,.32);border-radius:18px;background:linear-gradient(145deg,#F8F5EA,#EAF1DC);color:#47613C;padding:0 10px;font:800 11px 'Hanken Grotesk',sans-serif;cursor:pointer;white-space:nowrap;box-shadow:0 7px 17px -15px rgba(39,58,31,.9)}
 .pg-view-size-toggle:hover,.pg-view-size-toggle[aria-expanded="true"]{border-color:#6F8E5B;background:#E5EED5;color:#354E2E}
-.pg-view-size-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:190;width:258px;padding:12px;border:1px solid rgba(100,78,45,.26);border-radius:16px;background:linear-gradient(150deg,#FFFAF0,#EEE4CF);box-shadow:0 24px 48px -25px rgba(17,28,15,.86)}
+.pg-view-size-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:190;width:min(340px,calc(100vw - 32px));padding:13px;border:1px solid rgba(100,78,45,.26);border-radius:16px;background:linear-gradient(150deg,#FFFAF0,#EEE4CF);box-shadow:0 24px 48px -25px rgba(17,28,15,.86)}
 .pg-view-size-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
 .pg-view-size-panel-head strong{display:block;font:700 16px/1.1 Georgia,'Times New Roman',serif;color:#30402D}
 .pg-view-size-panel-head span{display:block;margin-top:3px;font-size:11px;line-height:1.35;color:#746A56}
@@ -940,6 +945,12 @@ html,body{margin:0;padding:0}
 .pg-view-size-option{min-width:0;border:1px solid rgba(109,88,56,.22);border-radius:11px;background:rgba(255,253,246,.76);color:#625A4A;padding:9px 5px;font:800 11px/1.2 'Hanken Grotesk',sans-serif;cursor:pointer}
 .pg-view-size-option span{display:block;margin-top:3px;font-weight:600;font-size:11px;color:#8A7E66}
 .pg-view-size-option.is-active{border-color:#6F8E5B;background:#EAF1DC;color:#36502F;box-shadow:0 0 0 2px rgba(111,142,91,.16)}
+.pg-view-size-sliders{display:grid;gap:10px;margin-top:12px;padding-top:11px;border-top:1px solid rgba(107,85,53,.17)}
+.pg-view-slider{display:grid;grid-template-columns:72px minmax(0,1fr) 42px;align-items:center;gap:9px;color:#514A3D;font:800 11px 'Hanken Grotesk',sans-serif}
+.pg-view-slider output{text-align:right;color:#5E7E4A;font-variant-numeric:tabular-nums}
+.pg-view-slider input[type="range"]{width:100%;height:24px;margin:0;accent-color:#5E7E4A;cursor:ew-resize}
+.pg-view-size-note{margin-top:9px;padding:8px 9px;border-radius:10px;background:rgba(255,253,246,.66);font-size:11px;line-height:1.4;color:#716651}
+.pg-basket-stall-note{margin:-2px 0 9px;padding:7px 9px;border:1px solid rgba(201,154,60,.25);border-radius:10px;background:#FBF3DC;color:#675328;font-size:11px;line-height:1.4}
 .pg-calm-focus{padding:13px 14px;border:1px solid rgba(94,126,74,.28);border-radius:13px;background:linear-gradient(145deg,#F4F6EA,#E7EED9)}
 .pg-calm-focus-kicker{font:900 11px/1 'Hanken Grotesk',sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#6E805D;margin-bottom:7px}
 .pg-calm-focus strong{display:block;font:700 17px/1.15 Georgia,'Times New Roman',serif;color:#30402D;margin-bottom:5px}
@@ -951,11 +962,18 @@ html,body{margin:0;padding:0}
 .pg-insights-toggle:hover{border-color:#7F9B6B;background:#F1F5E8}
 
 @media (min-width:1180px){
-  .pg-game-shell[data-garden-size="large"] .pg-game-main{grid-template-columns:clamp(214px,15vw,248px) minmax(0,1fr) clamp(254px,18vw,292px)!important}
+  .pg-game-shell:not([data-garden-size="focus"]) .pg-game-main{grid-template-columns:var(--pg-left-column,clamp(244px,19vw,300px)) minmax(0,1fr) var(--pg-right-column,clamp(300px,23vw,352px))!important;gap:var(--pg-main-gap,10px)!important;padding:var(--pg-main-pad,10px)!important}
+  .pg-game-shell:not([data-garden-size="focus"]) .pg-game-center{gap:var(--pg-center-gap,10px)!important}
+  .pg-game-shell[data-garden-height="adjusted"] .pg-community-pane .pg-community-panel{max-height:var(--pg-community-max,160px);overflow-y:auto}
+  .pg-game-shell[data-garden-height="adjusted"] .pg-game-center>.pg-right-panel{max-height:var(--pg-basket-max,150px);overflow-y:auto}
+  .pg-game-shell .pg-header-inner{padding-top:var(--pg-header-y,10px)!important;padding-bottom:var(--pg-header-y,10px)!important}
+  .pg-game-shell .pg-map-toolbar{min-height:var(--pg-toolbar-height,50px)!important;padding-top:var(--pg-toolbar-top,10px)!important;padding-bottom:var(--pg-toolbar-bottom,8px)!important}
   .pg-game-shell[data-garden-size="focus"] .pg-game-main{grid-template-columns:minmax(0,1fr)!important}
   .pg-game-shell[data-garden-size="focus"] .pg-game-center{grid-column:1!important}
   .pg-game-shell[data-garden-size="focus"] .pg-build-pane,
-  .pg-game-shell[data-garden-size="focus"] .pg-learn-pane{display:none!important}
+  .pg-game-shell[data-garden-size="focus"] .pg-learn-pane,
+  .pg-game-shell[data-garden-size="focus"] .pg-game-center>.pg-community-pane,
+  .pg-game-shell[data-garden-size="focus"] .pg-game-center>.pg-right-panel{display:none!important}
 }
 @media (max-width:1179px){
   .pg-view-size{display:none!important}
@@ -1346,7 +1364,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
 @media(max-width:950px){.pg-header-language{display:none}.pg-language-control select{max-width:145px}}
 </style>
 </helmet>
-<div class="{{ shellClass }}" data-viewport="{{ viewportMode }}" data-phone-pane="{{ phonePane }}" data-tablet-pane="{{ tabletPane }}" data-garden-size="{{ gardenSize }}" style="height:100vh;display:flex;flex-direction:column;font-family:'Hanken Grotesk',sans-serif;color:#2C3525;background:#F3EEE3;overflow:hidden;position:relative">
+<div class="{{ shellClass }}" data-viewport="{{ viewportMode }}" data-phone-pane="{{ phonePane }}" data-tablet-pane="{{ tabletPane }}" data-garden-size="{{ gardenSize }}" data-garden-height="{{ gardenHeightMode }}" style="{{ shellStyle }}">
 
   <a class="pg-skip-link" href="#pg-garden-plot">Skip to garden plot</a>
 
@@ -1499,7 +1517,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#6E6552;line-height:1.55;padding:2px 4px 8px"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span style="opacity:.5">v81</span>
+      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#6E6552;line-height:1.55;padding:2px 4px 8px"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span style="opacity:.5">v82</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button class="pg-return-guided" sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
@@ -1520,7 +1538,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
           <div class="pg-map-tools" style="display:flex;align-items:center;gap:7px">
             <div class="pg-view-size">
               <button class="pg-view-size-toggle" data-testid="garden-view-size-toggle" sc-camel-on-click="{{ onToggleGardenSize }}" aria-expanded="{{ gardenSizeOpen }}" aria-haspopup="true" title="{{ gardenViewTooltip }}">
-                <span aria-hidden="true">↔</span><span>{{ gardenViewLabel }}</span>
+                <span aria-hidden="true">⤢</span><span>{{ gardenViewLabel }}</span>
               </button>
               <sc-if value="{{ gardenSizeOpen }}" hint-placeholder-val="{{ false }}">
                 <div class="pg-view-size-panel" role="group" aria-label="{{ gardenViewAria }}">
@@ -1535,6 +1553,19 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
                       </button>
                     </sc-for>
                   </div>
+                  <div class="pg-view-size-sliders">
+                    <label class="pg-view-slider" for="pg-garden-width">
+                      <span>{{ gardenWidthLabel }}</span>
+                      <input id="pg-garden-width" data-testid="garden-width-slider" type="range" min="0" max="100" step="5" value="{{ gardenWidth }}" sc-camel-on-input="{{ onGardenWidthInput }}" sc-camel-on-change="{{ onGardenWidthChange }}" aria-label="{{ gardenWidthAria }}">
+                      <output>{{ gardenWidth }}%</output>
+                    </label>
+                    <label class="pg-view-slider" for="pg-garden-height">
+                      <span>{{ gardenHeightLabel }}</span>
+                      <input id="pg-garden-height" data-testid="garden-height-slider" type="range" min="0" max="100" step="5" value="{{ gardenHeight }}" sc-camel-on-input="{{ onGardenHeightInput }}" sc-camel-on-change="{{ onGardenHeightChange }}" aria-label="{{ gardenHeightAria }}">
+                      <output>{{ gardenHeight }}%</output>
+                    </label>
+                  </div>
+                  <div class="pg-view-size-note">{{ gardenViewCustomNote }}</div>
                 </div>
               </sc-if>
             </div>
@@ -1901,11 +1932,17 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
       <sc-if value="{{ basketVisible }}" hint-placeholder-val="{{ false }}">
         <section class="pg-panel pg-right-panel" style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:16px;padding:13px 15px;box-shadow:0 10px 26px -20px rgba(60,50,30,.65);flex:none">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:8px;height:8px;border-radius:50%;background:#6F5530"></span><span title="Fresh produce is shared in its season — preserves keep for winter gifts." style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:14px;color:#2C3525;cursor:help">🧺 Harvest basket</span></div>
+          <sc-if value="{{ basketHasFreshSale }}" hint-placeholder-val="{{ false }}">
+            <div class="pg-basket-stall-note">{{ freshStallDescription }}</div>
+          </sc-if>
           <div style="display:flex;flex-direction:column;gap:7px">
             <sc-for list="{{ basketView }}" as="b" hint-placeholder-count="0">
               <div class="pg-inventory-row" style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #EBE2D0;border-radius:11px;padding:5px 8px">
                 <span style="width:30px;height:30px;display:block;flex:none">{{ b.art }}</span>
                 <span style="flex:1;min-width:0;font-size:12px;font-weight:700;color:#3A3527">{{ b.name }} × {{ b.count }}</span>
+                <sc-if value="{{ b.showFreshSale }}" hint-placeholder-val="{{ false }}">
+                  <button data-testid="{{ b.freshSaleTestId }}" sc-camel-on-click="{{ b.onSellFresh }}" title="{{ b.freshSaleTitle }}" aria-label="{{ b.freshSaleTitle }}" style="{{ b.freshSaleStyle }}">{{ b.freshSaleLabel }}</button>
+                </sc-if>
                 <sc-if value="{{ b.showPreserve }}" hint-placeholder-val="{{ false }}">
                   <button sc-camel-on-click="{{ b.onPreserve }}" title="{{ b.preserveTitle }}" aria-label="{{ b.preserveTitle }}" aria-disabled="{{ b.preserveDisabled }}" style="{{ b.preserveStyle }}">🫙</button>
                 </sc-if>
@@ -3647,7 +3684,7 @@ class Component extends DCLogic {
     const viewportWidth=typeof window!=='undefined'?window.innerWidth:1440;
     const viewportHeight=typeof window!=='undefined'?window.innerHeight:900;
     const viewportMode=viewportWidth>=1180?'desktop':(viewportWidth>=768&&viewportHeight>=600?'tablet':'phone');
-    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,movingPlacedId:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:[],residentSeasons:{},residentWinters:{},pestActive:null,pestSeasons:{},pestCleared:{},pestRelief:{},pestBeatsSeen:[],pestStory:null,pestLastSettled:null,livingLesson:null,livingLessonExperiment:null,livingLessonHistory:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:[],grownHarvests:0,preservedCount:0,stallSales:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null,bookOpen:false,bookTab:'elements',bookLeaf:0,bookDir:'fwd',kitchenOpen:false,kitchenPick:null,kitchenNote:null,kitchenBusy:null,kitchenStage:'simmer',kitchenDragging:false,kitchenOver:null,kitchenMotionFailed:{},gateMotionFailed:{},seedbankMotionFailed:false,viewportMode:viewportMode,viewportWidth:viewportWidth,viewportHeight:viewportHeight,phonePane:'garden',tabletPane:'build',headerMenuOpen:false,gardenSize:'balanced',gardenSizeOpen:false,insightsExpanded:false};
+    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,movingPlacedId:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:[],residentSeasons:{},residentWinters:{},pestActive:null,pestSeasons:{},pestCleared:{},pestRelief:{},pestBeatsSeen:[],pestStory:null,pestLastSettled:null,livingLesson:null,livingLessonExperiment:null,livingLessonHistory:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:[],grownHarvests:0,preservedCount:0,stallSales:0,freshSales:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null,bookOpen:false,bookTab:'elements',bookLeaf:0,bookDir:'fwd',kitchenOpen:false,kitchenPick:null,kitchenNote:null,kitchenBusy:null,kitchenStage:'simmer',kitchenDragging:false,kitchenOver:null,kitchenMotionFailed:{},gateMotionFailed:{},seedbankMotionFailed:false,viewportMode:viewportMode,viewportWidth:viewportWidth,viewportHeight:viewportHeight,phonePane:'garden',tabletPane:'build',headerMenuOpen:false,gardenSize:'balanced',gardenWidth:0,gardenHeight:0,gardenSizeOpen:false,insightsExpanded:false};
   }
   hasJourneyMoment(st,key){return (st.journeyMoments||[]).indexOf(key)>=0;}
   milestoneArt={soil:'assets/milestones/soil.webp',water:'assets/milestones/water.webp',food:'assets/milestones/food.webp',shelter:'assets/milestones/shelter.webp',share:'assets/milestones/share.webp',challenge:'assets/milestones/challenge.webp'};
@@ -4538,14 +4575,30 @@ class Component extends DCLogic {
       if(target){try{target.focus();}catch(_){}}
     });
   }
+  gardenSizePreset(size){
+    return ({balanced:{width:0,height:0},large:{width:65,height:60},focus:{width:100,height:100}})[size]||{width:0,height:0};
+  }
+  clampGardenAxis(value){
+    const number=Number(value);
+    return Math.max(0,Math.min(100,Math.round((Number.isFinite(number)?number:0)/5)*5));
+  }
   setGardenSize(size){
     if(['balanced','large','focus'].indexOf(size)<0){return;}
-    this.setState({gardenSize:size,gardenSizeOpen:false},()=>{
+    const preset=this.gardenSizePreset(size);
+    this.setState({gardenSize:size,gardenWidth:preset.width,gardenHeight:preset.height,gardenSizeOpen:false},()=>{
       this.persist();
       this.later(()=>{
         const plot=document.querySelector('[data-plot]');
         if(plot){try{plot.focus({preventScroll:true});}catch(_){try{plot.focus();}catch(__){}}}
       },40);
+    });
+  }
+  setGardenAxis(axis,event,commit){
+    if(['width','height'].indexOf(axis)<0){return;}
+    const value=this.clampGardenAxis(event&&event.target?event.target.value:event);
+    const field=axis==='height'?'gardenHeight':'gardenWidth';
+    this.setState({[field]:value,gardenSize:'custom',gardenSizeOpen:true},()=>{
+      if(commit){this.persist();}
     });
   }
   toggleGardenSize(){
@@ -4726,8 +4779,13 @@ class Component extends DCLogic {
           const lessonEngine=this.lessonEngine();
           const restoredLessonExperiment=lessonEngine?lessonEngine.sanitizeExperiment(s.livingLessonExperiment):null;
           const restoredLessonHistory=lessonEngine?lessonEngine.sanitizeHistory(s.livingLessonHistory):[];
+          const restoredGardenSize=['balanced','large','focus','custom'].indexOf(s.gardenSize)>=0?s.gardenSize:'balanced';
+          const restoredGardenPreset=this.gardenSizePreset(restoredGardenSize);
+          const restoredGardenWidth=this.clampGardenAxis(s.gardenWidth!=null?s.gardenWidth:restoredGardenPreset.width);
+          const restoredGardenHeight=this.clampGardenAxis(s.gardenHeight!=null?s.gardenHeight:restoredGardenPreset.height);
           restored=true;
           this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',gardenSize:['balanced','large','focus'].indexOf(s.gardenSize)>=0?s.gardenSize:'balanced',gardenSizeOpen:false,insightsExpanded:!!s.insightsExpanded,journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:restoredResidentBeats,residentSeasons:restoredResidentSeasons,residentWinters:restoredResidentWinters,pestStory:null,pestActive:restoredPestActive,pestSeasons:restoredPestSeasons,pestCleared:restoredPestCleared,pestRelief:restoredPestRelief,pestBeatsSeen:restoredPestBeats,pestLastSettled:restoredPestSettled,livingLesson:null,livingLessonExperiment:restoredLessonExperiment,livingLessonHistory:restoredLessonHistory,gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,payWith:(s.payWith==='euro'?'euro':'shares'),seedAllowance:(s.seedAllowance&&typeof s.seedAllowance==='object')?s.seedAllowance:{},seedStock:(s.seedStock&&typeof s.seedStock==='object')?s.seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:Array.isArray(s.unlocksSeen)?s.unlocksSeen:[],grownHarvests:num(s.grownHarvests,0),preservedCount:num(s.preservedCount,0),stallSales:num(s.stallSales,0),paymentChoice:null,muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
+          this.setState({gardenSize:restoredGardenSize,gardenWidth:restoredGardenWidth,gardenHeight:restoredGardenHeight,freshSales:num(s.freshSales,0)});
           this.setState({gardenWhisper:pendingWhispers[0]||null,gardenWhisperQueue:pendingWhispers.slice(1),gardenReflectionQueue:pendingReflections,gardenReflectionsSeen:reflectionSeen,visit:pendingVisit,guildCard:pendingGuildCards[0]||null,guildCardQueue:pendingGuildCards.slice(1),arrivalQueue:pendingArrivals,gardenCinematic:pendingCinematic},()=>{this.capturePreviousState();this._suppressFx=false;if(pendingWhispers.length){this.scheduleGardenWhisper(pendingWhispers[0]);}if(pendingReflections.length){this.scheduleGardenReflection(500);}if(pendingCinematic){this.scheduleCinematicVoice();}if(pendingGuildCards.length&&!this.state.guildVoicePlayed){this.scheduleGuildVoice();}this.scheduleResidentStory(900);this.scheduleUnlock(1500);});
         }
       }
@@ -4977,6 +5035,9 @@ class Component extends DCLogic {
       const livingLessonExperiment=lessonEngine?lessonEngine.sanitizeExperiment(s.livingLessonExperiment):null;
       const livingLessonHistory=lessonEngine?lessonEngine.sanitizeHistory(s.livingLessonHistory):[];
       localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',gardenSize:s.gardenSize||'balanced',insightsExpanded:!!s.insightsExpanded,journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,residentBeatsSeen:s.residentBeatsSeen||[],residentSeasons:s.residentSeasons||{},residentWinters:s.residentWinters||{},pestActive:s.pestActive||null,pestSeasons:s.pestSeasons||{},pestCleared:s.pestCleared||{},pestRelief:s.pestRelief||{},pestBeatsSeen:s.pestBeatsSeen||[],pestLastSettled:(typeof s.pestLastSettled==='number'?s.pestLastSettled:null),pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,livingLessonExperiment:livingLessonExperiment,livingLessonHistory:livingLessonHistory,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},seedStock:s.seedStock||{},unlocksSeen:s.unlocksSeen||[],grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,stallSales:s.stallSales||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g}));
+      const persisted=JSON.parse(localStorage.getItem(this.STORE)||'{}');
+      Object.assign(persisted,{gardenSize:s.gardenSize||'balanced',gardenWidth:this.clampGardenAxis(s.gardenWidth),gardenHeight:this.clampGardenAxis(s.gardenHeight),freshSales:s.freshSales||0});
+      localStorage.setItem(this.STORE,JSON.stringify(persisted));
     }catch(e){}
   }
   componentDidUpdate(){
@@ -5377,7 +5438,7 @@ class Component extends DCLogic {
     this.setState(s=>{
       const left=(s.cherryPicks||0)-1;
       return {...s,cherryPicks:left,harvestEver:true,basket:{...(s.basket||{}),cherries:((s.basket||{}).cherries||0)+1},
-        toast:'🍒 Cherries picked! '+(left>0?(left+' ripe clusters still on the tree.'):'The tree is picked clean — share them fresh or preserve them as jam.')};
+        toast:'🍒 Cherries picked! '+(left>0?(left+' ripe clusters still on the tree.'):'The tree is picked clean — share them, sell them fresh at the village stall, or preserve them once the kitchen is built.')};
     });
     this.playHarvest();
   }
@@ -5582,6 +5643,23 @@ class Component extends DCLogic {
       basket[k]=Math.max(0,(basket[k]||0)-1);
       if(basket[k]===0){delete basket[k];}
       return {basket:basket,budget:(st.budget||0)+amount,stallSales:(st.stallSales||0)+1,
+        kitchenNote:{tone:'done',title:title,text:text},toast:toast};
+    },()=>this.persist());
+    this.playSparkle();
+  }
+  sellFreshProduce(k){
+    const meta=this.produceMeta[k];
+    if(k!=='cherries'||!meta||meta.preserve||((this.state.basket||{})[k]||0)<1){return;}
+    const amount=15;
+    const i18n=this.i18n();
+    const title=i18n?i18n.t('economy.freshStall.title',null,'Fresh cherries went to the village stall'):'Fresh cherries went to the village stall';
+    const text=i18n?i18n.t('economy.freshStall.note',{name:meta.name,amount:amount},meta.name+' sold fresh for €'+amount+'. The money supports the garden project; this sale is not a fair-share gift.'):(meta.name+' sold fresh for €'+amount+'. The money supports the garden project; this sale is not a fair-share gift.');
+    const toast=i18n?i18n.t('economy.freshStall.toast',{amount:amount},'🍒 €'+amount+' returned to the garden fund from fresh cherries.'):('🍒 €'+amount+' returned to the garden fund from fresh cherries.');
+    this.setState(st=>{
+      const basket={...(st.basket||{})};
+      basket[k]=Math.max(0,(basket[k]||0)-1);
+      if(basket[k]===0){delete basket[k];}
+      return {basket: basket,budget:(st.budget||0)+amount,freshSales:(st.freshSales||0)+1,
         kitchenNote:{tone:'done',title:title,text:text},toast:toast};
     },()=>this.persist());
     this.playSparkle();
@@ -6982,12 +7060,20 @@ class Component extends DCLogic {
       const meta=this.produceMeta[k];
       const inSeason=!meta.seasons||meta.seasons.indexOf(seasonNow)>=0;
       const rec=this.recipes[k];
+      const showFreshSale=k==='cherries'&&!meta.preserve;
+      const freshSaleTitle=localText('economy.freshStall.buttonTitle','Sell one fresh cherry cluster at the Menet village stall for €15');
       return {key:k,name:meta.name,count:basketObj[k]||0,art:prodImg(meta.img),isPreserve:!!meta.preserve,
         shareTitle:inSeason?('Give '+meta.name+' to the community table (grows the shared pool)'):(meta.name+' are out of season — preserve them to share later'),
         onShare:()=>this.shareProduce(k),
         shareCls:(nudgeNow&&nudgeNow.key==='share'&&inSeason)?'pg-share-call':'',
         shareDisabled:inSeason?'false':'true',
         shareStyle:{background:inSeason?'#5E7E4A':'#EDE6D6',color:inSeason?'#fff':'#8A8069',cursor:inSeason?'pointer':'not-allowed',border:'none',borderRadius:'9px',padding:'6px 12px',minHeight:'44px',fontSize:'12px',fontWeight:'700',fontFamily:'inherit',transition:'background .15s'},
+        showFreshSale:showFreshSale,
+        freshSaleLabel:localText('economy.freshStall.button','Stall · €15'),
+        freshSaleTitle:freshSaleTitle,
+        freshSaleTestId:'sell-fresh-'+k,
+        onSellFresh:()=>this.sellFreshProduce(k),
+        freshSaleStyle:{background:'#F6E7B9',color:'#6B5017',cursor:'pointer',border:'1px solid #D8B65C',borderRadius:'9px',padding:'6px 10px',minHeight:'44px',fontSize:'11px',fontWeight:'800',fontFamily:'inherit',whiteSpace:'nowrap',transition:'background .15s'},
         showPreserve:!!rec,
         preserveTitle:rec?(kitchenPlaced?('Preserve in the kitchen → '+this.produceMeta[rec.to].name):'Build a Garden kitchen to preserve this'):'',
         onPreserve:()=>this.preserveProduce(k),
@@ -6995,6 +7081,7 @@ class Component extends DCLogic {
         preserveStyle:{background:kitchenPlaced?'#C99A3C':'#EDE6D6',color:kitchenPlaced?'#fff':'#8A8069',cursor:kitchenPlaced?'pointer':'not-allowed',border:'none',borderRadius:'9px',padding:'6px 12px',minHeight:'44px',minWidth:'44px',fontSize:'15px',fontWeight:'700',fontFamily:'inherit',transition:'background .15s'}};
     });
     const sharingIntroduced=this.sharingUnlocked(st);
+    const basketHasFreshSale=basketView.some(item=>item.showFreshSale);
     const basketVisible=sharingIntroduced&&basketView.length>0;
     const matsObj=st.materials||{};
     const materialsView=Object.keys(this.MATS).filter(k=>(matsObj[k]||0)>0).map(k=>({key:k,name:this.MATS[k].name,count:matsObj[k]||0,
@@ -7002,9 +7089,9 @@ class Component extends DCLogic {
     const materialsVisible=materialsView.length>0;
     const cherrySpots=((sharingIntroduced&&seasonNow==='Summer'&&(st.cherryPicks||0)>0)?[{l:44,t:21},{l:53,t:15},{l:49,t:28}].slice(0,st.cherryPicks||0):[]).map((sp,i)=>({
       key:'ch'+i,art:prodImg('harvest-cherries'),onPick:(e)=>this.pickCherries(e),
-      cls:(nudgeNow&&nudgeNow.key==='pick')?'pg-cherry-call':'',
+      cls:'pg-cherry-cluster'+((nudgeNow&&nudgeNow.key==='pick')?' pg-cherry-call':''),
       onKeyDown:(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();this.pickCherries(e);}},
-      style:{position:'absolute',left:sp.l+'%',top:sp.t+'%',transform:'translate(-50%,-50%)',width:'30px',height:'30px',boxSizing:'content-box',padding:'7px',cursor:'pointer',zIndex:40,animation:'bob 2.4s ease-in-out infinite',filter:'drop-shadow(0 3px 4px rgba(40,30,10,.35)) drop-shadow(0 0 6px rgba(201,154,60,.85))'}
+      style:{position:'absolute',left:sp.l+'%',top:sp.t+'%',transform:'translate(-50%,-50%)',width:'36px',height:'36px',boxSizing:'content-box',padding:'7px',cursor:'pointer',zIndex:45,animation:'bob 2.4s ease-in-out infinite',filter:'drop-shadow(0 3px 4px rgba(40,30,10,.35)) drop-shadow(0 0 6px rgba(201,154,60,.85))'}
     }));
 
     const guildLinksArt=E('svg',{viewBox:'0 0 100 100',preserveAspectRatio:'none',style:{position:'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none',zIndex:2}},
@@ -7205,7 +7292,30 @@ class Component extends DCLogic {
           buttons[next].focus();
         }};
     });
-    const gardenSize=['balanced','large','focus'].indexOf(st.gardenSize)>=0?st.gardenSize:'balanced';
+    const gardenSize=['balanced','large','focus','custom'].indexOf(st.gardenSize)>=0?st.gardenSize:'balanced';
+    const gardenPreset=this.gardenSizePreset(gardenSize);
+    const gardenWidth=this.clampGardenAxis(st.gardenWidth!=null?st.gardenWidth:gardenPreset.width);
+    const gardenHeight=this.clampGardenAxis(st.gardenHeight!=null?st.gardenHeight:gardenPreset.height);
+    const gardenWidthRatio=gardenWidth/100;
+    const gardenHeightRatio=gardenHeight/100;
+    const desktopWidth=Number(st.viewportWidth)||1440;
+    const baseLeft=Math.max(244,Math.min(300,desktopWidth*.19));
+    const baseRight=Math.max(300,Math.min(352,desktopWidth*.23));
+    const shellStyle={
+      height:'100vh',display:'flex',flexDirection:'column',fontFamily:"'Hanken Grotesk',sans-serif",
+      color:'#2C3525',background:'#F3EEE3',overflow:'hidden',position:'relative',
+      '--pg-left-column':Math.round(baseLeft+(176-baseLeft)*gardenWidthRatio)+'px',
+      '--pg-right-column':Math.round(baseRight+(210-baseRight)*gardenWidthRatio)+'px',
+      '--pg-main-gap':Math.max(5,10-Math.round(5*gardenWidthRatio))+'px',
+      '--pg-main-pad':Math.max(4,10-Math.round(6*gardenWidthRatio))+'px',
+      '--pg-center-gap':Math.max(4,10-Math.round(6*gardenHeightRatio))+'px',
+      '--pg-community-max':Math.max(95,160-Math.round(65*gardenHeightRatio))+'px',
+      '--pg-basket-max':Math.max(95,180-Math.round(85*gardenHeightRatio))+'px',
+      '--pg-header-y':Math.max(6,10-Math.round(4*gardenHeightRatio))+'px',
+      '--pg-toolbar-height':Math.max(42,50-Math.round(8*gardenHeightRatio))+'px',
+      '--pg-toolbar-top':Math.max(6,10-Math.round(4*gardenHeightRatio))+'px',
+      '--pg-toolbar-bottom':Math.max(5,8-Math.round(3*gardenHeightRatio))+'px'
+    };
     const gardenSizeOptions=[
       {key:'balanced',label:localText('viewSize.balanced','Balanced'),hint:localText('viewSize.balancedHint','tools + plot')},
       {key:'large',label:localText('viewSize.large','Large'),hint:localText('viewSize.largeHint','more garden')},
@@ -7218,16 +7328,29 @@ class Component extends DCLogic {
 
     return {
       shellClass:'pg-game-shell pg-viewport-'+(st.viewportMode||'desktop'),
+      shellStyle:shellStyle,
       gardenSize:gardenSize,
+      gardenHeightMode:gardenHeight>0?'adjusted':'natural',
+      gardenWidth:gardenWidth,
+      gardenHeight:gardenHeight,
       gardenSizeOpen:!!st.gardenSizeOpen,
       gardenSizeOptions:gardenSizeOptions,
       gardenViewLabel:localText('viewSize.button','Garden view'),
       gardenViewTooltip:localText('viewSize.tooltip','Choose how much space the garden plot uses'),
       gardenViewAria:localText('viewSize.aria','Garden view size'),
-      gardenViewDescription:localText('viewSize.description','Keep the familiar layout, give the plot more room, or focus on it completely.'),
+      gardenViewDescription:localText('viewSize.description','Use a preset or tune the plot’s width and height. Focus gives the garden the full workspace.'),
       gardenViewCloseLabel:localText('viewSize.close','Close garden view choices'),
+      gardenWidthLabel:localText('viewSize.width','Width'),
+      gardenHeightLabel:localText('viewSize.height','Height'),
+      gardenWidthAria:localText('viewSize.widthAria','Adjust garden plot width'),
+      gardenHeightAria:localText('viewSize.heightAria','Adjust garden plot height'),
+      gardenViewCustomNote:localText('viewSize.customNote','Drag either slider. The surrounding panels stay available and become scrollable when the garden needs more room.'),
       onToggleGardenSize:()=>this.toggleGardenSize(),
       onCloseGardenSize:()=>this.setState({gardenSizeOpen:false}),
+      onGardenWidthInput:(event)=>this.setGardenAxis('width',event,false),
+      onGardenWidthChange:(event)=>this.setGardenAxis('width',event,true),
+      onGardenHeightInput:(event)=>this.setGardenAxis('height',event,false),
+      onGardenHeightChange:(event)=>this.setGardenAxis('height',event,true),
       locale:locale,
       languageOptions:languageOptions,
       onLanguageChange:(event)=>this.changeLanguage(event),
@@ -7410,7 +7533,9 @@ class Component extends DCLogic {
       onSeeSharing:()=>this.onSeeSharing(),onGiveToTable:()=>this.giveToTable(),
       onGiveToTableKeyDown:(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();this.giveToTable();}},
       giveZoneStyle:{flex:'none',width:'90px',alignSelf:'stretch',borderRadius:'14px',border:'2px dashed '+(st.giveMode?'#7A5D18':'#DBC286'),background:st.giveMode?'#FBF3DC':'#FDFAF0',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'5px',cursor:'pointer',userSelect:'none',textAlign:'center',padding:'6px',transition:'transform .2s,border-color .2s,background .2s',animation:st.giveMode?'giftPulse 1.6s ease-in-out infinite':'none'},
-      scoreVisual:scoreVisual,statusText:statusText,pillars:pillars,systemView:systemView,nextStep:nextStep,basketView:basketView,basketVisible:basketVisible,materialsView:materialsView,materialsVisible:materialsVisible,cherrySpots:cherrySpots,kitchenPlaced:kitchenPlaced,
+      scoreVisual:scoreVisual,statusText:statusText,pillars:pillars,systemView:systemView,nextStep:nextStep,basketView:basketView,basketVisible:basketVisible,basketHasFreshSale:basketHasFreshSale,
+      freshStallDescription:localText('economy.freshStall.description','Fresh cherries can go straight to the Menet stall for €15. A kitchen is only needed to preserve them; a jar later earns €25. Selling supports the project fund but does not count as a fair-share gift.'),
+      materialsView:materialsView,materialsVisible:materialsVisible,cherrySpots:cherrySpots,kitchenPlaced:kitchenPlaced,
       insightsExpanded:insightsExpanded,insightsCollapsed:!insightsExpanded,
       insightsToggleLabel:insightsExpanded?localText('insights.hide','Hide the detailed garden model'):localText('insights.show','Show how the garden works'),
       insightsToggleIcon:insightsExpanded?'−':'＋',onToggleInsights:()=>this.toggleInsights(),
