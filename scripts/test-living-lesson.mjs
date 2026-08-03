@@ -4,6 +4,8 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const lesson = require("../lib/living-lesson.js");
 
+assert.equal(lesson.PROMPT_VERSION, "living-lesson-v4-locale-contract");
+
 const base = {
   season: "Summer",
   placedTypes: ["compost", "rain", "appletree"],
@@ -32,7 +34,11 @@ assert.equal(sanitized.systems.soil.value, 22);
 assert.equal(lesson.fingerprint(base), lesson.fingerprint(JSON.parse(JSON.stringify(base))));
 assert.equal(lesson.sanitizeSnapshot({ ...base, locale: "pt-PT" }).locale, "pt-BR");
 assert.equal(lesson.sanitizeSnapshot({ ...base, locale: "pl-PL" }).locale, "pl");
+assert.equal(lesson.sanitizeSnapshot({ ...base, locale: "zh-Hans-CN" }).locale, "zh-CN");
+assert.equal(lesson.sanitizeSnapshot({ ...base, locale: "ru-RU" }).locale, "ru");
+assert.equal(lesson.sanitizeSnapshot({ ...base, locale: "unsupported" }).locale, "en");
 assert.notEqual(lesson.fingerprint({ ...base, locale: "en" }), lesson.fingerprint({ ...base, locale: "cs" }));
+assert.match(lesson.fingerprint({ ...base, locale: "cs" }), /^living-lesson-v4-locale-contract-/);
 
 const candidates = lesson.buildCandidates(base);
 assert.ok(candidates.length >= 2 && candidates.length <= 4);
@@ -50,7 +56,19 @@ assert.equal(normalized.candidateId, candidates[0].id);
 assert.equal(normalized.focus, candidates[0].focus);
 assert.ok(!normalized.observation.includes("<b>"));
 assert.equal(normalized.source, "ai");
+assert.equal(normalized.locale, "en");
 assert.equal(normalized.experiment.action, candidates[0].action);
+
+const localizedNormalized = lesson.normalizeLesson({
+  candidateId: candidates[0].id,
+  focus: candidates[0].focus,
+  observation: "Všímám si klidného okraje zahrady.",
+  relationship: "Propojená stanoviště mohou nabídnout potravu, vodu i úkryt.",
+  question: "Které spojení bys chtěl vyzkoušet?"
+}, { ...base, locale: "cs" }, candidates, { source: "ai", model: "openai/gpt-5.6-luna" });
+assert.equal(localizedNormalized.locale, "cs");
+assert.equal(localizedNormalized.promptVersion, "living-lesson-v4-locale-contract");
+assert.equal(localizedNormalized.observation, "Všímám si klidného okraje zahrady.");
 
 const fallback = lesson.fallbackLesson(base, candidates);
 assert.equal(fallback.source, "fallback");
