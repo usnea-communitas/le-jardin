@@ -226,6 +226,7 @@ await context.addInitScript(({ key, state }) => {
 }, { key: "permagarden_v2", state: savedState });
 const page = await context.newPage();
 const browserErrors = [];
+let activeScenario = "bootstrap";
 page.on("pageerror", error => browserErrors.push(`pageerror: ${error.message}`));
 page.on("console", message => {
   if (
@@ -281,7 +282,7 @@ async function setState(patch) {
       }
       app[key] = null;
     }
-    return new Promise(resolve => app.setState({ ...quiet, ...next }, resolve));
+    app.setState({ ...quiet, ...next });
   }, { quiet: quietState, next: patch });
   await settle();
 }
@@ -338,6 +339,7 @@ async function capture(label) {
 }
 
 async function scenario(label, patch) {
+  activeScenario = label;
   await setState(patch);
   await capture(label);
 }
@@ -563,6 +565,9 @@ try {
   if (report.missing.length || report.layoutIssues.length || report.browserErrors.length) {
     process.exitCode = 1;
   }
+} catch (error) {
+  console.error(`i18n surface audit (${targetLocale}) failed during ${activeScenario}.`);
+  throw error;
 } finally {
   await context.close();
   await browser.close();

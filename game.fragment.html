@@ -2476,12 +2476,12 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
   <sc-if value="{{ livingLessonVisible }}" hint-placeholder-val="false">
     <div class="pg-garden-dialog-backdrop" sc-camel-on-click="{{ onCloseLivingLesson }}">
       <div class="pg-living-lesson-dialog" data-pg-dialog="living-lesson" role="dialog" aria-modal="true" aria-labelledby="pg-living-lesson-title" tabindex="-1" sc-camel-on-click="{{ stopProp }}">
-        <button class="pg-living-lesson-close" sc-camel-on-click="{{ onCloseLivingLesson }}" aria-label="Close Living Lesson">✕</button>
+        <button class="pg-living-lesson-close" sc-camel-on-click="{{ onCloseLivingLesson }}" aria-label="{{ livingLessonCloseLabel }}">✕</button>
         <div class="pg-living-lesson-kicker"><img src="assets/ui/icons/garden-voice.svg" alt="">{{ livingLessonEyebrow }}</div>
-        <h2 class="pg-living-lesson-title" id="pg-living-lesson-title">The garden reflects</h2>
-        <div class="pg-living-lesson-subtitle">The garden has looked at what you have made and found one thing worth trying. <span class="pg-living-lesson-attrib">Its words come from GPT-5.6 Luna; the garden’s rules stay its own.</span></div>
+        <h2 class="pg-living-lesson-title" id="pg-living-lesson-title">{{ livingLessonDialogTitle }}</h2>
+        <div class="pg-living-lesson-subtitle">{{ livingLessonDialogSubtitle }} <span class="pg-living-lesson-attrib">{{ livingLessonAttribution }}</span></div>
         <sc-if value="{{ livingLessonLoading }}" hint-placeholder-val="false">
-          <div class="pg-living-lesson-loading" role="status" aria-live="polite"><div><div class="pg-living-lesson-orbit" aria-hidden="true"></div><strong>Listening between the elements…</strong><div style="font-size:11px;margin-top:6px;color:#746b5b">The garden is reading relationships, not judging your score.</div></div></div>
+          <div class="pg-living-lesson-loading" role="status" aria-live="polite"><div><div class="pg-living-lesson-orbit" aria-hidden="true"></div><strong>{{ livingLessonLoadingLabel }}</strong><div style="font-size:11px;margin-top:6px;color:#746b5b">{{ livingLessonLoadingDetail }}</div></div></div>
         </sc-if>
         <sc-if value="{{ livingLessonReady }}" hint-placeholder-val="false">
           <div class="pg-ll-hero">
@@ -2491,20 +2491,20 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
             <div class="pg-living-lesson-voice">“{{ livingLessonObservation }}”</div>
           </div>
           <div class="pg-ll-question">
-            <span class="pg-ll-question-label">A question to carry</span>
+            <span class="pg-ll-question-label">{{ livingLessonQuestionLabel }}</span>
             <p>{{ livingLessonQuestion }}</p>
           </div>
-          <div class="pg-living-lesson-block pg-ll-connects"><span>What connects</span><p>{{ livingLessonRelationship }}</p></div>
+          <div class="pg-living-lesson-block pg-ll-connects"><span>{{ livingLessonConnectsLabel }}</span><p>{{ livingLessonRelationship }}</p></div>
           <div class="pg-living-lesson-experiment">
-            <div class="pg-ll-exp-head"><span class="pg-ll-exp-badge">Do this next</span><h3>{{ livingLessonTitle }}</h3></div>
+            <div class="pg-ll-exp-head"><span class="pg-ll-exp-badge">{{ livingLessonActionBadge }}</span><h3>{{ livingLessonTitle }}</h3></div>
             <p class="pg-ll-action">{{ livingLessonAction }}</p>
-            <div class="pg-ll-target"><span class="pg-ll-target-label">How you'll know it worked</span><strong>{{ livingLessonSuccess }}</strong></div>
-            <p class="pg-ll-why"><strong>Why:</strong> {{ livingLessonWhy }}</p>
+            <div class="pg-ll-target"><span class="pg-ll-target-label">{{ livingLessonSuccessLabel }}</span><strong>{{ livingLessonSuccess }}</strong></div>
+            <p class="pg-ll-why"><strong>{{ livingLessonWhyLabel }}</strong> {{ livingLessonWhy }}</p>
           </div>
-          <details class="pg-living-lesson-trust"><summary>How this reflection is made</summary>Only a small anonymous snapshot of this garden was used. GPT‑5.6 Luna can shape this reflection, but it cannot change game rules, scores, prices or success conditions. When AI is unavailable, the same feature continues with reviewed garden wisdom.</details>
+          <details class="pg-living-lesson-trust"><summary>{{ livingLessonTrustSummary }}</summary>{{ livingLessonTrustDetail }}</details>
           <div class="pg-living-lesson-actions">
-            <button class="pg-living-lesson-secondary" sc-camel-on-click="{{ onCloseLivingLesson }}">Keep observing</button>
-            <button class="pg-primary-action" data-testid="living-lesson-accept" sc-camel-on-click="{{ onAcceptLivingLesson }}">Try this experiment →</button>
+            <button class="pg-living-lesson-secondary" sc-camel-on-click="{{ onCloseLivingLesson }}">{{ livingLessonKeepObserving }}</button>
+            <button class="pg-primary-action" data-testid="living-lesson-accept" sc-camel-on-click="{{ onAcceptLivingLesson }}">{{ livingLessonTry }}</button>
           </div>
         </sc-if>
       </div>
@@ -4170,8 +4170,8 @@ class Component extends DCLogic {
   }
   openLivingLesson(){
     const engine=this.lessonEngine();
-    if(!engine||!this.livingLessonUnlocked()){this.flash('Let soil and water begin their conversation first — complete two learning acts, then listen again.');return;}
-    if(this.state.livingLessonExperiment&&this.state.livingLessonExperiment.status==='active'){this.flash('The garden is still waiting on what it already asked of you. Change something, then come back.');return;}
+    if(!engine||!this.livingLessonUnlocked()){this.flash(this.i18nText('livingLesson.error.locked','Let soil and water begin their conversation first — complete two learning acts, then listen again.'));return;}
+    if(this.state.livingLessonExperiment&&this.state.livingLessonExperiment.status==='active'){this.flash(this.i18nText('livingLesson.error.active','The garden is still waiting on what it already asked of you. Change something, then come back.'));return;}
     const snapshot=this.livingLessonSnapshot(),candidates=engine.buildCandidates(snapshot),fingerprint=engine.fingerprint(snapshot);
     this.suspendGardenWhisper();this.setState({livingLesson:{status:'loading',fingerprint:fingerprint}});
     const cached=this.lessonCacheRead(fingerprint);
@@ -4202,7 +4202,8 @@ class Component extends DCLogic {
   acceptLivingLesson(){
     const engine=this.lessonEngine(),box=this.state.livingLesson,lesson=box&&box.lesson;if(!engine||!lesson){return;}
     const experiment=engine.startExperiment(this.livingLessonSnapshot(),lesson.experiment,lesson);
-    this.setState({livingLesson:null,livingLessonExperiment:experiment,toast:'✦ The garden asked something of you — '+experiment.candidate.success},()=>this.persist());
+    const success=this.livingLessonCandidateText(experiment.candidate).success;
+    this.setState({livingLesson:null,livingLessonExperiment:experiment,toast:this.i18nText('livingLesson.startedToast','✦ The garden offers a small experiment — {success}',{success:success})},()=>this.persist());
   }
   capturePreviousState(st=this.state){
     this._prevPlaced=st.placed;
@@ -4508,6 +4509,62 @@ class Component extends DCLogic {
 
   i18n(){
     return typeof window!=='undefined'?window.PermacultureI18n:null;
+  }
+  i18nText(key,fallback,vars=null){
+    const i18n=this.i18n();return i18n?i18n.t(key,vars,fallback):fallback;
+  }
+  i18nValue(value){
+    const i18n=this.i18n();return i18n?i18n.translateValue(value):value;
+  }
+  livingLessonFocusText(focus){
+    const labels={soil:['systems.soil.name','Living soil'],water:['systems.water.name','Water security'],food:['systems.food.name','Food web'],habitat:['systems.habitat.name','Habitat'],sharing:['pillars.sharing.name','Sharing'],relationships:['common.relationships','Relationships'],season:['common.season','Season']};
+    const label=labels[focus]||labels.relationships;return this.i18nText(label[0],label[1]);
+  }
+  livingLessonCandidateText(candidate){
+    if(!candidate){return {title:'',action:'',why:'',success:''};}
+    const copy={...candidate},id=String(candidate.id||''),focus=String(candidate.focus||'relationships');
+    const localValue=(value)=>this.i18nValue(value||'');
+    const systemFocus=id.indexOf('connect-')===0?id.slice('connect-'.length):focus;
+    const system=this.livingLessonFocusText(systemFocus);
+    const actionKeys={
+      'Add compost to begin feeding the soil community.':'livingLesson.action.soil.addCompost',
+      'Add mulch to protect the soil you are feeding.':'livingLesson.action.soil.addMulch',
+      'Place protective mulch close to a growing area so cover and roots work as one system.':'livingLesson.action.soil.connect',
+      'Add safe rain harvesting so water can pause in the garden.':'livingLesson.action.water.addRain',
+      'Place rain harvesting close to a growing area so stored water has a clear purpose.':'livingLesson.action.water.connect',
+      'Add one edible layer, such as a fruit tree, herb spiral or growing bed.':'livingLesson.action.food.addEdible',
+      'Add pollinator flowers beside food so bloom and harvest support each other.':'livingLesson.action.food.addFlowers',
+      'Place flowering habitat close to an edible crop so pollinators and harvest reinforce one another.':'livingLesson.action.food.connect',
+      'Add flowers, a bug hotel or a bird house to make room for other lives.':'livingLesson.action.habitat.addShelter',
+      'Place shelter close to food or cover so wildlife finds a connected refuge.':'livingLesson.action.habitat.connect'
+    };
+    if(id.indexOf('strengthen-')===0){
+      copy.title=this.i18nText('livingLesson.strengthen.title',candidate.title,{system:system});
+      copy.action=actionKeys[candidate.action]?this.i18nText(actionKeys[candidate.action],candidate.action):localValue(candidate.action);
+      copy.why=localValue(candidate.why);
+      copy.success=this.i18nText('livingLesson.strengthen.success',candidate.success,{system:system,baseline:candidate.baseline,target:candidate.target});
+    }else if(id.indexOf('connect-')===0){
+      copy.title=this.i18nText('livingLesson.candidate.connect.title',candidate.title);
+      copy.action=actionKeys[candidate.action]?this.i18nText(actionKeys[candidate.action],candidate.action):localValue(candidate.action);
+      copy.why=this.i18nText('livingLesson.candidate.connect.why',candidate.why);
+      copy.success=this.i18nText('livingLesson.connect.success',candidate.success,{system:system});
+    }else if(id==='read-next-season'){
+      copy.title=this.i18nText('livingLesson.candidate.nextSeason.title',candidate.title);
+      copy.action=this.i18nText('livingLesson.candidate.nextSeason.action',candidate.action);
+      copy.why=localValue(candidate.why);
+      copy.success=this.i18nText('livingLesson.candidate.nextSeason.success',candidate.success);
+    }else if(id==='circulate-first-gift'){
+      copy.title=this.i18nText('livingLesson.candidate.share.title',candidate.title);copy.action=this.i18nText('livingLesson.candidate.share.action',candidate.action);copy.why=this.i18nText('livingLesson.candidate.share.why',candidate.why);copy.success=this.i18nText('livingLesson.candidate.share.success',candidate.success);
+    }else if(id==='discover-first-guild'){
+      copy.title=this.i18nText('livingLesson.candidate.guild.title',candidate.title);copy.action=this.i18nText('livingLesson.candidate.guild.action',candidate.action);copy.why=this.i18nText('livingLesson.candidate.guild.why',candidate.why);copy.success=this.i18nText('livingLesson.candidate.guild.success',candidate.success);
+    }else if(id==='balance-living-web'){
+      copy.title=this.i18nText('livingLesson.candidate.balance.title',candidate.title);copy.action=this.i18nText('livingLesson.candidate.balance.action',candidate.action);copy.why=this.i18nText('livingLesson.candidate.balance.why',candidate.why);copy.success=this.i18nText('livingLesson.balance.success',candidate.success,{gap:candidate.baseline});
+    }else if(id==='circulate-another-gift'){
+      copy.title=this.i18nText('livingLesson.candidate.shareAgain.title',candidate.title);copy.action=this.i18nText('livingLesson.candidate.shareAgain.action',candidate.action);copy.why=this.i18nText('livingLesson.candidate.shareAgain.why',candidate.why);copy.success=this.i18nText('livingLesson.candidate.shareAgain.success',candidate.success);
+    }else{
+      copy.title=localValue(candidate.title);copy.action=localValue(candidate.action);copy.why=localValue(candidate.why);copy.success=localValue(candidate.success);
+    }
+    return copy;
   }
   currentLocale(){
     const i18n=this.i18n();return i18n&&i18n.normalizeLocale(i18n.locale)?i18n.locale:'en';
@@ -5075,7 +5132,7 @@ class Component extends DCLogic {
       const checked=lessonEngine.checkExperiment(experiment,this.livingLessonSnapshot(st));
       if(checked&&(checked.status!==experiment.status||checked.progress!==experiment.progress)){
         const completed=checked.status==='completed';
-        this.setState(s=>({livingLessonExperiment:checked,livingLessonHistory:completed?lessonEngine.sanitizeHistory([...(s.livingLessonHistory||[]),checked]):(s.livingLessonHistory||[]),toast:completed?'✦ The garden saw it. What you changed is now part of what it knows.':s.toast}));
+        this.setState(s=>({livingLessonExperiment:checked,livingLessonHistory:completed?lessonEngine.sanitizeHistory([...(s.livingLessonHistory||[]),checked]):(s.livingLessonHistory||[]),toast:completed?this.i18nText('livingLesson.toast.completed','✦ The garden saw it. What you changed is now part of what it knows.'):s.toast}));
       }
     }
     this.persist();
@@ -6966,9 +7023,12 @@ class Component extends DCLogic {
       barStyle:{height:'100%',width:v.value+'%',borderRadius:'5px',background:v.key==='water'?'#6F9DB2':(v.key==='food'?'#C99A3C':(v.key==='habitat'?'#7A9A58':'#6F5530')),transition:'width .55s ease'},
       valueStyle:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'10px',fontWeight:'800',color:v.value<35?'#B5613A':(v.value<65?'#9A7428':'#4E6B3D')}}));
     const lessonBox=st.livingLesson,lesson=lessonBox&&lessonBox.lesson,lessonExperiment=st.livingLessonExperiment;
+    const lessonCandidate=lesson&&lesson.experiment?this.livingLessonCandidateText(lesson.experiment):null;
+    const activeLessonCandidate=lessonExperiment&&lessonExperiment.candidate?this.livingLessonCandidateText(lessonExperiment.candidate):null;
+    const lessonNarrative=(field)=>lesson?(lesson.source==='fallback'?this.i18nValue(lesson[field]||''):(lesson[field]||'')):'';
     const lessonUnlocked=this.livingLessonUnlocked(st),lessonActive=!!(lessonExperiment&&lessonExperiment.status==='active');
-    const livingLessonButtonLabel=!lessonUnlocked?'✦ Ask after two learning acts':(lessonActive?'✦ The garden is still watching':(lessonExperiment&&lessonExperiment.status==='completed'?'✦ Ask the garden again':'✦ Ask the garden for help'));
-    const livingLessonButtonHint=!lessonUnlocked?'Finish any two learning acts first, so the garden has something of yours to look at.':(lessonActive?'Finish what the garden already asked of you, then ask again.':'The garden looks at your plot and offers one thing worth trying.');
+    const livingLessonButtonLabel=!lessonUnlocked?localText('livingLesson.locked.label','✦ Ask after two learning acts'):(lessonActive?localText('livingLesson.active.label','✦ The garden is still watching'):(lessonExperiment&&lessonExperiment.status==='completed'?localText('livingLesson.again.label','✦ Ask the garden again'):localText('livingLesson.ready.label','✦ Ask the garden for help')));
+    const livingLessonButtonHint=!lessonUnlocked?localText('livingLesson.locked.hint','Finish any two learning acts first, so the garden has something of yours to look at.'):(lessonActive?localText('livingLesson.active.hint','Finish what the garden already asked of you, then ask again.'):localText('livingLesson.ready.hint','The garden looks at your plot and offers one thing worth trying.'));
 
     const statusText=score===0?'A bare plot — ready to begin':score<40?'A living beginning':score<70?'Connections taking shape':score<100?'A flourishing design':'A richly connected design';
     const ringColor=score<40?'#C2703D':score<75?'#D2A24C':'#5E7E4A';
@@ -7546,8 +7606,11 @@ class Component extends DCLogic {
       showSummary:!!st.showSummary,
       stopProp:(e)=>e.stopPropagation(),
       livingLessonVisible:!!lessonBox,livingLessonLoading:!!lessonBox&&lessonBox.status==='loading',livingLessonReady:!!lesson,
-      livingLessonEyebrow:lesson&&lesson.source==='ai'?'The garden is listening':'The garden answers from memory',
-      livingLessonObservation:lesson?lesson.observation:'',livingLessonRelationship:lesson?lesson.relationship:'',livingLessonQuestion:lesson?lesson.question:'',
+      livingLessonCloseLabel:localText('a11y.livingLesson','Close Living Lesson'),livingLessonDialogTitle:localText('livingLesson.dialog.title','The garden reflects'),livingLessonDialogSubtitle:localText('livingLesson.dialog.subtitle','The garden has looked at what you have made and found one thing worth trying.'),livingLessonAttribution:localText('livingLesson.dialog.attribution','Its words come from GPT-5.6 Luna; the garden’s rules stay its own.'),
+      livingLessonLoadingLabel:localText('livingLesson.loading','Listening between the elements…'),livingLessonLoadingDetail:localText('livingLesson.loading.detail','The garden is reading relationships, not judging your score.'),
+      livingLessonQuestionLabel:localText('livingLesson.section.question','A question to carry'),livingLessonConnectsLabel:localText('livingLesson.section.connects','What connects'),livingLessonActionBadge:localText('livingLesson.actionBadge','Do this next'),livingLessonSuccessLabel:localText('livingLesson.section.success',"How you'll know it worked"),livingLessonWhyLabel:localText('catalog.whyShort','Why:'),livingLessonTrustSummary:localText('livingLesson.trust.summary','How this reflection is made'),livingLessonTrustDetail:localText('livingLesson.trust.detail','Only a small anonymous snapshot of this garden was used. GPT‑5.6 Luna can shape this reflection, but it cannot change game rules, scores, prices or success conditions. When AI is unavailable, the same feature continues with reviewed garden wisdom.'),livingLessonKeepObserving:localText('common.keepObserving','Keep observing'),livingLessonTry:localText('livingLesson.try','Try this experiment →'),
+      livingLessonEyebrow:lesson&&lesson.source==='ai'?localText('livingLesson.ai.eyebrow','The garden is listening'):localText('livingLesson.fallback.eyebrow','The garden answers from memory'),
+      livingLessonObservation:lessonNarrative('observation'),livingLessonRelationship:lessonNarrative('relationship'),livingLessonQuestion:lessonNarrative('question'),
       bookVisible:!!st.bookOpen,
       bookTabs:this.bookTabDefs.map(t=>({key:t.key,label:t.label,active:(st.bookTab||'elements')===t.key,cls:'pg-book-tab'+((st.bookTab||'elements')===t.key?' pg-book-tab-on':''),onClick:()=>this.setBookTab(t.key)})),
       residentStoryVisible:!!st.residentStory,
@@ -7689,11 +7752,11 @@ class Component extends DCLogic {
       onCloseBook:()=>this.closeBook(),
       livingLessonHasArt:!!(lesson&&this.lessonFocusArt[lesson.focus]),
       livingLessonArtEl:(lesson&&this.lessonFocusArt[lesson.focus])?E('img',{className:'pg-ll-art',src:this.lessonFocusArt[lesson.focus],alt:'',draggable:false,onError:(e)=>{const n=e.currentTarget;if(n&&n.parentNode){n.parentNode.removeChild(n);}}}):null,
-      livingLessonFocusLabel:(lesson&&{soil:'Living soil',water:'Water',food:'Food web',habitat:'Habitat',sharing:'Fair share',relationships:'Relationships',season:'Season'}[lesson.focus])||'Relationships',
-      livingLessonTitle:lesson&&lesson.experiment?lesson.experiment.title:'',livingLessonAction:lesson&&lesson.experiment?lesson.experiment.action:'',livingLessonWhy:lesson&&lesson.experiment?lesson.experiment.why:'',livingLessonSuccess:lesson&&lesson.experiment?lesson.experiment.success:'',
+      livingLessonFocusLabel:lesson?this.livingLessonFocusText(lesson.focus):this.livingLessonFocusText('relationships'),
+      livingLessonTitle:lessonCandidate?lessonCandidate.title:'',livingLessonAction:lessonCandidate?lessonCandidate.action:'',livingLessonWhy:lessonCandidate?lessonCandidate.why:'',livingLessonSuccess:lessonCandidate?lessonCandidate.success:'',
       onOpenLivingLesson:()=>this.openLivingLesson(),onCloseLivingLesson:()=>this.closeLivingLesson(),onAcceptLivingLesson:()=>this.acceptLivingLesson(),
       livingLessonLocked:!lessonUnlocked||lessonActive,livingLessonButtonLabel:livingLessonButtonLabel,livingLessonButtonHint:livingLessonButtonHint,
-      livingLessonExperimentVisible:!!lessonExperiment,livingLessonNoExperiment:!lessonExperiment,livingLessonExperimentTitle:lessonExperiment?lessonExperiment.candidate.title:'',livingLessonExperimentAction:lessonExperiment?lessonExperiment.candidate.action:'',livingLessonExperimentProgress:lessonExperiment?lessonExperiment.progress:'',
+      livingLessonExperimentVisible:!!lessonExperiment,livingLessonNoExperiment:!lessonExperiment,livingLessonExperimentTitle:activeLessonCandidate?activeLessonCandidate.title:'',livingLessonExperimentAction:activeLessonCandidate?activeLessonCandidate.action:'',livingLessonExperimentProgress:lessonExperiment?this.i18nValue(lessonExperiment.progress):'',
       completionButtonLabel:flourishingReady?'🌻 Open my learning certificate':(firstCycleReady?'🌿 Reflect on my first garden cycle':('◌ Reflect on my garden · '+(guided?(journey.done+'/'+journey.total+' acts'):(nextStep.done+'/'+nextStep.total+' milestones')))),
       completionAriaLabel:flourishingReady?'Open the flourishing garden learning certificate':(firstCycleReady?'Reflect on the completed first learning cycle':'Reflect on the garden and see what remains to learn'),
       completionButtonStyle:completionButtonStyle,

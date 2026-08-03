@@ -1,6 +1,7 @@
 param(
   [switch]$DryRun,
-  [switch]$Force
+  [switch]$Force,
+  [string]$CueId
 )
 
 $ErrorActionPreference = 'Stop'
@@ -68,6 +69,14 @@ $resolvedCues = foreach ($cue in $cues) {
     RelativePath = $relative
     FullPath = $fullPath
   }
+}
+
+if (-not [string]::IsNullOrWhiteSpace($CueId)) {
+  $selectedCues = @($resolvedCues | Where-Object { $_.Id -eq $CueId })
+  if ($selectedCues.Count -ne 1) {
+    throw "Unknown or ambiguous Czech audio cue id: $CueId"
+  }
+  $resolvedCues = $selectedCues
 }
 
 if ($DryRun) {
@@ -141,4 +150,4 @@ foreach ($cue in $resolvedCues) {
   }
 }
 
-Write-Host "All $($resolvedCues.Count) Czech voice cues are present."
+Write-Host "All $($resolvedCues.Count) requested Czech voice cues are present."

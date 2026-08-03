@@ -20,6 +20,41 @@ const limits = globalThis.__PG_LIVING_LESSON_LIMITS__ || new Map();
 globalThis.__PG_LIVING_LESSON_CACHE__ = cache;
 globalThis.__PG_LIVING_LESSON_LIMITS__ = limits;
 
+// A deliberately conservative guard against a model returning a correctly tagged
+// response in the wrong language. Uncertain output is safer as a reviewed,
+// localized fallback than as a stray English (or neighbouring-language) lesson.
+const LANGUAGE_PROFILES = {
+  en: ["a", "an", "and", "are", "as", "at", "between", "can", "could", "from", "garden", "how", "i", "in", "into", "is", "it", "its", "my", "near", "notice", "of", "one", "plants", "relationship", "roots", "soil", "that", "the", "this", "through", "to", "water", "what", "when", "where", "which", "with", "would", "you", "your"],
+  cs: ["a", "ale", "by", "bys", "co", "do", "díky", "jak", "je", "jsou", "kde", "která", "které", "který", "mezi", "mohl", "mohou", "může", "na", "podporují", "půda", "půdě", "půdy", "rostliny", "rostlinám", "se", "si", "spojení", "v", "ve", "vidím", "voda", "vodě", "vodu", "všímám", "vztah", "z", "zahrada", "zahradě", "zahrady", "zatímco", "ze", "že"],
+  de: ["am", "auf", "bei", "beziehung", "bemerke", "boden", "das", "dass", "dein", "deine", "dem", "den", "der", "des", "die", "du", "durch", "ein", "eine", "einer", "für", "garten", "gartens", "ich", "im", "ist", "kann", "könnte", "mein", "mit", "pflanzen", "sich", "sind", "und", "verbindung", "von", "was", "wasser", "welche", "welcher", "wenn", "wie", "wo", "würde", "wurzeln", "zwischen", "zu"],
+  fr: ["avec", "comment", "dans", "de", "des", "du", "eau", "entre", "est", "et", "grâce", "jardin", "je", "la", "le", "les", "lien", "mon", "où", "peut", "plantes", "pour", "pourrait", "près", "quand", "que", "quel", "quelle", "qui", "racines", "relation", "remarque", "sol", "sont", "sur", "ta", "tes", "ton", "tu", "un", "une", "vois"],
+  es: ["agua", "ayuda", "cómo", "con", "conexión", "cuando", "cuál", "de", "del", "desde", "dónde", "el", "en", "entre", "es", "jardín", "la", "las", "los", "mi", "noto", "para", "plantas", "podría", "por", "puede", "qué", "que", "raíces", "relación", "son", "suelo", "tú", "tu", "tus", "un", "una", "veo", "y", "yo"],
+  "pt-BR": ["a", "ajuda", "as", "água", "como", "com", "conexão", "da", "das", "de", "do", "dos", "e", "é", "em", "entre", "eu", "jardim", "meu", "o", "onde", "os", "para", "percebo", "perto", "plantas", "pode", "poderia", "por", "qual", "quando", "que", "raízes", "relação", "são", "seu", "solo", "sua", "um", "uma", "vejo", "você"],
+  pl: ["co", "do", "dzięki", "gdzie", "gleba", "glebie", "gleby", "i", "ja", "jak", "jest", "kiedy", "korzenie", "która", "które", "który", "między", "mogą", "moja", "może", "mógłby", "na", "ogród", "ogrodzie", "ogrodu", "połączenie", "rośliny", "relacja", "są", "twój", "twoja", "ty", "w", "we", "widzę", "woda", "wodę", "wodzie", "wspiera", "z", "zauważam", "ze"]
+};
+
+function outputMatchesLocale(output, locale) {
+  const combined = [output && output.observation, output && output.relationship, output && output.question]
+    .filter(Boolean).join(" ").normalize("NFC").toLocaleLowerCase(locale || "en");
+  if (!combined) return false;
+  const letters = combined.match(/\p{L}/gu) || [];
+  const cyrillicCount = (combined.match(/[\u0400-\u052f]/gu) || []).length;
+  const hanCount = (combined.match(/[\u3400-\u9fff]/gu) || []).length;
+  if (locale === "ru") return cyrillicCount >= 12 && cyrillicCount / Math.max(letters.length, 1) >= 0.72;
+  if (locale === "zh-CN") {
+    return hanCount >= 12 && hanCount / Math.max(letters.length, 1) >= 0.65;
+  }
+  if (cyrillicCount > 0 || hanCount > 0) return false;
+  const tokens = new Set(combined.match(/\p{L}+/gu) || []);
+  const scores = Object.fromEntries(Object.entries(LANGUAGE_PROFILES).map(([key, words]) => [
+    key,
+    words.reduce((count, word) => count + (tokens.has(word) ? 1 : 0), 0)
+  ]));
+  const targetScore = scores[locale] || 0;
+  const strongestOther = Math.max(0, ...Object.entries(scores).filter(([key]) => key !== locale).map(([, score]) => score));
+  return targetScore >= 2 && targetScore + 1 >= strongestOther;
+}
+
 function header(req, name) {
   const value = req.headers && (req.headers[name] || req.headers[name.toLowerCase()]);
   return Array.isArray(value) ? value[0] : String(value || "");
@@ -129,6 +164,7 @@ module.exports = async function handler(req, res) {
     const [{ generateText, Output }, { z }] = await Promise.all([import("ai"), import("zod")]);
     const candidateIds = candidates.map(item => item.id);
     const schema = z.object({
+      locale: z.literal(snapshot.locale),
       candidateId: z.enum(candidateIds),
       focus: z.enum(LivingLesson.FOCUS_KEYS),
       observation: z.string().min(12).max(260),
@@ -142,7 +178,7 @@ module.exports = async function handler(req, res) {
       system: [
         "You are Le Jardin, a poetic but scientifically careful community garden in Menet, France.",
         "Create one concise, age-inclusive learning reflection in " + responseLanguage + " from the supplied bounded game-state snapshot.",
-        "Write observation, relationship and question entirely in that language, with natural wording for young people rather than a literal translation.",
+        "Return locale exactly as " + snapshot.locale + ". Write observation, relationship and question entirely in that language, with natural wording for young people rather than a literal translation.",
         "Choose exactly one trusted experiment by candidateId. Never invent an action, score, rule, species claim, certainty, or real-world fact beyond the snapshot and trusted experiments.",
         "Observation is one warm first-person sentence in the garden's voice, grounded in visible elements and using a gentle sensory image.",
         "Never mention percentages, points, scores, metrics, keys, UI labels, progress, or the word journey. Do not merely list the snapshot.",
@@ -157,6 +193,9 @@ module.exports = async function handler(req, res) {
         openai: { reasoningEffort: "low", textVerbosity: "low", store: false }
       }
     });
+    if (!result.output || result.output.locale !== snapshot.locale || !outputMatchesLocale(result.output, snapshot.locale)) {
+      throw new Error("locale_mismatch");
+    }
     const lesson = LivingLesson.normalizeLesson(result.output, snapshot, candidates, { source: "ai", model: MODEL });
     const payload = { ok: true, lesson, mode: "ai", model: MODEL, cached: false };
     cache.set(fingerprint, { payload, expires: Date.now() + CACHE_TTL_MS });
@@ -167,7 +206,7 @@ module.exports = async function handler(req, res) {
     return send(res, 200, payload);
   } catch (error) {
     const status = Number(error && (error.statusCode || error.status));
-    const reason = status === 402 ? "credit_limit" : status === 429 ? "provider_rate_limit" : status === 401 || status === 403 ? "gateway_auth" : "provider_unavailable";
+    const reason = error && error.message === "locale_mismatch" ? "locale_mismatch" : status === 402 ? "credit_limit" : status === 429 ? "provider_rate_limit" : status === 401 || status === 403 ? "gateway_auth" : "provider_unavailable";
     return send(res, 200, fallback(snapshot, candidates, reason));
   }
 };

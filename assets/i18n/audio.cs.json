@@ -71,9 +71,9 @@
       "id": "soil",
       "kind": "garden-voice",
       "targetPath": "assets/audio/garden-voice/cs/milestone-soil.mp3",
-      "input": "[softly] Nejdřív mě nasyť. Všechno, co vidíš, začíná životem pod povrchem.",
-      "caption": "Nejdřív mě nasyť. Všechno, co vidíš, začíná životem pod povrchem.",
-      "durationMs": 5520
+      "input": "[softly] Nejdřív se postarej o půdu. Všechno, co vidíš, začíná životem pod povrchem.",
+      "caption": "Nejdřív se postarej o půdu. Všechno, co vidíš, začíná životem pod povrchem.",
+      "durationMs": 6687
     },
     {
       "id": "water",
@@ -135,9 +135,9 @@
       "id": "cinematic-spring",
       "kind": "garden-voice",
       "targetPath": "assets/audio/garden-voice/cs/season-spring.mp3",
-      "input": "[softly, with new hope] Mráz povolil své sevření. Noví společníci přicházejí opatrně a loňský déšť stoupá půdou vzhůru.",
-      "caption": "Mráz povolil své sevření. Noví společníci přicházejí opatrně a loňský déšť stoupá půdou vzhůru.",
-      "durationMs": 8560
+      "input": "[softly, with new hope] Mráz povolil. Půda znovu dýchá, pomalu se prohřívá a opatrně vítá nové sousedy.",
+      "caption": "Mráz povolil. Půda znovu dýchá, pomalu se prohřívá a opatrně vítá nové sousedy.",
+      "durationMs": 8359
     },
     {
       "id": "cinematic-summer",
@@ -167,9 +167,9 @@
       "id": "challenge:mulch",
       "kind": "garden-voice",
       "targetPath": "assets/audio/garden-voice/cs/challenge-mulch.mp3",
-      "input": "[warmly] Nejdřív přišla řada na má nejsušší místa. Teď slunce dosáhne k listům, aniž by půdě tolik bralo.",
-      "caption": "Nejdřív přišla řada na má nejsušší místa. Teď slunce dosáhne k listům, aniž by půdě tolik bralo.",
-      "durationMs": 7200
+      "input": "[warmly] Nejdřív jsi ochránil nejsušší místa. Listy dál dostávají světlo, ale půda pod nimi ztrácí méně vláhy.",
+      "caption": "Nejdřív jsi ochránil nejsušší místa. Listy dál dostávají světlo, ale půda pod nimi ztrácí méně vláhy.",
+      "durationMs": 8751
     },
     {
       "id": "challenge:compost",
@@ -207,9 +207,9 @@
       "id": "challenge:ladybug",
       "kind": "garden-voice",
       "targetPath": "assets/audio/garden-voice/cs/challenge-ladybug.mp3",
-      "input": "[with quiet wonder] Nemusel utichnout všechen hmyz. Místo toho se obnovil rozhovor mezi jeho obyvateli.",
-      "caption": "Nemusel utichnout všechen hmyz. Místo toho se obnovil rozhovor mezi jeho obyvateli.",
-      "durationMs": 7680
+      "input": "[with quiet wonder] Nemusel zmizet všechen hmyz. Místo toho se do zahrady vrátila pestřejší rovnováha.",
+      "caption": "Nemusel zmizet všechen hmyz. Místo toho se do zahrady vrátila pestřejší rovnováha.",
+      "durationMs": 7471
     },
     {
       "id": "challenge:bee",

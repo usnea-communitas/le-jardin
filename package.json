@@ -9,6 +9,7 @@
     "check:i18n": "node scripts/check-i18n.mjs",
     "test:i18n": "node scripts/test-i18n.mjs",
     "test:living-lesson": "node scripts/test-living-lesson.mjs && node scripts/test-living-lesson-api.mjs",
+    "test:i18n:living-lesson": "node scripts/test-living-lesson-i18n-matrix.mjs",
     "test:e2e:living-lesson": "node scripts/run-local-e2e.mjs scripts/e2e-living-lesson.mjs",
     "test:e2e:i18n": "node scripts/e2e-i18n.mjs",
     "test:e2e:i18n-surfaces": "node scripts/e2e-i18n-surface-audit.mjs",
