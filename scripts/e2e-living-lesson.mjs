@@ -52,6 +52,8 @@ page.on("console", message => { if (message.type() === "error") errors.push("con
 let apiCalls = 0;
 let failApi = false;
 let livePayload = null;
+let raceMode = false;
+let raceCalls = 0;
 
 if (liveApi) {
   page.on("response", async response => {
@@ -69,14 +71,25 @@ if (liveApi) {
     }
     const body = route.request().postDataJSON();
     const candidates = engine.buildCandidates(body.snapshot);
+    const raceCall = raceMode ? ++raceCalls : 0;
+    if (raceCall === 1) await new Promise(resolve => setTimeout(resolve, 450));
+    if (raceCall === 2) await new Promise(resolve => setTimeout(resolve, 30));
     const lesson = engine.normalizeLesson({
       candidateId: candidates[0].id,
       focus: candidates[0].focus,
-      observation: "I notice one relationship waiting for a helpful neighbour.",
+      observation: raceCall === 1
+        ? "STALE_OLD_REQUEST should never replace a newly opened lesson."
+        : raceCall === 2
+          ? "CURRENT_NEW_REQUEST belongs to the garden that is open now."
+          : "I notice one relationship waiting for a helpful neighbour.",
       relationship: "Connected placement helps one element's useful output meet another element's need.",
       question: "What changes when you place the next element for a relationship rather than in isolation?"
     }, body.snapshot, candidates, { source: "ai", model: "openai/gpt-5.6-luna" });
-    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, mode: "ai", model: "openai/gpt-5.6-luna", lesson }) });
+    try {
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, mode: "ai", model: "openai/gpt-5.6-luna", lesson }) });
+    } catch (error) {
+      if (raceCall !== 1) throw error;
+    }
   });
 }
 
@@ -102,6 +115,46 @@ try {
   await page.evaluate(({ key, value }) => { localStorage.clear(); localStorage.setItem(key, JSON.stringify(value)); }, { key: "permagarden_v2", value: state });
   await page.reload({ waitUntil: "domcontentloaded" });
   await waitForGame();
+
+  if (localHarness && !liveApi) {
+    raceMode = true;
+    apiCalls = 0;
+    raceCalls = 0;
+    await page.evaluate(() => {
+      localStorage.removeItem("permagarden_living_lessons_v1");
+      localStorage.removeItem("permagarden_living_lesson_quota_v1");
+      window.__PERMAGARDEN_APP__.openLivingLesson();
+    });
+    for (let waited = 0; raceCalls < 1 && waited < 40; waited += 1) await page.waitForTimeout(25);
+    check(raceCalls === 1, "the stale-request regression starts its first reflection request", { raceCalls });
+    await page.evaluate(() => {
+      const app = window.__PERMAGARDEN_APP__;
+      app.closeLivingLesson();
+      app.setState(s => ({ placed: [...s.placed, { id: "race-p3", type: "mulch", x: 36, y: 44, placedAtTurn: s.seasonTurns || 0 }] }), () => app.openLivingLesson());
+    });
+    await page.waitForFunction(() => {
+      const box = window.__PERMAGARDEN_APP__.state.livingLesson;
+      return box && box.status === "ready" && box.lesson && /CURRENT_NEW_REQUEST/.test(box.lesson.observation || "");
+    }, null, { timeout: 5000 });
+    await page.waitForTimeout(550);
+    const raceResult = await page.evaluate(() => {
+      const box = window.__PERMAGARDEN_APP__.state.livingLesson;
+      return { status: box && box.status, observation: box && box.lesson && box.lesson.observation };
+    });
+    check(raceCalls === 2 && /CURRENT_NEW_REQUEST/.test(raceResult.observation || "") && !/STALE_OLD_REQUEST/.test(raceResult.observation || ""), "closing and reopening Luna cannot leak a stale response into the new lesson", { raceCalls, raceResult });
+    await page.evaluate(({ key, value }) => {
+      const app = window.__PERMAGARDEN_APP__;
+      app.closeLivingLesson();
+      localStorage.setItem(key, JSON.stringify(value));
+      localStorage.removeItem("permagarden_living_lessons_v1");
+      localStorage.removeItem("permagarden_living_lesson_quota_v1");
+    }, { key: "permagarden_v2", value: state });
+    raceMode = false;
+    apiCalls = 0;
+    raceCalls = 0;
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await waitForGame();
+  }
 
   const budgetBefore = (await savedGame()).budget;
   const button = page.getByTestId("living-lesson-button");
@@ -133,7 +186,7 @@ try {
   }
   if (resolvedMode === "ai") {
     check(
-      !livePayload || (livePayload.lesson?.source === "ai" && livePayload.lesson?.promptVersion === "living-lesson-v2"),
+      !livePayload || (livePayload.lesson?.source === "ai" && livePayload.lesson?.promptVersion === engine.PROMPT_VERSION),
       "production lesson preserves its AI provenance and prompt version, including cached lessons",
       livePayload
         ? { source: livePayload.lesson?.source, promptVersion: livePayload.lesson?.promptVersion, apiCalls }
@@ -167,6 +220,8 @@ try {
     return saved.livingLessonExperiment&&saved.livingLessonExperiment.status==="active";
   });
   check((await savedGame()).livingLessonExperiment.status === "active", "accepted reflection persists as an active experiment");
+  await page.waitForFunction(() => document.activeElement && document.activeElement.dataset && document.activeElement.dataset.testid === "living-lesson-progress");
+  check(await page.getByTestId("living-lesson-progress").evaluate(element => element === document.activeElement), "accepting a lesson moves keyboard focus to its active experiment");
 
   if (localHarness) {
     await page.evaluate(() => {

@@ -137,23 +137,6 @@ const visibleDialogs = page => page.evaluate(() => Array.from(document.querySele
   })
   .map(element => element.getAttribute('data-pg-dialog')));
 
-const makeResidentStoryInPage = (app, id) => {
-  const resident = app.residentStories.find(item => item.beats.some(beat => beat.id === id));
-  const index = resident ? resident.beats.findIndex(beat => beat.id === id) : -1;
-  const beat = resident && index >= 0 ? resident.beats[index] : null;
-  if (!resident || !beat) throw new Error('Unknown resident story id: ' + id);
-  return {
-    id: beat.id,
-    resident: resident.key,
-    residentName: resident.name,
-    title: beat.title,
-    text: beat.text,
-    art: 'assets/residents/' + beat.id + '.webp',
-    index: index + 1,
-    total: resident.beats.length
-  };
-};
-
 const measureDialog = (page, selector) => page.evaluate(async dialogSelector => {
   const dialog = document.querySelector(dialogSelector);
   if (!dialog) return { exists: false };

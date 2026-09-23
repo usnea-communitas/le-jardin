@@ -160,6 +160,12 @@ module.exports = async function handler(req, res) {
     return send(res, 200, fallback(snapshot, candidates, "gateway_unavailable"));
   }
 
+  const requestAbort = new AbortController();
+  const onDisconnect = () => {
+    if (!res.writableEnded) requestAbort.abort(new Error("client_disconnected"));
+  };
+  if (req.once) req.once("aborted", onDisconnect);
+  if (res.once) res.once("close", onDisconnect);
   try {
     const [{ generateText, Output }, { z }] = await Promise.all([import("ai"), import("zod")]);
     const candidateIds = candidates.map(item => item.id);
@@ -187,6 +193,7 @@ module.exports = async function handler(req, res) {
       ].join(" "),
       prompt,
       maxOutputTokens: 320,
+      abortSignal: requestAbort.signal,
       timeout: { totalMs: 12000 },
       providerOptions: {
         gateway: { only: ["openai"], user: client, tags: ["permaculture-garden", "living-lesson", LivingLesson.PROMPT_VERSION] },
@@ -205,8 +212,12 @@ module.exports = async function handler(req, res) {
     }
     return send(res, 200, payload);
   } catch (error) {
+    if (requestAbort.signal.aborted || res.destroyed) return;
     const status = Number(error && (error.statusCode || error.status));
     const reason = error && error.message === "locale_mismatch" ? "locale_mismatch" : status === 402 ? "credit_limit" : status === 429 ? "provider_rate_limit" : status === 401 || status === 403 ? "gateway_auth" : "provider_unavailable";
     return send(res, 200, fallback(snapshot, candidates, reason));
+  } finally {
+    if (req.removeListener) req.removeListener("aborted", onDisconnect);
+    if (res.removeListener) res.removeListener("close", onDisconnect);
   }
 };

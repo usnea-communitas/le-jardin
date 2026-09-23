@@ -1233,6 +1233,7 @@
     "garden.give": "赠予对象",
     "error.dropOutside": "把它放到绿色地块上，才能种植。",
     "error.seedBankRequired": "🌰 先放置种子库——这里的每种作物都从保存下来的社区种子开始。",
+    "error.saveUnavailable": "⚠ 此浏览器无法保存你的进度。游玩期间请保持此标签页打开。",
     "error.seedPacketUsed": "每季可获得一包这种作物的种子——也可以播种你自己保存的种子。播种前先进行季节回合。",
     "error.resources": "参与点数或预算不足——分享真正的盈余、通过挑战学习，或等待社区赠予。",
     "error.kitchenRequired": "🏵 先建造花园厨房——保存收成需要炉灶和架子。",

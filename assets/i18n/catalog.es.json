@@ -1252,6 +1252,7 @@
     "garden.give": "Dar a",
     "error.dropOutside": "Suéltalo en el terreno verde para plantarlo.",
     "error.seedBankRequired": "🌰 Planta primero un banco de semillas; todos los cultivos de aquí empiezan como semillas comunitarias guardadas.",
+    "error.saveUnavailable": "⚠ Este navegador no pudo guardar tu progreso. Mantén esta pestaña abierta mientras juegas.",
     "error.seedPacketUsed": "Hay disponible un paquete de semillas de este cultivo por estación; también puedes sembrar tus propias semillas guardadas. Cambia de estación antes de volver a sembrarlo.",
     "error.resources": "No hay suficientes fichas de participación ni presupuesto; comparte un excedente real, aprende con un desafío o espera a que la comunidad ofrezca algo.",
     "error.kitchenRequired": "🏵 Construye primero una cocina del jardín; para conservar alimentos hacen falta un fogón y estantes.",

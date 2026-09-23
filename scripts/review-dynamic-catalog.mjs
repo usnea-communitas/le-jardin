@@ -1,7 +1,6 @@
 import { readFile, rename, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { generateText, Output } from "ai";
-import { gateway } from "@ai-sdk/gateway";
 import { z } from "zod";
 
 const root = resolve(import.meta.dirname, "..");

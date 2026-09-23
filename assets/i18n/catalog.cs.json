@@ -1235,6 +1235,7 @@
     "garden.give": "Darovat komu",
     "error.dropOutside": "Polož to na zelený pozemek a zasaď to.",
     "error.seedBankRequired": "🌰 Nejprve zasaď semínkovnu — každá plodina tady začíná jako uchované komunitní osivo.",
+    "error.saveUnavailable": "⚠ V tomto prohlížeči se nepodařilo uložit postup. Během hraní nech tuto kartu otevřenou.",
     "error.seedPacketUsed": "Pro každé roční období je k dispozici jeden sáček osiva této plodiny — nebo zasej vlastní uchované osivo. Než plodinu zaseješ z dalšího sáčku, přejdi do dalšího období.",
     "error.resources": "Nemáš dost žetonů zapojení ani rozpočtu — sdílej skutečný přebytek, uč se ve výzvě nebo počkej na nabídku komunity.",
     "error.kitchenRequired": "🏵 Nejprve postav zahradní kuchyni — uchovávání úrody potřebuje sporák a police.",

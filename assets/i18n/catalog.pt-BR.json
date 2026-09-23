@@ -1252,6 +1252,7 @@
     "garden.give": "Dar para",
     "error.dropOutside": "Solte no terreno verde para plantar.",
     "error.seedBankRequired": "🌰 Plante primeiro um banco de sementes — toda cultura daqui começa como semente comunitária guardada.",
+    "error.saveUnavailable": "⚠ Este navegador não conseguiu salvar seu progresso. Mantenha esta aba aberta enquanto joga.",
     "error.seedPacketUsed": "Há um pacote de sementes dessa cultura disponível por estação — ou semeie a partir das suas próprias sementes guardadas. Avance a estação antes de semear novamente.",
     "error.resources": "Faltam fichas de participação ou orçamento — compartilhe um excedente real, aprenda por meio de um desafio ou espere uma oferta da comunidade.",
     "error.kitchenRequired": "🏵 Construa primeiro uma cozinha do jardim — conservar alimentos exige fogão e prateleiras.",

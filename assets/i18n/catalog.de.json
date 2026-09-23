@@ -1252,6 +1252,7 @@
     "garden.give": "Geben an",
     "error.dropOutside": "Lass es auf die grüne Fläche fallen, um es dort zu pflanzen.",
     "error.seedBankRequired": "🌰 Pflanze zuerst eine Saatgutbank — jede Kulturpflanze hier beginnt mit aufbewahrtem Gemeinschaftssaatgut.",
+    "error.saveUnavailable": "⚠ Dieser Browser konnte deinen Fortschritt nicht speichern. Lass diesen Tab beim Spielen geöffnet.",
     "error.seedPacketUsed": "Pro Jahreszeit ist ein Saatgutpäckchen dieser Kulturpflanze verfügbar — oder säe aus deinem eigenen aufbewahrten Saatgut. Wechsle die Jahreszeit, bevor du erneut säst.",
     "error.resources": "Nicht genug Mitmachpunkte oder Budget — teile echten Überschuss, lerne durch eine Herausforderung oder warte auf ein Angebot der Gemeinschaft.",
     "error.kitchenRequired": "🏵 Baue zuerst eine Gartenküche — zum Haltbarmachen brauchst du einen Herd und Regale.",
