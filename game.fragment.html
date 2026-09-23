@@ -278,7 +278,6 @@ html,body{margin:0;padding:0}
 @keyframes flit{0%,100%{transform:translate(0,0) rotate(-4deg)}25%{transform:translate(5px,-7px) rotate(5deg)}50%{transform:translate(-3px,-11px) rotate(-3deg)}75%{transform:translate(-7px,-4px) rotate(4deg)}}
 @keyframes wiggle{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
 @keyframes steam{0%{opacity:0;transform:translateY(2px)}30%{opacity:.65}100%{opacity:0;transform:translateY(-8px)}}
-@keyframes drip{0%{transform:translateY(0);opacity:0}25%{opacity:1}75%{opacity:1}100%{transform:translateY(8px);opacity:0}}
 @keyframes shimmer{0%,100%{opacity:.3}50%{opacity:.9}}
 .plot-drop-hot{outline:3px dashed #C99A3C !important;outline-offset:-3px;}
 .pg-game-shell :where(button,[role="button"],a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])):focus-visible,
@@ -292,35 +291,13 @@ html,body{margin:0;padding:0}
 @keyframes giftPulse{0%,100%{box-shadow:inset 0 0 0 2px rgba(201,154,60,.28)}50%{box-shadow:inset 0 0 0 3px rgba(201,154,60,.62)}}
 @keyframes ghostPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.72}50%{transform:translate(-50%,-50%) scale(1.12);opacity:1}}
 @keyframes pickup-hover{0%,100%{transform:translate(-50%,-50%) translateY(0) scale(1)}50%{transform:translate(-50%,-50%) translateY(-3px) scale(1.04)}}
-@keyframes pickup-sparkle{0%,100%{filter:brightness(1);opacity:.92}50%{filter:brightness(1.15);opacity:1}}
-@keyframes rays{to{transform:rotate(360deg)}}
 @keyframes confetti{0%{transform:translateY(-6px) rotate(0deg);opacity:0}12%{opacity:1}100%{transform:translateY(52px) rotate(240deg);opacity:0}}
-.tree-layer{opacity:0;transition:opacity .6s ease}
-.tree-layer.is-on{opacity:1}
 .give-hot{box-shadow:inset 0 0 0 3px rgba(201,154,60,.6) !important;border-style:solid !important;border-color:#7A5D18 !important;background:#FBF3DC !important;}
 .give-hot svg{transform:scale(1.12);transition:transform .18s}
 @keyframes fallDrift{0%{top:-4%;opacity:0;transform:translateX(0) rotate(0deg)}6%{opacity:.95}88%{opacity:.8}100%{top:102%;opacity:0;transform:translateX(26px) rotate(310deg)}}
 /* ===== Final seasonal animation pack (pg-*) ===== */
-.pg-anim{transform-box:fill-box;transform-origin:center;will-change:transform,opacity}
-.pg-particle{position:absolute;pointer-events:none;z-index:4}
 @keyframes pg-sway{0%,100%{transform:rotate(-1.3deg)}50%{transform:rotate(1.3deg)}}
 @keyframes pg-leaf-sway{0%,100%{transform:rotate(-2deg) translateY(0)}50%{transform:rotate(1.8deg) translateY(-1px)}}
-@keyframes pg-soft-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
-@keyframes pg-fruit-bob{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-1.5px) scale(1.025)}}
-@keyframes pg-wiggle{0%,100%{transform:rotate(-4deg) translateX(0)}50%{transform:rotate(4deg) translateX(1px)}}
-@keyframes pg-crawl{0%,100%{transform:translateX(-1px) rotate(-2deg)}50%{transform:translateX(1px) rotate(2deg)}}
-@keyframes pg-flit{0%,100%{transform:translate(0,0) rotate(-4deg)}25%{transform:translate(4px,-5px) rotate(4deg)}50%{transform:translate(-2px,-8px) rotate(-3deg)}75%{transform:translate(-5px,-3px) rotate(4deg)}}
-@keyframes pg-flutter{0%,100%{transform:translate(0,0) rotate(-3deg) scaleX(1)}25%{transform:translate(3px,-4px) rotate(4deg) scaleX(.96)}50%{transform:translate(-2px,-7px) rotate(-2deg) scaleX(1.04)}75%{transform:translate(-4px,-3px) rotate(3deg) scaleX(.98)}}
-@keyframes pg-steam-rise{0%{opacity:0;transform:translateY(5px) scale(.9)}30%{opacity:.55}100%{opacity:0;transform:translateY(-11px) scale(1.08)}}
-@keyframes pg-drip{0%{opacity:0;transform:translateY(-2px)}20%,70%{opacity:.85}100%{opacity:0;transform:translateY(8px)}}
-@keyframes pg-ripple{0%{opacity:.55;transform:scale(.72)}100%{opacity:0;transform:scale(1.24)}}
-@keyframes pg-glint{0%{opacity:0;transform:translateX(-4px)}45%,55%{opacity:.72}100%{opacity:0;transform:translateX(8px)}}
-@keyframes pg-grow-shimmer{0%,100%{opacity:.82;transform:scale(1)}50%{opacity:1;transform:scale(1.035)}}
-@keyframes pg-petal-drift{0%{opacity:0;transform:translate(0,-6px) rotate(0deg)}10%{opacity:.85}100%{opacity:0;transform:translate(18px,42px) rotate(220deg)}}
-@keyframes pg-leaf-drift{0%{opacity:0;transform:translate(0,-8px) rotate(0deg)}8%{opacity:.9}100%{opacity:0;transform:translate(26px,48px) rotate(300deg)}}
-@keyframes pg-snow-drift{0%{opacity:0;transform:translate(0,-8px)}15%{opacity:.72}100%{opacity:0;transform:translate(12px,38px)}}
-@keyframes pg-frost-sparkle{0%,100%{opacity:.12;transform:scale(.82)}50%{opacity:.72;transform:scale(1.05)}}
-@keyframes pg-sleep-breathe{0%,100%{transform:scale(1);opacity:.72}50%{transform:scale(1.025);opacity:.86}}
 /* ===== The Garden Is Waiting — opening story ===== */
 @keyframes storyEnter{from{opacity:0}to{opacity:1}}
 @keyframes storyLeave{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.018)}}
@@ -338,7 +315,6 @@ html,body{margin:0;padding:0}
 .pg-story-tool{height:34px;min-width:34px;padding:0 11px;border:0;border-radius:11px;background:transparent;color:rgba(255,255,255,.9);font:700 11px 'Hanken Grotesk',sans-serif;letter-spacing:.02em;cursor:pointer;display:inline-grid;place-items:center;transition:background .18s,color .18s,transform .18s}
 .pg-story-tool:hover{background:rgba(255,255,255,.14);color:#fff;transform:translateY(-1px)}
 .pg-story-caption{position:absolute;z-index:20;left:clamp(18px,5.5vw,92px);bottom:clamp(68px,9vh,104px);width:min(610px,calc(100vw - 36px));padding:clamp(19px,2.5vw,30px) clamp(20px,3vw,36px);border-radius:25px;background:linear-gradient(135deg,rgba(248,244,232,.94),rgba(241,237,220,.84));border:1px solid rgba(255,255,255,.68);box-shadow:0 28px 70px -25px rgba(6,12,6,.7);backdrop-filter:blur(16px);color:#263222}
-.pg-story-caption-in{animation:storyCaption .72s cubic-bezier(.2,.7,.25,1) both}
 .pg-story-kicker{font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#6D835D;margin-bottom:8px}
 .pg-story-caption h2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(25px,3vw,42px);line-height:1.04;letter-spacing:-.028em;margin:0 0 11px;color:#2F3B2A}
 .pg-story-caption p{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(16px,1.65vw,22px);line-height:1.47;letter-spacing:-.008em;margin:0;color:#46513F;text-wrap:balance}
@@ -570,7 +546,6 @@ html,body{margin:0;padding:0}
 .pg-living-lesson-card p{margin:0;font-size:12px;line-height:1.5;color:#5A5240}
 .pg-living-lesson-trigger{position:relative;overflow:hidden;width:100%;margin-top:11px;padding:13px 14px;border:1px solid #4f6b43;border-radius:13px;background:linear-gradient(145deg,#6d8f59,#37502f);color:#fff9ea;font:800 13px 'Hanken Grotesk',sans-serif;letter-spacing:.01em;cursor:pointer;box-shadow:0 14px 26px -16px rgba(30,51,27,.95),inset 0 1px 0 rgba(255,255,255,.16);transition:transform .16s,filter .16s}
 .pg-living-lesson-trigger:hover{transform:translateY(-1px);filter:brightness(1.07)}
-@keyframes pgAskSheen{0%{transform:translateX(-120%)}100%{transform:translateX(240%)}}
 .pg-living-lesson-trigger:after{content:'';position:absolute;left:14px;right:14px;bottom:7px;height:1px;pointer-events:none;background:rgba(201,154,60,.55);transition:background .25s}
 .pg-living-lesson-trigger:hover:after{background:rgba(201,154,60,.95)}
 .pg-living-lesson-trigger[aria-disabled='true']{background:#EDE6D6;border-color:#DCD0B4;color:#A99E86;box-shadow:none}
@@ -628,7 +603,6 @@ html,body{margin:0;padding:0}
 .pg-living-lesson-orbit{width:55px;height:55px;margin-bottom:15px;border:2px solid rgba(90,119,74,.2);border-top-color:#5e7e4a;border-radius:50%;animation:pgLessonTurn 1.2s linear infinite}
 @keyframes pgLessonTurn{to{transform:rotate(360deg)}}
 .pg-living-lesson-voice{padding:16px 18px;border:1px solid rgba(105,130,84,.27);border-radius:16px;background:linear-gradient(145deg,rgba(244,248,233,.9),rgba(232,239,216,.78));font:italic 20px/1.48 Georgia,'Times New Roman',serif;color:#34432f;text-wrap:balance}
-.pg-living-lesson-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:11px 0}
 .pg-res{position:relative;width:min(560px,94vw);max-height:92vh;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;border:1px solid rgba(113,88,52,.32);border-radius:26px;background-image:url('assets/ui/paper-grain.webp'),linear-gradient(158deg,#FFFAF0,#EFE5D0);background-size:230px auto,auto;background-repeat:repeat,no-repeat;background-blend-mode:multiply,normal;box-shadow:0 34px 82px -26px rgba(14,25,13,.92);animation:floatIn .5s ease}
 .pg-res-frame{position:relative;height:clamp(170px,30vh,250px);overflow:hidden;background:#E4EDD0}
 .pg-res-art{width:100%;height:100%;object-fit:cover;display:block;transform-origin:50% 56%;animation:pgReflectionBreathe 11s ease-in-out infinite;will-change:transform}
@@ -811,13 +785,12 @@ html,body{margin:0;padding:0}
 .pg-living-lesson-trust summary{cursor:pointer;font-size:10.5px;font-weight:700;color:#6E7D5C;letter-spacing:.04em}
 @media (prefers-reduced-motion: reduce){.pg-ll-art{animation:none}}
 @media (max-width:620px){.pg-ll-hero{flex-direction:column}.pg-ll-art-frame{width:100%;height:150px}}
-.pg-living-lesson-question{margin:11px 0;padding:11px 14px;border-left:3px solid #c49a44;background:rgba(248,239,214,.64);font:italic 15px/1.45 Georgia,'Times New Roman',serif;color:#4d493b}
 .pg-living-lesson-experiment p{margin:0 0 7px;font-size:12px;line-height:1.46;color:#514b40}
 .pg-living-lesson-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:16px}
 .pg-living-lesson-actions button{border-radius:11px;padding:10px 14px;font:800 11px 'Hanken Grotesk',sans-serif;cursor:pointer}
 .pg-living-lesson-secondary{border:1px solid rgba(95,114,80,.3);background:rgba(255,252,243,.7);color:#526249}
 .pg-living-lesson-trust{margin-top:13px;padding-top:11px;border-top:1px solid rgba(107,87,57,.17);font-size:9.5px;line-height:1.45;color:#7a705f}
-@media(max-width:600px){.pg-living-lesson-dialog{padding:24px 18px 20px}.pg-living-lesson-grid{grid-template-columns:1fr}.pg-living-lesson-voice{font-size:18px}}
+@media(max-width:600px){.pg-living-lesson-dialog{padding:24px 18px 20px}.pg-living-lesson-voice{font-size:18px}}
 @media(prefers-reduced-motion:reduce){.pg-living-lesson-orbit{animation:none;border-color:#5e7e4a}}
 .pg-guild-voice{margin:0 0 13px;padding:10px 12px;border:1px solid rgba(111,134,96,.22);border-radius:12px;background:linear-gradient(145deg,#f4f1e4,#e7edda);font:italic 13px/1.48 Georgia,'Times New Roman',serif;color:#43523b}
 .pg-cinematic{position:absolute;inset:0;z-index:720;background:#162017;overflow:hidden;display:grid;place-items:center;animation:pgCineIn .65s ease both}
@@ -2001,7 +1974,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         <div class="pg-living-lesson-card" data-testid="living-lesson-card">
           <div class="pg-living-lesson-kicker"><img src="assets/ui/icons/garden-voice.svg" alt="">Ask the garden</div>
           <sc-if value="{{ livingLessonExperimentVisible }}" hint-placeholder-val="false">
-            <div class="pg-living-lesson-progress">
+            <div class="pg-living-lesson-progress" data-testid="living-lesson-progress" role="status" tabindex="-1">
               <strong>{{ livingLessonExperimentTitle }}</strong>
               <p>{{ livingLessonExperimentAction }}</p>
               <p style="margin-top:4px;color:#526749;font-weight:700">{{ livingLessonExperimentProgress }}</p>
@@ -2480,8 +2453,9 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         <div class="pg-living-lesson-kicker"><img src="assets/ui/icons/garden-voice.svg" alt="">{{ livingLessonEyebrow }}</div>
         <h2 class="pg-living-lesson-title" id="pg-living-lesson-title">{{ livingLessonDialogTitle }}</h2>
         <div class="pg-living-lesson-subtitle">{{ livingLessonDialogSubtitle }} <span class="pg-living-lesson-attrib">{{ livingLessonAttribution }}</span></div>
+        <div class="pg-sr-only" role="status" aria-live="polite" aria-atomic="true">{{ livingLessonStatusAnnouncement }}</div>
         <sc-if value="{{ livingLessonLoading }}" hint-placeholder-val="false">
-          <div class="pg-living-lesson-loading" role="status" aria-live="polite"><div><div class="pg-living-lesson-orbit" aria-hidden="true"></div><strong>{{ livingLessonLoadingLabel }}</strong><div style="font-size:11px;margin-top:6px;color:#746b5b">{{ livingLessonLoadingDetail }}</div></div></div>
+          <div class="pg-living-lesson-loading"><div><div class="pg-living-lesson-orbit" aria-hidden="true"></div><strong>{{ livingLessonLoadingLabel }}</strong><div style="font-size:11px;margin-top:6px;color:#746b5b">{{ livingLessonLoadingDetail }}</div></div></div>
         </sc-if>
         <sc-if value="{{ livingLessonReady }}" hint-placeholder-val="false">
           <div class="pg-ll-hero">
@@ -2566,7 +2540,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
 
         <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:15px">
           <span style="font-size:12px;color:#8A7E66;font-weight:500">grown with care by</span>
-          <input value="{{ playerName }}" sc-camel-on-change="{{ onNameChange }}" aria-label="{{ summaryNameLabel }}" placeholder="your name" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#2C3525;background:transparent;border:none;border-bottom:2px dotted #C99A3C;outline:none;padding:1px 6px;width:170px;text-align:center">
+          <input value="{{ playerName }}" sc-camel-on-change="{{ onNameChange }}" maxlength="80" aria-label="{{ summaryNameLabel }}" placeholder="your name" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;color:#2C3525;background:transparent;border:none;border-bottom:2px dotted #C99A3C;outline:none;padding:1px 6px;width:170px;text-align:center">
         </div>
 
         <div class="pg-summary-map" style="{{ summaryMapStyle }}">
@@ -2625,7 +2599,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         <div class="pg-reflection-block"><div style="font-size:10px;font-weight:800;color:#5E7E4A;text-transform:uppercase;letter-spacing:.09em;margin-bottom:3px">A principle you practised</div><div style="font-size:12px;line-height:1.45;color:#524B3E">{{ reflectionLearning }}</div></div>
         <div class="pg-reflection-block"><div style="font-size:10px;font-weight:800;color:#B5613A;text-transform:uppercase;letter-spacing:.09em;margin-bottom:3px">One small action beyond the screen</div><div style="font-size:12px;line-height:1.45;color:#524B3E">{{ reflectionAction }}</div></div>
         <label style="display:block;margin:10px 0 13px;font-size:9.5px;font-weight:800;color:#5E7E4A;letter-spacing:.09em;text-transform:uppercase">Make the reflection yours
-          <textarea value="{{ reflectionNote }}" sc-camel-on-change="{{ onReflectionNoteChange }}" aria-label="Your own garden reflection" placeholder="What did you notice, and what will you try in a real garden?" style="display:block;width:100%;min-height:66px;resize:vertical;margin-top:6px;border:1.5px solid #D8CEB8;border-radius:11px;background:#FFFDF6;color:#3F4939;font:500 12px/1.45 'Hanken Grotesk',sans-serif;padding:9px 10px"></textarea>
+          <textarea value="{{ reflectionNote }}" sc-camel-on-change="{{ onReflectionNoteChange }}" maxlength="500" aria-label="Your own garden reflection" placeholder="What did you notice, and what will you try in a real garden?" style="display:block;width:100%;min-height:66px;resize:vertical;margin-top:6px;border:1.5px solid #D8CEB8;border-radius:11px;background:#FFFDF6;color:#3F4939;font:500 12px/1.45 'Hanken Grotesk',sans-serif;padding:9px 10px"></textarea>
         </label>
 
         <sc-if value="{{ hasImprove }}" hint-placeholder-val="{{ false }}">
@@ -2904,146 +2878,6 @@ class Component extends DCLogic {
     keys.forEach(k=>{ m[k]=E('img',{src:'assets/wobj-'+k+'.webp',alt:'',loading:'lazy',draggable:false,style:{width:'100%',height:'100%',objectFit:'contain',objectPosition:'50% 100%',display:'block',pointerEvents:'none'}}); });
     return m;
   }
-  makeScenes(){    const E=React.createElement;
-    const P=(d,f,k,ex)=>E('path',Object.assign({d:d,fill:f===undefined?'none':f,key:'p'+k},ex||{}));
-    const C=(x,y,r,f,k)=>E('circle',{cx:x,cy:y,r:r,fill:f,key:'c'+k});
-    const R=(x,y,w,h,f,k,rx)=>E('rect',{x:x,y:y,width:w,height:h,fill:f,rx:rx||0,key:'r'+k});
-    const EL=(x,y,rx,ry,f,k)=>E('ellipse',{cx:x,cy:y,rx:rx,ry:ry,fill:f,key:'e'+k});
-    const S=(ch)=>E('svg',{viewBox:'0 0 72 72',width:'100%',height:'100%',style:{display:'block',overflow:'visible'}},ch);
-    const sh=()=>EL(36,67,21,4.5,'rgba(40,55,20,.22)','sh');
-    const CX=(x,y,r,f,k,ex)=>E('circle',Object.assign({cx:x,cy:y,r:r,fill:f,key:'x'+k},ex||{}));
-    const RX=(x,y,w,h,f,k,rx,ex)=>E('rect',Object.assign({x:x,y:y,width:w,height:h,fill:f,rx:rx||0,key:'y'+k},ex||{}));
-    const ELX=(x,y,rx,ry,f,k,ex)=>E('ellipse',Object.assign({cx:x,cy:y,rx:rx,ry:ry,fill:f,key:'z'+k},ex||{}));
-    const G=(st,ch,k)=>E('g',{key:'g'+k,style:st},ch);
-    const sway2=(o,d,dl)=>({animation:'sway '+d+'s ease-in-out infinite'+(dl?' '+dl+'s':''),transformOrigin:o});
-    const sprout=(x,y,k)=>G(sway2(x+'px '+y+'px',3.6),[R(x-1,y-9,2,9,'#4A7E33','sa'+k,1),P('M'+x+' '+(y-7)+'c-1.5-3-4.5-3.8-6.5-3.8 0 3 3 4.4 6.5 3.8z','#6FA94B','sb'+k),P('M'+x+' '+(y-7)+'c1.5-3 4.5-3.8 6.5-3.8 0 3-3 4.4-6.5 3.8z','#82B85C','sc'+k)],'sp'+k);
-    const beeMini=(x,y,k,d)=>G({animation:'flit '+(d||4.2)+'s ease-in-out infinite'},[ELX(x-2,y-2.6,1.9,1.3,'rgba(255,255,255,.85)','bw'+k),ELX(x,y,3,2.2,'#F2C84B','bb'+k),P('M'+(x-1.1)+' '+(y-1.9)+'v3.8M'+(x+1.1)+' '+(y-1.9)+'v3.8','none','bs'+k,{stroke:'#3A2A18',strokeWidth:.9,strokeLinecap:'round'})],'be'+k);
-    return {
-      compost: S([sh(),
-        RX(17,34,5,28,'#7E5430','k1',1.5),RX(50,34,5,28,'#7E5430','k2',1.5),
-        RX(15,38,42,5,'#9A6B3C','k3',2),RX(15,46,42,5,'#9A6B3C','k4',2),RX(15,54,42,5,'#9A6B3C','k5',2),
-        RX(15,38,42,1.6,'#B5894F','k6',1),RX(15,46,42,1.6,'#B5894F','k7',1),RX(15,54,42,1.6,'#B5894F','k8',1),
-        EL(36,36,16,6.5,'#4E331C',9),EL(36,33.5,12.5,5,'#5E3F26',10),
-        C(29,33,1.4,'#8A5E34',11),C(41,34,1.3,'#3A2A18',12),C(35,31.5,1.2,'#7E5430',13),
-        P('M29 27c-1.2-2.4.8-3.4-.5-6','none',14,{stroke:'#C9C2B0',strokeWidth:1.8,strokeLinecap:'round',style:{animation:'steam 3.4s ease-out infinite'}}),
-        P('M42 26c-1.2-2.4.8-3.4-.5-6','none',15,{stroke:'#C9C2B0',strokeWidth:1.8,strokeLinecap:'round',style:{animation:'steam 3.4s ease-out infinite 1.7s'}}),
-        sprout(36,33,'co')]),
-      hugel: S([sh(),
-        P('M8 62c2-16 13-26 28-26s26 10 28 26z','#6E4A2C',1),
-        P('M13 62c3-12 12-19 23-19s20 7 23 19z','#7E5736',2,{opacity:.5}),
-        EL(36,61,27,4.5,'#5A3B22',3),
-        C(16,59,3.1,'#8A5E34',4),C(16,59,1.6,'#B5894F',5),C(25,60.5,3.1,'#8A5E34',6),C(25,60.5,1.6,'#B5894F',7),C(47,60.5,3.1,'#8A5E34',8),C(47,60.5,1.6,'#B5894F',9),C(56,59,3.1,'#8A5E34',10),C(56,59,1.6,'#B5894F',11),
-        G(sway2('36px 44px',4.8),[C(24,43,4.8,'#5E9A41','h1'),C(36,38,6.2,'#74A64C','h2'),C(48,43,4.8,'#82B85C','h3'),C(30,45,3.4,'#6FA94B','h4'),C(43,46,3.4,'#6FA94B','h5'),C(33,40,1.5,'#F2C84B','h6'),C(45,43,1.4,'#ED9BBE','h7'),C(27,39.5,1.3,'#F7C8D9','h8')],1)]),
-      rain: S([sh(),
-        RX(21,28,30,33,'#4F86B0','k1',6),
-        P('M27 30v29M36 31v29M45 30v29','none',2,{stroke:'#45749B',strokeWidth:1.5,opacity:.8}),
-        EL(36,28,15,4.5,'#6FA0C4',3),EL(36,28,11.4,3.2,'#3C6B90',4),
-        RX(21,35,30,3.4,'#37627F','k5',1.5),RX(21,50,30,3.4,'#37627F','k6',1.5),
-        P('M25.5 34c0 8 0 16 0 23','none',7,{stroke:'#7FC6DE',strokeWidth:2,strokeLinecap:'round',opacity:.45}),
-        RX(46,54,7,4,'#37627F','k8',1.5),
-        CX(51.5,60.5,1.7,'#7FC6DE','k9',{style:{animation:'drip 2.1s ease-in infinite'}}),
-        P('M36 13.5c2.6 3.6 4.2 6 4.2 8a4.2 4.2 0 0 1-8.4 0c0-2 1.6-4.4 4.2-8z','#7FC6DE',10),
-        P('M34.4 21a2.8 2.8 0 0 0 1.8 2','none',11,{stroke:'#DFF2F8',strokeWidth:1.2,strokeLinecap:'round'})]),
-      mulch: S([sh(),
-        EL(36,56,27,11,'#6E4A2C',1),EL(36,53,24,9,'#825B33',2),
-        RX(22,50,6.4,2.6,'#B5894F','k3',1.2,{transform:'rotate(-14 25 51)'}),
-        RX(33,55,6.4,2.6,'#A87C46','k4',1.2,{transform:'rotate(8 36 56)'}),
-        RX(43,49,6.4,2.6,'#C49A5A','k5',1.2,{transform:'rotate(-6 46 50)'}),
-        RX(27,58.5,5.4,2.4,'#C49A5A','k6',1.2,{transform:'rotate(12 29 59)'}),
-        RX(45,57,5.4,2.4,'#B5894F','k7',1.2,{transform:'rotate(-10 48 58)'}),
-        sprout(36,49,'mu'),
-        P('M50 47.5a3.4 3.4 0 0 1 6.8 0z','#A34A3C',8),RX(52.5,47.5,1.7,3.6,'#E8DCC0','k9',.8),CX(52,46,.55,'#E8CFC0','ka'),
-        P('M18 52.5c1.7-1.7 3.8-.6 4.8-2.5','none',11,{stroke:'#D98C7A',strokeWidth:2.3,strokeLinecap:'round'})]),
-      bughotel: S([sh(),
-        P('M12 27l24-11 24 11-2.4 3H14.4z','#5E4426',1),
-        P('M12 27l24-11 24 11z','#7A5430',2),
-        RX(17,29,38,33,'#8A5E34','k3',2.5),
-        RX(20,32,32,27,'#6E4A2C','k4',1.5),
-        RX(20,41,32,2.2,'#8A5E34','k5',0),RX(20,50,32,2.2,'#8A5E34','k6',0),
-        RX(34.8,32,2.4,27,'#8A5E34','k7',0),
-        C(27,36.5,3.6,'#C49A5A',8),C(27,36.5,1.7,'#4E331C',9),C(45,36.5,3.6,'#C49A5A',10),C(45,36.5,1.7,'#4E331C',11),
-        P('M23 44.5h9M23 46.8h9M23 49h9','none',12,{stroke:'#B5894F',strokeWidth:1.3,strokeLinecap:'round'}),
-        C(41,46,1.5,'#3A2A18',13),C(45,47.6,1.5,'#3A2A18',14),C(48.4,45,1.5,'#3A2A18',15),
-        P('M23 55h9M39 55h10','none',16,{stroke:'#4E331C',strokeWidth:2.8,strokeLinecap:'round'}),
-        beeMini(57,25,'bh',4.6)]),
-      arch: S([sh(),
-        P('M16 62V40a20 19 0 0 1 40 0v22','none',1,{stroke:'#8A5E34',strokeWidth:4.4,strokeLinecap:'round'}),
-        P('M22 62V41a14 13.5 0 0 1 28 0v21','none',2,{stroke:'#8A5E34',strokeWidth:2,strokeLinecap:'round',opacity:.5}),
-        P('M16 50h6M50 50h6M16 41h6M50 41h6M28 22.5h16','none',3,{stroke:'#8A5E34',strokeWidth:2.2,strokeLinecap:'round'}),
-        G(sway2('18px 62px',4.6),[P('M18 60c1.6-9 .4-16 6-24','none','a1',{stroke:'#5E9A41',strokeWidth:2.6,strokeLinecap:'round'}),C(21,46,2.9,'#6FA94B','a2'),C(25,38,2.7,'#82B85C','a3'),C(19,53,2.5,'#74A64C','a4'),C(23,42,1.4,'#F2C84B','a5')],1),
-        G(sway2('54px 62px',4.6,.8),[P('M54 60c-1.6-9-.4-16-6-24','none','b1',{stroke:'#5E9A41',strokeWidth:2.6,strokeLinecap:'round'}),C(51,46,2.9,'#6FA94B','b2'),C(47,38,2.7,'#82B85C','b3'),C(53,53,2.5,'#74A64C','b4'),C(49,42,1.4,'#D33E55','b5')],2),
-        G({animation:'bob 3.2s ease-in-out infinite'},[ELX(36,27.5,2,4.6,'#3E8E4E','p1'),ELX(31.5,25.5,1.7,3.8,'#4FA05C','p2')],3)]),
-      herbspiral: S([sh(),
-        EL(36,57,25,8.5,'#8A806A',1),EL(36,56,23.5,7.6,'#9A8E78',2),
-        C(18,53,3.6,'#B7B2A6',3),C(26,58,3.6,'#A89C86',4),C(36,59.5,3.6,'#B7B2A6',5),C(46,58,3.6,'#A89C86',6),C(54,53,3.6,'#B7B2A6',7),C(50,46,3.4,'#A89C86',8),C(40,43,3.4,'#B7B2A6',9),C(31,45,3.2,'#A89C86',10),
-        G(sway2('36px 50px',4.4),[C(24,49,3,'#6FA94B','h1'),C(36,46.5,3.8,'#5E9A41','h2'),C(46,50,3,'#82B85C','h3'),C(40,40.5,2.6,'#6FA94B','h4'),P('M34.6 43.5v-5.5M37 43.5l2-4.6','none','h5',{stroke:'#4A7E33',strokeWidth:1.3,strokeLinecap:'round'}),C(33,40,1.5,'#F2C84B','h6'),C(45,46,1.4,'#ED9BBE','h7')],1),
-        G({animation:'flit 5.4s ease-in-out infinite'},[P('M56 33c-3-3.6-6.6-2-6 1 .4 2 3.6 2 6-1z','#ED9BBE','w1'),P('M56 33c3-3.6 6.6-2 6 1-.4 2-3.6 2-6-1z','#E77FAE','w2'),ELX(56,33.6,.8,2.4,'#5A4632','w3')],2)]),
-      pollinator: S([sh(),
-        EL(36,59.5,28,6.5,'#4E7A32',1),EL(36,58,26,5.4,'#5E8C3C',2),
-        G(sway2('36px 58px',3.8),[
-          P('M22 58V45M30 58V41M38 58V46.5M46 58V42M54 58V47','none','st',{stroke:'#4A7E33',strokeWidth:2,strokeLinecap:'round'}),
-          P('M26 51c1.8-1.1 3.4-1.1 5-.4M43 52c1.8-1.1 3.4-1.1 5-.4','none','lv',{stroke:'#5E9A41',strokeWidth:1.6,strokeLinecap:'round'}),
-          C(22,42.5,4.2,'#ED9BBE','f1'),C(22,42.5,1.7,'#F2C84B','f1c'),
-          C(30,38.5,4.4,'#F2C84B','f2'),C(30,38.5,1.8,'#E2873A','f2c'),
-          C(38,44,4,'#9B7BC9','f3'),C(38,44,1.6,'#F2E9D2','f3c'),
-          C(46,39.5,4.2,'#D33E55','f4'),C(46,39.5,1.6,'#F2C84B','f4c'),
-          C(54,45,3.8,'#ED9BBE','f5'),C(54,45,1.5,'#F2C84B','f5c')],1),
-        beeMini(53,30,'po',4.2)]),
-      greenhouse: S([sh(),
-        P('M15 40l21-16 21 16z','#BFDDE4',1),
-        P('M15 40l21-16 21 16','none',2,{stroke:'#8A9A92',strokeWidth:2,strokeLinejoin:'round'}),
-        RX(17,40,38,22,'#CFE6EC','k3',0),
-        RX(15,38.5,42,3,'#8A9A92','k4',1.5),
-        P('M36 24v38M17 51h38M27 41.5v20.5M45 41.5v20.5','none',5,{stroke:'#8A9A92',strokeWidth:1.6}),
-        RX(31.5,48,9,14,'#9FC2C9','k6',1),P('M36 48v14','none',7,{stroke:'#8A9A92',strokeWidth:1.2}),CX(34,55.5,.9,'#5A6B66','hd'),
-        RX(20,56,4.6,6,'#B56A43','k8',1),G(sway2('22.3px 56px',3.4),[C(22.3,53.2,2.4,'#5E9A41','g1')],1),
-        RX(47.4,56,4.6,6,'#B56A43','k9',1),G(sway2('49.7px 56px',3.4,.7),[C(49.7,52.8,2.6,'#6FA94B','g2')],2),
-        P('M21 43l7-5.4','none',10,{stroke:'#FFFFFF',strokeWidth:2.4,strokeLinecap:'round',opacity:.5,style:{animation:'shimmer 3.6s ease-in-out infinite'}})]),
-      seedbank: S([sh(),
-        RX(19,42,34,19,'#9A6B3C','k1',3),
-        P('M25 43v18M47 43v18','none',2,{stroke:'#7E5430',strokeWidth:1.6,opacity:.7}),
-        RX(17,38,38,6,'#7E5430','k3',2),
-        RX(38,29,11,14,'#D8C6A0','k4',1,{transform:'rotate(5 43 36)'}),
-        RX(40.5,32,6,4,'#ED9BBE','k5',1,{transform:'rotate(5 43 36)'}),
-        G({animation:'bob 3.4s ease-in-out infinite'},[RX(24,28,11,15,'#E8DCC0','pa',1),RX(26.5,31,6,4.4,'#6FA94B','pb',1),P('M26.5 39.5h6','none','pc',{stroke:'#B5A176',strokeWidth:1,strokeLinecap:'round'})],1),
-        C(26,52,1.2,'#5A3B22',6),C(33,55,1.2,'#5A3B22',7),C(41,52.5,1.2,'#5A3B22',8),C(47,55,1.2,'#5A3B22',9),
-        sprout(58,60,'sb')]),
-      birdbath: S([sh(),
-        P('M33 61l1.8-16h2.4L39 61z','#A89C86',1),
-        EL(36,61.5,10,3.2,'#968F80',2),
-        EL(36,42,16,5.6,'#B7B2A6',3),
-        EL(36,41,12,3.6,'#7FC6DE',4),
-        ELX(36,41,12,3.6,'none','w1',{stroke:'#DFF2F8',strokeWidth:1,style:{animation:'shimmer 2.8s ease-in-out infinite'}}),
-        ELX(33,40.4,3,1,'rgba(255,255,255,.7)','w2',{style:{animation:'shimmer 2.8s ease-in-out infinite 1.4s'}}),
-        G({animation:'bob 2.6s ease-in-out infinite'},[ELX(49,36,3.4,2.8,'#5B8FB5','b1'),CX(51.6,33.4,1.9,'#6FA0C4','b2'),P('M53.3 33.1l2.4.9-2.4.9z','#E2873A','b3'),CX(52.1,33,.5,'#22303C','b4'),P('M46.4 35.6c1.6-.9 3.4-.8 4.6.2','none','b5',{stroke:'#4A7CA0',strokeWidth:1.2,strokeLinecap:'round'})],1)]),
-      birdhouse: S([sh(),
-        RX(34.2,40,3.6,22,'#7A5430','k1',1),
-        P('M23 25l13-10 13 10-1.8 2.6H24.8z','#5E4426',2),
-        P('M23 25l13-10 13 10z','#7A5430',3),
-        RX(26,25,20,16,'#9A6B3C','k4',2),
-        P('M30 25v16M42 25v16','none',5,{stroke:'#8A5E34',strokeWidth:1.2,opacity:.6}),
-        C(36,32,3.6,'#3A2A18',6),
-        P('M36 37v3.4','none',7,{stroke:'#5A3B22',strokeWidth:2,strokeLinecap:'round'}),
-        G({animation:'bob 3s ease-in-out infinite'},[ELX(44.5,17,3.2,2.6,'#C97B4A','r1'),CX(47,14.8,1.8,'#D98F5E','r2'),P('M48.6 14.5l2.2.8-2.2.8z','#7A5D18','r3'),CX(47.4,14.4,.5,'#3A2418','r4'),P('M41.6 17c1.5-.9 3.2-.8 4.4.1','none','r5',{stroke:'#B56A43',strokeWidth:1.1,strokeLinecap:'round'})],1)]),
-      bench: S([sh(),
-        RX(18,33,36,4.4,'#A87C46','k1',2),
-        RX(18,41,36,4.4,'#9A6B3C','k2',2),
-        RX(18,37.4,36,1.6,'#C49A5A','k3',0),
-        RX(20,33,2.6,15,'#7E5430','k4',1),RX(49.4,33,2.6,15,'#7E5430','k5',1),
-        RX(23,47,3,14,'#6E4A2C','k6',1),RX(46,47,3,14,'#6E4A2C','k7',1),
-        RX(55,54,8,7.4,'#B56A43','k8',1.2),
-        G(sway2('59px 54px',3.6),[C(59,49.6,3.1,'#6FA94B','p1'),C(56.8,47,1.4,'#ED9BBE','p2'),C(61.4,47.4,1.2,'#F2C84B','p3')],1),
-        G({animation:'wiggle 3.4s ease-in-out infinite',transformOrigin:'30px 32px'},[P('M30 32c-2.4-2.8-5.4-1.6-4.8.8.4 1.6 3 1.6 4.8-.8z','#ED9BBE','w1'),P('M30 32c2.4-2.8 5.4-1.6 4.8.8-.4 1.6-3 1.6-4.8-.8z','#E77FAE','w2')],2)]),
-      sign: S([sh(),
-        RX(34.4,32,3.2,30,'#7A5430','k1',1),
-        RX(19,22,34,17,'#A87C46','k2',2.5),
-        RX(21.5,24.5,29,12,'#B58A52','k3',1.5),
-        C(29,30.5,3.7,'#6FA94B',4),C(29,30.5,1.5,'#F2C84B',5),
-        P('M36.5 28h10.5M36.5 33h7.5','none',6,{stroke:'#6E4A2C',strokeWidth:2,strokeLinecap:'round'}),
-        CX(21.8,24.8,.8,'#8A5E34','n1'),CX(50.2,24.8,.8,'#8A5E34','n2'),
-        G(sway2('42px 62px',3.2),[P('M42 62c-2-4-4-5.4-4-8.4M42 62c0-4.6 0-7 0-9.6M42 62c2-4 4-5.4 4-8.4','none','g1',{stroke:'#7EA355',strokeWidth:1.8,strokeLinecap:'round'})],1)])
-    };
-  }
   makeBugs(){
     const E=React.createElement;
     const keys=['worm','winecap','oyster','field','bee','butterfly','bird','hedgehog','ladybug','beetle'];
@@ -3118,25 +2952,6 @@ class Component extends DCLogic {
       stroke:'currentColor',strokeWidth:1.25,strokeLinecap:'round',strokeLinejoin:'round',
       'aria-hidden':'true',focusable:'false'
     },children);
-  }
-  makeCritters(){
-    const E=React.createElement;
-    const P=(d,f,k,ex)=>E('path',Object.assign({d:d,fill:f===undefined?'none':f,key:'p'+k},ex||{}));
-    const C=(x,y,r,f,k)=>E('circle',{cx:x,cy:y,r:r,fill:f,key:'c'+k});
-    const EL=(x,y,rx,ry,f,k,rot)=>E('ellipse',Object.assign({cx:x,cy:y,rx:rx,ry:ry,fill:f,key:'e'+k},rot?{transform:'rotate('+rot+' '+x+' '+y+')'}:{}));
-    const S=(ch)=>E('svg',{viewBox:'0 0 32 32',width:'100%',height:'100%'},ch);
-    return {
-      bee: S([EL(13,10,5,3.4,'rgba(255,255,255,.85)',1,-24),EL(21,10,5,3.4,'rgba(255,255,255,.85)',2,24),EL(16,17,7,5.4,'#F2C84B',3),P('M12.4 13.2c-.6 2.6-.6 5 0 7.4M16 12.2v10M19.6 13.2c.6 2.6.6 5 0 7.4','none',4,{stroke:'#3A2A18',strokeWidth:1.6,strokeLinecap:'round'}),C(16,11.4,2.2,'#3A2A18',5)]),
-      butterfly: S([P('M16 10C10 3 3 6 4 11.5 4.8 16 11 16.5 16 12.5','#ED9BBE',1),P('M16 10c6-7 13-4 12 1.5C27.2 16 21 16.5 16 12.5','#E77FAE',2),P('M16 16c-3.4 5-9 5-9-.5','#F2B7D0',3),P('M16 16c3.4 5 9 5 9-.5','#ED9BBE',4),EL(16,14.5,1.4,5,'#5A4632',5),C(9,9,1.4,'#F7C8D9',6),C(23,9,1.4,'#F7C8D9',7)]),
-      bird: S([EL(16,18,8,6.4,'#5B8FB5',1),C(22.5,12.5,4.2,'#6FA0C4',2),P('M26.4 12l3.2 1.2-3.2 1.2z','#E2873A',3),C(23.6,11.6,.9,'#22303C',4),P('M10 17c3-1.6 7-1.4 9 .6-2.6 2-7 1.8-9-.6z','#4A7CA0',5),P('M8 18.5l-3.4-1.4M8.6 20.5l-3.6.4','none',6,{stroke:'#4A7CA0',strokeWidth:1.6,strokeLinecap:'round'}),P('M13 24.4v2.6M19 24.4v2.6','none',7,{stroke:'#7A5D18',strokeWidth:1.5,strokeLinecap:'round'})]),
-      hedgehog: S([P('M6 21c0-6 4.6-10 11-10 5.6 0 9.4 3.4 9.4 7.4 0 1.6-1.2 2.6-2.8 2.6H8.4C7 21 6 21 6 21z','#8A6A3F',1),P('M9 14.6l-2-3M12.4 12.2l-1-3.4M16.4 11.4V7.8M20.4 12.2l1-3.4M23.6 14l2-2.6','none',2,{stroke:'#6E4E28',strokeWidth:1.8,strokeLinecap:'round'}),P('M6 19.4c-1.8.2-2.8 1-2.8 1.8h4z','#A88354',3),C(4.6,20,.7,'#2C2018',4),C(24,19.6,.8,'#2C2018',5),P('M10 24.4v1.8M20 24.4v1.8','none',6,{stroke:'#6E4E28',strokeWidth:1.6,strokeLinecap:'round'})]),
-      ladybug: S([C(16,17,8,'#D33E55',1),P('M16 9v16','none',2,{stroke:'#2C1518',strokeWidth:1.6}),C(12,14,1.5,'#2C1518',3),C(20,14,1.5,'#2C1518',4),C(12.6,20,1.5,'#2C1518',5),C(19.4,20,1.5,'#2C1518',6),C(16,8.6,3,'#2C1518',7),C(14.9,7.6,.7,'#fff',8),C(17.1,7.6,.7,'#fff',9)]),
-      worm: S([P('M7 22c2.4-4 5-1.6 7.4-4.6 2.2-2.8 1-6 4-8.4','none',1,{stroke:'#D98C7A',strokeWidth:4.6,strokeLinecap:'round'}),C(19.4,8,2.6,'#D98C7A',2),C(20.2,7.4,.6,'#5A3232',3)]),
-      beetle: S([EL(16,17.5,6.4,8,'#4A5A8A',1),P('M16 10v15.4','none',2,{stroke:'#2C3550',strokeWidth:1.4}),C(16,9,3,'#2C3550',3),P('M13.6 7l-2-2.4M18.4 7l2-2.4','none',4,{stroke:'#2C3550',strokeWidth:1.4,strokeLinecap:'round'}),P('M10 14l-3.4-1M9.8 18h-3.6M10.6 21.6l-3 1.6M22 14l3.4-1M22.2 18h3.6M21.4 21.6l3 1.6','none',5,{stroke:'#2C3550',strokeWidth:1.4,strokeLinecap:'round'}),C(13.4,14.6,1.1,'#6F82B5',6),C(18.6,14.6,1.1,'#6F82B5',7)]),
-      winecap: S([P('M5 15a11 9 0 0 1 22 0z','#A34A3C',1),P('M5 15a11 9 0 0 1 22 0c-3.6-1.4-7.4-2-11-2s-7.4.6-11 2z','#8E3C30',2),C(11,10.4,1.3,'#E8CFC0',3),C(18,8.4,1.3,'#E8CFC0',4),P('M13 15v7.4a3 3 0 0 0 6 0V15','#E8DCC0',5),EL(16,26.6,5,1.6,'rgba(40,55,20,.2)',6)]),
-      oyster: S([P('M4 20c0-6.4 6-10 12-10 0 6.4-5.4 10-12 10z','#C9B896',1),P('M6.6 18.4l6-3.4','none',2,{stroke:'#A8946E',strokeWidth:1.3,strokeLinecap:'round'}),P('M15 23c0-5 4.8-8 10.4-8 0 5-4.2 8-10.4 8z','#D8C9A8',3),P('M17.6 21.4l5-2.8','none',4,{stroke:'#B5A176',strokeWidth:1.3,strokeLinecap:'round'}),EL(14,25.4,8,1.6,'rgba(40,55,20,.18)',5)]),
-      field: S([P('M6 14.6a10 7 0 0 1 20 0z','#D8C6A0',1),P('M6 14.6a10 7 0 0 1 20 0c-3.2-1.2-6.6-1.8-10-1.8s-6.8.6-10 1.8z','#C4B088',2),P('M13.4 14.6v6.6a2.6 2.6 0 0 0 5.2 0v-6.6','#EDE3C8',3),EL(16,25,4.6,1.5,'rgba(40,55,20,.18)',4)])
-    };
   }
   makeCatalog(){
     const I=this.ICONS;
@@ -3229,7 +3044,6 @@ class Component extends DCLogic {
   }
   ICONS=this.makeIcons();
   catalog=this.makeCatalog();
-  scenes=this.makeScenes();
   sprites=this.makeSprites();
   winterScenes=this.makeWinterObjs();
   critters=this.makeBugs();
@@ -3404,7 +3218,7 @@ class Component extends DCLogic {
     {key:'ladybug',name:'Ladybugs',needs:[['pollinator','herbspiral'],['bughotel']],tip:'Prey, flowering food and suitable dry crevices may support some ladybug species',why:'Some ladybug species may use prey-rich plants, pollen or nectar and dry shelter. Many larvae and adults eat aphids, but species, appetite and overwintering habits vary.'},
     {key:'beetle',name:'Beetles',needs:[['bughotel'],['mulch','hugel','compost']],tip:'Undisturbed ground cover can support a diverse range of beetles',why:'Many ground beetles shelter under logs, stones or leaf litter and forage at night. Diets differ widely: some eat invertebrates, some seeds and some both, so their effects cannot be reduced to “pest control”.'}
   ];
-  activeOf(placed,guests=null){
+  activeOf(placed){
     const t=new Set(placed.map(p=>p.type));
     const s=new Set();
     this.wildlife.forEach(w=>{ if(w.needs.every(g=>g.some(x=>t.has(x)))){ s.add(w.key); } });
@@ -3756,7 +3570,7 @@ class Component extends DCLogic {
     return (p.build||[]).filter(t=>!have.has(t));
   }
   residentBeatCtx(st){
-    const active=this.activeOf(st.placed||[],st.guests||[]);
+    const active=this.activeOf(st.placed||[]);
     const v=this.gardenSystems(st).values||{};
     return {st:st,active:active,v:v,seasonsBy:st.residentSeasons||{},wintersBy:st.residentWinters||{}};
   }
@@ -3903,7 +3717,6 @@ class Component extends DCLogic {
     const r=this.state.residentStory;
     if(r){this.stopGardenVoice(r.id);}
     this.setState(s=>({residentStory:null,residentBeatsSeen:r&&r.id?Array.from(new Set([...(s.residentBeatsSeen||[]),r.id])):(s.residentBeatsSeen||[])}),()=>{
-      this.persist();
       if(!this.activeDialogKey()){this.setMusicMode('garden');}
       this.scheduleResidentStory(420);
     });
@@ -3929,7 +3742,6 @@ class Component extends DCLogic {
     if(r){this.stopGardenVoice(r.id);}
     this.setState(s=>({...(extra||{}),pestStory:null,
       pestBeatsSeen:r&&r.id?Array.from(new Set([...(s.pestBeatsSeen||[]),r.id])):(s.pestBeatsSeen||[])}),()=>{
-      this.persist();
       if(!this.activeDialogKey()){this.setMusicMode('garden');}
       this.schedulePestStory(460);
     });
@@ -4162,48 +3974,64 @@ class Component extends DCLogic {
       localStorage.setItem(key,JSON.stringify({day:day,count:count+1}));return true;
     }catch(_){return true;}
   }
-  finishLivingLesson(lesson,snapshot,candidates){
-    if(this._unmounted||!this.state.livingLesson){return;}
+  finishLivingLesson(lesson,snapshot,candidates,fingerprint,requestId){
+    const current=this.state.livingLesson;
+    if(this._unmounted||this._lessonRequest!==requestId||!current||current.fingerprint!==fingerprint){return;}
     const engine=this.lessonEngine();if(!engine){return;}
     const normalized=engine.normalizeLesson(lesson,snapshot,candidates,{source:lesson&&lesson.source==='ai'?'ai':'fallback',model:lesson&&lesson.model});
-    this.setState({livingLesson:{status:'ready',lesson:normalized}});
+    this.setState({livingLesson:{status:'ready',lesson:normalized,fingerprint:fingerprint}});
   }
   openLivingLesson(){
     const engine=this.lessonEngine();
     if(!engine||!this.livingLessonUnlocked()){this.flash(this.i18nText('livingLesson.error.locked','Let soil and water begin their conversation first — complete two learning acts, then listen again.'));return;}
     if(this.state.livingLessonExperiment&&this.state.livingLessonExperiment.status==='active'){this.flash(this.i18nText('livingLesson.error.active','The garden is still waiting on what it already asked of you. Change something, then come back.'));return;}
     const snapshot=this.livingLessonSnapshot(),candidates=engine.buildCandidates(snapshot),fingerprint=engine.fingerprint(snapshot);
-    this.suspendGardenWhisper();this.setState({livingLesson:{status:'loading',fingerprint:fingerprint}});
-    const cached=this.lessonCacheRead(fingerprint);
-    if(cached){this.finishLivingLesson(cached,snapshot,candidates);return;}
-    const useFallback=(reason)=>{
-      const lesson=engine.fallbackLesson(snapshot,candidates);lesson.fallbackReason=reason;
-      this.lessonCacheWrite(lesson,30*60*1000);this.finishLivingLesson(lesson,snapshot,candidates);
+    const requestId=(this._lessonRequest||0)+1;this._lessonRequest=requestId;
+    const isCurrent=()=>{
+      const current=this.state.livingLesson;
+      return !this._unmounted&&this._lessonRequest===requestId&&!!current&&current.fingerprint===fingerprint;
     };
-    if(typeof navigator!=='undefined'&&navigator.onLine===false){useFallback('offline');return;}
-    if(!this.takeLivingLessonQuota()){useFallback('daily_limit');return;}
-    if(this._lessonAbort){this._lessonAbort.abort();}
-    const controller=typeof AbortController!=='undefined'?new AbortController():null;this._lessonAbort=controller;
-    const timeout=setTimeout(()=>{if(controller){controller.abort();}},14000);this._lessonTimeout=timeout;
-    fetch('/api/garden-reflection',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clientId:this.livingLessonClientId(),snapshot:snapshot}),signal:controller?controller.signal:undefined})
-      .then(response=>{if(!response.ok){throw new Error('lesson_http_'+response.status);}return response.json();})
-      .then(data=>{
-        if(!data||!data.lesson){throw new Error('lesson_invalid');}
-        const lesson=engine.normalizeLesson(data.lesson,snapshot,candidates,{source:data.mode==='ai'?'ai':'fallback',model:data.model});
-        this.lessonCacheWrite(lesson,data.mode==='ai'?7*24*60*60*1000:30*60*1000);this.finishLivingLesson(lesson,snapshot,candidates);
-      })
-      .catch(error=>{if(!this._unmounted&&this.state.livingLesson){useFallback(error&&error.name==='AbortError'?'timeout':'unavailable');}})
-      .finally(()=>{clearTimeout(timeout);if(this._lessonAbort===controller){this._lessonAbort=null;}this._lessonTimeout=null;});
+    const finish=(lesson)=>this.finishLivingLesson(lesson,snapshot,candidates,fingerprint,requestId);
+    const start=()=>{
+      if(!isCurrent()){return;}
+      const cached=this.lessonCacheRead(fingerprint);
+      if(cached){finish(cached);return;}
+      const useFallback=(reason)=>{
+        if(!isCurrent()){return;}
+        const lesson=engine.fallbackLesson(snapshot,candidates);lesson.fallbackReason=reason;
+        this.lessonCacheWrite(lesson,30*60*1000);finish(lesson);
+      };
+      if(typeof navigator!=='undefined'&&navigator.onLine===false){useFallback('offline');return;}
+      if(!this.takeLivingLessonQuota()){useFallback('daily_limit');return;}
+      if(this._lessonAbort){this._lessonAbort.abort();}
+      const controller=typeof AbortController!=='undefined'?new AbortController():null;this._lessonAbort=controller;
+      const timeout=setTimeout(()=>{if(isCurrent()&&controller){controller.abort();}},14000);this._lessonTimeout=timeout;
+      fetch('/api/garden-reflection',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({clientId:this.livingLessonClientId(),snapshot:snapshot}),signal:controller?controller.signal:undefined})
+        .then(response=>{if(!response.ok){throw new Error('lesson_http_'+response.status);}return response.json();})
+        .then(data=>{
+          if(!isCurrent()){return;}
+          if(!data||!data.lesson){throw new Error('lesson_invalid');}
+          const lesson=engine.normalizeLesson(data.lesson,snapshot,candidates,{source:data.mode==='ai'?'ai':'fallback',model:data.model});
+          this.lessonCacheWrite(lesson,data.mode==='ai'?7*24*60*60*1000:30*60*1000);finish(lesson);
+        })
+        .catch(error=>{if(isCurrent()){useFallback(error&&error.name==='AbortError'?'timeout':'unavailable');}})
+        .finally(()=>{clearTimeout(timeout);if(this._lessonAbort===controller){this._lessonAbort=null;}if(this._lessonTimeout===timeout){this._lessonTimeout=null;}});
+    };
+    this.suspendGardenWhisper();this.setState({livingLesson:{status:'loading',fingerprint:fingerprint}},start);
   }
   closeLivingLesson(){
+    this._lessonRequest=(this._lessonRequest||0)+1;
     if(this._lessonAbort){this._lessonAbort.abort();this._lessonAbort=null;}clearTimeout(this._lessonTimeout);this._lessonTimeout=null;
     this.setState({livingLesson:null},()=>{if(!this.activeDialogKey()){this.setMusicMode('garden');}});
   }
   acceptLivingLesson(){
     const engine=this.lessonEngine(),box=this.state.livingLesson,lesson=box&&box.lesson;if(!engine||!lesson){return;}
+    this._lessonRequest=(this._lessonRequest||0)+1;
     const experiment=engine.startExperiment(this.livingLessonSnapshot(),lesson.experiment,lesson);
     const success=this.livingLessonCandidateText(experiment.candidate).success;
-    this.setState({livingLesson:null,livingLessonExperiment:experiment,toast:this.i18nText('livingLesson.startedToast','✦ The garden offers a small experiment — {success}',{success:success})},()=>this.persist());
+    this.setState({livingLesson:null,livingLessonExperiment:experiment,toast:this.i18nText('livingLesson.startedToast','✦ The garden offers a small experiment — {success}',{success:success})},()=>{
+      this.later(()=>{const progress=document.querySelector('[data-testid="living-lesson-progress"]');if(progress){try{progress.focus();}catch(_){}}},0);
+    });
   }
   capturePreviousState(st=this.state){
     this._prevPlaced=st.placed;
@@ -4219,10 +4047,16 @@ class Component extends DCLogic {
     this._delayedWork.add(id);return id;
   }
   clearTransientWork(){
+    if(this._dragCleanup){this._dragCleanup();}
     clearInterval(this._gateIv);this._gateIv=null;
-    ['_tt','_pulseT','_whisperT','_whisperStartT','_replayT','_reflectionT','_residentStoryT','_guildVoiceT','_cinematicVoiceT','_duckT','_storyTimer','_storyExitTimer','_flashT','_seasonT'].forEach(k=>{clearTimeout(this[k]);this[k]=null;});
+    ['_tt','_pulseT','_whisperT','_whisperStartT','_replayT','_reflectionT','_residentStoryT','_pestStoryT','_unlockT','_guildVoiceT','_cinematicVoiceT','_duckT','_storyTimer','_storyExitTimer','_flashT','_seasonT'].forEach(k=>{clearTimeout(this[k]);this[k]=null;});
+    clearTimeout(this._reflectionPersistT);this._reflectionPersistT=null;
     if(this._delayedWork){this._delayedWork.forEach(id=>clearTimeout(id));this._delayedWork.clear();}
+    this._lessonRequest=(this._lessonRequest||0)+1;
     if(this._lessonAbort){this._lessonAbort.abort();this._lessonAbort=null;}clearTimeout(this._lessonTimeout);this._lessonTimeout=null;
+    this._certificateRequest=(this._certificateRequest||0)+1;
+    if(this._certificateAbort){this._certificateAbort.abort();this._certificateAbort=null;}
+    if(this._certificateUrl){URL.revokeObjectURL(this._certificateUrl);this._certificateUrl=null;}
     this._storyDeadline=0;this._storyRemaining=0;
   }
   dismissGuild(){
@@ -4286,7 +4120,7 @@ class Component extends DCLogic {
     if(meaningful&&!window.confirm(resetMessage)){return;}
     this.clearTransientWork();this.stopAllAudio();this.dragData=null;this._dragActive=false;this._gateOpening=false;this._seasonChanging=false;this._n=0;this._g=0;this._gaveJust=false;this._suppressFx=true;
     const ns=this.freshState(false);ns.season='Summer';ns.market=this.freshMarket('Summer');ns.cherryPicks=3;ns.springSprouts=0;ns.leafPiles=0;
-    this.setState(ns,()=>{this.capturePreviousState();this._suppressFx=false;this.persist();this.setMusicMode('garden');});
+    this.setState(ns,()=>{this.capturePreviousState();this._suppressFx=false;this.setMusicMode('garden');});
   }
   journeyModel(st=this.state){
     const t=new Set((st.placed||[]).map(p=>p.type));
@@ -4379,7 +4213,6 @@ class Component extends DCLogic {
     const key=this.state.unlockCard;
     const def=key?this.unlockDefs.find(u=>u.key===key):null;
     this.setState(s=>({unlockCard:null,unlocksSeen:Array.from(new Set([...(s.unlocksSeen||[]),key].filter(Boolean)))}),()=>{
-      this.persist();
       // Tri recenzenti nezavisle popsali retez modalu. Po kazdem oznameni musi byt
       // chvile, kdy je zahrada skutecne k dispozici - jinak hrac jen odklika kartu za kartou.
       this._unlockCalm=Date.now()+4000;
@@ -4497,6 +4330,7 @@ class Component extends DCLogic {
   dragData=null;
   _n=0;_g=0;
   STORE='permagarden_v2';
+  PERSIST_KEYS=['placed','shares','budget','pool','goodwill','given','awarded','market','lastCommunityCheck','storySeen','introSeen','mode','gardenSize','gardenWidth','gardenHeight','insightsExpanded','journeyMoments','gardenEffects','lastChallengeKey','gate','gardenReflectionsSeen','gardenReflection','gardenReflectionQueue','gardenWhisper','gardenWhisperQueue','residentBeatsSeen','residentSeasons','residentWinters','pestActive','pestSeasons','pestCleared','pestRelief','pestBeatsSeen','pestLastSettled','guildCard','guildCardQueue','arrivalQueue','gardenCinematic','livingLessonExperiment','livingLessonHistory','communityMemory','reflectionOpened','reflectionNote','endingSeen','discovered','guildVoicePlayed','seenWildlife','sharedActs','rewardedGiftTypes','seasonTurns','seedAllowance','seedStock','unlocksSeen','grownHarvests','preservedCount','stallSales','freshSales','muted','playerName','season','springBonusDone','autumnHarvestDone','rakeRewardDone','springForageDone','springSprouts','leafPiles','cherryPicks','returnQueue','basket','materials','harvestEver','gatesPlayed','guests','visitsDone','visitSeason','visit','lastSystemChange','payWith'];
   storyScenes=[
     {src:'assets/story/story-01-menet.webp',voice:'assets/audio/story/narration-01.mp3',location:'Menet · Early morning',chapter:'01 · A quiet place',title:'At the edge of Menet',caption:'I rest beneath the hills and the wide French sky.',ms:7640,position:'50% 48%'},
     {src:'assets/story/story-02-soil.webp',voice:'assets/audio/story/narration-02.mp3',location:'Beneath the garden',chapter:'02 · Hidden life',title:'Quiet does not mean empty',caption:'Beneath the soil, roots are searching — and a thousand small lives are waiting.',ms:10200,position:'50% 54%'},
@@ -4614,27 +4448,24 @@ class Component extends DCLogic {
     if(['balanced','large','focus'].indexOf(size)<0){return;}
     const preset=this.gardenSizePreset(size);
     this.setState({gardenSize:size,gardenWidth:preset.width,gardenHeight:preset.height,gardenSizeOpen:false},()=>{
-      this.persist();
       this.later(()=>{
         const plot=document.querySelector('[data-plot]');
         if(plot){try{plot.focus({preventScroll:true});}catch(_){try{plot.focus();}catch(__){}}}
       },40);
     });
   }
-  setGardenAxis(axis,event,commit){
+  setGardenAxis(axis,event){
     if(['width','height'].indexOf(axis)<0){return;}
     const value=this.clampGardenAxis(event&&event.target?event.target.value:event);
     const field=axis==='height'?'gardenHeight':'gardenWidth';
-    this.setState({[field]:value,gardenSize:'custom',gardenSizeOpen:true},()=>{
-      if(commit){this.persist();}
-    });
+    this.setState({[field]:value,gardenSize:'custom',gardenSizeOpen:true});
   }
   toggleGardenSize(){
     if((this.state.viewportMode||'desktop')!=='desktop'){return;}
     this.setState(s=>({gardenSizeOpen:!s.gardenSizeOpen,headerMenuOpen:false}));
   }
   toggleInsights(){
-    this.setState(s=>({insightsExpanded:!s.insightsExpanded}),()=>this.persist());
+    this.setState(s=>({insightsExpanded:!s.insightsExpanded}));
   }
   syncResponsiveAccess(){
     if(typeof document==='undefined'){return;}
@@ -4747,24 +4578,47 @@ class Component extends DCLogic {
     };
     document.addEventListener('pointerdown',this._downCap,true);
     document.addEventListener('mousedown',this._downCap,true);
-    this._dragClear=()=>{this.dragData=null;if(this.state.dragType){this.setState({dragType:null});}};
+    this._dragClear=()=>{if(this._dragCleanup){this._dragCleanup();}this.dragData=null;if(this.state.dragType){this.setState({dragType:null});}};
     document.addEventListener('dragend',this._dragClear,true);
     document.addEventListener('drop',this._dragClear,true);
+    this._pageHide=()=>{if(this._reflectionPersistT&&!this._storageUnavailable){this.persist();}};
+    window.addEventListener('pagehide',this._pageHide);
     try{
       const raw=localStorage.getItem(this.STORE);
       if(raw){
         const s=JSON.parse(raw);
         if(s && Array.isArray(s.placed)){
-          this._n=Number.isFinite(s._n)?Math.max(0,s._n):0;this._g=Number.isFinite(s._g)?Math.max(0,s._g):0;
+          // Counters are derived from sanitized IDs below. Saved counters can be
+          // stale or so large that incrementing them no longer changes the value.
+          this._n=0;this._g=0;
           const num=(v,d)=>(typeof v==='number'&&isFinite(v))?v:d;
           const bootSeason=this.seasonDefs[s.season]?s.season:'Summer';
           this._suppressFx=true;
-          const seasonTurns=Math.max(0,num(s.seasonTurns,0));
-          const cleanPlaced=s.placed.filter(p=>p&&this.econ[p.type]).map(p=>({...p,placedAtTurn:num(p.placedAtTurn,Math.max(0,seasonTurns-1))}));
+          const seasonTurns=Math.max(0,Math.min(1000000,Math.floor(num(s.seasonTurns,0))));
+          const usedPlacedIds=new Set();let fallbackPlacedId=0;
+          const nextPlacedId=()=>{let id;do{id='p'+(++fallbackPlacedId);}while(usedPlacedIds.has(id));return id;};
+          const cleanPlaced=s.placed.slice(0,500).filter(p=>p&&typeof p==='object'&&!Array.isArray(p)&&this.econ[p.type]).slice(0,200).map(p=>{
+            let id=typeof p.id==='string'&&/^[A-Za-z0-9_-]{1,80}$/.test(p.id)&&!usedPlacedIds.has(p.id)?p.id:nextPlacedId();usedPlacedIds.add(id);
+            const paidMethod=['barter','buy','gift','seed'].indexOf(p.paidMethod)>=0?p.paidMethod:'seed';
+            const paidCap=paidMethod==='barter'?(this.econ[p.type].barter||0):(paidMethod==='buy'?this.econ[p.type].price:0);
+            const allowedMaterials=new Set(this.buildUses[p.type]||[]);
+            const usedMaterials=paidMethod==='buy'?Array.from(new Set((Array.isArray(p.usedMaterials)?p.usedMaterials:[]).filter(m=>allowedMaterials.has(m)&&!!this.MATS[m]))).slice(0,8):[];
+            const placed={id:id,type:p.type,x:Math.max(0,Math.min(100,num(p.x,50))),y:Math.max(0,Math.min(100,num(p.y,62))),paidMethod:paidMethod,paidAmount:Math.max(0,Math.min(paidCap,Math.floor(num(p.paidAmount,0)))),usedMaterials:usedMaterials,placedAtTurn:Math.max(0,Math.min(seasonTurns,Math.floor(num(p.placedAtTurn,Math.max(0,seasonTurns-1)))))};
+            if(this.cropDefs[p.type]){placed.stage=Math.max(1,Math.min(3,Math.floor(num(p.stage,1))));placed.winterState=['protected','dormant'].indexOf(p.winterState)>=0?p.winterState:null;placed.pestHeld=!!p.pestHeld;}
+            if(p.type==='appletree'){placed.appleReady=!!p.appleReady;}
+            return placed;
+          });
           const storySeen=!!s.storySeen, introSeen=!!s.introSeen;
-          const cleanMarket=(Array.isArray(s.market)?s.market:this.freshMarket(bootSeason)).filter(m=>m&&((m.kind==='item'&&this.econ[m.type])||(m.kind==='material'&&this.MATS[m.mat])||m.kind==='shares'||m.kind==='budget')&&(!m.seasons||m.seasons.indexOf(bootSeason)>=0));
-          const pendingGate=s.pendingGate&&(s.pendingGate.status==='won'||s.pendingGate.status==='lost')?s.pendingGate:null;
-          const maxSuffix=(items,prefix)=>items.reduce((max,item)=>{const m=String(item&&item.id||'').match(new RegExp('^'+prefix+'(\\d+)$'));return m?Math.max(max,Number(m[1])):max;},0);
+          const marketIds=new Set();
+          const cleanMarket=(Array.isArray(s.market)?s.market:this.freshMarket(bootSeason)).slice(0,64).filter(m=>m&&typeof m==='object'&&!Array.isArray(m)&&((m.kind==='item'&&this.econ[m.type])||(m.kind==='material'&&this.MATS[m.mat])||m.kind==='shares'||m.kind==='budget')).slice(0,8).map((m,index)=>{
+            let id=typeof m.id==='string'&&/^[a-zA-Z0-9_-]{1,80}$/.test(m.id)&&!marketIds.has(m.id)?m.id:('restored-market-'+(index+1));while(marketIds.has(id)){id+='x';}marketIds.add(id);
+            const offer={id:id,kind:m.kind,person:typeof m.person==='string'?m.person.slice(0,80):'A neighbour',text:typeof m.text==='string'?m.text.slice(0,400):'A neighbour left something useful on the table.'};
+            const seasons=Array.isArray(m.seasons)?Array.from(new Set(m.seasons.filter(k=>!!this.seasonDefs[k]))).slice(0,4):null;if(seasons&&seasons.length){offer.seasons=seasons;}
+            if(m.kind==='item'){offer.type=m.type;}else if(m.kind==='material'){offer.mat=m.mat;}else{offer.value=Math.max(1,Math.min(1000,num(m.value,1)));}
+            return offer;
+          }).filter(m=>!m.seasons||m.seasons.indexOf(bootSeason)>=0);
+          const rawPendingGate=s.pendingGate&&(s.pendingGate.status==='won'||s.pendingGate.status==='lost')?s.pendingGate:null;
+          const maxSuffix=(items,prefix)=>items.reduce((max,item)=>{const m=String(item&&item.id||'').match(new RegExp('^'+prefix+'(\\d+)$'));if(!m){return max;}const suffix=Number(m[1]);return Number.isSafeInteger(suffix)&&suffix<=100000000?Math.max(max,suffix):max;},0);
           this._n=Math.max(this._n,maxSuffix(cleanPlaced,'p'));this._g=Math.max(this._g,maxSuffix(cleanMarket,'g'),maxSuffix(cleanMarket,'sp'));
           const reflectionSeen=Array.from(new Set((Array.isArray(s.acknowledgedGardenReflectionsV2)?s.acknowledgedGardenReflectionsV2:[]).filter(id=>!!this.reflectionById(id))));
           const restoredJourneyCount=this.journeyModel({placed:cleanPlaced,journeyMoments:Array.isArray(s.journeyMoments)?s.journeyMoments:[],sharedActs:num(s.sharedActs,0)}).done;
@@ -4776,7 +4630,7 @@ class Component extends DCLogic {
           const pendingVisit=visitDef&&['ask','won','lost'].indexOf(rawVisit.status)>=0?{key:rawVisit.key,status:rawVisit.status,picked:(Array.isArray(rawVisit.picked)?rawVisit.picked:[]).filter(i=>Number.isInteger(i)&&i>=0&&i<(visitDef.opts||[]).length).slice(0,3)}:null;
           const guildKeys=new Set(this.guildDefs.map(g=>g.key));
           const pendingGuildCards=Array.from(new Set((Array.isArray(s.pendingGuildCards)?s.pendingGuildCards:[]).filter(key=>guildKeys.has(key))));
-          const wildlifeKeys=new Set(this.wildlife.map(w=>w.key)),restoredActiveWildlife=this.activeOf(cleanPlaced,Array.isArray(s.guests)?s.guests:[]);
+          const wildlifeKeys=new Set(this.wildlife.map(w=>w.key)),restoredActiveWildlife=this.activeOf(cleanPlaced);
           const pendingArrivals=Array.from(new Set((Array.isArray(s.pendingArrivals)?s.pendingArrivals:[]).filter(key=>wildlifeKeys.has(key)&&restoredActiveWildlife.has(key))));
           const restoredReturnQueue=Array.from(new Set((Array.isArray(s.returnQueue)?s.returnQueue:[]).filter(key=>wildlifeKeys.has(key)&&restoredActiveWildlife.has(key)&&this.awayWinter[key]))).slice(0,3);
           const residentBeatIds=new Set(this.residentStories.flatMap(r=>r.beats.map(b=>b.id)));
@@ -4786,17 +4640,17 @@ class Component extends DCLogic {
             const active=restoredActiveWildlife.has(r.key);
             const seasons=num(s.residentSeasons&&s.residentSeasons[r.key],0);
             const winters=num(s.residentWinters&&s.residentWinters[r.key],0);
-            restoredResidentSeasons[r.key]=active?Math.max(0,Math.floor(seasons)):0;
-            restoredResidentWinters[r.key]=active?Math.max(0,Math.floor(winters)):0;
+            restoredResidentSeasons[r.key]=active?Math.max(0,Math.min(1000000,Math.floor(seasons))):0;
+            restoredResidentWinters[r.key]=active?Math.max(0,Math.min(1000000,Math.floor(winters))):0;
           });
           const pestKeys=new Set(this.pestPressures.map(p=>p.key));
           const pestBeatIds=new Set(this.pestPressures.flatMap(p=>p.beats.map(b=>b.id)));
           const restoredPestBeats=Array.from(new Set((Array.isArray(s.pestBeatsSeen)?s.pestBeatsSeen:[]).filter(id=>pestBeatIds.has(id))));
           const restoredPestSeasons={},restoredPestCleared={},restoredPestRelief={};
           this.pestPressures.forEach(p=>{
-            restoredPestSeasons[p.key]=Math.max(0,Math.floor(num(s.pestSeasons&&s.pestSeasons[p.key],0)));
+            restoredPestSeasons[p.key]=Math.max(0,Math.min(1000000,Math.floor(num(s.pestSeasons&&s.pestSeasons[p.key],0))));
             if(s.pestCleared&&s.pestCleared[p.key]){restoredPestCleared[p.key]=true;}
-            const rel=Math.max(0,Math.floor(num(s.pestRelief&&s.pestRelief[p.key],0)));
+            const rel=Math.max(0,Math.min(1000000,Math.floor(num(s.pestRelief&&s.pestRelief[p.key],0))));
             if(rel){restoredPestRelief[p.key]=rel;}
           });
           const restoredPestActive=(typeof s.pestActive==='string'&&pestKeys.has(s.pestActive))?s.pestActive:null;
@@ -4811,18 +4665,55 @@ class Component extends DCLogic {
           const restoredGardenPreset=this.gardenSizePreset(restoredGardenSize);
           const restoredGardenWidth=this.clampGardenAxis(s.gardenWidth!=null?s.gardenWidth:restoredGardenPreset.width);
           const restoredGardenHeight=this.clampGardenAxis(s.gardenHeight!=null?s.gardenHeight:restoredGardenPreset.height);
+          const asRecord=(value)=>value&&typeof value==='object'&&!Array.isArray(value)?value:{};
+          const cleanCounts=(value,allowed,max=999)=>Object.keys(asRecord(value)).reduce((out,key)=>{
+            const amount=Math.max(0,Math.min(max,Math.floor(num(asRecord(value)[key],0))));
+            if(allowed.has(key)&&amount>0){out[key]=amount;}return out;
+          },{});
+          const cropKeys=new Set(Object.keys(this.cropDefs)),produceKeys=new Set(Object.keys(this.produceMeta)),materialKeys=new Set(Object.keys(this.MATS));
+          const gateDefinitions=this.gateDefs(),gateKeys=new Set(Object.keys(gateDefinitions)),visitKeys=new Set(Object.keys(this.visitDefs));
+          const restoredAwarded=Array.from(new Set((Array.isArray(s.awarded)?s.awarded:[]).filter(v=>typeof v==='number'&&isFinite(v)&&v>=0&&v<=10000)));
+          const restoredJourneyMoments=Array.from(new Set((Array.isArray(s.journeyMoments)?s.journeyMoments:[]).filter(v=>typeof v==='string'&&v.length<=80)));
+          const restoredCommunityMemory=(Array.isArray(s.communityMemory)?s.communityMemory:[]).filter(v=>v&&typeof v==='object'&&!Array.isArray(v)&&typeof v.text==='string').slice(0,4).map((v,index)=>({id:typeof v.id==='string'?v.id.slice(0,80):('restored-'+index),person:typeof v.person==='string'?v.person.slice(0,80):'',text:v.text.slice(0,600)}));
+          const restoredDiscovered=Array.from(new Set((Array.isArray(s.discovered)?s.discovered:[]).filter(key=>guildKeys.has(key))));
+          const restoredGuests=Array.from(new Set((Array.isArray(s.guests)?s.guests:[]).filter(key=>wildlifeKeys.has(key))));
+          const restoredSeenWildlife=Array.isArray(s.seenWildlife)?Array.from(new Set(s.seenWildlife.filter(key=>wildlifeKeys.has(key)))):Array.from(restoredActiveWildlife);
+          const restoredSeedAllowance=cleanCounts(s.seedAllowance,cropKeys,99),restoredSeedStock=cleanCounts(s.seedStock,cropKeys,99);
+          const restoredBasket=cleanCounts(s.basket,produceKeys,999),restoredMaterials=cleanCounts(s.materials,materialKeys,99);
+          const restoredGardenEffects=cleanCounts(s.gardenEffects,gateKeys,99),restoredGatesPlayed=cleanCounts(s.gatesPlayed,gateKeys,999);
+          const restoredVisitsDone=Object.keys(asRecord(s.visitsDone)).reduce((out,key)=>{if(visitKeys.has(key)&&(s.visitsDone[key]==='won'||s.visitsDone[key]==='lost')){out[key]=s.visitsDone[key];}return out;},{});
+          const restoredLastSystemChange=s.lastSystemChange&&typeof s.lastSystemChange==='object'&&!Array.isArray(s.lastSystemChange)&&typeof s.lastSystemChange.text==='string'?{text:s.lastSystemChange.text.slice(0,600),systemKey:typeof s.lastSystemChange.systemKey==='string'?s.lastSystemChange.systemKey.slice(0,40):'',system:typeof s.lastSystemChange.system==='string'?s.lastSystemChange.system.slice(0,80):'',delta:num(s.lastSystemChange.delta,0),n:num(s.lastSystemChange.n,0)}:null;
+          let pendingGate=null;
+          if(rawPendingGate&&gateKeys.has(rawPendingGate.key)&&this.seasonDefs[rawPendingGate.target]){
+            try{
+              const safeGateState={...s,placed:cleanPlaced,discovered:restoredDiscovered};
+              pendingGate={key:rawPendingGate.key,target:rawPendingGate.target,status:rawPendingGate.status,effectNew:!!rawPendingGate.effectNew,d:gateDefinitions[rawPendingGate.key].init(safeGateState,rawPendingGate.target)};
+            }catch(_){pendingGate=null;}
+          }
           restored=true;
-          this.setState({placed:cleanPlaced,shares:num(s.shares,10),budget:num(s.budget,300),pool:num(s.pool,65),goodwill:num(s.goodwill,0),given:num(s.given,0),awarded:s.awarded||[],market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',gardenSize:['balanced','large','focus'].indexOf(s.gardenSize)>=0?s.gardenSize:'balanced',gardenSizeOpen:false,insightsExpanded:!!s.insightsExpanded,journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:restoredResidentBeats,residentSeasons:restoredResidentSeasons,residentWinters:restoredResidentWinters,pestStory:null,pestActive:restoredPestActive,pestSeasons:restoredPestSeasons,pestCleared:restoredPestCleared,pestRelief:restoredPestRelief,pestBeatsSeen:restoredPestBeats,pestLastSettled:restoredPestSettled,livingLesson:null,livingLessonExperiment:restoredLessonExperiment,livingLessonHistory:restoredLessonHistory,gardenCinematic:null,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:s.discovered||[],guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:num(s.sharedActs,0),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,payWith:(s.payWith==='euro'?'euro':'shares'),seedAllowance:(s.seedAllowance&&typeof s.seedAllowance==='object')?s.seedAllowance:{},seedStock:(s.seedStock&&typeof s.seedStock==='object')?s.seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:Array.isArray(s.unlocksSeen)?s.unlocksSeen:[],grownHarvests:num(s.grownHarvests,0),preservedCount:num(s.preservedCount,0),stallSales:num(s.stallSales,0),paymentChoice:null,muted:!!s.muted,playerName:s.playerName||'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,seenWildlife:s.seenWildlife||Array.from(this.activeOf(cleanPlaced)),keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:s.lastSystemChange||null});
-          this.setState({gardenSize:restoredGardenSize,gardenWidth:restoredGardenWidth,gardenHeight:restoredGardenHeight,freshSales:num(s.freshSales,0)});
+          this.setState({placed:cleanPlaced,shares:Math.max(0,Math.min(1000000,num(s.shares,10))),budget:Math.max(0,Math.min(1000000,num(s.budget,300))),pool:Math.max(0,Math.min(100,num(s.pool,65))),goodwill:Math.max(0,Math.min(1000000,num(s.goodwill,0))),given:Math.max(0,Math.min(1000000,num(s.given,0))),awarded:restoredAwarded,market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',gardenSize:['balanced','large','focus'].indexOf(s.gardenSize)>=0?s.gardenSize:'balanced',gardenSizeOpen:false,insightsExpanded:!!s.insightsExpanded,journeyMoments:restoredJourneyMoments,gardenEffects:restoredGardenEffects,lastChallengeKey:gateKeys.has(s.lastChallengeKey)?s.lastChallengeKey:null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:restoredResidentBeats,residentSeasons:restoredResidentSeasons,residentWinters:restoredResidentWinters,pestStory:null,pestActive:restoredPestActive,pestSeasons:restoredPestSeasons,pestCleared:restoredPestCleared,pestRelief:restoredPestRelief,pestBeatsSeen:restoredPestBeats,pestLastSettled:restoredPestSettled,livingLesson:null,livingLessonExperiment:restoredLessonExperiment,livingLessonHistory:restoredLessonHistory,gardenCinematic:null,communityMemory:restoredCommunityMemory,reflectionOpened:!!s.reflectionOpened,reflectionNote:typeof s.reflectionNote==='string'?s.reflectionNote.slice(0,1000):'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:restoredDiscovered,guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:Math.max(0,Math.min(1000000,num(s.sharedActs,0))),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,payWith:(s.payWith==='euro'?'euro':'shares'),seedAllowance:restoredSeedAllowance,seedStock:restoredSeedStock,seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:Array.from(new Set((Array.isArray(s.unlocksSeen)?s.unlocksSeen:[]).filter(v=>typeof v==='string'&&v.length<=80))),grownHarvests:Math.max(0,Math.min(1000000,num(s.grownHarvests,0))),preservedCount:Math.max(0,Math.min(1000000,num(s.preservedCount,0))),stallSales:Math.max(0,Math.min(1000000,num(s.stallSales,0))),paymentChoice:null,muted:!!s.muted,playerName:typeof s.playerName==='string'?s.playerName.slice(0,80):'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:restoredBasket,materials:restoredMaterials,harvestEver:!!s.harvestEver,gatesPlayed:restoredGatesPlayed,guests:restoredGuests,visitsDone:restoredVisitsDone,visitSeason:this.seasonDefs[s.visitSeason]?s.visitSeason:null,seenWildlife:restoredSeenWildlife,keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:restoredLastSystemChange});
+          this.setState({gardenSize:restoredGardenSize,gardenWidth:restoredGardenWidth,gardenHeight:restoredGardenHeight,
+            springSprouts:Math.max(0,Math.min(3,Math.floor(num(s.springSprouts,bootSeason==='Spring'?3:0)))),
+            leafPiles:Math.max(0,Math.min(3,Math.floor(num(s.leafPiles,bootSeason==='Autumn'?3:0)))),
+            cherryPicks:Math.max(0,Math.min(3,Math.floor(num(s.cherryPicks,bootSeason==='Summer'?3:0)))),
+            freshSales:Math.max(0,Math.min(1000000,Math.floor(num(s.freshSales,0))))});
           this.setState({gardenWhisper:pendingWhispers[0]||null,gardenWhisperQueue:pendingWhispers.slice(1),gardenReflectionQueue:pendingReflections,gardenReflectionsSeen:reflectionSeen,visit:pendingVisit,guildCard:pendingGuildCards[0]||null,guildCardQueue:pendingGuildCards.slice(1),arrivalQueue:pendingArrivals,gardenCinematic:pendingCinematic},()=>{this.capturePreviousState();this._suppressFx=false;if(pendingWhispers.length){this.scheduleGardenWhisper(pendingWhispers[0]);}if(pendingReflections.length){this.scheduleGardenReflection(500);}if(pendingCinematic){this.scheduleCinematicVoice();}if(pendingGuildCards.length&&!this.state.guildVoicePlayed){this.scheduleGuildVoice();}this.scheduleResidentStory(900);this.scheduleUnlock(1500);});
+        }else{
+          try{localStorage.removeItem(this.STORE);}catch(_){}
+          if(typeof console!=='undefined'&&console.warn){console.warn('[Permaculture Garden] Saved game had an unsupported format and was cleared.');}
         }
       }
-    }catch(e){}
+    }catch(e){
+      if(e instanceof SyntaxError){try{localStorage.removeItem(this.STORE);}catch(_){} }
+      if(typeof console!=='undefined'&&console.warn){console.warn('[Permaculture Garden] Saved game could not be restored.',e);}
+    }
     if(!restored){this.capturePreviousState();}
     this.later(()=>{this.syncResponsiveAccess();this.syncDialogAccess();this.syncAmbientVideoPlayback();},0);
   }
   componentWillUnmount(){
+    const flushReflection=!!this._reflectionPersistT&&!this._storageUnavailable;
     this._unmounted=true;
+    if(flushReflection){this.persist();}
     if(window.__PERMAGARDEN_APP__===this){delete window.__PERMAGARDEN_APP__;}
     window.removeEventListener('keydown',this._esc);
     window.removeEventListener('keydown',this._focusTrap);
@@ -4835,6 +4726,7 @@ class Component extends DCLogic {
     document.removeEventListener('mousedown',this._downCap,true);
     document.removeEventListener('dragend',this._dragClear,true);
     document.removeEventListener('drop',this._dragClear,true);
+    window.removeEventListener('pagehide',this._pageHide);
     this.clearTransientWork();
     this.stopAllAudio();
     if(this._certificateUrl){URL.revokeObjectURL(this._certificateUrl);this._certificateUrl=null;}
@@ -4925,8 +4817,12 @@ class Component extends DCLogic {
     if(st.showGuilds){return 'guild-list';}
     if(st.gate){return 'gate';}
     if(st.visit){return 'visit';}
-    const activeWildlife=this.activeOf(st.placed||[]);
-    if(st.inspectCritter||(st.returnQueue||[]).length||(st.arrivalQueue||[]).some(key=>activeWildlife.has(key))){return 'wildlife';}
+    if(st.inspectCritter||(st.returnQueue||[]).length){return 'wildlife';}
+    const arrivals=st.arrivalQueue||[];
+    if(arrivals.length){
+      const activeWildlife=this.activeOf(st.placed||[]);
+      if(arrivals.some(key=>activeWildlife.has(key))){return 'wildlife';}
+    }
     return null;
   }
   clearDialogIsolation(restoreFocus=true){
@@ -4935,7 +4831,7 @@ class Component extends DCLogic {
       if(x.hadAria){x.el.setAttribute('aria-hidden',x.aria);}else{x.el.removeAttribute('aria-hidden');}
     });
     this._dialogSiblings=[];
-    if(restoreFocus&&this._dialogReturnFocus&&document.contains(this._dialogReturnFocus)){
+    if(restoreFocus&&this._dialogReturnFocus&&document.contains(this._dialogReturnFocus)&&!this._dialogReturnFocus.disabled&&this._dialogReturnFocus.getAttribute('aria-disabled')!=='true'){
       try{this._dialogReturnFocus.focus();}catch(_){}
     }
   }
@@ -4982,12 +4878,14 @@ class Component extends DCLogic {
   nativeDrag(e,src,info){
     if(e.button!==undefined&&e.button!==0){ return; }
     if(this._dragActive){ return; }
+    if(this._dragCleanup){this._dragCleanup();}
     // pointerdown and its mousedown compat event both hit this; take the first only
     const now=Date.now();
     if(this._lastDownAt&&now-this._lastDownAt<400&&e.type==='mousedown'){ return; }
     this._lastDownAt=now;
     this._dragActive=true;
     const sx=e.clientX, sy=e.clientY, self=this;
+    const EV=e.type==='pointerdown'?{move:'pointermove',up:'pointerup',cancel:'pointercancel'}:{move:'mousemove',up:'mouseup',cancel:null};
     let dragging=false, ghost=null;
     const plotEl=()=>document.querySelector('[data-plot]');
     const mv=(ev)=>{
@@ -5010,14 +4908,16 @@ class Component extends DCLogic {
     };
     const cleanup=()=>{
       self._dragActive=false;
-      ['pointermove','mousemove'].forEach(n=>document.removeEventListener(n,mv,true));
-      ['pointerup','mouseup'].forEach(n=>document.removeEventListener(n,up,true));
-      document.removeEventListener('pointercancel',cancel,true);
+      document.removeEventListener(EV.move,mv,true);
+      document.removeEventListener(EV.up,up,true);
+      if(EV.cancel){document.removeEventListener(EV.cancel,cancel,true);}
+      window.removeEventListener('blur',cancel);
       document.body.style.userSelect='';
       document.body.style.cursor='';
       const pl=plotEl(); if(pl){ pl.classList.remove('plot-drop-hot'); }
       const gv=document.querySelector('[data-give-target]'); if(gv){ gv.classList.remove('give-hot'); }
       if(ghost){ ghost.remove(); ghost=null; }
+      if(self._dragCleanup===cleanup){self._dragCleanup=null;}
     };
     const up=(ev)=>{
       const wasDragging=dragging;
@@ -5045,11 +4945,20 @@ class Component extends DCLogic {
       else { self.setState({plantType:null}); self.placeType(info.type,x,y,'auto'); }
     };
     const cancel=()=>cleanup();
-    ['pointermove','mousemove'].forEach(n=>document.addEventListener(n,mv,{capture:true,passive:false}));
-    ['pointerup','mouseup'].forEach(n=>document.addEventListener(n,up,true));
-    document.addEventListener('pointercancel',cancel,true);
+    self._dragCleanup=cleanup;
+    document.addEventListener(EV.move,mv,{capture:true,passive:false});
+    document.addEventListener(EV.up,up,true);
+    if(EV.cancel){document.addEventListener(EV.cancel,cancel,true);}
+    window.addEventListener('blur',cancel);
+  }
+  persistenceValue(st,key){
+    if(key!=='gate'){return st[key];}
+    const gate=st.gate;
+    return gate&&(gate.status==='won'||gate.status==='lost')?[gate.key,gate.target,gate.status,gate.effectNew?'1':'0'].join('|'):'';
   }
   persist(){
+    clearTimeout(this._reflectionPersistT);this._reflectionPersistT=null;
+    if(this._storageUnavailable){return false;}
     try{
       const s=this.state;
       const pendingGate=s.gate&&(s.gate.status==='won'||s.gate.status==='lost')?s.gate:null;
@@ -5062,11 +4971,30 @@ class Component extends DCLogic {
       const lessonEngine=this.lessonEngine();
       const livingLessonExperiment=lessonEngine?lessonEngine.sanitizeExperiment(s.livingLessonExperiment):null;
       const livingLessonHistory=lessonEngine?lessonEngine.sanitizeHistory(s.livingLessonHistory):[];
-      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',gardenSize:s.gardenSize||'balanced',insightsExpanded:!!s.insightsExpanded,journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,residentBeatsSeen:s.residentBeatsSeen||[],residentSeasons:s.residentSeasons||{},residentWinters:s.residentWinters||{},pestActive:s.pestActive||null,pestSeasons:s.pestSeasons||{},pestCleared:s.pestCleared||{},pestRelief:s.pestRelief||{},pestBeatsSeen:s.pestBeatsSeen||[],pestLastSettled:(typeof s.pestLastSettled==='number'?s.pestLastSettled:null),pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,livingLessonExperiment:livingLessonExperiment,livingLessonHistory:livingLessonHistory,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},seedStock:s.seedStock||{},unlocksSeen:s.unlocksSeen||[],grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,stallSales:s.stallSales||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g}));
-      const persisted=JSON.parse(localStorage.getItem(this.STORE)||'{}');
-      Object.assign(persisted,{gardenSize:s.gardenSize||'balanced',gardenWidth:this.clampGardenAxis(s.gardenWidth),gardenHeight:this.clampGardenAxis(s.gardenHeight),freshSales:s.freshSales||0});
-      localStorage.setItem(this.STORE,JSON.stringify(persisted));
-    }catch(e){}
+      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',gardenSize:s.gardenSize||'balanced',gardenWidth:this.clampGardenAxis(s.gardenWidth),gardenHeight:this.clampGardenAxis(s.gardenHeight),insightsExpanded:!!s.insightsExpanded,journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,residentBeatsSeen:s.residentBeatsSeen||[],residentSeasons:s.residentSeasons||{},residentWinters:s.residentWinters||{},pestActive:s.pestActive||null,pestSeasons:s.pestSeasons||{},pestCleared:s.pestCleared||{},pestRelief:s.pestRelief||{},pestBeatsSeen:s.pestBeatsSeen||[],pestLastSettled:(typeof s.pestLastSettled==='number'?s.pestLastSettled:null),pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,livingLessonExperiment:livingLessonExperiment,livingLessonHistory:livingLessonHistory,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},seedStock:s.seedStock||{},unlocksSeen:s.unlocksSeen||[],grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,stallSales:s.stallSales||0,freshSales:s.freshSales||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g}));
+      this._persistedState=this.PERSIST_KEYS.reduce((snapshot,key)=>{snapshot[key]=this.persistenceValue(s,key);return snapshot;},{});
+      return true;
+    }catch(e){
+      this._storageUnavailable=true;
+      if(typeof console!=='undefined'&&console.warn){console.warn('[Permaculture Garden] Progress could not be saved in this browser.',e);}
+      if(!this._unmounted){this.setState({toast:this.i18nText('error.saveUnavailable','⚠ This browser could not save your progress. Keep this tab open while you play.')});}
+      return false;
+    }
+  }
+  persistentStateChanges(current){
+    const previous=this._persistedState;
+    return !previous?this.PERSIST_KEYS.slice():this.PERSIST_KEYS.filter(key=>previous[key]!==this.persistenceValue(current,key));
+  }
+  persistChangedState(current){
+    if(this._storageUnavailable){return;}
+    const changed=this.persistentStateChanges(current);
+    if(!changed.length){return;}
+    if(changed.length===1&&changed[0]==='reflectionNote'){
+      clearTimeout(this._reflectionPersistT);
+      this._reflectionPersistT=setTimeout(()=>{this._reflectionPersistT=null;if(!this._unmounted){this.persist();}},450);
+      return;
+    }
+    this.persist();
   }
   componentDidUpdate(){
     this.syncResponsiveAccess();
@@ -5097,7 +5025,7 @@ class Component extends DCLogic {
       this._pulseT=setTimeout(()=>{if(this.state.gardenPulse&&this.state.gardenPulse.n===pulseN){this.setState({gardenPulse:null});}},5200);
     }
     if(st.placed!==prevPlaced){
-      const beforeResidents=this.activeOf(prevPlaced||[],st.guests||[]),afterResidents=this.activeOf(st.placed||[],st.guests||[]);
+      const beforeResidents=this.activeOf(prevPlaced||[]),afterResidents=this.activeOf(st.placed||[]);
       const vanishedResidents=this.residentStories.map(r=>r.key).filter(key=>beforeResidents.has(key)&&!afterResidents.has(key));
       if(vanishedResidents.length){
         this.setState(s=>{
@@ -5135,13 +5063,13 @@ class Component extends DCLogic {
         this.setState(s=>({livingLessonExperiment:checked,livingLessonHistory:completed?lessonEngine.sanitizeHistory([...(s.livingLessonHistory||[]),checked]):(s.livingLessonHistory||[]),toast:completed?this.i18nText('livingLesson.toast.completed','✦ The garden saw it. What you changed is now part of what it knows.'):s.toast}));
       }
     }
-    this.persist();
+    this.persistChangedState(st);
   }
 
-  paletteDragStart(type){return (e)=>{this.dragData={mode:'add',type:type};if(this.state.dragType!==type){this.setState({dragType:type});}e.dataTransfer.effectAllowed='copy';try{e.dataTransfer.setData('text/plain',type);}catch(_){}};}
   beginPointerDrag(info){return (e)=>{
     if(e.button!==undefined&&e.button!==0){ return; }
     if(this._dragActive){ return; }
+    if(this._dragCleanup){this._dragCleanup();}
     this._dragActive=true;
     const src=e.currentTarget, sx=e.clientX, sy=e.clientY, self=this;
     const hasPointer=(typeof PointerEvent!=='undefined')&&e.pointerId!==undefined;
@@ -5173,6 +5101,8 @@ class Component extends DCLogic {
       document.body.style.userSelect='';
       document.body.style.cursor='';
       if(ghost){ ghost.remove(); ghost=null; }
+      window.removeEventListener('blur',cancel);
+      if(self._dragCleanup===cleanup){self._dragCleanup=null;}
     };
     const up=(ev)=>{
       const wasDragging=dragging;
@@ -5190,12 +5120,14 @@ class Component extends DCLogic {
     };
     const cancel=()=>cleanup();
     const EV=hasPointer?{move:'pointermove',up:'pointerup',cancel:'pointercancel'}:{move:'mousemove',up:'mouseup',cancel:null};
-    const targets=hasPointer?[src,window]:[window];
+    const targets=[window];
+    self._dragCleanup=cleanup;
     targets.forEach(t=>{
       t.addEventListener(EV.move,mv,{passive:false});
       t.addEventListener(EV.up,up);
       if(EV.cancel){ t.addEventListener(EV.cancel,cancel); }
     });
+    window.addEventListener('blur',cancel);
   };}
   placedDragStart(id){return (e)=>{this.dragData={mode:'move',id:id};e.stopPropagation();e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',id);}catch(_){}};}
   moveElement(id,x,y){
@@ -5584,7 +5516,7 @@ class Component extends DCLogic {
       given:(s.given||0)+1,sharedActs:(s.sharedActs||0)+1,
       seedNote:{tone:'done',title:'A packet went to the table',
         text:name+' seed is on the community table now. Seed given away is the only kind that survives a bad year in one garden — someone else is holding a copy for you.'}
-    }),()=>{this.persist();});
+    }));
     this.playSparkle();
   }
   pickKitchenItem(k){
@@ -5632,7 +5564,7 @@ class Component extends DCLogic {
         kitchenBusy:{station:stationKey,n:(this._kitchenN=(this._kitchenN||0)+1)},
         kitchenNote:{tone:'done',title:this.produceMeta[r.to].name+' on the shelf',
           text:meta.name+' '+r.verb+'. A preserve can be shared even in deep winter, when the beds have nothing left to give.'}};
-    },()=>{this.persist();});
+    });
     this.playSparkle();
   }
   shareProduce(k){
@@ -5672,7 +5604,7 @@ class Component extends DCLogic {
       if(basket[k]===0){delete basket[k];}
       return {basket:basket,budget:(st.budget||0)+amount,stallSales:(st.stallSales||0)+1,
         kitchenNote:{tone:'done',title:title,text:text},toast:toast};
-    },()=>this.persist());
+    });
     this.playSparkle();
   }
   sellFreshProduce(k){
@@ -5689,7 +5621,7 @@ class Component extends DCLogic {
       if(basket[k]===0){delete basket[k];}
       return {basket: basket,budget:(st.budget||0)+amount,freshSales:(st.freshSales||0)+1,
         kitchenNote:{tone:'done',title:title,text:text},toast:toast};
-    },()=>this.persist());
+    });
     this.playSparkle();
   }
   giveToTable(){
@@ -5698,10 +5630,6 @@ class Component extends DCLogic {
     const eligible=(this.state.placed||[]).some(p=>this.elementGiftEligibility(p.id,this.state).eligible);
     if(!eligible){ this.flash('No established spare yet. '+this.firstGiftHint(this.state)); return; }
     this.setState({giveMode:true,plantType:null,selectedPlacedId:null,toast:'🌿 Choose an established duplicate. Your garden keeps one; the spare continues through the community. (Esc cancels)'});
-  }
-  gardenPillars(placed){
-    const t=new Set(placed.map(p=>p.type));
-    return {Soil:t.has('compost')||t.has('mulch')||t.has('hugel'),Water:t.has('rain'),Food:t.has('hugel')||t.has('arch')||t.has('herbspiral')||t.has('greenhouse')||t.has('appletree')||Array.from(t).some(k=>k.indexOf('crop_')===0),Shelter:t.has('bughotel')||t.has('birdhouse')||t.has('pollinator')};
   }
   reciprocityUnlocked(st=this.state){return (st.sharedActs||0)>0;}
   PROPAGABLE={compost:'a bucket of finished compost',mulch:'a share of the mulch pile',herbspiral:'rooted herb cuttings'};
@@ -5734,7 +5662,7 @@ class Component extends DCLogic {
   }
   elementGiftReward(type,st=this.state){return 0;}
   certificateStats(st=this.state){
-    const pillars=this.gardenPillars(st.placed||[]),systems=this.gardenSystems(st);
+    const systems=this.gardenSystems(st);
     const community=(st.sharedActs||0)>0;
     const wildlife=this.activeOf(st.placed||[]).size;
     const guilds=this.activeGuilds(st.placed||[]).length;
@@ -5806,8 +5734,8 @@ class Component extends DCLogic {
     });
     return paths;
   }
-  async assetDataUrl(path){
-    const response=await fetch(new URL(path,location.href).href,{cache:'force-cache'});
+  async assetDataUrl(path,signal){
+    const response=await fetch(new URL(path,location.href).href,{cache:'force-cache',signal:signal});
     if(!response.ok){throw new Error('Certificate artwork failed to load: '+path);}
     const fetched=await response.blob();
     const mime=/\.webp(?:\?|$)/i.test(path)?'image/webp':(/\.png(?:\?|$)/i.test(path)?'image/png':(fetched.type||'application/octet-stream'));
@@ -5819,31 +5747,38 @@ class Component extends DCLogic {
       reader.readAsDataURL(blob);
     });
   }
-  async certificateExport(){
+  async certificateExport(signal){
     const state={...this.state,placed:(this.state.placed||[]).map(p=>({...p})),gardenEffects:{...(this.state.gardenEffects||{})},basket:{...(this.state.basket||{})},materials:{...(this.state.materials||{})}};
-    const entries=await Promise.all(this.certificateAssetPaths(state).map(async path=>[path,await this.assetDataUrl(path)]));
+    const entries=await Promise.all(this.certificateAssetPaths(state).map(async path=>[path,await this.assetDataUrl(path,signal)]));
     return this.certificateSvg(state,Object.fromEntries(entries));
   }
   async downloadCertificate(){
     if(this.state.certificatePreparing){return;}
+    const requestId=(this._certificateRequest||0)+1;this._certificateRequest=requestId;
+    if(this._certificateAbort){this._certificateAbort.abort();}
+    const controller=typeof AbortController!=='undefined'?new AbortController():null;this._certificateAbort=controller;
+    const isCurrent=()=>!this._unmounted&&this._certificateRequest===requestId;
     this.setState({certificatePreparing:true});
     try{
-      const out=await this.certificateExport();
+      const out=await this.certificateExport(controller?controller.signal:undefined);
+      if(!isCurrent()){return;}
       if(this._certificateUrl){URL.revokeObjectURL(this._certificateUrl);}
       const url=URL.createObjectURL(new Blob([out.svg],{type:'image/svg+xml;charset=utf-8'}));
       this._certificateUrl=url;
       const link=document.createElement('a');link.href=url;link.download=out.filename;link.style.display='none';document.body.appendChild(link);link.click();link.remove();
-      this.later(()=>{if(this._certificateUrl===url){URL.revokeObjectURL(url);this._certificateUrl=null;}},4000);
-      if(!this._unmounted){this.setState({certificatePreparing:false,toast:'💾 Standalone certificate saved — its artwork will remain visible offline.'});}
+      setTimeout(()=>{URL.revokeObjectURL(url);if(this._certificateUrl===url){this._certificateUrl=null;}},4000);
+      if(isCurrent()){this.setState({certificatePreparing:false,toast:'💾 Standalone certificate saved — its artwork will remain visible offline.'});}
     }catch(error){
-      if(!this._unmounted){this.setState({certificatePreparing:false,toast:'The certificate artwork could not be embedded. Please check the connection and try again.'});}
+      if(isCurrent()){this.setState({certificatePreparing:false,toast:'The certificate artwork could not be embedded. Please check the connection and try again.'});}
+    }finally{
+      if(this._certificateAbort===controller){this._certificateAbort=null;}
     }
   }
   printCertificate(){
     window.print();
   }
   giveElement(id,type){
-    const c=this.catalog[type], e=this.econ[type];
+    const c=this.catalog[type];
     const eligibility=this.elementGiftEligibility(id,this.state);
     if(!eligibility.eligible){this.flash(eligibility.reason);return;}
     const reward=this.elementGiftReward(type,this.state);
@@ -5971,8 +5906,10 @@ class Component extends DCLogic {
   musicTarget(mode){return mode==='season' ? .34 : (mode==='reflection' ? .33 : .28);}
   fadeAudio(a,target,ms=850){
     if(!a){return;}clearInterval(a._pgFade);
+    target=Math.max(0,Math.min(1,Number(target)||0));
     const from=Number(a.volume)||0,start=Date.now();
     if(target>0){a.muted=!!this.state.muted;const p=a.play();if(p&&p.catch){p.catch(()=>{});}}
+    if(Math.abs(from-target)<.001){a.volume=target;a._pgFade=null;if(target===0){a.pause();}return;}
     a._pgFade=setInterval(()=>{const q=Math.min(1,(Date.now()-start)/ms);a.volume=Math.max(0,Math.min(1,from+(target-from)*q));if(q>=1){clearInterval(a._pgFade);a._pgFade=null;if(target===0){a.pause();}}},40);
   }
   setMusicMode(mode){
@@ -6487,7 +6424,6 @@ class Component extends DCLogic {
         return 'won';
       })}];
     } else if(g.key==='bee'){
-      const cur=d.slots[Math.min(d.i,d.slots.length-1)];
       progressText=d.placed.length+'/3 seasons connected'+((d.mist||0)?' · '+d.mist+' way'+(d.mist===1?'':'s')+' tried':'');
       boardStyle.height='230px';boardStyle.background='linear-gradient(90deg,#EAF2D9 0 33.33%,#F7EBC7 33.33% 66.66%,#F0D9B8 66.66%)';
       d.slots.forEach((s,i)=>{const plant=d.plants.find(p=>p.k===d.placed[i]);tiles.push({title:s.season+' nectar slot',style:{position:'absolute',left:(i*33.33)+'%',top:'0',width:'33.34%',height:'100%',borderRight:i<2?'1px solid rgba(100,100,65,.16)':'none',display:'grid',placeItems:'center'},label:s.emoji,labelStyle:{position:'absolute',top:'18px',fontSize:'26px'},note:plant?plant.label:(i===d.i?'choose for '+s.season:'waiting'),noteStyle:{position:'absolute',left:'8px',right:'8px',bottom:'23px',textAlign:'center',fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:plant?'13px':'11px',fontWeight:'800',color:plant?'#3E5432':'#8A846F'}});if(plant){tiles.push({title:plant.label,style:{...abs(16.66+i*33.33,51,64,64),display:'grid',placeItems:'center'},art:this.gimg('mg-flower'),artStyle:{width:'58px',height:'58px',display:'block',animation:'pop .3s ease'}});}});
@@ -6652,7 +6588,7 @@ class Component extends DCLogic {
       if(s.season===k){return null;}
       const keptMarket=s.market.filter(m=>!m.seasons||m.seasons.indexOf(k)>=0);
       const ns={...s,season:k,seasonTurns:(s.seasonTurns||0)+1,seedAllowance:{},toast:this.seasonDefs[k].tip,seasonFlash:{k:k,n:(this._flashN=(this._flashN||0)+1)},market:keptMarket.length?keptMarket:this.freshMarket(k),leafPiles:0,springSprouts:0};
-      const residentActive=this.activeOf(s.placed||[],s.guests||[]);
+      const residentActive=this.activeOf(s.placed||[]);
       const leavingWinter=(s.season||'Summer')==='Winter';
       const rs={...(s.residentSeasons||{})},rw={...(s.residentWinters||{})};
       this.residentStories.forEach(r=>{
@@ -6802,15 +6738,7 @@ class Component extends DCLogic {
     const dot=(c)=>({width:'8px',height:'8px',borderRadius:'50%',background:c});
     const journey=this.journeyModel(st);
     const guided=st.mode!=='explore';
-    const allGroups=[
-      {title:'Soil & nutrient cycling',badge:'SOIL',dotStyle:dot('#6F5530'),badgeStyle:gStyle('#76582F','#6F553018'),items:['compost','mulch','hugel'].map(mk)},
-      {title:'Water care',badge:'WATER',dotStyle:dot('#6288A3'),badgeStyle:gStyle('#4F7188','#6288A318'),items:['rain','birdbath'].map(mk)},
-      {title:'Food, seed & season',badge:'FOOD',dotStyle:dot('#5E7E4A'),badgeStyle:gStyle('#4E6B3D','#5E7E4A18'),items:['arch','herbspiral','greenhouse','seedbank','appletree','kitchen','crop_potato','crop_root','crop_leafy','crop_cabbage','crop_herb'].map(mk)},
-      {title:'Habitat',badge:'WILDLIFE',dotStyle:dot('#6E924F'),badgeStyle:gStyle('#4F7138','#6E924F18'),items:['pollinator','bughotel','birdhouse'].map(mk)},
-      {title:'People & learning',badge:'COMMUNITY',dotStyle:dot('#C99A3C'),badgeStyle:gStyle('#7A5D18','#C99A3C1F'),items:['bench','sign'].map(mk)}
-    ];
-    let groups=allGroups;
-    const establishedTypes=Array.from(new Set(st.placed.map(p=>p.type))).filter(type=>!!this.econ[type]);
+    let groups;
     if(guided&&journey.index===0){groups=[{title:'Begin with living soil',dotStyle:dot('#B5613A'),items:['compost','mulch'].map(mk)}];}
     else if(guided&&journey.index===1){groups=[
       {title:'Catch rain for the beds',dotStyle:dot('#6288A3'),items:['rain'].map(mk)},
@@ -6824,13 +6752,24 @@ class Component extends DCLogic {
       {title:'Make room for wildlife',dotStyle:dot('#5E7E4A'),items:['pollinator','bughotel','birdhouse'].map(mk)},
       {title:'Growing garden',dotStyle:dot('#6F5530'),items:['compost','mulch','rain','hugel','herbspiral','seedbank','appletree'].map(mk)}
     ];}
-    else if(guided&&journey.index===4){groups=[
+    else if(guided&&journey.index===4){
+      const establishedTypes=Array.from(new Set(st.placed.map(p=>p.type))).filter(type=>!!this.econ[type]);
+      groups=[
       {title:'Create a genuine surplus',dotStyle:dot('#C99A3C'),items:['pollinator','herbspiral','appletree','kitchen'].map(mk)},
       {title:'Already established',dotStyle:dot('#5E7E4A'),items:establishedTypes.map(mk)}
     ];}
-    else if(guided&&journey.index>=5){groups=[
+    else if(guided&&journey.index>=5){
+      const establishedTypes=Array.from(new Set(st.placed.map(p=>p.type))).filter(type=>!!this.econ[type]);
+      groups=[
       {title:'Prepare for the next season',dotStyle:dot('#6288A3'),items:['mulch','rain','seedbank','kitchen'].filter(type=>establishedTypes.indexOf(type)<0).map(mk)},
       {title:'Your established garden',dotStyle:dot('#5E7E4A'),items:establishedTypes.map(mk)}
+    ];}
+    else {groups=[
+      {title:'Soil & nutrient cycling',badge:'SOIL',dotStyle:dot('#6F5530'),badgeStyle:gStyle('#76582F','#6F553018'),items:['compost','mulch','hugel'].map(mk)},
+      {title:'Water care',badge:'WATER',dotStyle:dot('#6288A3'),badgeStyle:gStyle('#4F7188','#6288A318'),items:['rain','birdbath'].map(mk)},
+      {title:'Food, seed & season',badge:'FOOD',dotStyle:dot('#5E7E4A'),badgeStyle:gStyle('#4E6B3D','#5E7E4A18'),items:['arch','herbspiral','greenhouse','seedbank','appletree','kitchen','crop_potato','crop_root','crop_leafy','crop_cabbage','crop_herb'].map(mk)},
+      {title:'Habitat',badge:'WILDLIFE',dotStyle:dot('#6E924F'),badgeStyle:gStyle('#4F7138','#6E924F18'),items:['pollinator','bughotel','birdhouse'].map(mk)},
+      {title:'People & learning',badge:'COMMUNITY',dotStyle:dot('#C99A3C'),badgeStyle:gStyle('#7A5D18','#C99A3C1F'),items:['bench','sign'].map(mk)}
     ];}
 
     const sel=st.selectedPlacedId;
@@ -6873,8 +6812,6 @@ class Component extends DCLogic {
       const c=cat[p.type], selected=p.id===sel;
       const linkHot=!!sel2 && linkPrev.ids.has(p.id);
       // dist() vazi osu x koeficientem 1.4, takze dosah je elipsa, ne kruh
-      const reachW=(2*linkPrev.limit/1.4)+'%';
-      const reachH=(2*linkPrev.limit)+'%';
       const partnerHot=!!sel2 && this.guildDefs.some(d=>d.types.indexOf(sel2)>=0 && d.types.indexOf(p.type)>=0 && p.type!==sel2 && (st.discovered||[]).indexOf(d.key)<0);
       const pendHot=!partnerHot && !!pendPair && pendPair.indexOf(p.type)>=0;
       const cdP=this.cropDefs[p.type];
@@ -6993,7 +6930,6 @@ class Component extends DCLogic {
     const food=systems.values.food>=25;
     const shelter=systems.values.habitat>=25;
     const community=(st.sharedActs||0)>0;
-    const discovered=st.discovered||[];
     const activeGuildList=this.activeGuilds(st.placed||[]);
     const score=Math.min(100,Math.round(systems.average*.78+activeSet.size+(activeGuildList.length/this.guildDefs.length)*5+(Math.min(st.given||0,6)/6)*7));
     const missing=[];
@@ -7005,7 +6941,6 @@ class Component extends DCLogic {
     if(systems.average>=65&&activeSet.size<10)missing.push('The design could support more kinds of wildlife — dim tiles reveal habitat relationships to explore');
     if(st.placed.length>=3&&activeGuildList.length===0)missing.push('Try placing related elements side by side — good neighbours can form a useful design connection');
 
-    const I=this.ICONS;
     const pillStyle=(ok)=>({display:'inline-flex',alignItems:'center',gap:'4px',fontSize:'10px',fontWeight:'700',padding:'3px 8px',borderRadius:'7px',background:ok?'#E9F1D6':'#F1ECDF',color:ok?'#3E5A33':'#6E6552',border:'1px solid '+(ok?'#CFE0AC':'#E7DECB'),transition:'all .3s'});
     const designIcons={soil:'assets/ui/icons/living-soil.svg',water:'assets/ui/icons/water-cycle.svg',food:'assets/ui/icons/food-web.svg',habitat:'assets/ui/icons/habitat.svg',sharing:'assets/ui/icons/fair-share.svg',guild:'assets/ui/icons/guild.svg',season:'assets/ui/icons/season.svg',voice:'assets/ui/icons/garden-voice.svg'};
     const designIcon=(src,alt='')=>E('img',{src:src,alt:alt,loading:'eager',draggable:false});
@@ -7222,7 +7157,6 @@ class Component extends DCLogic {
     const firstCycleReady=completion.firstCycleReady;
     const flourishingReady=completion.flourishingReady;
     const guidedEndingReady=firstCycleReady;
-    const reflectionReady=firstCycleReady;
     const readinessWhy=(completion.reasons&&completion.reasons[0])||(guided?journey.current.why:nextStep.why);
     const summaryScore=E('svg',{viewBox:'0 0 100 122',width:76,height:93},[
       E('circle',{key:'bg',cx:50,cy:50,r:r,fill:'none',stroke:'#EAE0CC',strokeWidth:10}),
@@ -7234,10 +7168,10 @@ class Component extends DCLogic {
     const q=(st.arrivalQueue||[]).filter(k=>activeSet.has(k));
     const rq=(st.returnQueue||[]);
     const critName=(wk)=>{const w=this.wildlife.find(x=>x.key===wk);return w?w.name:'';};
-    let arrival=null, arrivalInspect=false, arrivalBatch=null;
+    let arrival=null, arrivalBatch=null;
     if(st.inspectCritter){
       const w=this.wildlife.find(x=>x.key===st.inspectCritter);
-      if(w){ arrival={name:w.name,art:(this.heroes[w.key]||this.critters[w.key]),why:w.why,label:'Living in your garden'}; arrivalInspect=true; }
+      if(w){ arrival={name:w.name,art:(this.heroes[w.key]||this.critters[w.key]),why:w.why,label:'Living in your garden'}; }
     } else if(rq.length>1){
       arrivalBatch={label:rq.length+' neighbours are back — spring is here! 🌸',
         items:rq.slice(0,6).map(wk=>({key:wk,name:critName(wk),art:(this.heroes[wk]||this.critters[wk]),why:'Wintered '+(this.awayWinter[wk]||'safe in the garden')+' — back to work.'})),
@@ -7308,7 +7242,7 @@ class Component extends DCLogic {
       {key:'community',label:'Community',icon:'↔'},
       {key:'learn',label:'Learn',icon:'✦'}
     ];
-    const adaptiveNavItems=navDefs.map((nav,index)=>{
+    const adaptiveNavItems=navDefs.map((nav)=>{
       const active=nav.key===activePane;
       return {key:nav.key,label:nav.label,icon:nav.icon,active:active,buttonId:'pg-nav-'+nav.key,panelId:'pg-pane-'+nav.key,className:'pg-adaptive-nav-item pg-nav-'+nav.key+(active?' is-active':''),
         onClick:()=>this.setAdaptivePane(nav.key,false),
@@ -7378,10 +7312,10 @@ class Component extends DCLogic {
       gardenViewCustomNote:localText('viewSize.customNote','Drag either slider. The surrounding panels stay available and become scrollable when the garden needs more room.'),
       onToggleGardenSize:()=>this.toggleGardenSize(),
       onCloseGardenSize:()=>this.setState({gardenSizeOpen:false}),
-      onGardenWidthInput:(event)=>this.setGardenAxis('width',event,false),
-      onGardenWidthChange:(event)=>this.setGardenAxis('width',event,true),
-      onGardenHeightInput:(event)=>this.setGardenAxis('height',event,false),
-      onGardenHeightChange:(event)=>this.setGardenAxis('height',event,true),
+      onGardenWidthInput:(event)=>this.setGardenAxis('width',event),
+      onGardenWidthChange:(event)=>this.setGardenAxis('width',event),
+      onGardenHeightInput:(event)=>this.setGardenAxis('height',event),
+      onGardenHeightChange:(event)=>this.setGardenAxis('height',event),
       locale:locale,
       languageOptions:languageOptions,
       onLanguageChange:(event)=>this.changeLanguage(event),
@@ -7438,7 +7372,6 @@ class Component extends DCLogic {
       storyPauseIcon:st.storyPaused?'▶':'Ⅱ',storySoundIcon:st.muted?'×♫':'♫',
       onBeginStory:()=>this.beginStory(),
       onSkipStory:()=>this.finishStory(true),
-      onEnterGarden:()=>this.finishStory(true),
       // The story's closing scene carries the choice, so watching it costs one gate
       // instead of two. Skipping still lands on the mode card — that path has no scene
       // to carry it, and the choice is worth asking for once.
@@ -7460,7 +7393,6 @@ class Component extends DCLogic {
       paymentMaterialsNote:st.paymentChoice&&(st.paymentChoice.used||[]).length?('The euro option already includes reclaimed '+st.paymentChoice.used.map(k=>this.MATS[k].name.toLowerCase()).join(', ')+'.'):'Nothing is spent until you choose.',
       onPayWithShares:()=>this.confirmPayment('barter'),onPayWithEuros:()=>this.confirmPayment('buy'),onCancelPayment:()=>this.cancelPayment(),
       introVisible:!!st.intro,
-      introBtnLabel:st.placed.length>0?'Back to garden 🌱':'Start gardening 🌱',
       onChooseGuided:()=>this.closeIntro('guided'),
       onChooseExplore:()=>this.closeIntro('explore'),
       guidedJourneyVisible:guided,freeExplore:!guided,
@@ -7483,12 +7415,11 @@ class Component extends DCLogic {
       hasPendingGuild:!!pendingGuild&&!st.plantType&&(!guided||journey.index>=5||journey.ready),
       pendingGuildText:pendingGuild?(this.catalog[pendingGuild.types[0]].name+' and '+this.catalog[pendingGuild.types[1]].name+' could form a design connection — move them side by side! ✦'):'',
       plotClass:(st.story?'pg-plot-suspended':'pg-plot')+' pg-stage-'+mapStage+' pg-season-'+season.toLowerCase()+((st.plantType||st.movingPlacedId)?' plot-drop-hot':''),
-      onStartIntro:()=>this.closeIntro(),
       onOpenIntro:()=>this.openIntro(),
       muted:!!st.muted,soundOn:!st.muted,
       soundButtonLabel:st.muted?'Turn sound on':'Mute garden sounds',
       onToggleMute:()=>{const wasMuted=this.state.muted;this.setState({muted:!wasMuted},()=>{this.syncAudioMute();if(wasMuted&&!this.state.story){this.playDing();if(!this._gardenVoice){this.resumeVisibleGardenVoice();}}});},
-      shares:st.shares,budget:st.budget,given:st.given,nextAt:nextAt,
+      shares:st.shares,budget:st.budget,given:st.given,
       givenLabel:(st.given<6?('Community care '+st.given+' / 6 · optional milestone'):(st.given>=30?('Community care '+st.given+' · full circle 🌿'):('Community care '+st.given+' / '+nextAt+' · next optional milestone'))),
       givenBarStyle:{width:givenPct+'%',height:'100%',background:'linear-gradient(90deg,#8FB565,#5E7E4A)',borderRadius:'4px',transition:'width .5s'},
       onReset:()=>this.resetGarden(),
@@ -7510,7 +7441,7 @@ class Component extends DCLogic {
         } else { this.setState({selectedPlacedId:null}); }
       },
       gridVisible:this.props.gridGuides!==false,
-      seasonFlashEl:(()=>{const sf=st.seasonFlash;if(!sf)return null;const sd2=this.seasonDefs[sf.k];return E('div',{key:'sf'+sf.n,style:{position:'absolute',inset:0,pointerEvents:'none',zIndex:6,overflow:'hidden'}},[
+      seasonFlashEl:(()=>{const sf=st.seasonFlash;if(!sf)return null;return E('div',{key:'sf'+sf.n,style:{position:'absolute',inset:0,pointerEvents:'none',zIndex:6,overflow:'hidden'}},[
         E('div',{key:'sw',style:{position:'absolute',top:0,bottom:0,width:'48%',left:0,background:'linear-gradient(100deg,transparent,rgba(255,255,255,.5),transparent)',animation:'seasonSweep .95s ease-out forwards'}}),
         E('div',{key:'bd',style:{position:'absolute',left:'50%',top:'15%',display:'flex',flexDirection:'column',alignItems:'center',gap:'4px',animation:'seasonPop 1.05s ease-out forwards'}},[
           E('div',{key:'e',style:{width:'42px',height:'42px',borderRadius:'50%',display:'grid',placeItems:'center',color:'#435A39',background:'rgba(245,242,230,.9)',boxShadow:'0 5px 14px -7px rgba(30,40,15,.65)'}},seasonIcon(sf.k,25)),
@@ -7536,12 +7467,8 @@ class Component extends DCLogic {
         onKeyDown:(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopPropagation();this.rakeLeaves();}},
         art:React.createElement('img',{src:'assets/pk2-a'+((i% 8)+1)+'.webp',alt:'',loading:'lazy',draggable:false,style:{width:'100%',display:'block',pointerEvents:'none'}}),
         style:{position:'absolute',left:p.x+'%',top:p.y+'%',transform:'translate(-50%,-50%)',width:'62px',cursor:'pointer',zIndex:5,filter:'drop-shadow(0 3px 3px rgba(40,30,10,.3))',animation:'floatIn .4s ease,pickup-hover 4.6s ease-in-out infinite'}})):[],
-      cherryC1:sd.c1,cherryC2:sd.c2,cherryC3:sd.c3,cherryFruitOp:sd.fruit,cherryBlossomOp:sd.blossom,cherrySnowOp:sd.snow,
-      treeImg:({Spring:'assets/tree-spring.webp',Summer:'assets/tree-summer.webp',Autumn:'assets/tree-autumn.webp',Winter:'assets/tree-winter.webp'}[season])||'assets/tree-summer.webp',
       treeEl:React.createElement('img',{src:'assets/tree-'+season.toLowerCase()+'.webp',alt:'Cherry tree',draggable:false,style:{width:'100%',display:'block'}}),
       gateEl:React.createElement('img',{src:(this.gates[season]||this.gates.Summer),alt:'Garden gate',draggable:false,style:{width:'100%',display:'block'}}),
-      treeSpringCls:season==='Spring'?'is-on':'',treeSummerCls:season==='Summer'?'is-on':'',treeAutumnCls:season==='Autumn'?'is-on':'',treeWinterCls:season==='Winter'?'is-on':'',
-      treeCanopyOp:sd.canopy,treeBareOp:sd.bare,treeLitterOp:sd.litter,
       decor:this._decorV2,
       placedView:placedView,linkReachView:linkReachView,critterView:critterView,
       systemLinksArt:systemLinksArt,guildLinksArt:guildLinksArt,guildLabels:guildLabels,guildCount:discCount,guildTotal:this.guildDefs.length,
@@ -7566,7 +7493,7 @@ class Component extends DCLogic {
       giveZoneStyle:{flex:'none',width:'90px',alignSelf:'stretch',borderRadius:'14px',border:'2px dashed '+(st.giveMode?'#7A5D18':'#DBC286'),background:st.giveMode?'#FBF3DC':'#FDFAF0',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'5px',cursor:'pointer',userSelect:'none',textAlign:'center',padding:'6px',transition:'transform .2s,border-color .2s,background .2s',animation:st.giveMode?'giftPulse 1.6s ease-in-out infinite':'none'},
       scoreVisual:scoreVisual,statusText:statusText,pillars:pillars,systemView:systemView,nextStep:nextStep,basketView:basketView,basketVisible:basketVisible,basketHasFreshSale:basketHasFreshSale,
       freshStallDescription:localText('economy.freshStall.description','Fresh cherries can go straight to the Menet stall for €15. A kitchen is only needed to preserve them; a jar later earns €25. Selling supports the project fund but does not count as a fair-share gift.'),
-      materialsView:materialsView,materialsVisible:materialsVisible,cherrySpots:cherrySpots,kitchenPlaced:kitchenPlaced,
+      materialsView:materialsView,materialsVisible:materialsVisible,cherrySpots:cherrySpots,
       insightsExpanded:insightsExpanded,insightsCollapsed:!insightsExpanded,
       insightsToggleLabel:insightsExpanded?localText('insights.hide','Hide the detailed garden model'):localText('insights.show','Show how the garden works'),
       insightsToggleIcon:insightsExpanded?'−':'＋',onToggleInsights:()=>this.toggleInsights(),
@@ -7607,7 +7534,7 @@ class Component extends DCLogic {
       stopProp:(e)=>e.stopPropagation(),
       livingLessonVisible:!!lessonBox,livingLessonLoading:!!lessonBox&&lessonBox.status==='loading',livingLessonReady:!!lesson,
       livingLessonCloseLabel:localText('a11y.livingLesson','Close Living Lesson'),livingLessonDialogTitle:localText('livingLesson.dialog.title','The garden reflects'),livingLessonDialogSubtitle:localText('livingLesson.dialog.subtitle','The garden has looked at what you have made and found one thing worth trying.'),livingLessonAttribution:localText('livingLesson.dialog.attribution','Its words come from GPT-5.6 Luna; the garden’s rules stay its own.'),
-      livingLessonLoadingLabel:localText('livingLesson.loading','Listening between the elements…'),livingLessonLoadingDetail:localText('livingLesson.loading.detail','The garden is reading relationships, not judging your score.'),
+      livingLessonLoadingLabel:localText('livingLesson.loading','Listening between the elements…'),livingLessonLoadingDetail:localText('livingLesson.loading.detail','The garden is reading relationships, not judging your score.'),livingLessonStatusAnnouncement:lesson?localText('livingLesson.dialog.title','The garden reflects'):localText('livingLesson.loading','Listening between the elements…'),
       livingLessonQuestionLabel:localText('livingLesson.section.question','A question to carry'),livingLessonConnectsLabel:localText('livingLesson.section.connects','What connects'),livingLessonActionBadge:localText('livingLesson.actionBadge','Do this next'),livingLessonSuccessLabel:localText('livingLesson.section.success',"How you'll know it worked"),livingLessonWhyLabel:localText('catalog.whyShort','Why:'),livingLessonTrustSummary:localText('livingLesson.trust.summary','How this reflection is made'),livingLessonTrustDetail:localText('livingLesson.trust.detail','Only a small anonymous snapshot of this garden was used. GPT‑5.6 Luna can shape this reflection, but it cannot change game rules, scores, prices or success conditions. When AI is unavailable, the same feature continues with reviewed garden wisdom.'),livingLessonKeepObserving:localText('common.keepObserving','Keep observing'),livingLessonTry:localText('livingLesson.try','Try this experiment →'),
       livingLessonEyebrow:lesson&&lesson.source==='ai'?localText('livingLesson.ai.eyebrow','The garden is listening'):localText('livingLesson.fallback.eyebrow','The garden answers from memory'),
       livingLessonObservation:lessonNarrative('observation'),livingLessonRelationship:lessonNarrative('relationship'),livingLessonQuestion:lessonNarrative('question'),
@@ -7672,7 +7599,6 @@ class Component extends DCLogic {
           E('source',{src:'assets/kitchen/station-'+(st.kitchenStage||'simmer')+'-loop.webm',type:'video/webm'}),
           E('source',{src:'assets/kitchen/station-'+(st.kitchenStage||'simmer')+'-loop.mp4',type:'video/mp4'})),
       kitchenActLabel:(st.kitchenPick&&this.produceMeta[st.kitchenPick])?(this.kitchenStageDef(st).act+' — '+this.produceMeta[st.kitchenPick].name):'Take something from the shelf first',
-      kitchenActReady:!!(st.kitchenPick&&this.produceMeta[st.kitchenPick]),
       kitchenActIdle:!(st.kitchenPick&&this.produceMeta[st.kitchenPick]),
       onKitchenAct:()=>{
         const s=this.state;
@@ -7689,8 +7615,6 @@ class Component extends DCLogic {
       kitchenSharingOpen:this.sharingUnlocked(st),
       kitchenPreservedCount:st.preservedCount||0,
       kitchenGivenCount:st.given||0,
-      kitchenStallSales:st.stallSales||0,
-      kitchenStallIncome:(st.stallSales||0)*25,
       kitchenGiveLabel:localText('economy.stall.give','Give'),
       kitchenSellTitle:localText('economy.stall.buttonTitle','Sell one jar at the village stall and return €25 to the project garden fund'),
       kitchenStallButton:localText('economy.stall.button','Village stall · €25'),
@@ -7725,7 +7649,6 @@ class Component extends DCLogic {
           onPick:()=>this.pickSeed(k),
           onShare:()=>this.shareSeed(k)};
       }),
-      seedHasAny:this.seedCrops().some(k=>((st.seedStock||{})[k]||0)>0),
       seedEmpty:!this.seedCrops().some(k=>((st.seedStock||{})[k]||0)>0),
       seedHasPick:!!st.seedPick,
       seedPickName:st.seedPick?this.catalog[st.seedPick].name:'',
@@ -7772,7 +7695,7 @@ class Component extends DCLogic {
       certificatePreparing:!!st.certificatePreparing,certificateSaveLabel:st.certificatePreparing?'Preparing offline image…':'💾 Save offline image',onSaveCertificate:()=>this.downloadCertificate(),
       onPrintCertificate:()=>this.printCertificate(),
       playerName:st.playerName||'',
-      onNameChange:(e)=>this.setState({playerName:e.target.value}),
+      onNameChange:(e)=>this.setState({playerName:e.target.value.slice(0,80)}),
       sumScore:summaryScore,sumStatus:flourishingReady?('Learning certificate earned · '+statusText):(firstCycleReady?'First learning cycle complete · keep tending toward flourishing':statusText),sumDate:today,
       summaryMapStyle:{position:'relative',height:'150px',borderRadius:'14px',overflow:'hidden',marginBottom:'12px',background:'linear-gradient(rgba(20,34,17,.05),rgba(20,34,17,.12)),url("'+mapStageSrc+'") center 55% / cover no-repeat',boxShadow:'inset 0 0 0 1px rgba(90,110,60,.3),inset 0 10px 24px -14px rgba(40,60,20,.45)'},
       miniPlaced:miniPlaced,miniCritters:miniCritters,

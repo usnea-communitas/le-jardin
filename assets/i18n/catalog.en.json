@@ -1252,6 +1252,7 @@
     "garden.give": "Give to",
     "error.dropOutside": "Drop it on the green plot to plant it.",
     "error.seedBankRequired": "🌰 Plant a Seed bank first — every crop here starts as saved community seed.",
+    "error.saveUnavailable": "⚠ This browser could not save your progress. Keep this tab open while you play.",
     "error.seedPacketUsed": "One seed packet of this crop is available per season — or sow from your own saved seed. Turn the season before sowing it again.",
     "error.resources": "Not enough game shares or budget — share a genuine surplus, learn through a challenge or wait for a community offering.",
     "error.kitchenRequired": "🏵 Build a Garden kitchen first — preserving needs a stove and shelves.",

@@ -117,7 +117,7 @@ const metricCases = [
     next: { ...base, completedChallenges: ["autumn"] }
   },
   {
-    candidate: { id: "balance-living-web", kind: "balance_gap", focus: "relationships", title: "Balance", action: "Act", why: "Why", success: "Success", baseline: 30, target: 20 },
+    candidate: { id: "balance-living-web", kind: "balance_gap", focus: "relationships", title: "Balance", action: "Act", why: "Why", success: "Success", baseline: 30, target: 25 },
     next: { ...base, systems: { soil: { value: 30 }, water: { value: 30 }, food: { value: 25 }, habitat: { value: 20 } } }
   }
 ];
@@ -129,4 +129,10 @@ for (const item of metricCases) {
 
 const restored = lesson.sanitizeHistory(metricCases.map(item => ({ ...rawExperiment(item.candidate), status: "completed" })));
 assert.equal(restored.length, metricCases.length);
+assert.equal(lesson.sanitizeExperiment(rawExperiment({ id: "evil", kind: "system_gain", focus: "sharing", baseline: 0, target: 999 })), null);
+assert.equal(lesson.sanitizeExperiment(rawExperiment({ id: "strengthen-soil", kind: "share_gain", focus: "sharing", baseline: 0, target: 1 })), null);
+assert.equal(lesson.sanitizeExperiment(rawExperiment({ id: "strengthen-soil", kind: "system_gain", focus: "soil", baseline: 20, target: 999 })), null);
+assert.equal(lesson.sanitizeExperiment(rawExperiment({ id: "strengthen-soil", kind: "system_gain", focus: "soil", baseline: 92, target: 100 })), null);
+assert.equal(lesson.sanitizeExperiment(rawExperiment({ id: "balance-living-web", kind: "balance_gap", focus: "relationships", baseline: 0, target: 0 })), null);
+assert.equal(lesson.sanitizeExperiment(rawExperiment({ id: "connect-water", kind: "link_added", focus: "relationships", baseline: 0.5, target: 1.5 })), null);
 console.log("Living Lesson engine tests passed.");

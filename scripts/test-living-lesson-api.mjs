@@ -136,6 +136,7 @@ assert.equal(localizedAi.body.lesson.locale, "cs");
 assert.equal(localizedAi.body.lesson.promptVersion, "living-lesson-v4-locale-contract");
 assert.match(globalThis.__PG_TEST_LIVING_LESSON_REQUEST__.system, /in Czech/);
 assert.match(globalThis.__PG_TEST_LIVING_LESSON_REQUEST__.system, /Return locale exactly as cs\./);
+assert.ok(globalThis.__PG_TEST_LIVING_LESSON_REQUEST__.abortSignal instanceof AbortSignal);
 
 const capturedSchema = globalThis.__PG_TEST_LIVING_LESSON_SCHEMA__;
 assert.equal(capturedSchema.safeParse(globalThis.__PG_TEST_LIVING_LESSON_OUTPUT__).success, true);

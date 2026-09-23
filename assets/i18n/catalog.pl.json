@@ -1236,6 +1236,7 @@
     "garden.give": "Podaruj",
     "error.dropOutside": "Upuść to na zielonym poletku, aby to posadzić.",
     "error.seedBankRequired": "🌰 Najpierw umieść społeczny bank nasion — każda uprawa tutaj zaczyna się od zachowanych nasion społeczności.",
+    "error.saveUnavailable": "⚠ Ta przeglądarka nie mogła zapisać postępu. Podczas gry pozostaw tę kartę otwartą.",
     "error.seedPacketUsed": "Na sezon dostępna jest jedna paczka nasion tej uprawy — możesz też wysiać własne zachowane nasiona. Zmień sezon, zanim wysiejesz je ponownie.",
     "error.resources": "Za mało punktów zaangażowania lub środków — podziel się rzeczywistą nadwyżką, ucz się podczas wyzwania albo poczekaj na ofertę społeczności.",
     "error.kitchenRequired": "🏵 Najpierw zbuduj kuchnię ogrodową — przechowywanie plonów wymaga kuchenki i półek.",

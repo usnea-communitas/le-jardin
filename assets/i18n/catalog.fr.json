@@ -1252,6 +1252,7 @@
     "garden.give": "Donner à",
     "error.dropOutside": "Dépose-le sur la parcelle verte pour le planter.",
     "error.seedBankRequired": "🌰 Installe d’abord une grainothèque — ici, chaque culture commence par des semences communautaires conservées.",
+    "error.saveUnavailable": "⚠ Ce navigateur n’a pas pu enregistrer ta progression. Garde cet onglet ouvert pendant que tu joues.",
     "error.seedPacketUsed": "Un sachet de semences de cette culture est disponible par saison — ou sème tes propres semences conservées. Fais passer la saison avant de semer à nouveau.",
     "error.resources": "Tu n’as pas assez de jetons de participation ni de budget — partage un véritable surplus, apprends grâce à un défi ou attends une offre de la communauté.",
     "error.kitchenRequired": "🏵 Construis d’abord une cuisine du jardin — la conservation a besoin d’une cuisinière et d’étagères.",
