@@ -81,7 +81,10 @@ assert.deepEqual(get.body.locales, ["en", "cs", "de", "fr", "es", "pt-BR", "pl",
 const method = await call("DELETE", null);
 assert.equal(method.statusCode, 405);
 
-const invalid = await call("POST", { clientId: "short", snapshot }, { "content-type": "application/json" });
+const noOrigin = await call("POST", { clientId: "garden_12345678", snapshot }, { "content-type": "application/json", host: "garden.example" });
+assert.equal(noOrigin.statusCode, 403);
+
+const invalid = await call("POST", { clientId: "short", snapshot }, { "content-type": "application/json", origin: "https://garden.example", host: "garden.example" });
 assert.equal(invalid.statusCode, 400);
 
 const crossOrigin = await call("POST", { clientId: "garden_12345678", snapshot }, { "content-type": "application/json", origin: "https://attacker.example", host: "garden.example" });

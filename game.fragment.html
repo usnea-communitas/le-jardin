@@ -1068,7 +1068,7 @@ button,input,select,textarea{font-family:inherit}
 @media (min-width:768px) and (max-width:1179px) and (min-height:600px){
   .pg-game-main{
     display:grid!important;
-    grid-template-columns:minmax(0,1fr) clamp(286px,35vw,382px)!important;
+    grid-template-columns:minmax(0,1fr) clamp(268px,31vw,352px)!important;
     grid-template-rows:52px minmax(0,1fr)!important;
     grid-template-areas:"garden tabs" "garden side"!important;
     gap:10px!important;padding:10px!important;overflow:hidden!important
@@ -1098,6 +1098,11 @@ button,input,select,textarea{font-family:inherit}
   .pg-header-place{padding:0!important;width:44px!important;justify-content:center}
   .pg-header-place-label{display:none}
   .pg-header-help,.pg-header-tool{min-width:44px!important;width:44px!important;height:44px!important}
+}
+
+/* Portrait tablets: the plot takes the full width on top, tools below. */
+@media (min-width:768px) and (max-width:1179px) and (min-height:600px) and (orientation:portrait){
+  .pg-game-main{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1.2fr) 52px minmax(0,1fr)!important;grid-template-areas:"garden" "tabs" "side"!important}
 }
 
 @media (max-width:767px), (max-height:599px) and (max-width:999px){
@@ -1331,7 +1336,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         <svg width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="#EAF3DC" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"></path><path d="M5 19c1-5 4-8 8-9"></path></svg>
       </div>
       <div class="pg-brand-lockup" style="min-width:0">
-        <h1 class="pg-brand-title" data-pg-no-i18n="true" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;line-height:1;white-space:nowrap;margin:0"><span class="pg-brand-long" data-pg-no-i18n="true">Permaculture </span><span data-pg-no-i18n="true" style="color:#5E7E4A">Garden</span></h1>
+        <h1 class="pg-brand-title" data-pg-no-i18n="true" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px;letter-spacing:-.01em;line-height:1;white-space:nowrap;margin:0"><span class="pg-brand-long" data-pg-no-i18n="true">Le </span><span data-pg-no-i18n="true" style="color:#5E7E4A">Jardin</span></h1>
         <div class="pg-brand-subtitle" style="font-size:10.5px;color:#9A8F77;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-top:3px;white-space:nowrap">Care for the earth · Care for people · Fair share</div>
       </div>
     </div>
@@ -1441,6 +1446,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
           <button data-testid="pay-euro-toggle" sc-camel-on-click="{{ onSetPayEuro }}" aria-pressed="{{ payWithEuroPressed }}" style="{{ payToggleEuroStyle }}">{{ euroIconToggle }} Fund</button>
         </div>
       </div>
+      <p class="pg-pay-note pg-panel" style="margin:0;padding:7px 11px;background:#FBF8F1;border:1px solid #E7DECB;border-radius:12px;font-size:11px;line-height:1.45;color:#6E6552;flex:none">Shares are time and know-how from the community; the Fund is the shared project budget in euros.</p>
       <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
         <section class="pg-panel pg-palette-section" style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:16px;padding:13px;box-shadow:0 10px 26px -20px rgba(60,50,30,.65)">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span style="{{ g.dotStyle }}"></span><h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3A3527;margin:0">{{ g.title }}</h2></div>
@@ -1448,13 +1454,14 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
             <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
               <div class="pg-element-chip" data-drag-type="{{ it.type }}" role="button" tabindex="0" aria-label="{{ it.ariaLabel }}" sc-camel-on-click="{{ it.onSelect }}" sc-camel-on-key-down="{{ it.onKeyDown }}" title="{{ it.hint }}" style="{{ it.chipStyle }}" style-hover="transform:translateY(-2px);box-shadow:0 9px 18px -10px rgba(60,50,30,.6)">
                 <span style="{{ it.iconBoxStyle }}"><span style="width:32px;height:32px;display:block">{{ it.art }}</span></span>
-                <span style="flex:1;min-width:0"><span>{{ it.name }}</span><sc-if value="{{ it.hasTermHelp }}" hint-placeholder-val="{{ false }}"><span class="pg-element-term">{{ it.termHelp }}</span></sc-if></span>
-                <span style="display:flex;align-items:center;gap:4px;flex:none">
+                <span style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:3px"><span>{{ it.name }}</span><sc-if value="{{ it.hasTermHelp }}" hint-placeholder-val="{{ false }}"><span class="pg-element-term">{{ it.termHelp }}</span></sc-if>
+                <span class="pg-element-meta" style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
                   <sc-if value="{{ it.barterable }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:2px;background:#EAF1DC;color:#5E7E4A;font-size:9.5px;font-weight:700;padding:1.5px 6px;border-radius:6px">{{ it.reuseIcon }} {{ it.barter }}</span></sc-if>
                   <sc-if value="{{ it.moneyOnly }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;background:#F4EBDD;color:#7A5D18;font-size:9.5px;font-weight:700;padding:1.5px 6px;border-radius:6px">buy only</span></sc-if>
                   <sc-if value="{{ it.hasSeasonBadge }}" hint-placeholder-val="{{ false }}"><span style="{{ it.seasonBadgeStyle }}" title="{{ it.seasonBadgeTitle }}" aria-label="{{ it.seasonBadgeTitle }}">{{ it.seasonBadge }}</span></sc-if>
                   <sc-if value="{{ it.isCrop }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:3px;background:#EFE9D8;color:#6F5530;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:6px">{{ it.seedIcon }} free seed</span></sc-if>
                   <sc-if value="{{ it.showPrice }}" hint-placeholder-val="{{ true }}"><span style="{{ it.priceStyle }}">€{{ it.price }}</span></sc-if>
+                </span>
                 </span>
               </div>
             </sc-for>
@@ -1681,7 +1688,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
               <div title="{{ cr.name }}" style="{{ cr.posStyle }}"><div style="{{ cr.animStyle }}">{{ cr.art }}</div><span style="position:absolute;top:-9px;right:-7px;font-size:10px;pointer-events:none">{{ cr.zzz }}</span></div>
             </sc-for>
 
-            <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ true }}">
+            <sc-if value="{{ emptyOverlayVisible }}" hint-placeholder-val="{{ true }}">
               <div class="pg-empty-garden" style="position:absolute;left:0;right:0;bottom:16%;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;text-align:center;padding:0 24px">
                 <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:600;color:#3E5233;background:rgba(245,242,230,.8);padding:4px 14px;border-radius:12px">{{ emptyTitle }}</div>
                 <div style="font-size:12px;color:#4E6840;max-width:340px;line-height:1.5;background:rgba(245,242,230,.66);padding:5px 12px;border-radius:10px">{{ emptyText }}</div>
@@ -1798,7 +1805,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
 
 
             <sc-if value="{{ toastVisible }}" hint-placeholder-val="{{ false }}">
-              <div style="position:absolute;bottom:14px;left:50%;max-width:78%;background:#2C3A24;color:#F2E9D2;padding:10px 16px;border-radius:13px;font-size:12px;font-weight:600;box-shadow:0 12px 28px -10px rgba(0,0,0,.55);z-index:30;pointer-events:none;animation:riseIn .35s ease;text-align:center;line-height:1.4;transform:translateX(-50%)">{{ toastText }}</div>
+              <div class="pg-toast" role="status" style="position:fixed;top:calc(68px + env(safe-area-inset-top));left:50%;max-width:min(520px,calc(100vw - 32px));background:#2C3A24;color:#F2E9D2;padding:10px 16px;border-radius:13px;font-size:12px;font-weight:600;box-shadow:0 12px 28px -10px rgba(0,0,0,.55);z-index:1200;pointer-events:none;animation:riseIn .35s ease;text-align:center;line-height:1.4;transform:translateX(-50%)">{{ toastText }}</div>
             </sc-if>
           </div>
         </div>
@@ -2033,11 +2040,11 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
             </div>
             <p style="font-size:13px;line-height:1.55;color:#4A4334;margin:0 0 11px">{{ info.desc }}</p>
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 11px">
-              <sc-if value="{{ info.barterable }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:3px;background:#EAF1DC;color:#5E7E4A;font-size:11px;font-weight:700;padding:2px 8px;border-radius:7px">{{ info.reuseIcon }} Barter · {{ info.barter }} shares</span></sc-if>
+              <sc-if value="{{ info.barterable }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:3px;background:#EAF1DC;color:#5E7E4A;font-size:11px;font-weight:700;padding:2px 8px;border-radius:7px">{{ info.reuseIcon }} {{ info.barterText }}</span></sc-if>
               <span style="display:inline-flex;align-items:center;gap:3px;background:#F4EBDD;color:#B5613A;font-size:11px;font-weight:700;padding:2px 8px;border-radius:7px">€ {{ info.price }}</span>
               <span style="display:inline-flex;align-items:center;gap:3px;background:#EFE9DA;color:#7A6E58;font-size:11px;font-weight:600;padding:2px 8px;border-radius:7px">share later · no personal payout</span>
             </div>
-            <div style="font-size:12px;color:#6E6552;line-height:1.45;margin:0 0 12px"><span style="font-weight:700;color:#5A6B45">Shares with the community:</span> {{ info.giveText }}. <span style="color:#9A8F77">Often made from {{ info.material }}.</span></div>
+            <div style="font-size:12px;color:#6E6552;line-height:1.45;margin:0 0 12px"><span style="font-weight:700;color:#5A6B45">Shares with the community:</span> {{ info.giveText }}. <span style="color:#9A8F77">{{ info.materialText }}</span></div>
             <div style="font-size:9.5px;font-weight:700;color:#9A8F77;letter-spacing:.09em;text-transform:uppercase;margin-bottom:5px">Why it matters</div>
             <p style="font-size:13px;line-height:1.55;color:#4A4334;margin:0 0 13px">{{ info.why }}</p>
             <sc-if value="{{ info.hasRelationships }}" hint-placeholder-val="{{ false }}">
@@ -6988,6 +6995,8 @@ class Component extends DCLogic {
       info={
         name:c.name,catLabel:categoryLabel,art:this.sprites[stp],desc:c.desc,why:c.why,
         barterable:ec.barter!=null,barter:ec.barter,reuseIcon:this.uiIcon('recycle',12),price:ec.price,giveText:this.giveText[stp],material:ec.material,
+        materialText:this.i18nText('catalog.material','Often made from '+ec.material+'.',{material:this.i18nValue(ec.material)}),
+        barterText:this.i18nText('catalog.barter','Barter · '+ec.barter+' shares',{count:ec.barter}),
         discStyle:{width:'54px',height:'54px',borderRadius:'15px',display:'grid',placeItems:'center',background:'linear-gradient(160deg,#EFF4E2,#E2ECCC)',boxShadow:'inset 0 0 0 2px '+c.accent+'55',flex:'none',overflow:'hidden',padding:'4px'},
         tagStyle:{display:'inline-block',marginTop:'5px',padding:'2px 9px',borderRadius:'20px',fontSize:'10px',fontWeight:'700',letterSpacing:'.04em',background:c.accent+'1F',color:c.accent},
         attracts:c.attracts.map(n=>{const k=this.nameKey[n];return{name:n,hasIcon:!!k,icon:k?this.critters[k]:null};}),relationships:relationships,hasRelationships:relationships.length>0,
@@ -7479,6 +7488,8 @@ class Component extends DCLogic {
       guildListView:guildListView,showGuildList:!!st.showGuilds,
       onToggleGuildList:()=>this.setState(s=>({showGuilds:!s.showGuilds})),
       isEmpty:st.placed.length===0,
+      // guided start on desktop/tablet: the journey card beside the plot already says this
+      emptyOverlayVisible:st.placed.length===0&&!(guided&&st.viewportMode!=='phone'),
       emptyTitle:guided?'Begin with my soil':'Start shaping your garden',
       emptyText:(()=>{const kde=(st.viewportMode==='phone'||st.viewportMode==='tablet')?'under Build':'on the left';return guided?('Choose compost or mulch '+kde+', then place it on the bare plot. One meaningful action is enough to begin.'):('Choose any element '+kde+', then place it on the plot. Related neighbours become stronger when they are close.');})(),
       gardenWhisperVisible:!!st.gardenWhisper,gardenWhisperText:st.gardenWhisper?st.gardenWhisper.text:'',gardenWhisperHasArt:!!(st.gardenWhisper&&this.milestoneArt[st.gardenWhisper.key]),gardenWhisperNoArt:!(st.gardenWhisper&&this.milestoneArt[st.gardenWhisper.key]),gardenWhisperArtEl:(st.gardenWhisper&&this.milestoneArt[st.gardenWhisper.key])?E('img',{className:'pg-whisper-art',src:this.milestoneArt[st.gardenWhisper.key],alt:'',draggable:false,onError:(e)=>{const n=e.currentTarget;if(n&&n.parentNode){n.parentNode.removeChild(n);}}}):null,onDismissGardenWhisper:()=>this.dismissGardenWhisper(),
@@ -7510,7 +7521,7 @@ class Component extends DCLogic {
       wildlifeView:wildlifeView,activeCount:activeCount,
       infoPanelVisible:!guided||!!info||journey.index>=3||journey.ready,
       hasSelection:!!info,noSelection:!info,
-      info:info||{name:'',catLabel:'',art:null,desc:'',why:'',discStyle:{},tagStyle:{},attracts:[],relationships:[],hasRelationships:false,removable:false,isKitchen:false,isSeedbank:false,barterable:false,barter:0,reuseIcon:null,price:0,giveText:'',material:''},
+      info:info||{name:'',catLabel:'',art:null,desc:'',why:'',discStyle:{},tagStyle:{},attracts:[],relationships:[],hasRelationships:false,removable:false,isKitchen:false,isSeedbank:false,barterable:false,barter:0,reuseIcon:null,price:0,giveText:'',material:'',materialText:'',barterText:''},
       onRemove:()=>this.removeSelected(),
       onMoveSelected:()=>this.beginMoveSelected(),
       arrivalVisible:!!arrival&&!arrivalBatch&&!cardDef&&!st.showSummary&&!st.intro,

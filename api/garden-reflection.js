@@ -74,7 +74,9 @@ function hashId(value) {
 
 function allowedOrigin(req) {
   const origin = header(req, "origin");
-  if (!origin) return true;
+  // Browsers send Origin with every POST made by the page itself. A request
+  // without it comes from a script or another server, so it is refused.
+  if (!origin) return false;
   const host = header(req, "x-forwarded-host") || header(req, "host");
   try { return new URL(origin).host === host; } catch (_) { return false; }
 }
