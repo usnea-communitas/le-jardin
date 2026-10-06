@@ -16,3 +16,8 @@ v*-audit-*.png
 Permaculture Garden v2.dc.html
 scripts
 
+# Impeccable design skill and agent config: tooling only, never deployed
+.claude/
+.agents/
+.codex/
+.impeccable/
