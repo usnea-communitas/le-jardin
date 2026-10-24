@@ -5,7 +5,7 @@
 [![Play Le Jardin](https://img.shields.io/badge/play-permaculture--garden.vercel.app-5b7a3a)](https://permaculture-garden.vercel.app/)
 [![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Media: CC BY-NC-SA 4.0](https://img.shields.io/badge/media-CC%20BY--NC--SA%204.0-lightgrey.svg)](LICENSE-ASSETS.md)
-[![Tests](https://img.shields.io/badge/tests-npm%20test-success)](#install-build-and-test)
+[![CI](https://github.com/usnea-communitas/le-jardin/actions/workflows/ci.yml/badge.svg)](https://github.com/usnea-communitas/le-jardin/actions/workflows/ci.yml)
 [![Languages](https://img.shields.io/badge/languages-9-8a6d3b)](#localisation)
 
 **Play it:** <https://permaculture-garden.vercel.app/> — free, no account, progress stays in your browser.
@@ -139,7 +139,8 @@ Coverage includes adaptive navigation, safe-area and overflow boundaries, 44-pix
 - **Prototype (spring–July 2026)** — a single-file browser prototype with the core placement garden, seasons, guilds, wildlife and sharing.
 - **OpenAI Build Week (13–19 July 2026)** — the prototype was rebuilt into a complete product with Codex as engineering collaborator: the eleven challenges, the cinematic introduction, the organic soundscape, hardened saving and progression, the Living Lesson architecture and the first automated journeys. The entry did not place; the submission text and provenance records are kept in [`docs/build-week/`](docs/build-week/).
 - **Playtest line (v0.78–v0.82, late July 2026)** — nine full language versions, Czech narration, the garden kitchen and seed bank, a rebalanced economy, adjustable garden size, phone and tablet layouts, and a growing set of browser regression journeys. Release notes live in [`docs/handoffs/`](docs/handoffs/) and in [CHANGELOG.md](CHANGELOG.md).
-- **Le Jardin under Usnea communitas (September 2026 →)** — the repository moved to the association's GitHub organisation, the name was unified to *Le Jardin*, the API boundary was hardened, accessibility contrast was improved and the project was opened as free software.
+- **Le Jardin under Usnea communitas (September 2026 →)** — the repository moved to the association's GitHub organisation, the name was unified to *Le Jardin*, the API boundary was hardened and accessibility contrast was improved.
+- **Open-source release v0.83.0 (24 October 2026)** — the repository was made public under the MIT licence (CC BY-NC-SA for media), with the unified Build Week + playtest history, CI, a changelog and contributor documentation.
 
 Planned next — tracked as issues: [first playtests with young people and facilitators](https://github.com/usnea-communitas/le-jardin/issues/8), [facilitator tools](https://github.com/usnea-communitas/le-jardin/issues/7), a [shared workshop mode](https://github.com/usnea-communitas/le-jardin/issues/4) for groups of 10–25 players where each person tends their own garden around a common Community Table, [voice narration for the remaining seven languages](https://github.com/usnea-communitas/le-jardin/issues/5) and a [performance and media-budget audit](https://github.com/usnea-communitas/le-jardin/issues/6).
 
