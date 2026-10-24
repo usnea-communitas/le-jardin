@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Security report
+    url: https://github.com/usnea-communitas/le-jardin/blob/main/SECURITY.md
+    about: Please report security problems by e-mail, not in a public issue.
+  - name: Play Le Jardin
+    url: https://permaculture-garden.vercel.app/
+    about: The deployed game, free and without an account.
