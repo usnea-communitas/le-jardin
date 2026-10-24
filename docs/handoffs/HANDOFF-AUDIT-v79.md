@@ -115,7 +115,7 @@ Tento audit patří pouze oddělené playtest větvi:
 - GitHub: <https://github.com/martinpazdernik-source/Permaculture-Garden-Playtest>
 - Vercel: <https://permaculture-garden-playtest.vercel.app/>
 - pracovní kopie:
-  `C:\Users\marti\OneDrive\Dokumenty\Permaculture Garden Playtest`
+  `<local working folder>\Permaculture Garden Playtest`
 
 Původní soutěžní verze zůstává zmrazená:
 

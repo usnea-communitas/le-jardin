@@ -1,115 +1,90 @@
-# Permaculture Garden — Le Jardin
+# Le Jardin — a permaculture garden game
 
-**A story-led educational game where every placement becomes a relationship, every season changes the lesson, and GPT‑5.6 Luna helps the garden reflect on what the player has actually built.**
+**A story-led educational browser game about designing a living permaculture garden in Menet, France. Every placement becomes a relationship, every season changes the lesson, and an AI "Living Lesson" helps the garden reflect on what the player has actually built — without ever taking over the rules.**
 
-[Play the current v79 playtest](https://permaculture-garden-playtest.vercel.app/)
+[![Play Le Jardin](https://img.shields.io/badge/play-permaculture--garden.vercel.app-5b7a3a)](https://permaculture-garden.vercel.app/)
+[![License: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![Media: CC BY-NC-SA 4.0](https://img.shields.io/badge/media-CC%20BY--NC--SA%204.0-lightgrey.svg)](LICENSE-ASSETS.md)
+[![Tests](https://img.shields.io/badge/tests-npm%20test-success)](#install-build-and-test)
+[![Languages](https://img.shields.io/badge/languages-9-8a6d3b)](#localisation)
 
-This is the separate post-submission playtest line. The OpenAI Build Week repository,
-deployment and Devpost entry remain frozen at the submitted version; see
-[`COMPETITION_FREEZE.md`](COMPETITION_FREEZE.md).
-The complete Claude-handoff reconciliation and v79 verification record is in
-[`HANDOFF-AUDIT-v79.md`](HANDOFF-AUDIT-v79.md).
+**Play it:** <https://permaculture-garden.vercel.app/> — free, no account, progress stays in your browser.
+
+Le Jardin is an open-source project of [Usnea communitas, z. s.](https://usnea.ngo), a Czech nonprofit association for education, communities, nature and permaculture. It is built and maintained by [Martin Pazderník](https://github.com/martinpazdernik-source).
+
+---
 
 ## Why this garden exists
 
 The game is inspired by a real permaculture garden in the small French village of Menet. The creator's partner joined an Erasmus+ volunteering programme there and helped a group of young people care for the garden, learn together and move the project forward.
 
-Permaculture Garden was conceived first as a learning experience for that community. Its longer-term purpose is to support schools, youth programmes, environmental organisations and other community projects that want to introduce ecology, systems thinking and fair sharing through play. It is an independent project and is not affiliated with or endorsed by Erasmus+.
+Le Jardin was conceived first as a learning experience for that community: not a textbook that explains permaculture from a distance, but a place where a young person can try relationships, watch seasons change, make a recoverable mistake and understand why a garden works as a system. Its longer-term purpose is to support schools, youth programmes, environmental organisations and other community projects that want to introduce ecology, systems thinking and fair sharing through play.
+
+It is an independent project and is not affiliated with or endorsed by Erasmus+.
 
 ## What the player does
 
-Players design a living garden rather than optimise isolated objects. They place soil, water, food and habitat elements; discover useful design connections; welcome wildlife; grow and preserve seasonal harvests; and contribute genuine surplus to a community sharing table. Eleven educational season challenges turn permaculture ideas into decisions with immediate explanatory feedback.
-
-The experience includes:
+Players design a living garden rather than optimise isolated objects. They place soil, water, food and habitat elements; discover useful design connections; welcome wildlife; grow, harvest and preserve seasonal food; and contribute genuine surplus to a community sharing table.
 
 - a seven-scene, first-person cinematic introduction narrated by the Garden of Menet;
 - a guided first journey and a free-exploration mode;
 - four seasons with crop windows, dormancy, preservation and ecological change;
-- eleven replayable learning challenges without timers or punitive failure;
-- eight pairwise design connections, ten wildlife relationships and a visual relationship score; the game explicitly distinguishes a useful pair from a complete plant guild;
-- a fair-share economy in which community gifts never become personal currency;
+- eleven replayable learning challenges without timers or punitive failure — a wrong answer gives a clue and invites another attempt;
+- eight pairwise design connections and ten wildlife relationships with a visual relationship score; the game explicitly distinguishes a useful pair from a complete plant guild;
+- a garden kitchen with four preservation methods, a village stall and a seed bank;
+- a fair-share economy: community gifts build a shared fund and goodwill, but never convert into personal currency;
 - earned reflections, a learning journal and an exportable garden certificate;
-- an optional **Living Lesson** powered by GPT‑5.6 Luna.
+- an optional **Living Lesson** — an AI reflection that stays inside a deterministic learning contract (see below);
+- nine interface languages, full Czech voice narration, English voice fallback elsewhere;
+- desktop as the reference experience, with dedicated phone and tablet layouts in portrait and landscape, touch placement, keyboard navigation and reduced-motion support.
 
-Desktop remains the reference experience, while the same garden is now designed and tested for phones and tablets in both portrait and landscape orientations. It is free to play and needs no account.
+## The Living Lesson: AI that reflects instead of ruling
 
-## Two-minute judge path
+**The Garden Reflects — Living Lesson** puts a language model inside the learning loop instead of placing a chatbot next to the game:
 
-1. Open the [v79 playtest](https://permaculture-garden-playtest.vercel.app/).
-2. Choose **Explore freely** during onboarding.
-3. Add at least two elements, for example **Compost** and **Rain harvesting**.
-4. In **Design connections**, select **Listen to your garden · GPT‑5.6 Luna**.
-5. Read the observation, relationship explanation and Socratic question.
-6. Choose **Try this experiment**, then make the proposed change on the plot.
-7. Reopen the reflection: the deterministic engine measures the new state and records evidence if the experiment succeeded.
-
-For the fuller learning journey, follow the guided path through soil, water, food, habitat, sharing, a design connection and a harvest, then advance through the seasons.
-
-## Meaningful GPT‑5.6 integration
-
-**The Garden Reflects — Living Lesson** makes GPT‑5.6 Luna part of the learning loop rather than placing a generic chatbot beside the game:
-
-1. The client derives a bounded, anonymous snapshot from the player's current garden.
-2. `lib/living-lesson.js` creates two to four valid, measurable design experiments from that state.
-3. `api/garden-reflection.js` sends the snapshot and trusted candidates to `openai/gpt-5.6-luna` through Vercel AI Gateway.
-4. GPT‑5.6 selects one candidate and expresses the current relationships as a first-person garden observation, a concise ecological explanation and one Socratic question.
+1. The client derives a bounded, anonymous snapshot of the player's current garden.
+2. `lib/living-lesson.js` generates two to four valid, *measurable* design experiments from that state.
+3. `api/garden-reflection.js` sends the snapshot and the trusted candidates to the model through Vercel AI Gateway.
+4. The model picks one candidate and expresses the current relationships as a first-person garden observation, a concise ecological explanation and one Socratic question — in the player's language.
 5. The player accepts the experiment and changes the real garden.
-6. The deterministic engine—not the model—checks the new state and records the evidence.
+6. The deterministic engine — not the model — checks the new state and records the evidence.
 
-GPT‑5.6 cannot invent an action, modify the economy, award points or decide whether its own experiment passed. Model output is structured, normalised and matched back to the server-generated candidate list. A reviewed deterministic lesson keeps the feature useful and clearly labels it **Garden wisdom offline** if live inference is unavailable.
+The model cannot invent an action, modify the economy, award points or decide whether its own experiment passed. Its output is structured, normalised and matched back to the server-generated candidate list. If live inference is unavailable, a reviewed deterministic lesson keeps the feature useful and is clearly labelled **Garden wisdom offline**.
 
-### Privacy, safety and cost boundaries
+**Privacy, safety and cost boundaries**
 
-- No provider credential is shipped to the browser. Production requests authenticate with Vercel's automatically supplied OIDC token.
-- The model receives only garden element types, season, relationship metrics and explanations, and bounded progression counts. Player name, free-text reflections and the save file are excluded.
-- The server regenerates candidates and validates the structured response before returning it.
-- Application code does not log prompts or player state. Routing identifiers are hashed.
-- Stable state fingerprints enable caching. The client allows three uncached requests per browser per day, while the function adds burst, client and global limits, a 12-second timeout and a 320-token output cap.
+- No provider credential is shipped to the browser; production requests authenticate with Vercel's automatically supplied OIDC token.
+- The model receives only element types, season, relationship metrics, bounded progression counts and a language code. Player name, free-text reflections and the save file never leave the browser.
+- The endpoint rejects requests without a matching `Origin`, regenerates the candidates server-side and validates the structured response before returning it.
+- Application code does not log prompts or player state; routing identifiers are hashed.
+- Stable state fingerprints enable caching; the client allows three uncached requests per browser per day, and the function adds burst, client and global limits, a 12-second timeout and a 320-token output cap.
 - If credit, authentication or the provider is unavailable, the endpoint returns a deterministic lesson without further model cost and without breaking the game.
 
-## How Codex shaped the project
+## Localisation
 
-Codex was the primary engineering collaborator throughout OpenAI Build Week. The creator supplied the educational intent, lived context, taste and product decisions; Codex helped turn those decisions into a reliable product:
+The interface is fully localised in nine languages: English, Czech, German, French, Spanish, Brazilian Portuguese, Polish, Russian and Simplified Chinese. English is the source catalogue (`assets/i18n/catalog.en.json`, about 1,800 keys); every other catalogue must have the same structure, which `npm run check:i18n` enforces. Terminology decisions live in `assets/i18n/LOCALIZATION_GLOSSARY.md`.
 
-- audited the existing prototype from game-design, art-direction, player and accessibility perspectives;
-- redesigned the eleven minigames around learning, retry and explanatory feedback;
-- implemented the cinematic onboarding, organic audio system, garden voice and unified visual language;
-- hardened saving, resets, modal queues, season transitions, reduced-motion behaviour and keyboard semantics;
-- rebuilt progression, sharing, winter crop logic, reflections and the final certificate around observable player actions;
-- designed the bounded Living Lesson architecture and its safety, privacy, cost and outage behaviour;
-- wrote deterministic unit/API tests and full-browser regression journeys;
-- repeatedly verified local builds and the deployed Vercel experience before release.
+The language follows the browser's preferred language when it is supported and falls back to English otherwise; the player can switch languages in the interface, and the choice is kept in the URL and in local storage. Czech has a complete voice layer (49 tracks); other languages use the English voice.
 
-Important human decisions included keeping money secondary to sharing, refusing to convert gifts directly into personal reward, making educational mistakes recoverable, giving GPT‑5.6 a reflective rather than authoritative role, and preserving the Garden of Menet as a poetic first-person narrator.
-
-## OpenAI Build Week provenance
-
-This project existed before the Submission Period. The last pre-period commit is [`ceec978`](https://github.com/martinpazdernik-source/Permaculture-Garden-new/commit/ceec9780de07829620d8ce2fce50e09de8bcf30d), committed at **07:58 PDT on 13 July 2026**, two minutes before the official 09:00 PDT start. That baseline was a deployable single-file prototype containing the core placement garden, seasons, guilds, wildlife, sharing and basic onboarding/minigames.
-
-Only work added after the official start is presented for Build Week judging. From the baseline to v75, the dated Git history records **214 changed files, 17,871 insertions and 225 deletions**, including:
-
-- recoverable source, a reproducible build pipeline and local vendoring;
-- repaired game flow, accessibility and loading resilience;
-- complete redesign of all eleven educational challenges;
-- the seven-scene story introduction and a fully regenerated organic soundscape;
-- one coherent onboarding/game visual system, cinematic season passages and a living garden voice;
-- hardened state recovery, event queues, progression and fair-share economy;
-- earned reflection vignettes, lasting learning evidence and payment-choice improvements;
-- extensive automated journey, resilience, accessibility, economy and visual regression coverage;
-- the v74 Living Lesson, the v75 production move to GPT‑5.6 Luna and v76 submission documentation/media attribution.
-
-The chronological evidence begins with commit `1e8b215` after the start and continues through the current `main` history. [`BUILD_WEEK.md`](BUILD_WEEK.md) contains the compact submission handoff and exact judge path.
+Translation corrections and new languages are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Architecture
 
-The editable source is `Permaculture Garden v2.dc.html`. Do not edit generated `index.html` or `game.fragment.html` by hand.
+The game is a local-first static site generated from a single editable source into a small loading shell and a prebuilt game fragment. One serverless function is the only server boundary.
 
-- `scripts/build.mjs` creates a small instant loading shell and the generated game fragment.
-- `scripts/check.mjs` validates logic syntax, local resources and production invariants.
-- `lib/living-lesson.js` is the shared deterministic experiment engine.
-- `api/garden-reflection.js` is the protected Vercel Function and GPT‑5.6 boundary.
-- `assets/` contains local WebP art, MP3 audio, fonts, icons and the background video.
-- `vendor/` contains the local React and Design Component runtime used by the static game.
+| Path | Role |
+| --- | --- |
+| `Permaculture Garden v2.dc.html` | **The canonical source**: template, styles and the game logic class. Edit this, then run `npm run generate`. |
+| `index.html`, `game.fragment.html` | Generated output — never edit by hand. |
+| `scripts/build.mjs` | Builds the loading shell and the game fragment from the source. |
+| `scripts/check.mjs`, `scripts/check-i18n.mjs` | Validate script syntax, local resource references, production invariants and catalogue completeness. |
+| `lib/i18n.js` | Runtime localisation: locale detection, catalogue loading, formatting. |
+| `lib/living-lesson.js` | The deterministic experiment engine shared by client and server. |
+| `api/garden-reflection.js` | The protected Vercel Function and the model boundary. |
+| `assets/` | Local WebP art, MP3 audio, fonts, icons, the ambient video and the i18n catalogues. |
+| `vendor/` | Bundled React runtime and the Design Component runtime used by the static game. |
+| `scripts/e2e-*.mjs` | Playwright browser journeys (see below). |
+| `docs/` | Release handoffs, Build Week records and asset provenance. |
 
 Player progress is stored locally in the browser. No account or external database is required.
 
@@ -117,53 +92,61 @@ Player progress is stored locally in the browser. No account or external databas
 
 Requirements: Node.js 20+ and npm.
 
-```powershell
+```sh
 npm ci
-npm run generate
-npm test
+npm run generate   # rebuild index.html and game.fragment.html from the canonical source
+npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests
 ```
 
-To serve the static build locally:
+Serve the static build locally:
 
-```powershell
+```sh
 node scripts/static-server.mjs 8787
 ```
 
-Then open `http://127.0.0.1:8787/`. The local static server has no Vercel Function or OIDC identity, so the Living Lesson intentionally exercises its offline path.
+Then open <http://127.0.0.1:8787/>. The local server has no Vercel Function or OIDC identity, so the Living Lesson intentionally exercises its offline path.
 
-Optional browser verification, with Playwright available through `CODEX_NODE_MODULES`:
+### Browser regression journeys
 
-```powershell
-$env:CODEX_NODE_MODULES="C:\path\to\playwright\node_modules"
-npm run test:e2e:living-lesson
+The `test:e2e:*` scripts are Playwright journeys. Point `CODEX_NODE_MODULES` at a `node_modules` folder that contains Playwright and set `GAME_URL` to a running instance:
 
-$env:GAME_URL="http://127.0.0.1:8787/"
-npm run test:e2e:responsive
-npm run test:e2e:touch
-npm run test:e2e:mobile-book
-npm run test:e2e:resident-state
-
-$env:GAME_URL="https://permaculture-garden-playtest.vercel.app/"
-$env:LIVING_LESSON_LIVE_API="1"
-$env:EXPECTED_LESSON_MODE="ai"
-node scripts/e2e-living-lesson.mjs
+```sh
+export CODEX_NODE_MODULES=/path/to/node_modules-with-playwright
+export GAME_URL=http://127.0.0.1:8787/
+npm run test:e2e:responsive     # 13 viewports from 320×568 to 1920×1080
+npm run test:e2e:touch          # tap-to-place and tap-to-move
+npm run test:e2e:playthrough    # a full guided playthrough
+npm run test:e2e:i18n-layout    # 9 languages × viewports × main surfaces
+npm run test:e2e:living-lesson  # reflection flow, caching, offline fallback
 ```
 
-Responsive browser coverage spans 13 representative viewports from 320×568 to 1920×1080. It verifies adaptive navigation, safe-area and overflow boundaries, 44-pixel touch targets, the exact 7:5 interactive plot on adaptive layouts, tap-to-place and tap-to-move behaviour, orientation-preserved state, all six Garden Book chapters and all eleven learning challenges.
-
-The broader automated coverage includes snapshot sanitisation, stable fingerprints, trusted candidate generation, response normalisation, deterministic completion metrics, method/input/origin boundaries, cache reuse, UI unlock, model/source labels, economy invariance, experiment persistence, resident-story scheduling and outage fallback.
+Coverage includes adaptive navigation, safe-area and overflow boundaries, 44-pixel touch targets, the 7:5 interactive plot, orientation-preserved state, all Garden Book chapters, all eleven challenges, the kitchen and seed bank, the fair-share economy invariants, snapshot sanitisation, stable fingerprints, response normalisation and outage fallback.
 
 ## Deployment
 
-This repository's `main` branch is connected only to the separate
-`permaculture-garden-playtest` Vercel project. A push runs the playtest deployment for
-the static game and `api/garden-reflection.js`; Vercel installs locked dependencies from
-`package-lock.json`. The project uses the **Other** framework preset with no custom build
-command and intentionally has no `vercel.json`.
+`main` deploys to the Vercel project behind <https://permaculture-garden.vercel.app/> with the **Other** framework preset, no custom build command and no `vercel.json`; Vercel installs locked dependencies from `package-lock.json`. The Living Lesson function needs an AI Gateway credential on the Vercel side only (`AI_GATEWAY_API_KEY`, or the platform OIDC token); nothing is required in the browser.
 
-The frozen Build Week repository and its Vercel project are deliberately not used by
-this release line.
+## Project history
 
-## Rights and acknowledgements
+- **Prototype (spring–July 2026)** — a single-file browser prototype with the core placement garden, seasons, guilds, wildlife and sharing.
+- **OpenAI Build Week (13–19 July 2026)** — the prototype was rebuilt into a complete product with Codex as engineering collaborator: the eleven challenges, the cinematic introduction, the organic soundscape, hardened saving and progression, the Living Lesson architecture and the first automated journeys. The entry did not place; the submission text and provenance records are kept in [`docs/build-week/`](docs/build-week/).
+- **Playtest line (v0.78–v0.82, late July 2026)** — nine full language versions, Czech narration, the garden kitchen and seed bank, a rebalanced economy, adjustable garden size, phone and tablet layouts, and a growing set of browser regression journeys. Release notes live in [`docs/handoffs/`](docs/handoffs/) and in [CHANGELOG.md](CHANGELOG.md).
+- **Le Jardin under Usnea communitas (September 2026 →)** — the repository moved to the association's GitHub organisation, the name was unified to *Le Jardin*, the API boundary was hardened, accessibility contrast was improved and the project was opened as free software.
 
-The entrant directed and assembled the game's original design, writing, code and generated media. Visual and audio generations were produced through the entrant's own tool accounts and then edited and integrated specifically for this project. Open-source runtime dependencies retain their own licences. Detailed provenance and the pre-submission rights check are recorded in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+Planned: real playtesting with young people and facilitators connected to community gardening, facilitator tools, and a carefully designed shared mode for groups of 10–25 players where each person tends their own garden around a common Community Table.
+
+## Contributing
+
+Issues and pull requests are welcome — bug reports, translation fixes, accessibility findings, playtest observations and educational content ideas most of all. Please read [CONTRIBUTING.md](CONTRIBUTING.md) first; it explains the canonical-source workflow (`npm run generate` after every change) and what we check before merging. This project follows the [Contributor Covenant](CODE_OF_CONDUCT.md). Security concerns: see [SECURITY.md](SECURITY.md).
+
+## License
+
+- **Code** (HTML, JavaScript, CSS, build and test scripts): [MIT License](LICENSE), © 2026 Martin Pazderník.
+- **Game media and texts** (artwork, audio, video, narrative and learning texts in `assets/` and in the source): [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](LICENSE-ASSETS.md), © 2026 Martin Pazderník, with the attributions listed there.
+- Bundled open-source dependencies and fonts keep their own licences; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [`licenses/`](licenses/).
+
+## Acknowledgements
+
+The garden in Menet and the young people who care for it; the Erasmus+ volunteers whose experience inspired the game; Robin Wall Kimmerer's *The Serviceberry* for the idea of a gift economy that shapes the sharing mechanics; and the open-source projects this game is built on.
+
+OpenAI, GPT, Codex, Vercel, ElevenLabs, Kling, Picsart, Lovable and Erasmus+ are names or marks of their respective owners and are referenced only to describe tools or historical context.

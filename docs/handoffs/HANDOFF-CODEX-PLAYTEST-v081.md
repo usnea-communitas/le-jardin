@@ -6,14 +6,14 @@ Datum: 29. 7. 2026
 
 Soutěžní verze je uzamčená do vyhlášení OpenAI Build Week. Nic do ní necommitovat, nepushovat ani nenasazovat.
 
-- Uzamčená lokální složka: `C:\Users\marti\OneDrive\Dokumenty\Permaculture garden game`
+- Uzamčená lokální složka: `<local working folder>\Permaculture garden game`
 - Uzamčený GitHub: `martinpazdernik-source/Permaculture-Garden-new`
 - Uzamčený Vercel: `https://permaculture-garden-new.vercel.app/`
 - Stejné pravidlo platí pro Devpost přihlášku.
 
 Veškerá další práce patří výhradně sem:
 
-- Aktivní složka: `C:\Users\marti\OneDrive\Dokumenty\Permaculture Garden Playtest`
+- Aktivní složka: `<local working folder>\Permaculture Garden Playtest`
 - GitHub: `https://github.com/martinpazdernik-source/Permaculture-Garden-Playtest`
 - Vercel projekt: `permaculture-garden-playtest`
 - Vercel project ID: `prj_ld9nsNA3gL6Y8Q1PK56QzqdxX2rT`
@@ -237,7 +237,7 @@ Před vydáním v0.81.0 prošlo:
 
 Autoritativní záloha je Playtest GitHub. Navíc je po vydání vytvářen Git archive ZIP v:
 
-`C:\Users\marti\OneDrive\Dokumenty\Permaculture Garden Backups`
+`<local working folder>\Permaculture Garden Backups`
 
 ZIP z `git archive` neobsahuje `.env.local`, `node_modules`, `.vercel` ani jiné necommitované tajné/systémové soubory.
 

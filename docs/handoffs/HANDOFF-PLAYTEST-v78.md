@@ -7,7 +7,7 @@
 - Vercel project: `permaculture-garden-playtest`
 - Hlavní větev: `main`
 - Stabilní lokální pracovní kopie:
-  `C:\Users\marti\OneDrive\Dokumenty\Permaculture Garden Playtest`
+  `<local working folder>\Permaculture Garden Playtest`
 
 Tato větev je výhradně pro další vývoj a testování. Není propojena s původním
 soutěžním repozitářem ani původním Vercel projektem.

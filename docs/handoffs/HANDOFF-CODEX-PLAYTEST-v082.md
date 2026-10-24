@@ -8,14 +8,14 @@ Tento dokument je doplněk k `HANDOFF-CODEX-PLAYTEST-v081.md`. Starší handoff 
 
 Soutěžní verze je uzamčená do vyhlášení OpenAI Build Week. Nic do ní necommitovat, nepushovat ani nenasazovat.
 
-- Uzamčená lokální složka: `C:\Users\marti\OneDrive\Dokumenty\Permaculture garden game`
+- Uzamčená lokální složka: `<local working folder>\Permaculture garden game`
 - Uzamčený GitHub: `martinpazdernik-source/Permaculture-Garden-new`
 - Uzamčený Vercel: `https://permaculture-garden-new.vercel.app/`
 - Stejné pravidlo platí pro Devpost přihlášku.
 
 Veškerá práce v tomto vydání proběhla pouze zde:
 
-- Aktivní složka: `C:\Users\marti\OneDrive\Dokumenty\Permaculture Garden Playtest`
+- Aktivní složka: `<local working folder>\Permaculture Garden Playtest`
 - GitHub: `https://github.com/martinpazdernik-source/Permaculture-Garden-Playtest`
 - Vercel projekt: `permaculture-garden-playtest`
 - Stabilní testovací URL: `https://permaculture-garden-playtest.vercel.app/`

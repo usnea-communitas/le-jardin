@@ -1,16 +1,16 @@
 # Third-party notices and asset provenance
 
-This file records the sources that must be checked before the OpenAI Build Week submission. It is a provenance log, not legal advice. The entrant should retain invoices, subscription records and original exports privately; secrets and receipts must not be committed.
+This file records the third-party software bundled with Le Jardin and the provenance of the game's generated media. It was first compiled for the OpenAI Build Week submission (July 2026) and is kept current for the open-source release; the licence that applies to the media themselves is in [LICENSE-ASSETS.md](LICENSE-ASSETS.md) and the code licence in [LICENSE](LICENSE). It is a provenance log, not legal advice. The author retains invoices, subscription records and original exports privately; secrets and receipts are never committed.
 
 ## Project-created media
 
 | Material | Creation route | Project use | Evidence to retain privately | Status |
 | --- | --- | --- | --- | --- |
-| Seven onboarding paintings | AI-assisted image generation directed and selected for this project, then edited and optimised locally | `assets/story/` | Original generations and account/export history | Confirm account terms before Submit |
+| Seven onboarding paintings | AI-assisted image generation directed and selected for this project, then edited and optimised locally | `assets/story/` | Original generations and account/export history | Account terms confirmed before the Build Week submission; retain private record |
 | Menet ambient background loop | Generated in Kling under the entrant's account and locally edited/optimised | `assets/video/garden-ambient-loop.*` | Kling generation/export record and plan terms applying on export date | Text attribution added to the always-available onboarding/help panel; retain private record |
-| Garden voice, narration, music and sound effects | Generated through the entrant's paid ElevenLabs Starter account; final Garden of Menet voice is Voice 1 | `assets/audio/` | Starter subscription invoice and generation history | Paid-plan commercial licence documented; retain private record |
+| Garden voice, narration, music and sound effects (English and Czech) | Generated through the entrant's paid ElevenLabs account; final Garden of Menet voice is Voice 1 | `assets/audio/` | Subscription invoices and generation history | Paid-plan commercial licence documented; retain private record |
 | Visual concepts and supporting generated art | Picsart and Lovable explorations directed by the entrant; selected ideas were reimplemented and integrated for this game | game UI and selected `assets/` | Project histories/exports and plan terms applying on creation dates | Official ownership/commercial-use guidance documented; retain private record |
-| Reflection vignettes and garden artwork | Generated or edited specifically for this project under the entrant's direction | `assets/reflections/`, garden sprites and seasonal passages | Original source sheets and generation history | Confirm account terms before Submit |
+| Reflection vignettes and garden artwork | Generated or edited specifically for this project under the entrant's direction | `assets/reflections/`, garden sprites and seasonal passages | Original source sheets and generation history | Account terms confirmed before the Build Week submission; retain private record |
 
 Do not place account receipts, API keys, personal billing data or private generation URLs in this repository.
 
@@ -24,7 +24,7 @@ The project bundles or installs the following third-party software. Each compone
 - Hanken Grotesk — SIL Open Font License 1.1; copyright and licence text in `licenses/HANKEN_GROTESK_OFL.txt`.
 - Bricolage Grotesque — SIL Open Font License 1.1; copyright and licence text in `licenses/BRICOLAGE_GROTESQUE_OFL.txt`.
 
-The local Design Component runtime in `vendor/dc-runtime.js` is part of the project's exported application toolchain. The entrant should retain the source-tool account/project record that authorised its export and use.
+The local Design Component runtime in `vendor/dc-runtime.js` is part of the application export produced by the design tool used to author the canonical source; it is redistributed here as part of the exported application. The author retains the source-tool account/project record that authorised its export and use.
 
 ## Official tool guidance checked on 19 July 2026
 
@@ -37,11 +37,11 @@ The local Design Component runtime in `vendor/dc-runtime.js` is part of the proj
 
 - OpenAI, GPT, Codex, Vercel, ElevenLabs, Kling, Picsart, Lovable and Erasmus+ are names or marks of their respective owners.
 - They are referenced only to describe tools or the real historical context. No endorsement is claimed.
-- The final demo video should show no third-party logos except where unavoidable for a factual explanation, and should contain only project-owned or properly licensed music, imagery and voice work.
+- The demo video shows no third-party logos except where unavoidable for a factual explanation, and contains only project-owned or properly licensed music, imagery and voice work.
 
-## Final rights check
+## Rights check (Build Week submission, July 2026)
 
-Before submitting, the entrant must personally confirm:
+Confirmed by the author before the submission; kept as a record:
 
 - [ ] I am authorised to submit the game's code, writing, designs and generated media.
 - [x] Public ElevenLabs guidance confirms a commercial licence for paid plans; I will retain proof that the submitted outputs were generated under Starter and were not Beta Services.

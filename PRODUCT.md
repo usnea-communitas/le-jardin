@@ -2,7 +2,7 @@
 
 <!-- impeccable:product-schema 1 -->
 
-> Návrh připravený z toho, co Martin o projektu řekl, a z `README.md` a `CONTEXT_FOR_CODEX.md`. Zkontroluj a oprav, co nesedí.
+> Prepared from what Martin said about the project and from `README.md` and `docs/handoffs/CONTEXT_FOR_CODEX.md`. Review and correct anything that does not fit.
 
 ## Platform
 
@@ -10,49 +10,49 @@ web
 
 ## Users
 
-- Hráči, kteří hrají samostatně, a skupiny na workshopech.
-- Výchozí komunita: účastníci Erasmus+ projektu permakulturní zahrady v Menet (Francie), menší mezinárodní skupiny kolem 10–25 lidí, které zahradu budují i fyzicky.
-- Do budoucna: školy, programy pro mládež, environmentální a další komunitní organizace.
+- Players who play on their own, and groups in workshops.
+- Founding community: participants of an Erasmus+ permaculture-garden project in Menet (France) — small international groups of about 10–25 people who are also building the garden physically.
+- Later: schools, youth programmes, environmental and other community organisations.
 
 ## Product Purpose
 
-Příběhová vzdělávací hra v prohlížeči o permakulturní zahradě v Menet. Hráč staví živou zahradu ze vztahů mezi prvky, prochází roční obdobími a učí se, proč je komunitní sdílení jedním z pilířů permakultury.
+A story-led educational browser game about a permaculture garden in Menet. The player builds a living garden out of relationships between elements, moves through the seasons and learns why community sharing is one of the pillars of permaculture.
 
 ## Positioning
 
-AI reflexe („Living Lesson“) je součástí učebního cyklu, ne chatbot vedle hry: model jen pojmenuje vztahy a položí otázku. O pravidlech, bodech a výsledku experimentu rozhoduje vždy deterministický engine.
+The AI reflection ("Living Lesson") is part of the learning loop, not a chatbot beside the game: the model only names relationships and asks a question. Rules, points and the outcome of an experiment are always decided by the deterministic engine.
 
 ## Operating Context
 
-- Referenční zážitek je počítač; telefony a tablety jsou navržené a testované na výšku i na šířku.
-- Zdarma, bez účtu, ukládání v prohlížeči.
-- Jazyky: en, cs, de, fr, es, pt-BR, pl, ru, zh-CN (`lib/i18n.js`).
+- The reference experience is the desktop; phones and tablets are designed and tested in portrait and landscape.
+- Free, no account, saved in the browser.
+- Languages: en, cs, de, fr, es, pt-BR, pl, ru, zh-CN (`lib/i18n.js`).
 
 ## Capabilities and Constraints
 
-- Šestiaktový učební postup, deterministické bodování; AI reflexe nemění pravidla hry.
-- Ekonomika daru: komunitní dary se nikdy nemění v osobní měnu.
-- Výzvy bez časomíry a bez trestajícího selhání.
-- Hlavní zdroj je `Permaculture Garden v2.dc.html`; `index.html` se generuje (`npm run generate`), needitovat ho ručně.
-- Soutěžní repozitář, nasazení a Devpost z OpenAI Build Week jsou zmrazené a nesmí být cílem žádné změny.
-- Hra pro více hráčů (vlastní zahrada každého a společný Community Table) je plánovaná, návrh i implementace jsou odložené.
-- Soukromí: modelu jde jen anonymní souhrn zahrady, nikdy jméno hráče, volný text ani uložená hra. Bez dostupného modelu hra nabídne offline lekci.
+- Six-act learning progression, deterministic scoring; the AI reflection never changes the game rules.
+- Gift economy: community gifts never turn into personal currency.
+- Challenges without timers and without punishing failure.
+- The canonical source is `Permaculture Garden v2.dc.html`; `index.html` and `game.fragment.html` are generated (`npm run generate`) and must not be edited by hand.
+- The OpenAI Build Week competition repository, deployment and Devpost entry are frozen historical records and must not be the target of any change.
+- Multiplayer (each player's own garden plus a shared Community Table) is planned; design and implementation are deferred.
+- Privacy: the model receives only an anonymous summary of the garden — never the player's name, free text or saved game. Without a reachable model the game offers an offline lesson.
 
 ## Brand Commitments
 
-- Název „Permaculture Garden — Le Jardin“; vypravěčem je Zahrada v Menet.
-- Projekt není spojený s programem Erasmus+ ani jím schválený a nesmí tak působit.
-- Původ assetů: `ASSET_PROVENANCE.md`, licence třetích stran: `THIRD_PARTY_NOTICES.md`.
+- Name: "Le Jardin" (formerly "Permaculture Garden — Le Jardin"); the narrator is the Garden of Menet.
+- The project is not affiliated with or endorsed by the Erasmus+ programme and must not appear to be.
+- Asset provenance: `docs/ASSET_PROVENANCE.md`; third-party licences: `THIRD_PARTY_NOTICES.md`; media licence: `LICENSE-ASSETS.md`.
 
 ## Evidence on Hand
 
-- Playtest a regresní testy (`npm test`, `test:e2e:*`), předávací záznamy `HANDOFF-*.md`.
-- V OpenAI Build Week se hra neumístila; netvrdit žádné ocenění.
-- Žádné citace hráčů ani statistiky neexistují; nevymýšlet je.
+- Playtest and regression tests (`npm test`, `test:e2e:*`), handoff records in `docs/handoffs/`.
+- The game did not place in OpenAI Build Week; claim no award.
+- No player quotes or statistics exist; do not invent them.
 
 ## Product Principles
 
-1. Učit vztahy, ne optimalizaci jednotlivých objektů.
-2. Sdílení před měnou.
-3. AI vysvětluje a ptá se, nikdy nerozhoduje.
-4. Laskavé učení: chyba je pokus, ne prohra.
+1. Teach relationships, not the optimisation of single objects.
+2. Sharing before currency.
+3. The AI explains and asks; it never decides.
+4. Kind learning: a mistake is an attempt, not a defeat.
