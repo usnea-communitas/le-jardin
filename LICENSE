@@ -19,11 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-This licence covers the source code of Le Jardin: HTML, JavaScript, CSS,
-build scripts and tests. The game's media and texts (artwork, audio, video,
-narrative and learning content) are licensed separately under
-CC BY-NC-SA 4.0 — see LICENSE-ASSETS.md. Bundled third-party software and
-fonts keep their own licences — see THIRD_PARTY_NOTICES.md and licenses/.
