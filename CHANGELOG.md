@@ -2,11 +2,12 @@
 
 Notable changes to Le Jardin. Version numbers follow the game's internal release counter (`package.json`). Detailed handoff notes for the playtest releases are in [`docs/handoffs/`](docs/handoffs/).
 
-## Unreleased — open-source release (October 2026)
+## v0.83.0 — 2026-10-24 — open-source release
 
 - Repository published as free software: MIT licence for code, CC BY-NC-SA 4.0 for media and texts, contributing guide, code of conduct, security policy and issue templates.
 - English README rewritten for the open-source project; internal handoff and Build Week documents moved to `docs/`.
 - Git history unified: the OpenAI Build Week line (July 2026) now precedes the playtest line in this repository.
+- GitHub Actions CI (generate check + tests on Node 22); screenshots in the README; Node 22 documented as the requirement.
 
 ## 2026-10-08 — accessibility contrast
 

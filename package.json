@@ -1,7 +1,7 @@
 {
   "name": "le-jardin",
   "private": true,
-  "version": "0.82.0",
+  "version": "0.83.0",
   "description": "Le Jardin — a story-led educational browser game about designing a living permaculture garden in Menet, France.",
   "license": "MIT",
   "homepage": "https://permaculture-garden.vercel.app",

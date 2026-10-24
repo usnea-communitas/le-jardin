@@ -14,6 +14,14 @@ Le Jardin is an open-source project of [Usnea communitas, z. s.](https://usnea.n
 
 ---
 
+![The garden plot on a desktop: elements placed in a watercolour garden, the fair-share community table, the harvest basket and the design-connection panel](docs/screenshots/garden-desktop.webp)
+
+<p align="center">
+  <img src="docs/screenshots/story-intro.webp" alt="The opening story card: The Garden Is Waiting, with the language selector" width="68%">
+  <img src="docs/screenshots/garden-phone.webp" alt="The same garden on a phone in portrait" width="19%">
+</p>
+
+
 ## Why this garden exists
 
 The game is inspired by a real permaculture garden in the small French village of Menet. The creator's partner joined an Erasmus+ volunteering programme there and helped a group of young people care for the garden, learn together and move the project forward.
