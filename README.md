@@ -141,7 +141,7 @@ Coverage includes adaptive navigation, safe-area and overflow boundaries, 44-pix
 - **Playtest line (v0.78–v0.82, late July 2026)** — nine full language versions, Czech narration, the garden kitchen and seed bank, a rebalanced economy, adjustable garden size, phone and tablet layouts, and a growing set of browser regression journeys. Release notes live in [`docs/handoffs/`](docs/handoffs/) and in [CHANGELOG.md](CHANGELOG.md).
 - **Le Jardin under Usnea communitas (September 2026 →)** — the repository moved to the association's GitHub organisation, the name was unified to *Le Jardin*, the API boundary was hardened, accessibility contrast was improved and the project was opened as free software.
 
-Planned: real playtesting with young people and facilitators connected to community gardening, facilitator tools, and a carefully designed shared mode for groups of 10–25 players where each person tends their own garden around a common Community Table.
+Planned next — tracked as issues: [first playtests with young people and facilitators](https://github.com/usnea-communitas/le-jardin/issues/8), [facilitator tools](https://github.com/usnea-communitas/le-jardin/issues/7), a [shared workshop mode](https://github.com/usnea-communitas/le-jardin/issues/4) for groups of 10–25 players where each person tends their own garden around a common Community Table, [voice narration for the remaining seven languages](https://github.com/usnea-communitas/le-jardin/issues/5) and a [performance and media-budget audit](https://github.com/usnea-communitas/le-jardin/issues/6).
 
 ## Contributing
 
