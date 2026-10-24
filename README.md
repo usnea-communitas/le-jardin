@@ -90,7 +90,7 @@ Player progress is stored locally in the browser. No account or external databas
 
 ## Install, build and test
 
-Requirements: Node.js 20+ and npm.
+Requirements: Node.js 22+ and npm (the API tests use `module.registerHooks`, available from Node 22.15).
 
 ```sh
 npm ci

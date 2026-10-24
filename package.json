@@ -14,7 +14,7 @@
   },
   "author": "Martin Pazderník",
   "engines": {
-    "node": ">=20"
+    "node": ">=22.15"
   },
   "scripts": {
     "generate": "node scripts/build.mjs",

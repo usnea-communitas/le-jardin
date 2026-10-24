@@ -14,7 +14,7 @@ Please open an issue before starting a large change so we can agree on the appro
 
 ## Development workflow
 
-Requirements: Node.js 20+ and npm.
+Requirements: Node.js 22+ and npm (the API tests use `module.registerHooks`, available from Node 22.15).
 
 ```sh
 npm ci
