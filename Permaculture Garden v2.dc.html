@@ -1660,7 +1660,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
             </div>
 
             <!-- fixed: entrance gate (season-aware) -->
-            <div class="pg-fixed-gate" style="position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);pointer-events:none;width:172px;z-index:2">
+            <div class="pg-fixed-gate" style="position:absolute;left:50%;bottom:-4px;transform:translateX(-50%);pointer-events:none;width:clamp(118px,25%,172px);z-index:2">
               <div style="position:relative;width:100%;animation:pg-sway 8s ease-in-out infinite;transform-origin:50% 92%;filter:drop-shadow(0 7px 6px rgba(40,30,10,.14))">
                 {{ gateEl }}
                 <div style="position:absolute;top:19%;left:50%;transform:translateX(-50%);width:52px;text-align:center;font-family:Georgia,'Times New Roman',serif;font-weight:700;font-size:10px;letter-spacing:.06em;color:#3A2A16;text-shadow:0 1px 0 rgba(255,246,225,.55);pointer-events:none;line-height:1">Menet</div>
@@ -1892,7 +1892,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
               <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px">
                 <div style="display:flex;align-items:center;gap:5px"><span style="{{ o.personStyle }}">{{ o.personInitial }}</span><span title="{{ o.personRole }}" style="font-size:9.5px;font-weight:800;color:#6C755F">{{ o.person }}</span></div>
                 <div style="font-size:10.5px;color:#5A5240;line-height:1.25">{{ o.seasonTag }}{{ o.text }}</div>
-                <div style="display:flex;align-items:center;gap:6px">
+                <div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px">
                   <sc-if value="{{ o.hasBadge }}" hint-placeholder-val="{{ true }}"><span style="{{ o.badgeStyle }}">{{ o.badge }}</span></sc-if>
                   <button sc-camel-on-click="{{ o.onTake }}" disabled="{{ o.takeDisabled }}" aria-disabled="{{ o.takeDisabled }}" title="{{ o.takeLabel }}" style="{{ o.takeStyle }}" style-hover="background:#7A5D18">{{ o.takeText }}</button>
                 </div>
@@ -7121,7 +7121,7 @@ class Component extends DCLogic {
       const person=this.communityPerson(o.person||'Camille');
       const take=this.offeringEligibility(o,st);
       const takeText=!this.reciprocityUnlocked(st)?'Give first':(!take.eligible?'Pool low':('Take · −'+take.cost));
-      const takeStyle={background:take.eligible?'#C99A3C':'#D8D0BF',border:'none',color:take.eligible?'#fff':'#756C5B',fontWeight:'700',fontSize:'10.5px',padding:'3px 9px',borderRadius:'7px',cursor:take.eligible?'pointer':'not-allowed',fontFamily:'inherit',transition:'background .15s',opacity:take.eligible?1:.8};
+      const takeStyle={background:take.eligible?'#C99A3C':'#D8D0BF',border:'none',color:take.eligible?'#fff':'#756C5B',fontWeight:'700',fontSize:'10.5px',padding:'3px 9px',minHeight:'24px',whiteSpace:'nowrap',borderRadius:'7px',cursor:take.eligible?'pointer':'not-allowed',fontFamily:'inherit',transition:'background .15s',opacity:take.eligible?1:.8};
       return {id:o.id,text:o.text,person:person.name,personRole:person.role,personInitial:person.initial,personStyle:{width:'21px',height:'21px',borderRadius:'50%',display:'grid',placeItems:'center',background:person.color,color:'#fff',fontSize:'10px',fontWeight:'800',flex:'none'},takeLabel:take.eligible?('Take this offering from '+person.name+'. Uses '+take.cost+' shared-pool points: '+o.text):take.reason,takeDisabled:!take.eligible,takeText:takeText,takeStyle:takeStyle,seasonTag:seasonTag,art:art,hasBadge:!!badge,badge:badge,badgeStyle:badgeStyle,onTake:()=>this.takeOffering(o.id)};
     });
 
