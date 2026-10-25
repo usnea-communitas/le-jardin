@@ -20,6 +20,14 @@ const fontUuids = [
 
 let html = await readFile(sourcePath, "utf8");
 
+// The version shown in the palette footer always follows package.json.
+const { version } = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
+const versionPattern = /(<span data-pg-version="true"[^>]*>)[^<]*(<\/span>)/;
+if (!versionPattern.test(html)) {
+  throw new Error(`Expected the data-pg-version span in ${path.basename(sourcePath)}`);
+}
+html = html.replace(versionPattern, `$1v${version}$2`);
+
 const runtimeTag = `<script src="${runtimeUuid}"></script>`;
 if (!html.includes(runtimeTag)) {
   throw new Error(`Expected runtime tag is missing from ${path.basename(sourcePath)}`);

@@ -467,7 +467,7 @@ html,body{margin:0;padding:0}
   box-shadow:0 12px 25px -14px rgba(35,64,29,.82),inset 0 1px 0 rgba(255,255,255,.13)!important;
 }
 .pg-primary-action:hover{transform:translateY(-2px);filter:brightness(1.04)}
-.pg-footer-note{color:#91856e!important}
+.pg-footer-note{color:#655D4B!important}
 .pg-journey-card{position:relative;overflow:hidden;background:linear-gradient(155deg,#fffaf0,#edf3df);border:1px solid #d8e4c2;border-radius:18px;padding:15px;box-shadow:0 12px 28px -22px rgba(45,65,30,.75)}
 .pg-journey-card:after{content:"";position:absolute;width:94px;height:94px;border-radius:50%;right:-36px;top:-48px;background:rgba(255,255,255,.55);pointer-events:none}
 .pg-system-row{display:grid;grid-template-columns:minmax(0,1fr) 34px;gap:5px 9px;align-items:center}
@@ -902,7 +902,7 @@ html,body{margin:0;padding:0}
 .pg-header-progress>div{height:5px!important}
 .pg-header-story{min-height:32px;padding-right:12px}
 .pg-garden-whisper{bottom:17px;width:min(610px,88%);padding:10px 12px}
-.pg-footer-note{padding-left:3px!important}
+.pg-footer-note{padding-left:11px!important}
 
 /* ===== v81 · calm controls, an adjustable desktop garden and cleaner progression ===== */
 .pg-map-tools{position:relative;z-index:3}
@@ -1500,7 +1500,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#655D4B;line-height:1.55;padding:2px 4px 8px"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span style="opacity:.5">v82</span>
+      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#655D4B;line-height:1.55;padding:7px 11px;background:#FBF8F1;border:1px solid #E7DECB;border-radius:12px;flex:none"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span data-pg-version="true" data-pg-no-i18n="true" style="opacity:.75">v0.83.0</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button class="pg-return-guided" sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
