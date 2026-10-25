@@ -557,6 +557,7 @@ try {
       discovered: []
     });
     return {
+      activeGardenScore: app.gardenScore({ ...base, placed: [...basePlaced, ...activePair], discovered: [] }),
       activeKeysWithoutPair: app.activeGuilds(basePlaced).map(guild => guild.key),
       activeKeysWithPair: app.activeGuilds([...basePlaced, ...activePair]).map(guild => guild.key),
       historyOnly,
@@ -578,10 +579,13 @@ try {
     'certificate guild count and score ignore inactive historical discoveries',
     guildScoreEvidence
   );
+  // One connection adds 5/8 of a point to the shared garden score, so the rounded
+  // number may stay put; the count must respond and the score must never drop.
   check(
     guildScoreEvidence.activeKeysWithPair.length === 1 && guildScoreEvidence.active.guilds === 1 &&
-      guildScoreEvidence.active.score > guildScoreEvidence.noHistory.score,
-    'certificate guild count and score respond to a currently active guild',
+      guildScoreEvidence.active.score >= guildScoreEvidence.noHistory.score &&
+      guildScoreEvidence.active.score === guildScoreEvidence.activeGardenScore,
+    'certificate guild count responds to a currently active guild and its score is the garden score',
     guildScoreEvidence
   );
 
