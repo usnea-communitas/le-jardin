@@ -1,6 +1,6 @@
 import { chromium } from './load-playwright.mjs';
 
-const baseUrl = process.env.GAME_URL || 'https://permaculture-garden-new.vercel.app/';
+const baseUrl = process.env.GAME_URL || 'https://permaculture-garden.vercel.app/';
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
 const errors = [];
