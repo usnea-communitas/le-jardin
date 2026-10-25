@@ -134,7 +134,7 @@ Coverage includes adaptive navigation, safe-area and overflow boundaries, 44-pix
 
 ## Deployment
 
-`main` deploys to the Vercel project behind <https://permaculture-garden.vercel.app/> with the **Other** framework preset, no custom build command and no `vercel.json`; Vercel installs locked dependencies from `package-lock.json`. The Living Lesson function needs an AI Gateway credential on the Vercel side only (`AI_GATEWAY_API_KEY`, or the platform OIDC token); nothing is required in the browser.
+`main` deploys to the Vercel project behind <https://permaculture-garden.vercel.app/> with the **Other** framework preset, no custom build command and no `vercel.json`; Vercel installs locked dependencies from `package-lock.json`. The Living Lesson function needs an AI Gateway credential on the Vercel side only (`AI_GATEWAY_API_KEY`, or the platform OIDC token); nothing is required in the browser. [`.env.example`](.env.example) lists the optional variables for local work.
 
 ## Project history
 
