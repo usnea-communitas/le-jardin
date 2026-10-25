@@ -43,8 +43,8 @@
     "test:e2e:core": "node scripts/run-local-e2e.mjs scripts/e2e-playthrough.mjs scripts/e2e-touch-placement.mjs scripts/e2e-responsive-platforms.mjs scripts/e2e-living-lesson.mjs scripts/e2e-release-audit.mjs"
   },
   "dependencies": {
-    "ai": "^7.0.31",
-    "zod": "^3.25.0"
+    "ai": "^7.0.153",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "playwright": "^1.63.0"
