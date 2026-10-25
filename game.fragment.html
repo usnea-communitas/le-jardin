@@ -1808,7 +1808,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
 
 
             <sc-if value="{{ toastVisible }}" hint-placeholder-val="{{ false }}">
-              <div class="pg-toast" role="status" style="position:fixed;top:calc(68px + env(safe-area-inset-top));left:50%;max-width:min(520px,calc(100vw - 32px));background:#2C3A24;color:#F2E9D2;padding:10px 16px;border-radius:13px;font-size:12px;font-weight:600;box-shadow:0 12px 28px -10px rgba(0,0,0,.55);z-index:1200;pointer-events:none;animation:riseIn .35s ease;text-align:center;line-height:1.4;transform:translateX(-50%)">{{ toastText }}</div>
+              <div class="pg-toast" role="status" style="position:absolute;top:12px;left:50%;width:max-content;max-width:min(520px,calc(100% - 24px));background:#2C3A24;color:#F2E9D2;padding:10px 16px;border-radius:13px;font-size:12px;font-weight:600;box-shadow:0 12px 28px -10px rgba(0,0,0,.55);z-index:1200;pointer-events:none;animation:riseIn .35s ease;text-align:center;line-height:1.4;transform:translateX(-50%)">{{ toastText }}</div>
             </sc-if>
           </div>
         </div>
