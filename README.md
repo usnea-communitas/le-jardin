@@ -65,7 +65,7 @@ The model cannot invent an action, modify the economy, award points or decide wh
 - The model receives only element types, season, relationship metrics, bounded progression counts and a language code. Player name, free-text reflections and the save file never leave the browser.
 - The endpoint rejects requests without a matching `Origin`, regenerates the candidates server-side and validates the structured response before returning it.
 - Application code does not log prompts or player state; routing identifiers are hashed.
-- Stable state fingerprints enable caching; the client allows three uncached requests per browser per day, and the function adds burst, client and global limits, a 12-second timeout and a 320-token output cap.
+- Stable state fingerprints enable caching; the client allows three uncached requests per browser per day, and the function adds a 12-second timeout, a 320-token output cap and its own limits: 6 requests per minute per IP address, 12 per day per client and 240 per day in total, with answers cached for six hours. Those limits and the cache live in the memory of each function instance, so a cold start resets them and concurrent instances count separately: they are a cost brake, not an exact global quota. The hard ceiling is the AI Gateway credit; when it runs out, the endpoint serves the offline lesson.
 - If credit, authentication or the provider is unavailable, the endpoint returns a deterministic lesson without further model cost and without breaking the game.
 
 ## Localisation
