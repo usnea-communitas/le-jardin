@@ -123,6 +123,15 @@ const visibleDialogs = page => page.evaluate(() => Array.from(document.querySele
   })
   .map(element => element.getAttribute('data-pg-dialog')));
 
+// Dialogs fade in, and Playwright already calls an element at opacity 0 "visible".
+// Inspect the stack only once the expected dialog is fully shown; on a slow machine
+// a fixed pause could still catch every dialog mid-fade. A timeout falls through to
+// the check that follows, which then reports what was on screen.
+const waitForDialogShown = (page, key) => page.waitForFunction(dialogKey => {
+  const element = document.querySelector('[data-pg-dialog="' + dialogKey + '"]');
+  return Boolean(element) && Number(getComputedStyle(element).opacity) === 1;
+}, key, { timeout: 8000 }).catch(() => {});
+
 const measureDialog = (page, selector) => page.evaluate(async dialogSelector => {
   const dialog = document.querySelector(dialogSelector);
   if (!dialog) return { exists: false };
@@ -366,6 +375,7 @@ try {
       const expected = kind === 'gate' ? 'gate' : 'book';
       await page.locator('[data-pg-dialog="' + expected + '"]').waitFor({ state: 'visible', timeout: 3000 });
       await page.waitForTimeout(1500);
+      await waitForDialogShown(page, expected);
       const during = await page.evaluate(() => ({
         active: window.__PERMAGARDEN_APP__.activeDialogKey(),
         resident: window.__PERMAGARDEN_APP__.state.residentStory
@@ -405,6 +415,7 @@ try {
         throw new Error('Resident story did not resume after ' + kind + ': ' + JSON.stringify(diagnostic) + '\n' + error.message);
       }
       await page.waitForTimeout(450);
+      await waitForDialogShown(page, 'resident-story');
       const after = await visibleDialogs(page);
       check(after.length === 1 && after[0] === 'resident-story',
         'pending resident story appears alone after ' + kind + ' closes', after);
@@ -428,6 +439,7 @@ try {
       const cinematic = page.locator('[data-pg-dialog="garden-cinematic"]');
       await cinematic.waitFor({ state: 'visible', timeout: 4000 });
       await page.waitForTimeout(1700);
+      await waitForDialogShown(page, 'garden-cinematic');
       const during = await page.evaluate(() => {
         const app = window.__PERMAGARDEN_APP__;
         const media = document.querySelector('.pg-cinematic-image');
@@ -452,6 +464,7 @@ try {
       await page.evaluate(() => window.__PERMAGARDEN_APP__.dismissGardenCinematic());
       await page.locator('[data-pg-dialog="resident-story"]').waitFor({ state: 'visible', timeout: 4000 });
       await page.waitForTimeout(450);
+      await waitForDialogShown(page, 'resident-story');
       const after = await visibleDialogs(page);
       check(after.length === 1 && after[0] === 'resident-story',
         'resident story appears alone after cinematic dismissal', after);
