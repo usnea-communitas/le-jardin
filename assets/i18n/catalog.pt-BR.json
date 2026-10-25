@@ -1470,6 +1470,10 @@
     "catalog.plantHeading": "Plantar",
     "catalog.removeHeading": "Remover",
     "catalog.unavailableHeading": "Indisponível",
+    "a11y.shareCount": {
+      "one": "{count} ficha",
+      "other": "{count} fichas"
+    },
     "catalog.chooseHeading": "Escolher",
     "catalog.whatHolding": "O que você está segurando",
     "catalog.whyShort": "Por quê:",
@@ -1603,6 +1607,7 @@
     "catalog.term": "Neste jogo: {definition}.",
     "catalog.selectAria": "Selecionar {name}{details}",
     "catalog.unavailableAria": "Indisponível: {name}{details}",
+    "a11y.elementCost": "— {shares} ou €{price}",
     "plantWindow.notNow": "🗓️ Agora não — {why} Plantio possível em {seasons}",
     "plantWindow.notNowNamed": "🗓️ {name} não pode ser plantado agora — {why} Plantio possível em {seasons}",
     "produce.outOfSeason": "🍽️ {name}: fora de estação — conserve na cozinha para compartilhar mais tarde.",

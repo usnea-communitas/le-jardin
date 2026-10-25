@@ -1470,6 +1470,10 @@
     "catalog.plantHeading": "Pflanzen",
     "catalog.removeHeading": "Entfernen",
     "catalog.unavailableHeading": "Nicht verfügbar",
+    "a11y.shareCount": {
+      "one": "{count} Mitmachpunkt",
+      "other": "{count} Mitmachpunkte"
+    },
     "catalog.chooseHeading": "Auswählen",
     "catalog.whatHolding": "Was du in der Hand hältst",
     "catalog.whyShort": "Warum:",
@@ -1603,6 +1607,7 @@
     "catalog.term": "In diesem Spiel: {definition}.",
     "catalog.selectAria": "{name} auswählen{details}",
     "catalog.unavailableAria": "Nicht verfügbar: {name}{details}",
+    "a11y.elementCost": "— {shares} oder €{price}",
     "plantWindow.notNow": "🗓️ Jetzt nicht – {why} Pflanzbar: {seasons}",
     "plantWindow.notNowNamed": "🗓️ Jetzt nicht pflanzbar: {name} – {why} Pflanzbar: {seasons}",
     "produce.outOfSeason": "🍽️ Saison vorbei: {name} – bewahre sie in der Küche auf, um sie später zu teilen.",

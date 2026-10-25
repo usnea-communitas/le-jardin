@@ -1470,6 +1470,10 @@
     "catalog.plantHeading": "Plant",
     "catalog.removeHeading": "Remove",
     "catalog.unavailableHeading": "Unavailable",
+    "a11y.shareCount": {
+      "one": "{count} share",
+      "other": "{count} shares"
+    },
     "catalog.chooseHeading": "Choose",
     "catalog.whatHolding": "What you are holding",
     "catalog.whyShort": "Why:",
@@ -1603,6 +1607,7 @@
     "catalog.term": "In this game: {definition}.",
     "catalog.selectAria": "Select {name}{details}",
     "catalog.unavailableAria": "Unavailable {name}{details}",
+    "a11y.elementCost": "— {shares} or €{price}",
     "plantWindow.notNow": "🗓️ Not now — {why} Plantable: {seasons}",
     "plantWindow.notNowNamed": "🗓️ {name} can’t go in now — {why} Plantable: {seasons}",
     "produce.outOfSeason": "🍽️ {name} are out of season — preserve them in the kitchen to share later.",

@@ -176,7 +176,13 @@ try {
       polish.pillarTips.every(tip => !/\b(?:Living soil|Water security|Food web|Fair share)\b/u.test(tip)),
     "Polish translates the design-system pillars and their explanations", polish
   );
-  assert(!polish.englishDialVisible, "Polish translates the connections score dial", polish);
+  assert(!polish.englishDialVisible, "Polish translates the resilience score dial", polish);
+  // The accessible name, not just the visible text: composed English labels used to slip through here.
+  polish.compostChipName = await page.locator('[data-drag-type="compost"]').first().ariaSnapshot();
+  assert(
+    /Kompost/u.test(polish.compostChipName) && !/\b(?:Select|Compost|share)\b/u.test(polish.compostChipName),
+    "Polish names a palette element, its action and its cost without English fragments", polish
+  );
 
   await context.close();
   console.log("i18n browser checks passed.");

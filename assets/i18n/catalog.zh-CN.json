@@ -1450,6 +1450,9 @@
     "catalog.plantHeading": "种植",
     "catalog.removeHeading": "移除",
     "catalog.unavailableHeading": "不可用",
+    "a11y.shareCount": {
+      "other": "{count} 参与点"
+    },
     "catalog.chooseHeading": "选择",
     "catalog.whatHolding": "你手上拿着什么",
     "catalog.whyShort": "原因：",
@@ -1601,6 +1604,7 @@
     "catalog.term": "在本游戏中：{definition}。",
     "catalog.selectAria": "选择{name}{details}",
     "catalog.unavailableAria": "不可用的{name}{details}",
+    "a11y.elementCost": "——{shares}或 €{price}",
     "plantWindow.notNow": "🗓️ 现在不行——{why} 可种植季节：{seasons}",
     "plantWindow.notNowNamed": "🗓️ 现在不能种下{name}——{why} 可种植季节：{seasons}",
     "produce.outOfSeason": "🍽️ {name}已过季——在厨房中保存，之后再分享。",

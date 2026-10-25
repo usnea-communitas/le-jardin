@@ -123,7 +123,7 @@ try {
   check(await textVisible('Camille will add cherries'), 'the gift reaches a fitting community character with a distinct response');
   await dismissGardenReflections();
 
-  await page.getByRole('button', { name: /Advance to/i }).click();
+  await page.getByRole('button', { name: /^(Next season|Advance to)/i }).click();
   check(await textVisible('Garden challenge'), 'a seasonal transition opens a contextual garden challenge');
   check(await page.locator('.pg-gate-hero img').isVisible(), 'the seasonal challenge opens with its Menet passage artwork');
   await page.evaluate(() => {
@@ -180,7 +180,7 @@ try {
   await freePage.getByTestId('choose-explore').click();
   check(await freePage.getByText('Food, seed & season', { exact: true }).isVisible(), 'Free Garden exposes the complete functional palette immediately');
   check(await freePage.getByText('Community sharing table', { exact: true }).isVisible(), 'Free Garden exposes community systems immediately');
-  check(await freePage.getByRole('button', { name: /Advance to/i }).isVisible(), 'Free Garden exposes seasonal exploration immediately');
+  check(await freePage.getByRole('button', { name: /^(Next season|Advance to)/i }).isVisible(), 'Free Garden exposes seasonal exploration immediately');
   await freeContext.close();
 
   check(errors.length === 0, 'no browser console or runtime errors were recorded' + (errors.length ? ': ' + errors.join(' | ') : ''));

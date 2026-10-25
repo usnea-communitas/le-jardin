@@ -1470,6 +1470,10 @@
     "catalog.plantHeading": "Planter",
     "catalog.removeHeading": "Retirer",
     "catalog.unavailableHeading": "Indisponible",
+    "a11y.shareCount": {
+      "one": "{count} jeton",
+      "other": "{count} jetons"
+    },
     "catalog.chooseHeading": "Choisir",
     "catalog.whatHolding": "Ce que tu tiens",
     "catalog.whyShort": "Pourquoi :",
@@ -1603,6 +1607,7 @@
     "catalog.term": "Dans ce jeu : {definition}.",
     "catalog.selectAria": "Sélectionner {name}{details}",
     "catalog.unavailableAria": "Indisponible : {name}{details}",
+    "a11y.elementCost": "— {shares} ou €{price}",
     "plantWindow.notNow": "🗓️ Pas maintenant — {why} Plantation possible : {seasons}",
     "plantWindow.notNowNamed": "🗓️ Plantation impossible pour {name} maintenant — {why} Plantation possible : {seasons}",
     "produce.outOfSeason": "🍽️ Hors saison : {name}. Conserve cette récolte dans la cuisine pour la partager plus tard.",

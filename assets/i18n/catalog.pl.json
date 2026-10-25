@@ -1456,6 +1456,12 @@
     "catalog.plantHeading": "Posadź",
     "catalog.removeHeading": "Usuń",
     "catalog.unavailableHeading": "Niedostępne",
+    "a11y.shareCount": {
+      "one": "{count} punkt zaangażowania",
+      "few": "{count} punkty zaangażowania",
+      "many": "{count} punktów zaangażowania",
+      "other": "{count} punktu zaangażowania"
+    },
     "catalog.chooseHeading": "Wybierz",
     "catalog.whatHolding": "Co trzymasz",
     "catalog.whyShort": "Dlaczego:",
@@ -1607,6 +1613,7 @@
     "catalog.term": "W tej grze: {definition}.",
     "catalog.selectAria": "Wybierz {name}{details}",
     "catalog.unavailableAria": "Niedostępne: {name}{details}",
+    "a11y.elementCost": "— {shares} lub €{price}",
     "plantWindow.notNow": "🗓️ Nie teraz — {why} Można sadzić w porach roku: {seasons}",
     "plantWindow.notNowNamed": "🗓️ Teraz nie możesz umieścić {name} — {why} Można sadzić w porach roku: {seasons}",
     "produce.outOfSeason": "🍽️ Poza sezonem: {name}. Zachowaj ten plon w kuchni, aby podzielić się nim później.",

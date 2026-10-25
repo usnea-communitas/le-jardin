@@ -1455,6 +1455,12 @@
     "catalog.plantHeading": "Zasadit",
     "catalog.removeHeading": "Odstranit",
     "catalog.unavailableHeading": "Nedostupné",
+    "a11y.shareCount": {
+      "one": "{count} žeton",
+      "few": "{count} žetony",
+      "many": "{count} žetonu",
+      "other": "{count} žetonů"
+    },
     "catalog.chooseHeading": "Vybrat",
     "catalog.whatHolding": "Co držíš",
     "catalog.whyShort": "Proč:",
@@ -1606,6 +1612,7 @@
     "catalog.term": "V této hře: {definition}.",
     "catalog.selectAria": "Vybrat: {name}{details}",
     "catalog.unavailableAria": "Nedostupné: {name}{details}",
+    "a11y.elementCost": "— {shares} nebo €{price}",
     "plantWindow.notNow": "🗓️ Teď ne — {why} Lze vysadit: {seasons}",
     "plantWindow.notNowNamed": "🗓️ {name} teď nelze vysadit — {why} Lze vysadit: {seasons}",
     "produce.outOfSeason": "🍽️ Mimo sezónu: {name} — úrodu uchovej v kuchyni a později ji sdílej.",

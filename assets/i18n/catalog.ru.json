@@ -1456,6 +1456,12 @@
     "catalog.plantHeading": "Посадить",
     "catalog.removeHeading": "Убрать",
     "catalog.unavailableHeading": "Недоступно",
+    "a11y.shareCount": {
+      "one": "{count} жетон участия",
+      "few": "{count} жетона участия",
+      "many": "{count} жетонов участия",
+      "other": "{count} жетона участия"
+    },
     "catalog.chooseHeading": "Выбрать",
     "catalog.whatHolding": "Что ты держишь",
     "catalog.whyShort": "Почему:",
@@ -1607,6 +1613,7 @@
     "catalog.term": "В этой игре: {definition}.",
     "catalog.selectAria": "Выбрать {name}{details}",
     "catalog.unavailableAria": "Недоступно: {name}{details}",
+    "a11y.elementCost": "— {shares} или €{price}",
     "plantWindow.notNow": "🗓️ Не сейчас — {why} Можно сажать: {seasons}",
     "plantWindow.notNowNamed": "🗓️ {name} сейчас сажать нельзя — {why} Можно сажать: {seasons}",
     "produce.outOfSeason": "🍽️ {name} больше не в сезоне — сохрани на кухне, чтобы поделиться позже.",

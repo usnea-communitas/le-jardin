@@ -1321,6 +1321,7 @@ button,input,select,textarea{font-family:inherit}
 .pg-language-control select{min-height:34px;max-width:160px;border:1px solid #dcd2bf;border-radius:10px;background:#fffdf7;color:#3f4939;padding:5px 28px 5px 9px;font:700 11px 'Hanken Grotesk',sans-serif;cursor:pointer}
 .pg-language-story{justify-content:center;margin:0 auto 14px;padding:6px 9px;border:1px solid rgba(126,145,110,.22);border-radius:12px;background:rgba(250,248,239,.76)}
 .pg-language-menu{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 4px}
+.pg-language-menu select{min-height:36px}
 .pg-audio-language-note{display:inline-flex;align-items:center;gap:5px;color:#7a725f;font-size:10px;font-weight:700;letter-spacing:.03em}
 .pg-audio-language-menu{display:flex;padding:0 4px 7px}
 html:lang(ru) .pg-game-shell,
@@ -1381,7 +1382,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         <div style="width:104px;height:6px;border-radius:4px;background:#E7DECB;overflow:hidden"><div style="{{ givenBarStyle }}"></div></div>
       </div>
       </sc-if>
-      <button class="pg-header-story" sc-camel-on-click="{{ onPlayStory }}" title="Replay the opening story" aria-label="Play the opening story"><span aria-hidden="true">▶</span><span>Play story</span></button>
+      <button class="pg-header-story" sc-camel-on-click="{{ onPlayStory }}" title="Replay the opening story"><span aria-hidden="true">▶</span><span>Play story</span></button>
       <label class="pg-language-control pg-header-language">
         <span>Language</span>
         <select data-testid="language-select-header" value="{{ locale }}" sc-camel-on-change="{{ onLanguageChange }}" aria-label="Game language">
@@ -1468,7 +1469,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
             </div>
           </div>
           <div style="height:5px;border-radius:5px;background:#E2DCCB;overflow:hidden"><div style="{{ journeyBarStyle }}"></div></div>
-          <button sc-camel-on-click="{{ onSwitchExplore }}" style="position:relative;z-index:1;margin-top:9px;padding:3px 0;border:0;background:transparent;color:#7B856E;font-size:10.5px;font-weight:700;cursor:pointer;font-family:inherit">Open every tool instead</button>
+          <button sc-camel-on-click="{{ onSwitchExplore }}" style="position:relative;z-index:1;margin-top:9px;padding:3px 0;min-height:24px;border:0;background:transparent;color:#7B856E;font-size:10.5px;font-weight:700;cursor:pointer;font-family:inherit">Open every tool instead</button>
         </section>
       </sc-if>
       <div class="pg-panel" title="Both choices build the same element. Shares represent contributed time and knowledge; euros the project fund. Elements with only one option ignore this switch." style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:13px;padding:6px 7px;display:flex;align-items:center;gap:6px;flex:none">
@@ -1484,23 +1485,25 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><span style="{{ g.dotStyle }}"></span><h2 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3A3527;margin:0">{{ g.title }}</h2></div>
           <div style="display:flex;flex-direction:column;gap:7px">
             <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
-              <div class="pg-element-chip" data-drag-type="{{ it.type }}" role="button" tabindex="0" aria-label="{{ it.ariaLabel }}" sc-camel-on-click="{{ it.onSelect }}" sc-camel-on-key-down="{{ it.onKeyDown }}" title="{{ it.hint }}" style="{{ it.chipStyle }}" style-hover="transform:translateY(-2px);box-shadow:0 9px 18px -10px rgba(60,50,30,.6)">
+              <div class="pg-element-chip" data-drag-type="{{ it.type }}" role="button" tabindex="0" sc-camel-on-click="{{ it.onSelect }}" sc-camel-on-key-down="{{ it.onKeyDown }}" title="{{ it.hint }}" style="{{ it.chipStyle }}" style-hover="transform:translateY(-2px);box-shadow:0 9px 18px -10px rgba(60,50,30,.6)">
+                <span class="pg-sr-only">{{ it.srBefore }}</span>
                 <span style="{{ it.iconBoxStyle }}"><span style="width:32px;height:32px;display:block">{{ it.art }}</span></span>
                 <span style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:3px"><span>{{ it.name }}</span><sc-if value="{{ it.hasTermHelp }}" hint-placeholder-val="{{ false }}"><span class="pg-element-term">{{ it.termHelp }}</span></sc-if>
                 <span class="pg-element-meta" style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
                   <sc-if value="{{ it.barterable }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:2px;background:#EAF1DC;color:#5E7E4A;font-size:9.5px;font-weight:700;padding:1.5px 6px;border-radius:6px">{{ it.reuseIcon }} {{ it.barter }}</span></sc-if>
                   <sc-if value="{{ it.moneyOnly }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;background:#F4EBDD;color:#7A5D18;font-size:9.5px;font-weight:700;padding:1.5px 6px;border-radius:6px">buy only</span></sc-if>
-                  <sc-if value="{{ it.hasSeasonBadge }}" hint-placeholder-val="{{ false }}"><span style="{{ it.seasonBadgeStyle }}" title="{{ it.seasonBadgeTitle }}" aria-label="{{ it.seasonBadgeTitle }}">{{ it.seasonBadge }}</span></sc-if>
+                  <sc-if value="{{ it.hasSeasonBadge }}" hint-placeholder-val="{{ false }}"><span style="{{ it.seasonBadgeStyle }}" title="{{ it.seasonBadgeTitle }}">{{ it.seasonBadge }}</span></sc-if>
                   <sc-if value="{{ it.isCrop }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:3px;background:#EFE9D8;color:#6F5530;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:6px">{{ it.seedIcon }} free seed</span></sc-if>
                   <sc-if value="{{ it.showPrice }}" hint-placeholder-val="{{ true }}"><span style="{{ it.priceStyle }}">€{{ it.price }}</span></sc-if>
                 </span>
                 </span>
+                <span class="pg-sr-only">{{ it.srAfter }}</span>
               </div>
             </sc-for>
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#655D4B;line-height:1.55;padding:7px 11px;background:#FBF8F1;border:1px solid #E7DECB;border-radius:12px;flex:none"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span data-pg-version="true" data-pg-no-i18n="true" style="opacity:.75">v0.83.0</span>
+      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#655D4B;line-height:1.55;padding:7px 11px;background:#FBF8F1;border:1px solid #E7DECB;border-radius:12px;flex:none"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span data-pg-version="true" data-pg-no-i18n="true">v0.83.0</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button class="pg-return-guided" sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
@@ -1558,9 +1561,9 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
                 <button sc-camel-on-click="{{ sn.onPick }}" title="{{ sn.name }}" aria-label="Show {{ sn.name }} season" aria-pressed="{{ sn.pressed }}" style="{{ sn.style }}">{{ sn.icon }}</button>
               </sc-for>
             </div>
-            <button class="pg-next-season" sc-camel-on-click="{{ nextSeason.onClick }}" title="Advance to {{ nextSeason.name }}" aria-label="Advance to {{ nextSeason.name }}" style="display:flex;align-items:center;gap:5px;background:#55743F;border:1px solid #46612F;border-radius:20px;padding:5px 11px 5px 12px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:700;color:#FFFCF2;letter-spacing:.01em;box-shadow:0 2px 5px -2px rgba(50,60,30,.5);white-space:nowrap" style-hover="background:#688A52;transform:translateY(-1px)">Next season <span style="font-size:12px">{{ nextSeason.icon }}</span> <span style="font-size:12px;opacity:.85">→</span></button>
+            <button class="pg-next-season" sc-camel-on-click="{{ nextSeason.onClick }}" title="Advance to {{ nextSeason.name }}" style="display:flex;align-items:center;gap:5px;background:#55743F;border:1px solid #46612F;border-radius:20px;padding:5px 11px 5px 12px;cursor:pointer;font-family:inherit;font-size:11px;font-weight:700;color:#FFFCF2;letter-spacing:.01em;box-shadow:0 2px 5px -2px rgba(50,60,30,.5);white-space:nowrap" style-hover="background:#688A52;transform:translateY(-1px)">Next season <span aria-hidden="true" style="font-size:12px">{{ nextSeason.icon }}</span> <span aria-hidden="true" style="font-size:12px;opacity:.85">→</span></button>
             <div style="position:relative">
-              <button class="pg-guild-toggle" sc-camel-on-click="{{ onToggleGuildList }}" title="Explore the pairwise design connections you have discovered" aria-label="Open discovered design connections, {{ guildCount }} of {{ guildTotal }}" style="font-size:11px;color:#7A5D18;background:#FBF3DC;border:1px solid #E0C583;padding:5px 11px;border-radius:20px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s" style-hover="background:#F6E9C4">✦ Connections {{ guildCount }}/{{ guildTotal }} ▾</button>
+              <button class="pg-guild-toggle" sc-camel-on-click="{{ onToggleGuildList }}" title="Explore the pairwise design connections you have discovered" style="font-size:11px;color:#7A5D18;background:#FBF3DC;border:1px solid #E0C583;padding:5px 11px;border-radius:20px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s" style-hover="background:#F6E9C4">✦ Connections {{ guildCount }}/{{ guildTotal }} ▾</button>
             </div>
             </sc-if>
           </div>
@@ -1866,7 +1869,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
           </div>
         </div>
         <div style="display:flex;gap:9px;overflow-x:auto;padding-bottom:2px;min-height:74px">
-          <div class="pg-give-zone" data-give-target="1" role="button" tabindex="0" aria-label="Give a garden element to the community" sc-camel-on-click="{{ onGiveToTable }}" sc-camel-on-key-down="{{ onGiveToTableKeyDown }}" title="Drag a garden element here — or click me, then click an element on the plot" style="{{ giveZoneStyle }}" style-hover="border-color:#7A5D18;background:#FBF3DC">
+          <div class="pg-give-zone" data-give-target="1" role="button" tabindex="0" sc-camel-on-click="{{ onGiveToTable }}" sc-camel-on-key-down="{{ onGiveToTableKeyDown }}" title="Drag a garden element here — or click me, then click an element on the plot" style="{{ giveZoneStyle }}" style-hover="border-color:#7A5D18;background:#FBF3DC">
             <span style="width:34px;height:34px;display:block;animation:bob 2.8s ease-in-out infinite;pointer-events:none">
               <svg sc-camel-view-box="0 0 48 48" width="34" height="34" fill="none">
                 <rect x="15.5" y="20" width="4.2" height="12" rx="2.1" fill="#C99356"></rect>
@@ -1891,7 +1894,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
                 <div style="font-size:10.5px;color:#5A5240;line-height:1.25">{{ o.seasonTag }}{{ o.text }}</div>
                 <div style="display:flex;align-items:center;gap:6px">
                   <sc-if value="{{ o.hasBadge }}" hint-placeholder-val="{{ true }}"><span style="{{ o.badgeStyle }}">{{ o.badge }}</span></sc-if>
-                  <button sc-camel-on-click="{{ o.onTake }}" disabled="{{ o.takeDisabled }}" aria-disabled="{{ o.takeDisabled }}" aria-label="{{ o.takeLabel }}" style="{{ o.takeStyle }}" style-hover="background:#7A5D18">{{ o.takeText }}</button>
+                  <button sc-camel-on-click="{{ o.onTake }}" disabled="{{ o.takeDisabled }}" aria-disabled="{{ o.takeDisabled }}" title="{{ o.takeLabel }}" style="{{ o.takeStyle }}" style-hover="background:#7A5D18">{{ o.takeText }}</button>
                 </div>
               </div>
             </div>
@@ -2027,7 +2030,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
           </sc-if>
           <button class="pg-living-lesson-trigger" data-testid="living-lesson-button" sc-camel-on-click="{{ onOpenLivingLesson }}" disabled="{{ livingLessonLocked }}" aria-disabled="{{ livingLessonLocked }}" title="{{ livingLessonButtonHint }}">{{ livingLessonButtonLabel }}</button>
         </div>
-        <button class="pg-primary-action pg-completion-action" data-testid="reflection-button" sc-camel-on-click="{{ onOpenSummary }}" aria-label="{{ completionAriaLabel }}" style="{{ completionButtonStyle }}" style-hover="transform:translateY(-2px)">{{ completionButtonLabel }}</button>
+        <button class="pg-primary-action pg-completion-action" data-testid="reflection-button" sc-camel-on-click="{{ onOpenSummary }}" title="{{ completionAriaLabel }}" style="{{ completionButtonStyle }}" style-hover="transform:translateY(-2px)">{{ completionButtonLabel }}</button>
       </section>
 
       <sc-if value="{{ wildlifeVisible }}" hint-placeholder-val="{{ false }}">
@@ -6826,7 +6829,9 @@ class Component extends DCLogic {
         seasonBadgeStyle:{display:'inline-flex',alignItems:'center',background:offSeason?'#F6E3D3':'#EDF1E0',color:offSeason?'#B5613A':'#5E7E4A',fontSize:'10px',fontWeight:'700',padding:'1.5px 5px',borderRadius:'6px',opacity:offSeason?1:.85},
         priceStyle:{fontSize:'10px',fontWeight:discounted?'800':'600',color:discounted?'#4E6B3D':'#A99E86',minWidth:'30px',textAlign:'right'},
         hint:(offSeason?(c.name+' — '+winP.why+' Plantable: '+winP.s.join(' & ')+'.'):(seedLocked?(c.name+' — place a Seed bank first: seeds come from the community swap'):(discounted?(c.name+' — cheaper thanks to reclaimed materials from neighbours'):(affordable?c.name:(c.name+' — not affordable yet: give to earn shares')))))+(termHelp?' In this game: '+termHelp+'.':''),
-        ariaLabel:(affordable?'Select ':'Unavailable ')+c.name+(termHelp?', '+termHelp:'')+(isCrop?', free seed':((e.barter!=null?', '+e.barter+' share'+(e.barter===1?'':'s'):'')+', €'+eff.price)),
+        // The chip is named by its visible text; hidden words around it say what pressing it does and what the bare numbers mean.
+        srBefore:affordable?localText('catalog.selectHeading','Select'):localText('catalog.unavailableHeading','Unavailable'),
+        srAfter:e.barter!=null&&!isCrop?localText('a11y.elementCost','— {shares} or €{price}',{shares:localText('a11y.shareCount',e.barter===1?'1 share':e.barter+' shares',{count:e.barter}),price:eff.price}):'',
         chipStyle:{display:'flex',alignItems:'center',gap:'10px',width:'100%',padding:'5px 10px 5px 5px',background:(st.plantType===type?'#EDF4DE':'#fff'),border:'1px solid '+(st.plantType===type?'#5E7E4A':'#EBE2D0'),boxShadow:(st.plantType===type?'0 0 0 2px rgba(94,126,74,.35)':'none'),borderRadius:'12px',cursor:affordable?'grab':'not-allowed',fontSize:'12px',fontWeight:'600',color:'#3A3527',userSelect:'none',WebkitUserSelect:'none',touchAction:'pan-y',opacity:affordable?1:0.42,transition:'transform .15s,box-shadow .15s,border-color .15s'},
         iconBoxStyle:{width:'38px',height:'38px',borderRadius:'10px',background:'linear-gradient(160deg,#EFF4E2,#E2ECCC)',display:'grid',placeItems:'center',flex:'none',boxShadow:'inset 0 0 0 1px '+c.accent+'2E',overflow:'hidden'},
         onPointerDown:this.beginPointerDrag({mode:'add',type:type}),

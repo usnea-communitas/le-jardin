@@ -95,7 +95,7 @@ try {
   check(await page.getByText('Turn to the next season', { exact: false }).first().isVisible(), 'production records a genuine surplus gift');
   await dismissGardenReflections();
 
-  await page.getByRole('button', { name: /Advance to/i }).click();
+  await page.getByRole('button', { name: /^(Next season|Advance to)/i }).click();
   const gate = page.locator('[data-pg-dialog="gate"]');
   await gate.waitFor({ state: 'visible', timeout: 10000 });
   check(await gate.isVisible(), 'production opens the seasonal learning challenge');
