@@ -999,6 +999,12 @@ button,input,select,textarea{font-family:inherit}
 .pg-plot.pg-stage-growing{
   background:linear-gradient(180deg,rgba(255,248,220,.015),rgba(20,34,17,.08)),url("assets/map-stages/garden-growing.webp") center 50%/cover no-repeat!important;
 }
+/* Phones up to 2x density draw the stage art at most ~1000 device pixels wide, so they get
+   960px copies at half the bytes. The same query is phoneArtQuery in the component. */
+@media (max-width:430px) and (max-resolution:2dppx),(max-height:430px) and (max-width:900px) and (max-resolution:2dppx){
+  .pg-plot.pg-stage-bare{background-image:linear-gradient(180deg,rgba(255,248,220,.015),rgba(20,34,17,.08)),url("assets/map-stages/garden-bare-960.webp")!important}
+  .pg-plot.pg-stage-growing{background-image:linear-gradient(180deg,rgba(255,248,220,.015),rgba(20,34,17,.08)),url("assets/map-stages/garden-growing-960.webp")!important}
+}
 .pg-plot.pg-stage-flourishing{
   background:linear-gradient(180deg,rgba(255,248,220,.015),rgba(20,34,17,.08)),url("assets/story/story-07-invitation.webp") center 58%/cover no-repeat!important;
 }
@@ -3101,6 +3107,8 @@ class Component extends DCLogic {
     Autumn:'assets/gates/gate-autumn-transparent.webp',
     Winter:'assets/gates/gate-winter-transparent.webp'
   };
+  // Must match the media query that gives .pg-plot the 960px stage art on small, low-density screens.
+  phoneArtQuery='(max-width:430px) and (max-resolution:2dppx),(max-height:430px) and (max-width:900px) and (max-resolution:2dppx)';
   cropDefs={
     crop_potato:{produce:'potatoes',readyAt:3,window:['Autumn'],yieldN:2},
     crop_root:{produce:'roots',readyAt:3,window:['Autumn'],yieldN:2},
@@ -7340,7 +7348,9 @@ class Component extends DCLogic {
     if(!firstCycleReady&&summaryImprove.indexOf(readinessWhy)<0){summaryImprove.unshift(readinessWhy);}
     const completionButtonStyle={marginTop:'11px',width:'100%',display:'flex',alignItems:'center',justifyContent:'center',gap:'7px',background:flourishingReady?'linear-gradient(150deg,#B8872E,#84611F)':(firstCycleReady?'linear-gradient(150deg,#688A50,#4A6B3B)':'linear-gradient(150deg,#766B56,#596851)'),border:'none',color:'#FFF9EB',fontWeight:'800',fontSize:'13px',padding:'11px',borderRadius:'11px',cursor:'pointer',fontFamily:"'Bricolage Grotesque',sans-serif",boxShadow:'0 8px 18px -9px rgba(63,92,51,.7)',transition:'transform .15s'};
     const mapStage=st.placed.length===0?'bare':((flourishingReady||score>=70)?'flourishing':'growing');
-    const mapStageSrc=mapStage==='bare'?'assets/map-stages/garden-bare.webp':(mapStage==='growing'?'assets/map-stages/garden-growing.webp':'assets/story/story-07-invitation.webp');
+    // The summary mini-map reuses the plot's stage image, so it is usually already cached.
+    const phoneArt=typeof window!=='undefined'&&typeof window.matchMedia==='function'&&window.matchMedia(this.phoneArtQuery).matches;
+    const mapStageSrc=mapStage==='bare'?(phoneArt?'assets/map-stages/garden-bare-960.webp':'assets/map-stages/garden-bare.webp'):(mapStage==='growing'?(phoneArt?'assets/map-stages/garden-growing-960.webp':'assets/map-stages/garden-growing.webp'):'assets/story/story-07-invitation.webp');
     const reducedMotion=typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const communityAvailable=!guided||journey.index>=4||journey.ready;
     const activePane=st.viewportMode==='tablet'?(st.tabletPane||'build'):(st.phonePane||'garden');

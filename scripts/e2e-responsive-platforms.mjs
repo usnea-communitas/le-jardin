@@ -433,6 +433,40 @@ try {
     { before: progressBeforeResize, after: progressAfterResize }
   );
 
+  // Small phones up to 2x density draw the stage art under ~1000 device pixels, so they
+  // get the 960px copy; denser phones keep the full image. CSS and the summary mini-map
+  // (phoneArtQuery) must agree on which one a device uses.
+  for (const [viewport, deviceScaleFactor, smallArt] of [
+    [{ width: 360, height: 800 }, 2, true],
+    [{ width: 390, height: 844 }, 3, false]
+  ]) {
+    const artContext = await browser.newContext({
+      viewport,
+      deviceScaleFactor,
+      isMobile: true,
+      hasTouch: true,
+      reducedMotion: 'reduce',
+      storageState: { cookies: [], origins: [{ origin, localStorage: [{ name: storeKey, value: JSON.stringify(savedState) }] }] }
+    });
+    try {
+      const artPage = await artContext.newPage();
+      await artPage.goto(baseUrl, { waitUntil: 'load' });
+      await artPage.waitForSelector('[data-plot]', { state: 'visible', timeout: 20000 });
+      const art = await artPage.evaluate(() => ({
+        backgroundImage: getComputedStyle(document.querySelector('[data-plot]')).backgroundImage,
+        phoneArtQuery: window.matchMedia(window.__PERMAGARDEN_APP__.phoneArtQuery).matches
+      }));
+      const label = `phone ${viewport.width}x${viewport.height} at ${deviceScaleFactor}x`;
+      check(
+        (smallArt ? /garden-growing-960\.webp/ : /garden-growing\.webp/).test(art.backgroundImage) && art.phoneArtQuery === smallArt,
+        `${label}: the plot uses the ${smallArt ? '960px' : 'full-size'} stage art and the summary agrees`,
+        art
+      );
+    } finally {
+      await artContext.close();
+    }
+  }
+
   check(
     browserErrors.length === 0,
     'responsive platform audit records no console or runtime errors',
