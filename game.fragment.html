@@ -7091,15 +7091,15 @@ class Component extends DCLogic {
       const have=isItem&&st.placed.some(p=>p.type===o.type);
       let art,badge=null,badgeStyle={};
       if(isItem){ art=this.sprites[o.type];
-        if(have){ badge='You have this'; badgeStyle={background:'#F6EAD6',color:'#7A5D18',fontSize:'10px',fontWeight:'700',padding:'2px 7px',borderRadius:'6px',whiteSpace:'nowrap'}; }
-        else { badge='Fills a need'; badgeStyle={background:'#EAF1DC',color:'#5E7E4A',fontSize:'10px',fontWeight:'700',padding:'2px 7px',borderRadius:'6px',whiteSpace:'nowrap'}; } }
+        if(have){ badge='You have this'; badgeStyle={background:'#F6EAD6',color:'#7A5D18',fontSize:'10px',fontWeight:'700',padding:'2px 7px',borderRadius:'6px',maxWidth:'100%'}; }
+        else { badge='Fills a need'; badgeStyle={background:'#EAF1DC',color:'#5E7E4A',fontSize:'10px',fontWeight:'700',padding:'2px 7px',borderRadius:'6px',maxWidth:'100%'}; } }
       else if(o.kind==='shares'){ art=giftEmblem('+'+o.value,'#5E7E4A'); }
-      else if(mat){ art=E('img',{src:'assets/'+mat.img+'.webp',alt:'',loading:'lazy',draggable:false,style:{width:'100%',height:'100%',objectFit:'contain'}}); badge='Building material'; badgeStyle={background:'#EFE9D8',color:'#6F5530',fontSize:'10px',fontWeight:'700',padding:'2px 7px',borderRadius:'6px',whiteSpace:'nowrap'}; }
+      else if(mat){ art=E('img',{src:'assets/'+mat.img+'.webp',alt:'',loading:'lazy',draggable:false,style:{width:'100%',height:'100%',objectFit:'contain'}}); badge='Building material'; badgeStyle={background:'#EFE9D8',color:'#6F5530',fontSize:'10px',fontWeight:'700',padding:'2px 7px',borderRadius:'6px',maxWidth:'100%'}; }
       else { art=giftEmblem('€','#B5613A'); }
       const seasonTag=((isItem||o.kind==='material')&&o.seasons&&o.seasons.length<4)?seasonIconSet(o.seasons,10):null;
       const person=this.communityPerson(o.person||'Camille');
       const take=this.offeringEligibility(o,st);
-      const takeText=!this.reciprocityUnlocked(st)?'Give first':(!take.eligible?'Pool low':('Take · −'+take.cost));
+      const takeText=!this.reciprocityUnlocked(st)?'Give first':(!take.eligible?'Pool low':this.i18nText('community.take','Take · −'+take.cost,{cost:take.cost}));
       const takeStyle={background:take.eligible?'#C99A3C':'#D8D0BF',border:'none',color:take.eligible?'#fff':'#756C5B',fontWeight:'700',fontSize:'10.5px',padding:'3px 9px',minHeight:'24px',whiteSpace:'nowrap',borderRadius:'7px',cursor:take.eligible?'pointer':'not-allowed',fontFamily:'inherit',transition:'background .15s',opacity:take.eligible?1:.8};
       return {id:o.id,text:o.text,person:person.name,personRole:person.role,personInitial:person.initial,personStyle:{width:'21px',height:'21px',borderRadius:'50%',display:'grid',placeItems:'center',background:person.color,color:'#fff',fontSize:'10px',fontWeight:'800',flex:'none'},takeLabel:take.eligible?('Take this offering from '+person.name+'. Uses '+take.cost+' shared-pool points: '+o.text):take.reason,takeDisabled:!take.eligible,takeText:takeText,takeStyle:takeStyle,seasonTag:seasonTag,art:art,hasBadge:!!badge,badge:badge,badgeStyle:badgeStyle,onTake:()=>this.takeOffering(o.id)};
     });
