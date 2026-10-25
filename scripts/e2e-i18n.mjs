@@ -161,7 +161,7 @@ try {
       pillarNames: values.pillars.map(item => item.name),
       pillarTips: values.pillars.map(item => item.tip),
       englishDialVisible: [...document.querySelectorAll("svg text")]
-        .some(node => (node.textContent || "").trim() === "CONNECTIONS")
+        .some(node => (node.textContent || "").trim() === "RESILIENCE")
     };
   });
   assert(polish.htmlLang === "pl" && polish.locale === "pl" && polish.selected === "pl", "Polish regional locale normalizes safely", polish);

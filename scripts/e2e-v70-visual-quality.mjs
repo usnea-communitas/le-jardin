@@ -381,10 +381,11 @@ try {
   await runCase('score naming', async () => {
     const scoreText = (await page.locator('.pg-score-visual').textContent() || '').replace(/\s+/g, ' ').trim();
     check(!/game\s+score/i.test(scoreText), 'the primary score is not labelled GAME SCORE', { scoreText });
+    const scoreName = await page.locator('.pg-score-visual svg').getAttribute('aria-label');
     check(
-      /(garden\s+resilience|(?:design\s+)?connections)/i.test(scoreText),
-      'the primary score is named Garden resilience or Connections',
-      { scoreText }
+      /resilience/i.test(scoreText) && /garden\s+resilience/i.test(scoreName || ''),
+      'the primary score is named Resilience and announced as Garden resilience',
+      { scoreText, scoreName }
     );
   });
 
@@ -500,8 +501,8 @@ try {
 
     const summaryScoreText = (await summary.locator('svg text').allTextContents()).join(' ').replace(/\s+/g, ' ').trim();
     check(
-      !/game\s+score/i.test(summaryScoreText) && /(garden\s+resilience|(?:design\s+)?connections)/i.test(summaryScoreText),
-      'the certificate uses the same honest resilience/connections score name',
+      !/game\s+score/i.test(summaryScoreText) && /resilience/i.test(summaryScoreText),
+      'the certificate uses the same honest resilience score name',
       { summaryScoreText }
     );
 

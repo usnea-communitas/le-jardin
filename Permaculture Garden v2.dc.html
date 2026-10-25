@@ -928,6 +928,8 @@ html,body{margin:0;padding:0}
 .pg-calm-focus-kicker{font:900 11px/1 'Hanken Grotesk',sans-serif;letter-spacing:.13em;text-transform:uppercase;color:#6E805D;margin-bottom:7px}
 .pg-calm-focus strong{display:block;font:700 17px/1.15 Georgia,'Times New Roman',serif;color:#30402D;margin-bottom:5px}
 .pg-calm-focus p{margin:0;font-size:11.5px;line-height:1.48;color:#5D6656}
+/* On desktop the guided act card already shows the act; the calm view keeps only choose, place, notice. */
+.pg-viewport-desktop .pg-calm-focus-guided>strong,.pg-viewport-desktop .pg-calm-focus-guided>p{display:none}
 .pg-calm-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:10px}
 .pg-calm-step{display:flex;align-items:center;justify-content:center;gap:4px;min-width:0;border-radius:8px;background:rgba(255,253,246,.7);padding:6px 4px;font-size:11px;font-weight:800;color:#756B58}
 .pg-calm-step.is-current{background:#5E7E4A;color:#FFF9EA}
@@ -1456,7 +1458,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         <section class="pg-journey-card" data-testid="guided-journey">
           <div style="position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:9px;margin-bottom:7px">
             <span style="font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:#7B8D65">{{ journeyEyebrow }}</span>
-            <span style="font-size:10px;font-weight:800;color:#5E7E4A">{{ journeyDone }}/{{ journeyTotal }}</span>
+            <span style="font-size:10px;font-weight:800;color:#5E7E4A" title="{{ journeyProgressLabel }}"><span aria-hidden="true">{{ journeyDone }}/{{ journeyTotal }}</span><span class="pg-sr-only">{{ journeyProgressLabel }}</span></span>
           </div>
           <div style="position:relative;z-index:1;display:flex;align-items:flex-start;gap:10px;margin-bottom:10px">
             <span class="pg-journey-icon" aria-hidden="true">{{ journeyIcon }}</span>
@@ -1943,7 +1945,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
       <section class="pg-panel pg-right-panel pg-design-panel" aria-labelledby="pg-design-title" style="background:#FBF8F1;border:1px solid #E7DECB;border-radius:16px;padding:14px 15px;box-shadow:0 10px 26px -20px rgba(60,50,30,.65);flex:none">
         <div class="pg-design-heading" style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><span style="width:8px;height:8px;border-radius:50%;background:#5E7E4A"></span><h2 id="pg-design-title" title="A learning-game model of useful connections, not a scientific measurement of a real garden." style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3A3527;cursor:help;margin:0">Design connections</h2></div>
         <sc-if value="{{ insightsCollapsed }}" hint-placeholder-val="{{ true }}">
-          <div class="pg-calm-focus">
+          <div class="{{ calmFocusClass }}">
             <div class="pg-calm-focus-kicker">{{ calmFocusKicker }}</div>
             <strong>{{ calmFocusTitle }}</strong>
             <p>{{ calmFocusWhy }}</p>
@@ -1968,7 +1970,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         </div>
         <details class="pg-context-note pg-learning-model" style="background:#F4F0E5;border:1px solid #E7DECB;border-radius:10px;padding:7px 9px;font-size:12px;line-height:1.45;color:#675F50">
           <summary style="cursor:pointer;font-weight:800;color:#4E6044">About this learning model</summary>
-          <div style="padding-top:7px">This is a practice plot inspired by the real youth-run community garden in Menet — not a literal site plan or scientific assessment. Camille, Noa, Léa, Malik, Anaïs and Baptiste are fictional composite characters.<br><span style="color:#415C36;font-weight:700">“Shares” are game tokens for participation. A real fair share may be time, care, knowledge, access or surplus, without expecting equal repayment.</span></div>
+          <div style="padding-top:7px">This is a practice plot inspired by the real youth-run community garden in Menet — not a literal site plan or scientific assessment. Camille, Noa, Léa, Malik, Anaïs and Baptiste are fictional composite characters.<br><span style="color:#415C36;font-weight:700">“Shares” are game tokens for participation. A real fair share may be time, care, knowledge, access or surplus, without expecting equal repayment.</span><span style="display:block;margin-top:6px">{{ scoreExplain }}</span></div>
         </details>
         <div class="pg-systems-list" role="group" style="border-top:1px solid #EFE7D6;padding-top:10px;margin-top:2px;display:flex;flex-direction:column;gap:8px" aria-label="Learning-game model of garden connections">
           <div style="font-size:10px;font-weight:800;color:#8A7E66;letter-spacing:.11em;text-transform:uppercase">Relationships, not checkboxes</div>
@@ -1995,19 +1997,21 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         <button class="pg-insights-toggle" data-testid="insights-toggle" sc-camel-on-click="{{ onToggleInsights }}" aria-expanded="{{ insightsExpanded }}">
           <span>{{ insightsToggleLabel }}</span><span aria-hidden="true">{{ insightsToggleIcon }}</span>
         </button>
-        <div class="pg-soft-card pg-next-step" style="margin-top:12px;background:#F4EFE3;border:1px solid #E6DCC6;border-radius:12px;padding:10px 12px">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px">
-            <span style="font-size:10px;font-weight:700;color:#8A7E66;letter-spacing:.1em;text-transform:uppercase">{{ nextStep.kicker }}</span>
-            <span style="font-size:10px;font-weight:700;color:#5E7E4A">{{ nextStep.progress }}</span>
+        <sc-if value="{{ nextStepVisible }}" hint-placeholder-val="{{ false }}">
+          <div class="pg-soft-card pg-next-step" style="margin-top:12px;background:#F4EFE3;border:1px solid #E6DCC6;border-radius:12px;padding:10px 12px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px">
+              <span style="font-size:10px;font-weight:700;color:#8A7E66;letter-spacing:.1em;text-transform:uppercase">{{ nextStep.kicker }}</span>
+              <span style="font-size:10px;font-weight:700;color:#5E7E4A">{{ nextStep.progress }}</span>
+            </div>
+            <div style="height:5px;border-radius:4px;background:#E4DAC4;overflow:hidden;margin-bottom:9px"><div style="{{ nextStep.barStyle }}"></div></div>
+            <sc-if value="{{ nextStep.allDone }}" hint-placeholder-val="{{ false }}">
+              <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3E5233;line-height:1.2">🌻 Every learning layer is represented — now watch how the real garden responds.</div>
+            </sc-if>
+            <sc-if value="{{ nextStep.todo }}" hint-placeholder-val="{{ true }}">
+              <div tabindex="0" aria-label="{{ nextStep.label }}. {{ nextStep.why }}" title="{{ nextStep.why }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#2C3525;line-height:1.15;cursor:help">{{ nextStep.label }}</div>
+            </sc-if>
           </div>
-          <div style="height:5px;border-radius:4px;background:#E4DAC4;overflow:hidden;margin-bottom:9px"><div style="{{ nextStep.barStyle }}"></div></div>
-          <sc-if value="{{ nextStep.allDone }}" hint-placeholder-val="{{ false }}">
-            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#3E5233;line-height:1.2">🌻 Every learning layer is represented — now watch how the real garden responds.</div>
-          </sc-if>
-          <sc-if value="{{ nextStep.todo }}" hint-placeholder-val="{{ true }}">
-            <div tabindex="0" aria-label="{{ nextStep.label }}. {{ nextStep.why }}" title="{{ nextStep.why }}" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:13px;color:#2C3525;line-height:1.15;cursor:help">{{ nextStep.label }}</div>
-          </sc-if>
-        </div>
+        </sc-if>
         <div class="pg-living-lesson-card" data-testid="living-lesson-card">
           <div class="pg-living-lesson-kicker"><img src="assets/ui/icons/garden-voice.svg" alt="">Ask the garden</div>
           <sc-if value="{{ livingLessonExperimentVisible }}" hint-placeholder-val="false">
@@ -7062,15 +7066,17 @@ class Component extends DCLogic {
 
     const statusText=score===0?'A bare plot — ready to begin':score<40?'A living beginning':score<70?'Connections taking shape':score<100?'A flourishing design':'A richly connected design';
     const ringColor=score<40?'#C2703D':score<75?'#D2A24C':'#5E7E4A';
-    const connectionsDialLabel=(localText('common.connections','connections')||'connections').toLocaleUpperCase(locale);
+    const scoreDialLabel=(localText('score.dialLabel','Resilience')||'Resilience').toLocaleUpperCase(locale);
+    const scoreAria=localText('score.aria','Garden resilience: {score} of 100',{score:score});
+    const dialFont=(base)=>(scoreDialLabel.length>10?Math.round(base*8.4)/10:base)+'px';
     const r=40, cc=2*Math.PI*r, off=cc*(1-score/100);
     // The label is set BELOW the dial: at 11px it measures ~79 user units against only
     // ~71 units of clear space inside the ring, so inside it the stroke cuts through it.
-    const scoreVisual=E('svg',{viewBox:'0 0 100 122',width:100,height:122},[
+    const scoreVisual=E('svg',{viewBox:'0 0 100 122',width:100,height:122,role:'img','aria-label':scoreAria},[
       E('circle',{key:'bg',cx:50,cy:50,r:r,fill:'none',stroke:'#EAE0CC',strokeWidth:9}),
       E('circle',{key:'fg',cx:50,cy:50,r:r,fill:'none',stroke:ringColor,strokeWidth:9,strokeLinecap:'round',strokeDasharray:cc,strokeDashoffset:off,transform:'rotate(-90 50 50)',style:{transition:'stroke-dashoffset .6s cubic-bezier(.3,.9,.3,1),stroke .4s'}}),
       E('text',{key:'n',x:50,y:48,textAnchor:'middle',dominantBaseline:'central',style:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'27px',fontWeight:'700',fill:'#2C3525'}},String(score)),
-      E('text',{key:'s',x:50,y:114,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'11px',fontWeight:'800',fill:'#655E50',letterSpacing:'.2px'}},connectionsDialLabel)
+      E('text',{key:'s',x:50,y:114,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:dialFont(11),fontWeight:'800',fill:'#655E50',letterSpacing:'.2px'}},scoreDialLabel)
     ]);
 
     const stp=st.selectedType;
@@ -7185,7 +7191,7 @@ class Component extends DCLogic {
     const nextStepUnitSource=guided?'acts':'milestones';
     const localeApi=this.i18n();
     const nextStepUnit=localeApi?localeApi.translateValue(nextStepUnitSource):nextStepUnitSource;
-    const nextStepKickerFallback='Next step · '+nextStepUnit+' '+nextStepNumber+'/'+_steps.length;
+    const nextStepKickerFallback='Next step';
     const nextStepProgressFallback=_doneCount+'/'+_steps.length+' '+nextStepUnit+' done';
     const nextStep={
       num:nextStepNumber,total:_steps.length,done:_doneCount,unit:nextStepUnit,
@@ -7255,11 +7261,11 @@ class Component extends DCLogic {
     const flourishingReady=completion.flourishingReady;
     const guidedEndingReady=firstCycleReady;
     const readinessWhy=(completion.reasons&&completion.reasons[0])||(guided?journey.current.why:nextStep.why);
-    const summaryScore=E('svg',{viewBox:'0 0 100 122',width:76,height:93},[
+    const summaryScore=E('svg',{viewBox:'0 0 100 122',width:76,height:93,role:'img','aria-label':scoreAria},[
       E('circle',{key:'bg',cx:50,cy:50,r:r,fill:'none',stroke:'#EAE0CC',strokeWidth:10}),
       E('circle',{key:'fg',cx:50,cy:50,r:r,fill:'none',stroke:ringColor,strokeWidth:10,strokeLinecap:'round',strokeDasharray:cc,strokeDashoffset:off,transform:'rotate(-90 50 50)'}),
       E('text',{key:'n',x:50,y:47,textAnchor:'middle',dominantBaseline:'central',style:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'30px',fontWeight:'700',fill:'#2C3525'}},String(score)),
-      E('text',{key:'s',x:50,y:114,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'13px',fontWeight:'800',fill:'#655E50',letterSpacing:'0'}},connectionsDialLabel)
+      E('text',{key:'s',x:50,y:114,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:dialFont(13),fontWeight:'800',fill:'#655E50',letterSpacing:'0'}},scoreDialLabel)
     ]);
     const today=this.formatToday();
     const q=(st.arrivalQueue||[]).filter(k=>activeSet.has(k));
@@ -7497,7 +7503,7 @@ class Component extends DCLogic {
       journeyLabel:guidedEndingReady?'The garden is ready to reflect':(journey.ready?'Connect what you have built':journey.current.label),
       journeyWhy:guidedEndingReady?'You have cared for soil, water, food, habitat, community and a changing season — and connected at least one useful relationship. The ending is now yours to open.':readinessWhy,
       journeyIcon:designIcon(guidedEndingReady?designIcons.voice:(journey.ready?designIcons.guild:journeyIconSrc)),
-      journeyDone:journey.done,journeyTotal:journey.total,
+      journeyDone:journey.done,journeyTotal:journey.total,journeyProgressLabel:localText('journey.progress',journey.done+'/'+journey.total+' acts done',{done:journey.done,total:journey.total,unit:localText('common.unit.acts','acts')}),
       journeyBarStyle:{height:'100%',width:Math.round(journey.done/journey.total*100)+'%',borderRadius:'5px',background:'linear-gradient(90deg,#8FB565,#5E7E4A)',transition:'width .55s ease'},
       onSwitchExplore:()=>this.setState({mode:'explore',insightsExpanded:true}),
       onSwitchGuided:()=>this.setState({mode:'guided',insightsExpanded:false}),
@@ -7596,7 +7602,9 @@ class Component extends DCLogic {
       insightsExpanded:insightsExpanded,insightsCollapsed:!insightsExpanded,
       insightsToggleLabel:insightsExpanded?localText('insights.hide','Hide the detailed garden model'):localText('insights.show','Show how the garden works'),
       insightsToggleIcon:insightsExpanded?'−':'＋',onToggleInsights:()=>this.toggleInsights(),
-      calmFocusTitle:calmFocusTitle,calmFocusWhy:calmFocusWhy,
+      nextStepVisible:!guided&&insightsExpanded,
+      scoreExplain:localText('score.explain','Resilience (0–100) mostly reflects the four living layers below, plus wild neighbours, active design connections and genuine gifts. It describes this practice plot — it is not a grade for you.'),
+      calmFocusTitle:calmFocusTitle,calmFocusWhy:calmFocusWhy,calmFocusClass:'pg-calm-focus'+(guided?' pg-calm-focus-guided':''),
       calmFocusKicker:localText('insights.onlyNow','Only this matters now'),
       calmStepsAria:localText('insights.stepsAria','Choose, place, notice'),
       calmChooseLabel:localText('insights.choose','1 · Choose'),
