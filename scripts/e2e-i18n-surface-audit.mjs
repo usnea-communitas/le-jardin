@@ -1,10 +1,10 @@
 import http from "node:http";
 import path from "node:path";
 import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
+import playwright from "./load-playwright.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const moduleRoot = process.env.CODEX_NODE_MODULES;
 const supportedLocales = ["cs", "de", "fr", "es", "pt-BR", "pl", "ru", "zh-CN"];
 const localeArgumentIndex = process.argv.indexOf("--locale");
 const targetLocale = localeArgumentIndex >= 0 ? process.argv[localeArgumentIndex + 1] : "cs";
@@ -23,17 +23,6 @@ const browserLocales = {
   ru: "ru-RU",
   "zh-CN": "zh-CN"
 };
-let playwright;
-if (moduleRoot) {
-  const direct = path.join(moduleRoot, "playwright", "index.mjs");
-  try {
-    playwright = await import(pathToFileURL(direct).href);
-  } catch (_) {
-    playwright = await import("playwright");
-  }
-} else {
-  playwright = await import("playwright");
-}
 
 const mime = {
   ".html": "text/html; charset=utf-8",

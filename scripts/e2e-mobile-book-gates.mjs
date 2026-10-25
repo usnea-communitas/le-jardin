@@ -1,25 +1,5 @@
-import path from 'node:path';
-import { pathToFileURL } from 'node:url';
-import { readdir } from 'node:fs/promises';
+import { chromium } from './load-playwright.mjs';
 
-const moduleRoot = process.env.CODEX_NODE_MODULES;
-let playwright;
-if (moduleRoot) {
-  try {
-    playwright = await import(pathToFileURL(path.join(moduleRoot, 'playwright', 'index.mjs')).href);
-  } catch (_) {
-    const pnpmRoot = path.join(moduleRoot, '.pnpm');
-    const packageDir = (await readdir(pnpmRoot)).find(name => /^playwright@[^-]/.test(name));
-    if (!packageDir) throw new Error('Playwright package was not found in ' + moduleRoot);
-    playwright = await import(
-      pathToFileURL(path.join(pnpmRoot, packageDir, 'node_modules', 'playwright', 'index.mjs')).href
-    );
-  }
-} else {
-  playwright = await import('playwright');
-}
-
-const { chromium } = playwright;
 const baseUrl = process.env.GAME_URL || 'http://127.0.0.1:8787/';
 const parsedUrl = new URL(baseUrl);
 if (!['localhost', '127.0.0.1', '[::1]', '::1'].includes(parsedUrl.hostname)) {

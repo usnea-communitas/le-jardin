@@ -116,17 +116,18 @@ Then open <http://127.0.0.1:8787/>. The local server has no Vercel Function or O
 
 ### Browser regression journeys
 
-The `test:e2e:*` scripts are Playwright journeys. Point `CODEX_NODE_MODULES` at a `node_modules` folder that contains Playwright and set `GAME_URL` to a running instance:
+The `test:e2e:*` scripts are Playwright journeys. Playwright is a development dependency, so `npm ci` installs it; download its Chromium once. Each journey serves the static build on a free local port by itself:
 
 ```sh
-export CODEX_NODE_MODULES=/path/to/node_modules-with-playwright
-export GAME_URL=http://127.0.0.1:8787/
+npx playwright install chromium # once; add --with-deps on a fresh Linux machine
 npm run test:e2e:responsive     # 13 viewports from 320×568 to 1920×1080
 npm run test:e2e:touch          # tap-to-place and tap-to-move
 npm run test:e2e:playthrough    # a full guided playthrough
 npm run test:e2e:i18n-layout    # 9 languages × viewports × main surfaces
 npm run test:e2e:living-lesson  # reflection flow, caching, offline fallback
 ```
+
+The other `scripts/e2e-*.mjs` audits (accessibility, journey, layout, release and more) test the instance in `GAME_URL`, by default <http://127.0.0.1:8787/>, so start `node scripts/static-server.mjs 8787` first. `node scripts/e2e-production-smoke.mjs` checks the live site. To use a Playwright installed elsewhere, point `CODEX_NODE_MODULES` at that `node_modules` folder (plain npm or pnpm layout).
 
 Coverage includes adaptive navigation, safe-area and overflow boundaries, 44-pixel touch targets, the 7:5 interactive plot, orientation-preserved state, all Garden Book chapters, all eleven challenges, the kitchen and seed bank, the fair-share economy invariants, snapshot sanitisation, stable fingerprints, response normalisation and outage fallback.
 

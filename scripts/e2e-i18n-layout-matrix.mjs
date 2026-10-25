@@ -1,20 +1,10 @@
 import http from "node:http";
 import path from "node:path";
 import { mkdir, readFile, stat, writeFile } from "node:fs/promises";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
+import playwright from "./load-playwright.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const moduleRoot = process.env.CODEX_NODE_MODULES;
-let playwright;
-if (moduleRoot) {
-  try {
-    playwright = await import(pathToFileURL(path.join(moduleRoot, "playwright", "index.mjs")).href);
-  } catch (_) {
-    playwright = await import("playwright");
-  }
-} else {
-  playwright = await import("playwright");
-}
 
 const mime = {
   ".html": "text/html; charset=utf-8",

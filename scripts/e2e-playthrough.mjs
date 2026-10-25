@@ -1,20 +1,6 @@
 // A playthrough audit: nothing here calls the game's own methods.
 // Everything is done the way a player does it — by looking at the screen and clicking.
-import path from 'node:path';
-import { pathToFileURL } from 'node:url';
-import { readdir } from 'node:fs/promises';
-
-const moduleRoot = process.env.CODEX_NODE_MODULES;
-let playwright;
-if (moduleRoot) {
-  const pnpmRoot = path.join(moduleRoot, '.pnpm');
-  const packageDir = (await readdir(pnpmRoot)).find(name => /^playwright@[^-]/.test(name));
-  if (!packageDir) throw new Error('Playwright package was not found in ' + pnpmRoot);
-  playwright = await import(pathToFileURL(path.join(pnpmRoot, packageDir, 'node_modules', 'playwright', 'index.mjs')).href);
-} else {
-  playwright = await import('playwright');
-}
-const { chromium } = playwright;
+import { chromium } from './load-playwright.mjs';
 
 const baseUrl = process.env.GAME_URL || 'http://127.0.0.1:8787/';
 const origin = new URL(baseUrl).origin;

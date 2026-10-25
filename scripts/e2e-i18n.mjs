@@ -1,24 +1,10 @@
 import path from "node:path";
 import http from "node:http";
-import { readFile, readdir, stat } from "node:fs/promises";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { readFile, stat } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import playwright from "./load-playwright.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const moduleRoot = process.env.CODEX_NODE_MODULES;
-let playwright;
-if (moduleRoot) {
-  const direct = path.join(moduleRoot, "playwright", "index.mjs");
-  try {
-    playwright = await import(pathToFileURL(direct).href);
-  } catch (_) {
-    const pnpmRoot = path.join(moduleRoot, ".pnpm");
-    const packageDir = (await readdir(pnpmRoot)).find(name => /^playwright@[^-]/.test(name));
-    if (!packageDir) throw new Error("Playwright package was not found under " + moduleRoot);
-    playwright = await import(pathToFileURL(path.join(pnpmRoot, packageDir, "node_modules", "playwright", "index.mjs")).href);
-  }
-} else {
-  playwright = await import("playwright");
-}
 
 const mime = {
   ".html": "text/html; charset=utf-8",
