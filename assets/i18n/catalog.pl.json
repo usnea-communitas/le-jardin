@@ -841,6 +841,7 @@
     "livingLesson.dialog.title": "Ogród odpowiada",
     "livingLesson.dialog.subtitle": "Ogród przyjrzał się temu, co powstało, i znalazł jedną rzecz wartą wypróbowania.",
     "livingLesson.dialog.attribution": "Słowa układa GPT-5.6 Luna, ale o regułach nadal decyduje sama gra.",
+    "livingLesson.dialog.offlineAttribution": "Mądrość ogrodu offline — sprawdzona lekcja zapisana w grze; tych słów nie napisała AI.",
     "livingLesson.loading": "Wsłuchuję się w relacje między elementami…",
     "livingLesson.loading.detail": "Ogród odczytuje relacje, a nie ocenia twojego wyniku.",
     "livingLesson.ai.eyebrow": "Ogród słucha",

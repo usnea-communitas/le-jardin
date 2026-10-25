@@ -857,6 +857,7 @@
     "livingLesson.dialog.title": "Le jardin réfléchit",
     "livingLesson.dialog.subtitle": "Le jardin a observé ce que tu as créé et trouvé une chose qui mérite d’être essayée.",
     "livingLesson.dialog.attribution": "Ses mots viennent de GPT-5.6 Luna ; les règles du jardin ne changent pas.",
+    "livingLesson.dialog.offlineAttribution": "Sagesse du jardin hors ligne — une leçon vérifiée tirée du jeu lui-même ; aucune IA n’a écrit ces mots.",
     "livingLesson.loading": "J’écoute entre les éléments…",
     "livingLesson.loading.detail": "Le jardin analyse les relations ; il ne juge pas ton score.",
     "livingLesson.ai.eyebrow": "Le jardin écoute",

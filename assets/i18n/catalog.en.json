@@ -857,6 +857,7 @@
     "livingLesson.dialog.title": "The garden reflects",
     "livingLesson.dialog.subtitle": "The garden has looked at what you have made and found one thing worth trying.",
     "livingLesson.dialog.attribution": "Its words come from GPT-5.6 Luna; the garden’s rules stay its own.",
+    "livingLesson.dialog.offlineAttribution": "Garden wisdom offline — a reviewed lesson from the game itself; no AI wrote these words.",
     "livingLesson.loading": "Listening between the elements…",
     "livingLesson.loading.detail": "The garden is reading relationships, not judging your score.",
     "livingLesson.ai.eyebrow": "The garden is listening",

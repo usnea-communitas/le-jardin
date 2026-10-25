@@ -857,6 +857,7 @@
     "livingLesson.dialog.title": "O jardim reflete",
     "livingLesson.dialog.subtitle": "O jardim observou o que você fez e encontrou algo que vale a pena experimentar.",
     "livingLesson.dialog.attribution": "As palavras vêm de GPT-5.6 Luna; as regras do jardim não mudam.",
+    "livingLesson.dialog.offlineAttribution": "Sabedoria do jardim offline — uma lição revisada do próprio jogo; nenhuma IA escreveu estas palavras.",
     "livingLesson.loading": "Ouvindo entre os elementos…",
     "livingLesson.loading.detail": "O jardim interpreta as relações; ele não julga sua pontuação.",
     "livingLesson.ai.eyebrow": "O jardim está ouvindo",

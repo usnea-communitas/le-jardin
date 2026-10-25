@@ -57,7 +57,7 @@ Players design a living garden rather than optimise isolated objects. They place
 5. The player accepts the experiment and changes the real garden.
 6. The deterministic engine — not the model — checks the new state and records the evidence.
 
-The model cannot invent an action, modify the economy, award points or decide whether its own experiment passed. Its output is structured, normalised and matched back to the server-generated candidate list. If live inference is unavailable, a reviewed deterministic lesson keeps the feature useful and is clearly labelled **Garden wisdom offline**.
+The model cannot invent an action, modify the economy, award points or decide whether its own experiment passed. Its output is structured, normalised and matched back to the server-generated candidate list. If live inference is unavailable, a reviewed deterministic lesson keeps the feature useful and is clearly labelled **Garden wisdom offline**; the GPT‑5.6 Luna credit appears only on lessons the model actually wrote.
 
 **Privacy, safety and cost boundaries**
 

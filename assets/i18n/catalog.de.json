@@ -857,6 +857,7 @@
     "livingLesson.dialog.title": "Der Garten denkt nach",
     "livingLesson.dialog.subtitle": "Der Garten hat sich angesehen, was du geschaffen hast, und etwas gefunden, das einen Versuch wert ist.",
     "livingLesson.dialog.attribution": "Die Worte stammen von GPT-5.6 Luna; die Regeln des Gartens ändern sich dadurch nicht.",
+    "livingLesson.dialog.offlineAttribution": "Gartenweisheit offline – eine geprüfte Lektion aus dem Spiel selbst; diese Worte stammen nicht von einer KI.",
     "livingLesson.loading": "Ich lausche zwischen den Elementen …",
     "livingLesson.loading.detail": "Der Garten betrachtet die Beziehungen, nicht deine Punktzahl.",
     "livingLesson.ai.eyebrow": "Der Garten lauscht",

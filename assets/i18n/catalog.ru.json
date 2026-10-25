@@ -841,6 +841,7 @@
     "livingLesson.dialog.title": "Сад отвечает",
     "livingLesson.dialog.subtitle": "Сад посмотрел на то, что ты создал, и нашёл одну вещь, которую стоит попробовать.",
     "livingLesson.dialog.attribution": "Слова подбирает GPT-5.6 Luna, но правила по-прежнему задаёт сама игра.",
+    "livingLesson.dialog.offlineAttribution": "Мудрость сада офлайн — проверенный урок из самой игры; эти слова написал не ИИ.",
     "livingLesson.loading": "Прислушиваюсь к связям между частями сада…",
     "livingLesson.loading.detail": "Сад читает связи, а не оценивает твой результат.",
     "livingLesson.ai.eyebrow": "Сад прислушивается",

@@ -840,6 +840,7 @@
     "livingLesson.dialog.title": "Zahrada se zamýšlí",
     "livingLesson.dialog.subtitle": "Zahrada si všimla toho, co tu vzniklo, a našla jednu věc, kterou stojí za to vyzkoušet.",
     "livingLesson.dialog.attribution": "Tuto reflexi pomohla formulovat GPT‑5.6 Luna; pravidla zahrady se tím nemění.",
+    "livingLesson.dialog.offlineAttribution": "Zahradní moudrost offline — ověřená lekce přímo ze hry; tato slova nenapsala AI.",
     "livingLesson.loading": "Zahrada naslouchá tomu, co se děje mezi prvky…",
     "livingLesson.loading.detail": "Hledá souvislosti, nehodnotí tvoje skóre.",
     "livingLesson.ai.eyebrow": "Zahrada naslouchá",

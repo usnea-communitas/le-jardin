@@ -184,6 +184,15 @@ try {
       { model: liveMetadata.model, auth: liveMetadata.auth }
     );
   }
+  const attribution = dialog.getByTestId("living-lesson-attribution");
+  const attributionText = (await attribution.textContent()).trim();
+  check(
+    resolvedMode === "ai"
+      ? /GPT-5\.6 Luna/.test(attributionText) && (await attribution.getAttribute("data-source")) === "ai"
+      : !/GPT/.test(attributionText) && /offline/i.test(attributionText),
+    "the dialog credits GPT-5.6 Luna only for a lesson the model actually wrote",
+    { resolvedMode, attributionText }
+  );
   if (resolvedMode === "ai") {
     check(
       !livePayload || (livePayload.lesson?.source === "ai" && livePayload.lesson?.promptVersion === engine.PROMPT_VERSION),
@@ -248,6 +257,13 @@ try {
           fallbackExperiment.length > 80,
         "reviewed fallback keeps the full learning loop available during an AI outage",
         { fallbackExperiment }
+      );
+      const offlineAttribution = dialog.getByTestId("living-lesson-attribution");
+      const offlineText = (await offlineAttribution.textContent()).trim();
+      check(
+        /Garden wisdom offline/.test(offlineText) && !/GPT/.test(offlineText) && (await offlineAttribution.getAttribute("data-source")) === "offline",
+        "an offline lesson is labelled Garden wisdom offline and never credits the model",
+        { offlineText }
       );
     }
   } else {

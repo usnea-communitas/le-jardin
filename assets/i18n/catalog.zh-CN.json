@@ -838,6 +838,7 @@
     "livingLesson.dialog.title": "花园的观察",
     "livingLesson.dialog.subtitle": "花园观察了你目前的设计，发现了一件值得尝试的事。",
     "livingLesson.dialog.attribution": "这些话由 GPT-5.6 Luna 组织，但游戏规则仍由系统决定。",
+    "livingLesson.dialog.offlineAttribution": "离线花园智慧——游戏内置、经过审阅的课程；这些文字并非由 AI 撰写。",
     "livingLesson.loading": "倾听花园各部分之间的联系……",
     "livingLesson.loading.detail": "花园正在观察各种关系，而不是评判你的分数。",
     "livingLesson.ai.eyebrow": "花园正在倾听",
