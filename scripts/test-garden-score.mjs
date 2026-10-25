@@ -57,4 +57,41 @@ const crowded = {
 const crowdedScore = game.gardenScore(crowded);
 assert.ok(crowdedScore > 66 && crowdedScore <= 100, `A crowded, generous garden stays within 0–100 (got ${crowdedScore}).`);
 
+// English certificate: grammatical defaults and plural-aware counts.
+const textOf = svg => [...svg.matchAll(/<text[^>]*>([^<]*)<\/text>/gu)].map(match => match[1]).join(" | ");
+const englishText = textOf(englishCertificate);
+assert.match(englishText, /My garden today: Connections taking shape\./u, "The default decision sentence is grammatical.");
+assert.doesNotMatch(englishText, /a connected a/u);
+assert.match(englishText, /· 2 gifts/u);
+assert.ok(englishText.includes(new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric" }).format(new Date())), "English dates keep the day-month-year order.");
+assert.match(textOf(game.certificateSvg({ ...threeConnections, given: 1 }, {}).svg), /· 1 gift(?!s)/u, "One gift is singular.");
+
+// Czech certificate: every text comes from the catalogs and the date follows the active language.
+const catalogs = Object.fromEntries(await Promise.all(["en", "cs"].map(async locale =>
+  [locale, JSON.parse(await readFile(path.join(root, "assets", "i18n", `catalog.${locale}.json`), "utf8"))])));
+Object.assign(sandbox, {
+  location: { href: "https://garden.example/?lang=cs", search: "?lang=cs", replace() {}, reload() {} },
+  navigator: { languages: ["cs"] },
+  fetch: async url => {
+    const locale = (String(url).match(/catalog\.([A-Za-z-]+)\.json$/u) || [])[1];
+    return catalogs[locale] ? { ok: true, json: async () => catalogs[locale] } : { ok: false, status: 404, json: async () => ({}) };
+  }
+});
+vm.runInContext(await readFile(path.join(root, "lib", "i18n.js"), "utf8"), sandbox);
+await sandbox.PermacultureI18n.bootstrap();
+assert.equal(sandbox.PermacultureI18n.locale, "cs");
+const czech = game.certificateSvg(threeConnections, {}).svg;
+const czechText = textOf(czech);
+const cs = catalogs.cs.messages;
+assert.match(czech, /xml:lang="cs"/u);
+assert.ok(czechText.includes(cs["certificate.title"]), "The certificate title is Czech.");
+assert.ok(czechText.includes(cs["certificate.defaultName"]), "The default gardener name is Czech.");
+assert.ok(czechText.includes(new Intl.DateTimeFormat("cs", { day: "numeric", month: "long", year: "numeric" }).format(new Date())), "The date is formatted in Czech.");
+assert.ok(czechText.includes(cs["completion.status.connections"]), "The garden status is Czech.");
+assert.match(czechText, /· 2 dary/u, "Czech uses the few-form for two gifts.");
+assert.match(textOf(game.certificateSvg({ ...threeConnections, given: 5 }, {}).svg), /· 5 darů/u, "Czech uses the other-form for five gifts.");
+for (const english of ["Certificate of Learning", "GROWN WITH CARE BY", "A caring gardener", "Next real-world act", "habitat matches", "Care for earth"]) {
+  assert.ok(!czechText.includes(english), `The Czech certificate still contains English text: ${english}`);
+}
+
 console.log("Garden score and certificate tests passed.");

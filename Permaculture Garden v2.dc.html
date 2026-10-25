@@ -5713,14 +5713,22 @@ class Component extends DCLogic {
     const wildlife=this.activeOf(st.placed||[]).size;
     const guilds=this.activeGuilds(st.placed||[]).length;
     const score=this.gardenScore(st,systems);
-    const status=score===0?'A bare plot — ready to begin':score<40?'A living beginning':score<70?'Connections taking shape':score<100?'A flourishing design':'A richly connected design';
-    const strengths=[];
-    if(systems.values.soil>=45){strengths.push('Living soil');}
-    if(systems.values.water>=45){strengths.push('Water resilience');}
-    if(systems.values.food>=45){strengths.push('Food in relationships');}
-    if(systems.values.habitat>=45){strengths.push('Connected habitat');}
-    if(community){strengths.push('Fair sharing');}
-    return {score:score,status:status,wildlife:wildlife,guilds:guilds,given:st.given||0,strengths:strengths};
+    const statusKey=score===0?'bare':score<40?'beginning':score<70?'connections':score<100?'flourishing':'rich';
+    const status={bare:'A bare plot — ready to begin',beginning:'A living beginning',connections:'Connections taking shape',flourishing:'A flourishing design',rich:'A richly connected design'}[statusKey];
+    const strengths=[],strengthKeys=[];
+    const strength=(key,label)=>{strengths.push(label);strengthKeys.push(key);};
+    if(systems.values.soil>=45){strength('completion.strength.soilLabel','Living soil');}
+    if(systems.values.water>=45){strength('completion.strength.waterLabel','Water resilience');}
+    if(systems.values.food>=45){strength('completion.strength.foodLabel','Food in relationships');}
+    if(systems.values.habitat>=45){strength('completion.strength.habitatLabel','Connected habitat');}
+    if(community){strength('completion.strength.sharing','Fair sharing');}
+    return {score:score,status:status,statusKey:statusKey,wildlife:wildlife,guilds:guilds,given:st.given||0,strengths:strengths,strengthKeys:strengthKeys};
+  }
+  formatToday(){
+    // The English copy uses British spelling, so English dates keep the day-month-year order.
+    const locale=this.currentLocale(),options={day:'numeric',month:'long',year:'numeric'};
+    try{return new Intl.DateTimeFormat(locale==='en'?'en-GB':locale,options).format(new Date());}
+    catch(_){return new Date().toLocaleDateString('en-GB',options);}
   }
   completionModel(st=this.state){
     const journey=this.journeyModel(st),systems=this.gardenSystems(st);
@@ -5741,32 +5749,71 @@ class Component extends DCLogic {
   }
   certificateSvg(state,assets){
     const stats=this.certificateStats(state);
+    const t=(key,fallback,vars)=>this.i18n()?this.i18nText(key,fallback,vars):String(fallback).replace(/\{(\w+)\}/g,(m,k)=>vars&&k in vars?String(vars[k]):m);
+    const locale=this.currentLocale();
     const esc=(v)=>String(v).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[ch]));
-    const rawName=(state.playerName||'A caring gardener').trim().slice(0,44)||'A caring gardener';
+    const upper=(v)=>String(v).toLocaleUpperCase(locale);
+    const defaultName=t('certificate.defaultName','A caring gardener');
+    const rawName=String(state.playerName||'').trim().slice(0,44)||defaultName;
     const name=esc(rawName);
-    const date=esc(new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}));
-    const strengths=stats.strengths.length?stats.strengths.join('  •  '):'A garden ready for its first seeds';
+    const date=this.formatToday();
+    const strengths=stats.strengths.length?stats.strengths.map((label,i)=>t(stats.strengthKeys[i],label)).join('  •  '):t('certificate.defaultStrength','A garden ready for its first seeds');
     const embedded=(path)=>esc((assets&&assets[path])||'');
-    const wrap=(value,max=82)=>{const words=String(value||'').trim().split(/\s+/),lines=[];let line='';words.forEach(word=>{const next=(line+' '+word).trim();if(line&&next.length>max){lines.push(line);line=word;}else{line=next;}});if(line){lines.push(line);}return lines.slice(0,2);};
-    const textLines=(value,x,y,max=48,color='#4f5848')=>wrap(value,max).map((line,i)=>`<text x="${x}" y="${y+i*23}" font-family="'Hanken Grotesk',sans-serif" font-size="18" fill="${color}">${esc(line)}</text>`).join('');
+    // Width in em: Han and full-width characters are about twice as wide as Latin or Cyrillic.
+    const wide=/[\u2e80-\u9fff\uf900-\ufaff\uff00-\uffef]/u;
+    const ems=(value,bold)=>[...String(value||'')].reduce((n,ch)=>n+(wide.test(ch)?1:(bold?.6:.56)),0);
+    const fit=(value,size,maxWidth,minSize,bold)=>{let next=size;while(next>minSize&&ems(value,bold)*next>maxWidth){next-=1;}return next;};
+    const wrap=(value,max,limit)=>{
+      const pieces=String(value||'').trim().match(/[\u2e80-\u9fff\uf900-\ufaff\uff00-\uffef]|[^\s\u2e80-\u9fff\uf900-\ufaff\uff00-\uffef]+|\s+/gu)||[];
+      const lines=[];let line='';
+      pieces.forEach(piece=>{
+        if(/^\s+$/u.test(piece)){if(line){line+=' ';}return;}
+        const next=line+piece;
+        if(line.trim()&&ems(next)/.56>max){lines.push(line.trim());line=piece;}else{line=next;}
+      });
+      if(line.trim()){lines.push(line.trim());}
+      if(lines.length>limit){lines[limit-1]=lines[limit-1].replace(/[\s,.;:·—–-]*$/u,'')+'…';}
+      return {lines:lines.slice(0,limit),complete:lines.length<=limit};
+    };
+    // Two lines at 18px; a longer translation steps down to three lines at 16px.
+    const textLines=(value,x,y,max=48,color='#4f5848')=>{
+      let size=18,gap=23,block=wrap(value,max,2);
+      if(!block.complete){size=16;gap=20;block=wrap(value,Math.floor(max*18/16),3);}
+      return block.lines.map((line,i)=>`<text x="${x}" y="${y+i*gap}" font-family="'Hanken Grotesk',sans-serif" font-size="${size}" fill="${color}">${esc(line)}</text>`).join('');
+    };
     const systems=this.gardenSystems(state),weakest=systems.view.slice().sort((a,b)=>a.value-b.value)[0];
     const learnedKey=(state.lastChallengeKey&&Number((state.gardenEffects||{})[state.lastChallengeKey]))?state.lastChallengeKey:Object.keys(state.gardenEffects||{}).filter(k=>Number((state.gardenEffects||{})[k])).pop();
-    const learned=({mulch:'Protect the most vulnerable soil first.',compost:'Waste becomes fertility when air, moisture, greens and browns are balanced.',hugel:'Treat woody beds as site-specific experiments and observe them over time.',rain:'Screen stored water and give every overflow a safe route.',kitchen:'Match each harvest with a suitable low-energy way of keeping.',ladybug:'Support balance with habitat, patience and targeted protection.',bee:'Design flowering habitat through time, not for one colourful moment.',shelter:'Different lives need different winter refuges.',pexeso:'A design connection links needs and yields; a full guild weaves several such roles together.',seeds:'Save suitable mature seed with care for crop biology.',quiz:'Observe the whole system before reacting to one symptom.'}[learnedKey]||'Observe relationships before adding more objects.');
-    const decision=(state.reflectionNote||((state.lastSystemChange||{}).text)||('You built a connected '+stats.status.toLowerCase()+'.')).slice(0,220);
+    const learnedEnglish={mulch:'Protect the most vulnerable soil first.',compost:'Waste becomes fertility when air, moisture, greens and browns are balanced.',hugel:'Treat woody beds as site-specific experiments and observe them over time.',rain:'Screen stored water and give every overflow a safe route.',kitchen:'Match each harvest with a suitable low-energy way of keeping.',ladybug:'Support balance with habitat, patience and targeted protection.',bee:'Design flowering habitat through time, not for one colourful moment.',shelter:'Different lives need different winter refuges.',pexeso:'A design connection links needs and yields; a full guild weaves several such roles together.',seeds:'Save suitable mature seed with care for crop biology.',quiz:'Observe the whole system before reacting to one symptom.'};
+    const learned=learnedEnglish[learnedKey]?t('certificate.learned.'+(learnedKey==='pexeso'?'connections':learnedKey),learnedEnglish[learnedKey]):t('certificate.learned.default','Observe relationships before adding more objects.');
+    const status=t('completion.status.'+stats.statusKey,stats.status);
+    const gifts=t('certificate.gifts',stats.given===1?'{count} gift':'{count} gifts',{count:stats.given});
+    const statusLine=t('certificate.statusLine','{status} · {wildlife}/10 habitat matches · {guilds}/{guildTotal} active connections · {gifts}',{status:status,wildlife:stats.wildlife,guilds:stats.guilds,guildTotal:this.guildDefs.length,gifts:gifts});
+    const change=(state.lastSystemChange||{}).text;
+    const decision=(state.reflectionNote||(change?this.i18nValue(change):'')||t('certificate.decision.default','My garden today: {status}.',{status:status})).slice(0,220);
     const realActions={soil:'Cover one small patch of bare soil with suitable organic material.',water:'Watch one rainfall and notice where water can be slowed or safely collected.',food:'Grow one edible plant together with a flowering companion.',habitat:'Leave one quiet pesticide-free refuge with water, food and shelter.'};
-    const action=realActions[(weakest||{}).key]||realActions.soil;
+    const actionKey=realActions[(weakest||{}).key]?weakest.key:'soil';
+    const nextAction=t('certificate.nextAction','Next real-world act: {action}',{action:t('certificate.action.'+actionKey,realActions[actionKey])});
+    const brand=upper(t('certificate.brand','LE JARDIN · PERMACULTURE GARDEN'));
+    const title=t('certificate.title','Certificate of Learning');
+    const dialLabel=upper(t('score.dialLabel','Resilience'));
+    const footer=t('certificate.footer','Care for earth · Care for people · Fair share');
+    const dateLine=date+' · '+strengths;
+    const statusSize=fit(statusLine,19,880,13,true);
+    const actionSize=fit(nextAction,15,880,12,true);
+    const footerWidth=ems(footer,true)*15;
+    const dateSize=fit(dateLine,15,1048-footerWidth-28,11,false);
     const placedArt=(state.placed||[]).slice(0,24).map(p=>{const art=((state.season==='Winter'&&this.winterScenes[p.type])||this.sprites[p.type]),src=art&&art.props&&art.props.src;if(!src||!assets[src]){return '';}const x=55+(Math.max(3,Math.min(97,p.x))/100)*1090-23,y=155+(Math.max(5,Math.min(95,p.y))/100)*360-38;return `<image ${'href'}="${embedded(src)}" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="52" height="52" preserveAspectRatio="xMidYMid meet"/>`;}).join('');
     const mapHref=embedded('assets/story/story-07-invitation.webp');
-    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850">
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" xml:lang="${esc(locale)}" width="1200" height="850" viewBox="0 0 1200 850">
       <defs><linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fffdf7"/><stop offset="1" stop-color="#f3ead5"/></linearGradient><clipPath id="map"><rect x="55" y="155" width="1090" height="360" rx="22"/></clipPath></defs>
       <rect width="1200" height="850" fill="url(#paper)"/><rect x="26" y="26" width="1148" height="798" rx="30" fill="none" stroke="#c99a3c" stroke-width="4"/><rect x="43" y="43" width="1114" height="764" rx="24" fill="none" stroke="#dcc98f" stroke-width="2"/>
-      <text x="600" y="79" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="20" font-weight="800" letter-spacing="4" fill="#8a6a1f">LE JARDIN · PERMACULTURE GARDEN</text><text x="600" y="128" text-anchor="middle" font-family="Georgia,serif" font-size="45" font-weight="700" fill="#2c3525">Certificate of Learning</text>
+      <text x="600" y="79" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="20" font-weight="800" letter-spacing="4" fill="#8a6a1f">${esc(brand)}</text><text x="600" y="128" text-anchor="middle" font-family="Georgia,serif" font-size="${fit(title,45,1000,28,true)}" font-weight="700" fill="#2c3525">${esc(title)}</text>
       <g clip-path="url(#map)"><image ${'href'}="${mapHref}" x="55" y="155" width="1090" height="360" preserveAspectRatio="xMidYMid slice"/><rect x="55" y="155" width="1090" height="360" fill="#172313" opacity=".10"/>${placedArt}</g><rect x="55" y="155" width="1090" height="360" rx="22" fill="none" stroke="#e4d4a9" stroke-width="3"/>
-      <rect x="55" y="535" width="1090" height="244" rx="22" fill="#fbf8f1" stroke="#e2d6bd" stroke-width="2"/><circle cx="155" cy="635" r="67" fill="#e8efd9" stroke="#557146" stroke-width="5"/><text x="155" y="638" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="54" font-weight="800" fill="#2c3525">${stats.score}</text><text x="155" y="670" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="12" font-weight="800" letter-spacing="1" fill="#56654e">GARDEN RESILIENCE</text>
-      <text x="255" y="578" font-family="'Hanken Grotesk',sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#9a7428">GROWN WITH CARE BY</text><text x="255" y="619" font-family="Georgia,serif" font-size="36" font-weight="700" fill="#3f5c33">${name}</text><text x="255" y="650" font-family="'Hanken Grotesk',sans-serif" font-size="19" font-weight="700" fill="#2c3525">${esc(stats.status)} · ${stats.wildlife}/10 habitat matches · ${stats.guilds}/${this.guildDefs.length} active connections · ${stats.given} gifts</text>
-      <text x="255" y="690" font-family="'Hanken Grotesk',sans-serif" font-size="14" font-weight="800" letter-spacing="1.5" fill="#8a6a1f">A DECISION I CAN EXPLAIN</text>${textLines(decision,255,715,49)}
-      <text x="745" y="690" font-family="'Hanken Grotesk',sans-serif" font-size="14" font-weight="800" letter-spacing="1.5" fill="#8a6a1f">A PRINCIPLE I LEARNED</text>${textLines(learned,745,715,39)}
-      <text x="255" y="770" font-family="'Hanken Grotesk',sans-serif" font-size="15" font-weight="700" fill="#415c36">Next real-world act: ${esc(action)}</text><text x="76" y="805" font-family="'Hanken Grotesk',sans-serif" font-size="15" fill="#756c5b">${date} · ${esc(strengths)}</text><text x="1124" y="805" text-anchor="end" font-family="'Hanken Grotesk',sans-serif" font-size="15" font-weight="700" fill="#8a6a1f">Care for earth · Care for people · Fair share</text>
+      <rect x="55" y="535" width="1090" height="244" rx="22" fill="#fbf8f1" stroke="#e2d6bd" stroke-width="2"/><circle cx="155" cy="635" r="67" fill="#e8efd9" stroke="#557146" stroke-width="5"/><text x="155" y="638" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="54" font-weight="800" fill="#2c3525">${stats.score}</text><text x="155" y="670" text-anchor="middle" font-family="'Hanken Grotesk',sans-serif" font-size="${fit(dialLabel,12,112,9,true)}" font-weight="800" letter-spacing="1" fill="#56654e">${esc(dialLabel)}</text>
+      <text x="255" y="578" font-family="'Hanken Grotesk',sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#9a7428">${esc(upper(t('certificate.grownBy','GROWN WITH CARE BY')))}</text><text x="255" y="619" font-family="Georgia,serif" font-size="${fit(rawName,36,880,22,true)}" font-weight="700" fill="#3f5c33">${name}</text><text x="255" y="650" font-family="'Hanken Grotesk',sans-serif" font-size="${statusSize}" font-weight="700" fill="#2c3525">${esc(statusLine)}</text>
+      <text x="255" y="690" font-family="'Hanken Grotesk',sans-serif" font-size="14" font-weight="800" letter-spacing="1.5" fill="#8a6a1f">${esc(upper(t('certificate.decision','A DECISION I CAN EXPLAIN')))}</text>${textLines(decision,255,715,49)}
+      <text x="745" y="690" font-family="'Hanken Grotesk',sans-serif" font-size="14" font-weight="800" letter-spacing="1.5" fill="#8a6a1f">${esc(upper(t('certificate.principle','A PRINCIPLE I LEARNED')))}</text>${textLines(learned,745,715,39)}
+      <text x="255" y="770" font-family="'Hanken Grotesk',sans-serif" font-size="${actionSize}" font-weight="700" fill="#415c36">${esc(nextAction)}</text><text x="76" y="805" font-family="'Hanken Grotesk',sans-serif" font-size="${dateSize}" fill="#756c5b">${esc(dateLine)}</text><text x="1124" y="805" text-anchor="end" font-family="'Hanken Grotesk',sans-serif" font-size="15" font-weight="700" fill="#8a6a1f">${esc(footer)}</text>
     </svg>`;
     const slug=rawName.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'gardener';
     return {svg:svg,filename:'le-jardin-certificate-'+slug+'.svg'};
@@ -7212,7 +7259,7 @@ class Component extends DCLogic {
       E('text',{key:'n',x:50,y:47,textAnchor:'middle',dominantBaseline:'central',style:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'30px',fontWeight:'700',fill:'#2C3525'}},String(score)),
       E('text',{key:'s',x:50,y:114,textAnchor:'middle',style:{fontFamily:"'Hanken Grotesk',sans-serif",fontSize:'13px',fontWeight:'800',fill:'#655E50',letterSpacing:'0'}},connectionsDialLabel)
     ]);
-    const today=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+    const today=this.formatToday();
     const q=(st.arrivalQueue||[]).filter(k=>activeSet.has(k));
     const rq=(st.returnQueue||[]);
     const critName=(wk)=>{const w=this.wildlife.find(x=>x.key===wk);return w?w.name:'';};
