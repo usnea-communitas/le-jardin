@@ -19,6 +19,7 @@ const mime = {
   ".mp4": "video/mp4",
   ".svg": "image/svg+xml",
   ".webm": "video/webm",
+  ".webmanifest": "application/manifest+json; charset=utf-8",
   ".webp": "image/webp",
   ".woff2": "font/woff2"
 };

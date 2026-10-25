@@ -1,0 +1,19 @@
+{
+  "name": "Le Jardin — a permaculture garden game",
+  "short_name": "Le Jardin",
+  "description": "A story-led educational game about designing a living permaculture garden in Menet, France.",
+  "lang": "en",
+  "start_url": "./",
+  "scope": "./",
+  "display": "browser",
+  "background_color": "#f4efe3",
+  "theme_color": "#f4efe3",
+  "icons": [
+    {
+      "src": "assets/harvest-cherries.webp",
+      "sizes": "280x280",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ]
+}
