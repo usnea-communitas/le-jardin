@@ -31,7 +31,7 @@ Before opening a pull request:
 
 1. `npm run generate` — so the generated files match the canonical source (a check will fail otherwise).
 2. `npm test` — structural checks, i18n catalogue checks, Living Lesson engine and API tests.
-3. If you changed layout, interaction or text, run the relevant Playwright journey against a local server (see the README). If you cannot run Playwright, say so in the pull request and describe how you tested manually.
+3. If you changed layout, interaction or text, run `npm run test:e2e:core` (CI runs it too) and the relevant Playwright journey (see the README). If you cannot run Playwright, say so in the pull request and describe how you tested manually.
 4. Keep the fair-share rule intact: community gifts must never turn into personal currency, and the AI reflection must never decide rules, points or outcomes.
 5. Keep changes focused; one topic per pull request.
 

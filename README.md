@@ -125,9 +125,10 @@ npm run test:e2e:touch          # tap-to-place and tap-to-move
 npm run test:e2e:playthrough    # a full guided playthrough
 npm run test:e2e:i18n-layout    # 9 languages × viewports × main surfaces
 npm run test:e2e:living-lesson  # reflection flow, caching, offline fallback
+npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit
 ```
 
-The other `scripts/e2e-*.mjs` audits (accessibility, journey, layout, release and more) test the instance in `GAME_URL`, by default <http://127.0.0.1:8787/>, so start `node scripts/static-server.mjs 8787` first. `node scripts/e2e-production-smoke.mjs` checks the live site. To use a Playwright installed elsewhere, point `CODEX_NODE_MODULES` at that `node_modules` folder (plain npm or pnpm layout).
+Audits without an npm alias, such as `node scripts/e2e-accessibility.mjs`, `e2e-journey.mjs` or `e2e-layout-audit.mjs`, test the instance in `GAME_URL` (by default <http://127.0.0.1:8787/>), so start `node scripts/static-server.mjs 8787` first. `node scripts/e2e-production-smoke.mjs` checks the live site. To use a Playwright installed elsewhere, point `CODEX_NODE_MODULES` at that `node_modules` folder (plain npm or pnpm layout).
 
 Coverage includes adaptive navigation, safe-area and overflow boundaries, 44-pixel touch targets, the 7:5 interactive plot, orientation-preserved state, all Garden Book chapters, all eleven challenges, the kitchen and seed bank, the fair-share economy invariants, snapshot sanitisation, stable fingerprints, response normalisation and outage fallback.
 

@@ -21,3 +21,19 @@ jobs:
           npm run generate
           git diff --exit-code -- index.html game.fragment.html
       - run: npm test
+
+  e2e:
+    name: Core browser journeys
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Playthrough, touch, responsive, Living Lesson and release audit
+        run: npm run test:e2e:core
