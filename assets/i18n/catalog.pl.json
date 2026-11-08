@@ -1789,7 +1789,7 @@
     "garden.wildlife.winterLabel": "{name} — potencjalne zimowe schronienie lub niewielka aktywność",
     "garden.harvest.cherries": "🍒 Zebrano wiśnie! {detail}",
     "garden.harvest.cherriesRemaining": "Dojrzałe kiście wciąż na drzewie: {count}.",
-    "garden.harvest.notReady": "🌱 Jeszcze nie pora na zbiór. {name} · sezon zbiorów: {seasons}.",
+    "garden.harvest.notReady": "🌱 Jeszcze nie pora na zbiór: {name} · sezon zbiorów: {seasons}.",
     "garden.harvest.crop": "🧺 Zebrano: {name} (+{count}){seedNote}",
     "garden.preserve": "🫙 {name}: {verb} — takim przetworem można podzielić się nawet w środku zimy.",
     "garden.build.reclaimed": "🧰 Zbudowano z materiałów od sąsiadów: {materials} — oszczędność €{amount}.",
