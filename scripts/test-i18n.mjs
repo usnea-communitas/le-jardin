@@ -51,3 +51,33 @@ assert.equal(storage.get(i18n.STORAGE_KEY), "pt-BR");
 assert.match(replacedWith, /[?&]lang=pt-BR(?:&|$)/u);
 
 console.log("i18n runtime tests passed.");
+
+// Reverse lookup of English runtime text (the game composes English, the page shows the
+// player's language). Catch-all and wrong templates must not hide or mix up text.
+i18n.clearMissing();
+assert.equal(i18n.translateValue("1 share"), "1 žeton", "a message with a placeholder is matched with its plural form");
+assert.equal(i18n.translateValue("12 shares"), "12 žetonů");
+assert.match(
+  i18n.translateValue("Camille will add cherries to the pantry plan and note what remains for others."),
+  /: třešně\./u,
+  "a name the game lower-cases is still found, and stays lower-case"
+);
+assert.equal(
+  i18n.translateValue("Learned practice · safe rainwater chain · woody-bed monitoring"),
+  `${i18n.t("systems.learned", { practice: "" }).replace(/\s*$/u, "")} ${i18n.translateValue("safe rainwater chain")} · ${i18n.translateValue("woody-bed monitoring")}`,
+  "each item of a list joined with · is translated"
+);
+assert.equal(i18n.translateValue("Chapter 1: At the edge of Menet"), i18n.t("story.chapterAria", { number: 1, title: i18n.translateValue("At the edge of Menet") }),
+  "a count placeholder only takes a number, so a chapter title is not split at \"of\"");
+assert.equal(i18n.translateValue("🔥 Hot-bed idea"), `🔥 ${i18n.translateValue("Hot-bed idea")}`, "an emoji before a known text is kept");
+const unknownSentence = "Choose a path that nobody has walked before today";
+assert.equal(i18n.translateValue(unknownSentence), unknownSentence, "an unknown sentence is not half translated by a short template");
+assert.equal(i18n.translateValue("Water cannot jump there yet."), "Water cannot jump there yet.");
+const reported = i18n.missing.map(entry => entry.value);
+assert.ok(reported.includes(unknownSentence) && reported.includes("Water cannot jump there yet."), "untranslated sentences are reported, not hidden by catch-all templates");
+const localized = `${i18n.translateValue("Spring")} — ${i18n.t("common.current", null, "current")}`;
+i18n.clearMissing();
+i18n.translateValue(localized);
+assert.deepEqual(i18n.missing, [], "text already in the player's language is not reported");
+
+console.log("i18n reverse lookup tests passed.");
