@@ -135,12 +135,13 @@ const savedState = {
     {
       id: "audit-community-1",
       person: "Camille",
-      text: "Camille offered spare compost. Taking it records help received as well as help given."
+      // as the game writes it: the offer's text in lower case
+      text: "Camille offered raked autumn leaves from the village path. Taking it records help received as well as help given."
     },
     {
       id: "audit-community-2",
       person: "Noa",
-      text: "Noa offered saved seed. Taking it records help received as well as help given."
+      text: "Noa offered seeds labelled with where and when they thrived. Taking it records help received as well as help given."
     }
   ],
   reflectionOpened: true,
@@ -270,6 +271,11 @@ async function setState(patch) {
         clearInterval(app[key]);
       }
       app[key] = null;
+    }
+    // A challenge's board holds React elements (icons). Built here, in the page, as
+    // the game builds it; sent from Node they would arrive as plain objects.
+    if (next.gate && next.gate.d === "init") {
+      next = { ...next, gate: { ...next.gate, d: app.gateDefs()[next.gate.key].init(app.state, next.gate.target) } };
     }
     app.setState({ ...quiet, ...next });
   }, { quiet: quietState, next: patch });
@@ -466,11 +472,7 @@ try {
   await scenario("arrival:new-batch", { arrivalQueue: ["worm", "bee", "bird"] });
 
   for (const key of challenges) {
-    const gate = await page.evaluate(({ challenge, target }) => {
-      const app = window.__PERMAGARDEN_APP__;
-      const def = app.gateDefs()[challenge];
-      return { key: challenge, target, status: "brief", d: def.init(app.state, target) };
-    }, { challenge: key, target: challengeTargets[key] });
+    const gate = { key, target: challengeTargets[key], status: "brief", d: "init" };
     await scenario(`challenge:${key}:brief`, { gate });
     await scenario(`challenge:${key}:play`, { gate: { ...gate, status: "play" } });
     await scenario(`challenge:${key}:won`, { gate: { ...gate, status: "won", effectNew: true } });
@@ -496,19 +498,14 @@ try {
     await scenario(`whisper:${key}`, { gardenWhisper: { key, text } });
   }
 
-  const lesson = {
-    source: "fallback",
-    focus: "relationships",
-    observation: "Two useful elements are present, but they are still working as isolated objects.",
-    relationship: "Distance changes whether one element can answer another.",
-    question: "Which pair could begin sharing a need and a yield?",
-    experiment: {
-      title: "Bring two useful neighbours together",
-      action: "Move one element closer to a complementary partner.",
-      why: "A visible connection makes the design easier to observe and adjust.",
-      success: "Create the first relationship connection on the plot."
-    }
-  };
+  // the offline lesson the game itself shows: built by the Living Lesson engine
+  // from this garden, in the page, not hand-written English
+  const lesson = await page.evaluate(() => {
+    const app = window.__PERMAGARDEN_APP__;
+    const engine = app.lessonEngine();
+    const snapshot = app.livingLessonSnapshot();
+    return engine.fallbackLesson(snapshot, engine.buildCandidates(snapshot));
+  });
   await scenario("living-lesson:ready", { livingLesson: { status: "ready", lesson } });
   await scenario("living-lesson:loading", { livingLesson: { status: "loading" } });
 
