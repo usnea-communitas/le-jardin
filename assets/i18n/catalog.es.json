@@ -1587,7 +1587,13 @@
     "reflection.replayCue": "↺ Volver a escuchar",
     "footer.helpTitle": "Elige un elemento y colócalo en la parcela. El símbolo de flechas circulares indica que la comunidad puede ayudarte a construirlo; las semillas son gratis en el banco de semillas.",
     "season.autumnPreview": "Avance de otoño · Los manzanos establecidos y bien conectados y los cultivos anuales maduros se pueden cosechar; las hojas caídas se convierten en un recurso para el suelo.",
-    "winter.safeInGarden": "a salvo en el jardín"
+    "winter.safeInGarden": "a salvo en el jardín",
+    "catalog.lock.needs": "🔒 {name} necesita {ways}. Ambas cosas crecen en la mesa comunitaria para compartir que hay debajo de la parcela, y cada conexión de diseño que descubres suma una ficha.",
+    "catalog.lock.shares": {
+      "one": "{count} ficha (tienes {have})",
+      "other": "{count} fichas (tienes {have})"
+    },
+    "catalog.lock.money": "€{price} (tienes €{have})"
   },
   "templates": {
     "common.count.entries": "{count} entradas",

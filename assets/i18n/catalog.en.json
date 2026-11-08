@@ -1587,7 +1587,13 @@
     "reflection.replayCue": "↺ Replay cue",
     "footer.helpTitle": "Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank.",
     "season.autumnPreview": "Autumn preview · Established, well-connected apple trees and mature annual crops can be harvested; fallen leaves become a soil resource.",
-    "winter.safeInGarden": "safe in the garden"
+    "winter.safeInGarden": "safe in the garden",
+    "catalog.lock.needs": "🔒 {name} needs {ways}. Both grow at the community sharing table below the plot — and every design connection you discover adds a share.",
+    "catalog.lock.shares": {
+      "one": "{count} share (you have {have})",
+      "other": "{count} shares (you have {have})"
+    },
+    "catalog.lock.money": "€{price} (you have €{have})"
   },
   "templates": {
     "common.count.entries": "{count} entries",

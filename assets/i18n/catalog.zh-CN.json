@@ -1584,7 +1584,12 @@
     "reflection.replayCue": "↺再听一遍",
     "footer.helpTitle": "先选择一个元素，再把它放到地块上。环形箭头符号表示社区可以帮你建造它；种子可从种子库免费获得。",
     "season.autumnPreview": "秋季预览 · 已扎根、关联良好的苹果树和成熟的一年生作物可以收获；落叶会成为土壤的资源。",
-    "winter.safeInGarden": "安全地待在花园里"
+    "winter.safeInGarden": "安全地待在花园里",
+    "catalog.lock.needs": "🔒 {name}需要{ways}。两者都能在下方地块旁的社区分享桌获得——你每发现一个设计关联，也会增加1参与点。",
+    "catalog.lock.shares": {
+      "other": "{count} 参与点（你有 {have}）"
+    },
+    "catalog.lock.money": "€{price}（你有 €{have}）"
   },
   "templates": {
     "common.count.entries": "{count}条记录",

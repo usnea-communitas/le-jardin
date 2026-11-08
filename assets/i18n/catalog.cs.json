@@ -1592,7 +1592,15 @@
     "reflection.replayCue": "↺ Přehrát znovu",
     "footer.helpTitle": "Vyber prvek a potom ho umísti na záhon. Symbol kruhových šipek znamená, že ti ho komunita může pomoct postavit; semena jsou zdarma z komunitní semínkovny.",
     "season.autumnPreview": "Náhled podzimu · Zavedené a dobře propojené jabloně i dozrálé jednoleté plodiny můžeš sklízet; spadané listí se stává zdrojem pro půdu.",
-    "winter.safeInGarden": "v bezpečí v zahradě"
+    "winter.safeInGarden": "v bezpečí v zahradě",
+    "catalog.lock.needs": "🔒 {name} potřebuje {ways}. Obojí přibývá u komunitního stolu sdílení pod zahradou — a každé objevené návrhové propojení přidá žeton.",
+    "catalog.lock.shares": {
+      "one": "{count} žeton (máš {have})",
+      "few": "{count} žetony (máš {have})",
+      "many": "{count} žetonu (máš {have})",
+      "other": "{count} žetonů (máš {have})"
+    },
+    "catalog.lock.money": "€{price} (máš €{have})"
   },
   "templates": {
     "common.count.entries": "Počet záznamů: {count}",

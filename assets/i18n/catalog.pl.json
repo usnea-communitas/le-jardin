@@ -1593,7 +1593,15 @@
     "reflection.replayCue": "↺ Odsłuchaj ponownie",
     "footer.helpTitle": "Wybierz element, a potem umieść go na działce. Symbol okrągłych strzałek oznacza, że społeczność może pomóc ci go zbudować; nasiona są za darmo ze społecznego banku nasion.",
     "season.autumnPreview": "Zapowiedź jesieni · Ukorzenione, dobrze połączone jabłonie i dojrzałe rośliny jednoroczne można zbierać; opadłe liście stają się zasobem dla gleby.",
-    "winter.safeInGarden": "bezpiecznie w ogrodzie"
+    "winter.safeInGarden": "bezpiecznie w ogrodzie",
+    "catalog.lock.needs": "🔒 {name} kosztuje {ways}. Jedno i drugie przybywa przy społecznym stole dzielenia się poniżej działki — a każde odkryte połączenie projektowe daje punkt zaangażowania.",
+    "catalog.lock.shares": {
+      "one": "{count} punkt zaangażowania (masz {have})",
+      "few": "{count} punkty zaangażowania (masz {have})",
+      "many": "{count} punktów zaangażowania (masz {have})",
+      "other": "{count} punktu zaangażowania (masz {have})"
+    },
+    "catalog.lock.money": "€{price} (masz €{have})"
   },
   "templates": {
     "common.count.entries": "Liczba wpisów: {count}",

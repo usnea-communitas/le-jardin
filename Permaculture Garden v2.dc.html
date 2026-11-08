@@ -6852,10 +6852,12 @@ class Component extends DCLogic {
         // Never fail silently on cost. Say what is short AND where it comes from —
         // both sources are off the first screen, so the player cannot infer them.
         if(!affordable&&!seedLocked&&!offSeason){
-          const cur=this.state,ways=[];
-          if(e.barter!=null){ways.push(e.barter+' share'+(e.barter===1?'':'s')+' (you have '+(cur.shares||0)+')');}
-          ways.push('€'+eff.price+' (you have €'+Math.round(cur.budget||0)+')');
-          this.flash('🔒 '+c.name+' needs '+ways.join(' or ')+'. Both grow at the community sharing table below the plot — and every design connection you discover adds a share.');
+          // from the catalogue, so other languages get a sentence, not English pieces
+          const cur=this.state,ways=[],i18n=this.i18n(),locale=this.currentLocale();
+          if(e.barter!=null){ways.push(this.i18nText('catalog.lock.shares',e.barter===1?'{count} share (you have {have})':'{count} shares (you have {have})',{count:e.barter,have:cur.shares||0}));}
+          ways.push(this.i18nText('catalog.lock.money','€{price} (you have €{have})',{price:eff.price,have:Math.round(cur.budget||0)}));
+          const waysText=ways.length>1&&i18n&&locale!=='en'&&typeof i18n.list==='function'?i18n.list(ways,{style:'long',type:'disjunction'}):ways.join(' or ');
+          this.flash(this.i18nText('catalog.lock.needs','🔒 {name} needs {ways}. Both grow at the community sharing table below the plot — and every design connection you discover adds a share.',{name:this.i18nValue(c.name),ways:waysText}));
           return;
         }
         const next={selectedType:type,selectedPlacedId:null,plantType:affordable?type:null,movingPlacedId:null,keyboardPos:{x:50,y:62},toast:affordable?(()=>{const dotyk=this.state.viewportMode==='phone'||this.state.viewportMode==='tablet';const prev=this.linkPreview(type,this.state);const kde=prev.ids.size?(dotyk?' Place it inside a marked circle to make a connection.':' Place it inside a marked circle to make a connection.'):'';return '🌱 Selected: '+c.name+(dotyk?' — now tap a spot on the plot.':' — click a spot, or use arrow keys plus Enter. (Esc cancels)')+kde;})():null};

@@ -1587,7 +1587,13 @@
     "reflection.replayCue": "↺ Noch einmal hören",
     "footer.helpTitle": "Wähle ein Element und setze es dann auf das Beet. Das Symbol mit den Kreispfeilen bedeutet, dass die Gemeinschaft dir beim Bauen helfen kann; Saatgut gibt es kostenlos in der Saatgutbank.",
     "season.autumnPreview": "Herbstvorschau · Etablierte, gut vernetzte Apfelbäume und reife einjährige Kulturen können geerntet werden; Falllaub wird zu einer Ressource für den Boden.",
-    "winter.safeInGarden": "sicher im Garten"
+    "winter.safeInGarden": "sicher im Garten",
+    "catalog.lock.needs": "🔒 {name} braucht {ways}. Beides wächst am gemeinschaftlichen Gabentisch unter dem Beet — und jede Gestaltungsbeziehung, die du entdeckst, bringt einen Mitmachpunkt.",
+    "catalog.lock.shares": {
+      "one": "{count} Mitmachpunkt (du hast {have})",
+      "other": "{count} Mitmachpunkte (du hast {have})"
+    },
+    "catalog.lock.money": "€{price} (du hast €{have})"
   },
   "templates": {
     "common.count.entries": "{count} Einträge",

@@ -1587,7 +1587,13 @@
     "reflection.replayCue": "↺ Ouvir de novo",
     "footer.helpTitle": "Escolha um elemento e coloque-o no canteiro. O símbolo de setas circulares indica que a comunidade pode ajudar você a construí-lo; as sementes são gratuitas no banco de sementes.",
     "season.autumnPreview": "Prévia do outono · Macieiras estabelecidas e bem conectadas e culturas anuais maduras podem ser colhidas; as folhas caídas se tornam um recurso para o solo.",
-    "winter.safeInGarden": "em segurança no jardim"
+    "winter.safeInGarden": "em segurança no jardim",
+    "catalog.lock.needs": "🔒 {name} precisa de {ways}. As duas coisas crescem na mesa comunitária de partilha abaixo do canteiro — e cada conexão de design que você descobre rende uma ficha.",
+    "catalog.lock.shares": {
+      "one": "{count} ficha (você tem {have})",
+      "other": "{count} fichas (você tem {have})"
+    },
+    "catalog.lock.money": "€{price} (você tem €{have})"
   },
   "templates": {
     "common.count.entries": "{count} entradas",
