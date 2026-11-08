@@ -1593,7 +1593,17 @@
       "one": "{count} Mitmachpunkt (du hast {have})",
       "other": "{count} Mitmachpunkte (du hast {have})"
     },
-    "catalog.lock.money": "€{price} (du hast €{have})"
+    "catalog.lock.money": "€{price} (du hast €{have})",
+    "season.preview.winter.hardy": {
+      "one": "{count} winterharte junge Pflanze kann unter Mulch warten",
+      "other": "{count} winterharte junge Pflanzen können unter Mulch warten"
+    },
+    "season.preview.winter.greenhouse": "Blattgemüse im Gewächshaus kann weiterwachsen",
+    "season.preview.winter.atRisk": {
+      "one": "{count} weitere junge Pflanze ist durch Frost gefährdet",
+      "other": "{count} weitere junge Pflanzen sind durch Frost gefährdet"
+    },
+    "season.preview.winter.protected": "die modellierten jungen Pflanzen sind in dieser Runde geschützt"
   },
   "templates": {
     "common.count.entries": "{count} Einträge",

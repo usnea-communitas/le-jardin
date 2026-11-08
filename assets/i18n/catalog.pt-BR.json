@@ -1593,7 +1593,17 @@
       "one": "{count} ficha (você tem {have})",
       "other": "{count} fichas (você tem {have})"
     },
-    "catalog.lock.money": "€{price} (você tem €{have})"
+    "catalog.lock.money": "€{price} (você tem €{have})",
+    "season.preview.winter.hardy": {
+      "one": "{count} cultivo jovem resistente pode esperar sob a cobertura morta",
+      "other": "{count} cultivos jovens resistentes podem esperar sob a cobertura morta"
+    },
+    "season.preview.winter.greenhouse": "as folhosas na estufa podem continuar crescendo",
+    "season.preview.winter.atRisk": {
+      "one": "{count} outro cultivo jovem continua em risco de geada",
+      "other": "{count} outros cultivos jovens continuam em risco de geada"
+    },
+    "season.preview.winter.protected": "os cultivos jovens modelados estão protegidos nesta rodada"
   },
   "templates": {
     "common.count.entries": "{count} entradas",

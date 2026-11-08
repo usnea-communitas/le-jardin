@@ -1593,7 +1593,17 @@
       "one": "{count} ficha (tienes {have})",
       "other": "{count} fichas (tienes {have})"
     },
-    "catalog.lock.money": "€{price} (tienes €{have})"
+    "catalog.lock.money": "€{price} (tienes €{have})",
+    "season.preview.winter.hardy": {
+      "one": "{count} cultivo joven resistente puede esperar bajo el acolchado",
+      "other": "{count} cultivos jóvenes resistentes pueden esperar bajo el acolchado"
+    },
+    "season.preview.winter.greenhouse": "las verduras de hoja del invernadero pueden seguir creciendo",
+    "season.preview.winter.atRisk": {
+      "one": "{count} cultivo joven más sigue en riesgo de helada",
+      "other": "{count} cultivos jóvenes más siguen en riesgo de helada"
+    },
+    "season.preview.winter.protected": "los cultivos jóvenes modelados están protegidos en este turno"
   },
   "templates": {
     "common.count.entries": "{count} entradas",

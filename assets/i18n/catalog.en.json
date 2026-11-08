@@ -1593,7 +1593,17 @@
       "one": "{count} share (you have {have})",
       "other": "{count} shares (you have {have})"
     },
-    "catalog.lock.money": "€{price} (you have €{have})"
+    "catalog.lock.money": "€{price} (you have €{have})",
+    "season.preview.winter.hardy": {
+      "one": "{count} hardy young crop can wait under mulch",
+      "other": "{count} hardy young crops can wait under mulch"
+    },
+    "season.preview.winter.greenhouse": "leafy greens in the greenhouse can keep growing",
+    "season.preview.winter.atRisk": {
+      "one": "{count} other young crop remains at risk from frost",
+      "other": "{count} other young crops remain at risk from frost"
+    },
+    "season.preview.winter.protected": "the modeled young crops are protected for this turn"
   },
   "templates": {
     "common.count.entries": "{count} entries",

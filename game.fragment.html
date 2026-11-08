@@ -4373,6 +4373,17 @@ class Component extends DCLogic {
   i18nValue(value){
     const i18n=this.i18n();return i18n?i18n.translateValue(value):value;
   }
+  // "Winter preview · 2 hardy young crops can wait under mulch; …" from catalogue
+  // clauses, so other languages get sentences instead of English pieces.
+  winterPreviewText({hardy=0,greenhouse=false,atRisk=0}={}){
+    const t=(key,fallback,vars)=>this.i18nText(key,fallback,vars);
+    const clauses=[];
+    if(hardy){clauses.push(t('season.preview.winter.hardy',hardy>1?'{count} hardy young crops can wait under mulch':'{count} hardy young crop can wait under mulch',{count:hardy}));}
+    if(greenhouse){clauses.push(t('season.preview.winter.greenhouse','leafy greens in the greenhouse can keep growing'));}
+    clauses.push(atRisk?t('season.preview.winter.atRisk',atRisk>1?'{count} other young crops remain at risk from frost':'{count} other young crop remains at risk from frost',{count:atRisk}):t('season.preview.winter.protected','the modeled young crops are protected for this turn'));
+    const cjk=this.currentLocale()==='zh-CN';
+    return t('season.preview.winter','Winter preview · {detail}',{detail:clauses.join(cjk?'；':'; ')+(cjk?'。':'.')});
+  }
   // Seasons as a list in the player's language ("spring and summer", "jaro a léto"),
   // never English names glued with "and" or "&" inside a translated sentence.
   seasonList(seasons,type='conjunction'){
@@ -6649,7 +6660,7 @@ class Component extends DCLogic {
     const leafyYoung=youngList.filter(p=>p.type==='crop_leafy').length;
     const winterProtected=(hasMulch?hardyYoung:0)+(hasGreenhouse?leafyYoung:0);
     const winterAtRisk=Math.max(0,youngCrops-winterProtected);
-    const seasonPreview=g.target==='Winter'?(youngCrops?('Winter preview · '+(hasMulch&&hardyYoung?hardyYoung+' hardy young crop'+(hardyYoung>1?'s can':' can')+' wait under mulch; ':'')+(hasGreenhouse&&leafyYoung?'leafy greens in the greenhouse can keep growing; ':'')+(winterAtRisk?winterAtRisk+' other young crop'+(winterAtRisk>1?'s remain':' remains')+' at risk from frost.':'the modeled young crops are protected for this turn.')):'Winter preview · Soil cover and shelter still shape what survives, even when no young crops are present.'):(g.target==='Spring'?'Spring preview · Dormant growth resumes, seed allowances renew and suitable wildlife may return.':(g.target==='Autumn'?'Autumn preview · Established, well-connected apple trees and mature annual crops can be harvested; fallen leaves become a soil resource.':'Summer preview · Water storage and mulch become most valuable while fresh cherries can be harvested and shared.'));
+    const seasonPreview=g.target==='Winter'?(youngCrops?this.winterPreviewText({hardy:hasMulch&&hardyYoung?hardyYoung:0,greenhouse:!!(hasGreenhouse&&leafyYoung),atRisk:winterAtRisk}):'Winter preview · Soil cover and shelter still shape what survives, even when no young crops are present.'):(g.target==='Spring'?'Spring preview · Dormant growth resumes, seed allowances renew and suitable wildlife may return.':(g.target==='Autumn'?'Autumn preview · Established, well-connected apple trees and mature annual crops can be harvested; fallen leaves become a soil resource.':'Summer preview · Water storage and mulch become most valuable while fresh cherries can be harvested and shared.'));
     const sceneImage=React.createElement('img',{className:'pg-gate-scene',src:'assets/minigames/'+g.key+'.webp',alt:def.title+' — a scene from the garden at Menet',loading:'lazy',draggable:false,onError:(e)=>{const n=e.currentTarget;if(n&&n.parentNode){n.parentNode.removeChild(n);}}});
     const passageAlt=g.target+' in the community garden at Menet';
     const stillPassage=!passage.loop||(this.state.gateMotionFailed||{})[g.target]||(typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);

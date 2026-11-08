@@ -1589,7 +1589,15 @@
     "catalog.lock.shares": {
       "other": "{count} 参与点（你有 {have}）"
     },
-    "catalog.lock.money": "€{price}（你有 €{have}）"
+    "catalog.lock.money": "€{price}（你有 €{have}）",
+    "season.preview.winter.hardy": {
+      "other": "{count}种耐寒的幼嫩作物可以在覆盖物下等待"
+    },
+    "season.preview.winter.greenhouse": "温室里的叶菜可以继续生长",
+    "season.preview.winter.atRisk": {
+      "other": "另有{count}种幼嫩作物仍有受冻风险"
+    },
+    "season.preview.winter.protected": "模拟中的幼嫩作物在这一回合受到保护"
   },
   "templates": {
     "common.count.entries": "{count}条记录",

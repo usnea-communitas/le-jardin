@@ -1600,7 +1600,21 @@
       "many": "{count} žetonu (máš {have})",
       "other": "{count} žetonů (máš {have})"
     },
-    "catalog.lock.money": "€{price} (máš €{have})"
+    "catalog.lock.money": "€{price} (máš €{have})",
+    "season.preview.winter.hardy": {
+      "one": "{count} odolná mladá plodina může přečkat pod mulčem",
+      "few": "{count} odolné mladé plodiny mohou přečkat pod mulčem",
+      "many": "{count} odolné mladé plodiny může přečkat pod mulčem",
+      "other": "{count} odolných mladých plodin může přečkat pod mulčem"
+    },
+    "season.preview.winter.greenhouse": "listová zelenina ve skleníku může dál růst",
+    "season.preview.winter.atRisk": {
+      "one": "{count} další mladá plodina je ohrožena mrazem",
+      "few": "{count} další mladé plodiny jsou ohroženy mrazem",
+      "many": "{count} další mladé plodiny je ohroženo mrazem",
+      "other": "{count} dalších mladých plodin je ohroženo mrazem"
+    },
+    "season.preview.winter.protected": "modelované mladé plodiny jsou v tomto tahu chráněné"
   },
   "templates": {
     "common.count.entries": "Počet záznamů: {count}",

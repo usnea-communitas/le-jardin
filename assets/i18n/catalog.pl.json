@@ -1601,7 +1601,21 @@
       "many": "{count} punktów zaangażowania (masz {have})",
       "other": "{count} punktu zaangażowania (masz {have})"
     },
-    "catalog.lock.money": "€{price} (masz €{have})"
+    "catalog.lock.money": "€{price} (masz €{have})",
+    "season.preview.winter.hardy": {
+      "one": "{count} odporna młoda uprawa może przeczekać pod ściółką",
+      "few": "{count} odporne młode uprawy mogą przeczekać pod ściółką",
+      "many": "{count} odpornych młodych upraw może przeczekać pod ściółką",
+      "other": "{count} odpornej młodej uprawy może przeczekać pod ściółką"
+    },
+    "season.preview.winter.greenhouse": "warzywa liściowe w szklarni mogą dalej rosnąć",
+    "season.preview.winter.atRisk": {
+      "one": "{count} inna młoda uprawa jest zagrożona przymrozkiem",
+      "few": "{count} inne młode uprawy są zagrożone przymrozkiem",
+      "many": "{count} innych młodych upraw jest zagrożonych przymrozkiem",
+      "other": "{count} innej młodej uprawy jest zagrożone przymrozkiem"
+    },
+    "season.preview.winter.protected": "modelowane młode uprawy są w tej turze chronione"
   },
   "templates": {
     "common.count.entries": "Liczba wpisów: {count}",

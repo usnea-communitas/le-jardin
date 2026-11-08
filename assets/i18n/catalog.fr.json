@@ -1593,7 +1593,17 @@
       "one": "{count} jeton (tu en as {have})",
       "other": "{count} jetons (tu en as {have})"
     },
-    "catalog.lock.money": "€{price} (tu as €{have})"
+    "catalog.lock.money": "€{price} (tu as €{have})",
+    "season.preview.winter.hardy": {
+      "one": "{count} jeune culture rustique peut attendre sous le paillis",
+      "other": "{count} jeunes cultures rustiques peuvent attendre sous le paillis"
+    },
+    "season.preview.winter.greenhouse": "les légumes-feuilles de la serre peuvent continuer à pousser",
+    "season.preview.winter.atRisk": {
+      "one": "{count} autre jeune culture reste menacée par le gel",
+      "other": "{count} autres jeunes cultures restent menacées par le gel"
+    },
+    "season.preview.winter.protected": "les jeunes cultures modélisées sont protégées pour ce tour"
   },
   "templates": {
     "common.count.entries": "Entrées : {count}",
