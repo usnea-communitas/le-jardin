@@ -1,6 +1,32 @@
+import { createHash } from 'node:crypto';
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { chromium } from './load-playwright.mjs';
 
 const baseUrl = process.env.GAME_URL || 'https://permaculture-garden.vercel.app/';
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const sha256 = buffer => createHash('sha256').update(buffer).digest('hex');
+
+// With EXPECT_LOCAL_BUILD=1 (the workflow after a production deployment, run on
+// the deployed commit), the live site must serve exactly this checkout's build.
+// The domain can take a moment to point at a new deployment, so it is asked again
+// for up to 90 seconds.
+if (process.env.EXPECT_LOCAL_BUILD === '1') {
+  for (const file of ['index.html', 'game.fragment.html']) {
+    const local = sha256(await readFile(path.join(root, file)));
+    let live = '';
+    for (let waited = 0; ; waited += 5000) {
+      const response = await fetch(new URL(file, baseUrl), { headers: { 'cache-control': 'no-cache' } });
+      if (!response.ok) throw new Error(`GET ${file} answered ${response.status}`);
+      live = sha256(Buffer.from(await response.arrayBuffer()));
+      if (live === local || waited >= 90000) break;
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+    if (live !== local) throw new Error(`${file} on ${baseUrl} is not this commit's build`);
+    console.log(`PASS  ${file} on the live site is this commit's build`);
+  }
+}
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
 const errors = [];

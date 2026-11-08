@@ -31,6 +31,8 @@ npm test                # structure, resources, i18n catalogues, Living Lesson e
 npm run test:e2e:core   # the browser journeys CI runs; first `npx playwright install chromium`
 ```
 
+After a production deployment, `.github/workflows/production-smoke.yml` checks that the live site serves the deployed commit and plays (`npm run test:production`).
+
 When you change layout, interaction or text, also run the relevant journeys (`npm run test:e2e:*`, or `node scripts/e2e-*.mjs` against `node scripts/static-server.mjs 8787`) and look at desktop, tablet and phone sizes in more than one language. Do not send test traffic to the live Living Lesson API: every model call costs credit.
 
 ## Product constraints

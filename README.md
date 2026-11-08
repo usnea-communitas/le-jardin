@@ -128,13 +128,15 @@ npm run test:e2e:living-lesson  # reflection flow, caching, offline fallback
 npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit
 ```
 
-Audits without an npm alias, such as `node scripts/e2e-accessibility.mjs`, `e2e-journey.mjs` or `e2e-layout-audit.mjs`, test the instance in `GAME_URL` (by default <http://127.0.0.1:8787/>), so start `node scripts/static-server.mjs 8787` first. `node scripts/e2e-production-smoke.mjs` checks the live site. To use a Playwright installed elsewhere, point `CODEX_NODE_MODULES` at that `node_modules` folder (plain npm or pnpm layout).
+Audits without an npm alias, such as `node scripts/e2e-accessibility.mjs`, `e2e-journey.mjs` or `e2e-layout-audit.mjs`, test the instance in `GAME_URL` (by default <http://127.0.0.1:8787/>), so start `node scripts/static-server.mjs 8787` first. `npm run test:production` plays the live site from the story cover to the first seasonal challenge without calling the Living Lesson API. To use a Playwright installed elsewhere, point `CODEX_NODE_MODULES` at that `node_modules` folder (plain npm or pnpm layout).
 
 Coverage includes adaptive navigation, safe-area and overflow boundaries, 44-pixel touch targets, the 7:5 interactive plot, orientation-preserved state, all Garden Book chapters, all eleven challenges, the kitchen and seed bank, the fair-share economy invariants, snapshot sanitisation, stable fingerprints, response normalisation and outage fallback.
 
 ## Deployment
 
 `main` deploys to the Vercel project behind <https://permaculture-garden.vercel.app/> with the **Other** framework preset, no custom build command and no `vercel.json`; Vercel installs locked dependencies from `package-lock.json`. The Living Lesson function needs an AI Gateway credential on the Vercel side only (`AI_GATEWAY_API_KEY`, or the platform OIDC token); nothing is required in the browser. [`.env.example`](.env.example) lists the optional variables for local work.
+
+After every production deployment the *Production smoke test* workflow (`.github/workflows/production-smoke.yml`) runs `npm run test:production` on the deployed commit with `EXPECT_LOCAL_BUILD=1`: the live site must serve exactly that commit's `index.html` and `game.fragment.html`, and the short playthrough must pass without console errors. It never blocks a deploy; a failure shows on the commit and in Actions.
 
 ## Project history
 
