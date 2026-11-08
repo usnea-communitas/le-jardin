@@ -4740,7 +4740,7 @@ class Component extends DCLogic {
       if(typeof console!=='undefined'&&console.warn){console.warn('[Permaculture Garden] Saved game could not be restored.',e);}
     }
     if(!restored){this.capturePreviousState();}
-    this.later(()=>{this.syncResponsiveAccess();this.syncDialogAccess();this.syncAmbientVideoPlayback();},0);
+    this.later(()=>{this.syncResponsiveAccess();this.syncDialogAccess();this.syncAmbientVideoPlayback();this.warmNextStory();},0);
   }
   componentWillUnmount(){
     const flushReflection=!!this._reflectionPersistT&&!this._storageUnavailable;
@@ -4828,7 +4828,7 @@ class Component extends DCLogic {
     this.stopStoryAudio();
     this.pauseGameMusic();
     clearTimeout(this._storyExitTimer);
-    this.setState({story:true,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!!returnToIntro,intro:false,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null});
+    this.setState({story:true,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!!returnToIntro,intro:false,plantType:null,giveMode:false,selectedPlacedId:null,seedMenuId:null},()=>this.warmNextStory());
   }
   storySound(scene,seekBed=true){ return this.playStoryScene(scene,seekBed); }
   activeDialogKey(st=this.state){
@@ -6062,6 +6062,15 @@ class Component extends DCLogic {
   ensureStoryAudio(){
     if(!this._storyMusic){this._storyMusic=new Audio('assets/audio/story/intro-music.mp3');this._storyMusic.preload='auto';this._storyMusic.volume=.42;}
     if(!this._storyAmbience){this._storyAmbience=new Audio('assets/audio/story/garden-ambience.mp3');this._storyAmbience.preload='auto';this._storyAmbience.loop=true;this._storyAmbience.volume=.35;}
+  }
+  // The first render shows the story cover before the save is read, so the cover
+  // cannot fetch the next picture itself: a returning player who goes straight to
+  // the garden would download it for nothing. Called once the save is applied (and
+  // on replay), this warms it only while the cover is really open.
+  warmNextStory(){
+    const st=this.state, next=this.storyScenes[1];
+    if(!st.story||st.storyStarted||!next||!next.src||typeof Image==='undefined'){return;}
+    try{const img=new Image();img.decoding='async';img.src=next.src;this._storyWarmImage=img;}catch(e){}
   }
   storyCue(scene){let t=0;for(let i=0;i<scene;i++){t+=(this.storyScenes[i].ms||0)/1000;}return t;}
   seekAudio(a,time){
@@ -7320,7 +7329,8 @@ class Component extends DCLogic {
     const transparentStoryFrame='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==';
     const storyFrames=this.storyScenes.map((d,i)=>{
       const on=i===storyIndex, drift=storyDrift[i]||[0,0];
-      return {src:Math.abs(i-storyIndex)<=1?d.src:transparentStoryFrame,style:{opacity:on?1:0,zIndex:on?2:1,objectPosition:d.position||'50% 50%',transform:'translate3d('+drift[0]+'%,'+drift[1]+'%,0) scale('+(on?'1.025':'1.09')+')',transitionDuration:'1.45s,'+Math.max(7,(d.ms||9000)/1000)+'s'}};
+      // neighbours load once the story plays; on the cover warmNextStory() fetches the next one
+      return {src:(on||(st.storyStarted&&Math.abs(i-storyIndex)<=1))?d.src:transparentStoryFrame,style:{opacity:on?1:0,zIndex:on?2:1,objectPosition:d.position||'50% 50%',transform:'translate3d('+drift[0]+'%,'+drift[1]+'%,0) scale('+(on?'1.025':'1.09')+')',transitionDuration:'1.45s,'+Math.max(7,(d.ms||9000)/1000)+'s'}};
     });
     const storyDots=this.storyScenes.map((d,i)=>({className:'pg-story-dot'+(i===storyIndex?' is-current':''),label:this.i18nText('story.chapterAria','Chapter {number}: {title}',{number:i+1,title:this.i18nValue(d.title)}),onClick:()=>this.goStory(i)}));
     const particleSeeds=[[12,24,0,5.8],[23,71,1.2,7.1],[38,19,2.4,6.4],[51,62,.6,7.6],[64,28,3.1,6.1],[76,74,1.8,7.3],[88,35,.3,6.8],[17,48,3.8,7.8],[58,83,2.1,6.6],[82,57,4.2,7.4]];
