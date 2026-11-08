@@ -1577,7 +1577,22 @@
     "pillars.habitat.tip": "Životní prostor {value} % — úkryt funguje nejlépe v blízkosti potravy a vody",
     "pillars.sharing.name": "Sdílení",
     "pillars.sharing.tip.one": "Spravedlivé sdílení — dary předané komunitě: {count}",
-    "pillars.sharing.tip.other": "Spravedlivé sdílení — dary předané komunitě: {count}"
+    "pillars.sharing.tip.other": "Spravedlivé sdílení — dary předané komunitě: {count}",
+    "community.person.camille": "Camille",
+    "community.person.noa": "Noa",
+    "community.person.lea": "Léa",
+    "community.person.malik": "Malik",
+    "community.person.anais": "Anaïs",
+    "community.person.baptiste": "Baptiste",
+    "summary.connectionsHeading": "Objevená návrhová propojení",
+    "challenge.mission": "Tvůj úkol",
+    "visit.deferAria": "Teď ne — ať tento návštěvník přijde v jiném ročním období",
+    "guild.activeBadge": "✓ Aktivní ve tvé zahradě",
+    "guild.voiceButton": "↻ Hlas zahrady",
+    "reflection.replayCue": "↺ Přehrát znovu",
+    "footer.helpTitle": "Vyber prvek a potom ho umísti na záhon. Symbol kruhových šipek znamená, že ti ho komunita může pomoct postavit; semena jsou zdarma z komunitní semínkovny.",
+    "season.autumnPreview": "Náhled podzimu · Zavedené a dobře propojené jabloně i dozrálé jednoleté plodiny můžeš sklízet; spadané listí se stává zdrojem pro půdu.",
+    "winter.safeInGarden": "v bezpečí v zahradě"
   },
   "templates": {
     "common.count.entries": "Počet záznamů: {count}",
@@ -1800,6 +1815,10 @@
     "a11y.gardenCinematic": "Komunitní zahrada v obci Menet · {season}",
     "a11y.challengeScene": "{title} — scéna ze zahrady v obci Menet",
     "season.orderNotice": "Roční období jdou popořadě. Další sezónní tah je {emoji} {season}.",
-    "reset.removeConfirm": "Odstranit ze zahrady: {name}?\n\nVrácení: {refund}. Volně žijící druhy nebo návrhová propojení závislá na tomto prvku mohou odejít, dokud znovu nevybuduješ jejich životní prostor."
+    "reset.removeConfirm": "Odstranit ze zahrady: {name}?\n\nVrácení: {refund}. Volně žijící druhy nebo návrhová propojení závislá na tomto prvku mohou odejít, dokud znovu nevybuduješ jejich životní prostor.",
+    "catalog.hintWithTerm": "{hint} {term}",
+    "summary.wildNeighbours": "🐾 Možní divocí sousedé: {count}/10",
+    "completion.keyDecision.placed": "Blízko sebe stojí {first} a {second} — místo dvou osamocených objektů tak vznikl užitečný vztah.",
+    "completion.keyDecision.chose": "Jedním z prvních stavebních kamenů zahrady je tvoje volba: {name}."
   }
 }

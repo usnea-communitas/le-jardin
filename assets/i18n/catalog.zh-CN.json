@@ -1569,7 +1569,22 @@
     "pillars.habitat.tip": "栖息地 {value}%——庇护处与食物和水相邻时效果最好",
     "pillars.sharing.name": "分享",
     "pillars.sharing.tip.one": "公平分享——已完成 {count} 次赠予行动",
-    "pillars.sharing.tip.other": "公平分享——已完成 {count} 次赠予行动"
+    "pillars.sharing.tip.other": "公平分享——已完成 {count} 次赠予行动",
+    "community.person.camille": "Camille",
+    "community.person.noa": "Noa",
+    "community.person.lea": "Léa",
+    "community.person.malik": "Malik",
+    "community.person.anais": "Anaïs",
+    "community.person.baptiste": "Baptiste",
+    "summary.connectionsHeading": "已发现的设计关联",
+    "challenge.mission": "你的任务",
+    "visit.deferAria": "现在不了——让这位访客换个季节再来",
+    "guild.activeBadge": "✓ 已在你的花园中发挥作用",
+    "guild.voiceButton": "↻花园之声",
+    "reflection.replayCue": "↺再听一遍",
+    "footer.helpTitle": "先选择一个元素，再把它放到地块上。环形箭头符号表示社区可以帮你建造它；种子可从种子库免费获得。",
+    "season.autumnPreview": "秋季预览 · 已扎根、关联良好的苹果树和成熟的一年生作物可以收获；落叶会成为土壤的资源。",
+    "winter.safeInGarden": "安全地待在花园里"
   },
   "templates": {
     "common.count.entries": "{count}条记录",
@@ -1792,6 +1807,10 @@
     "a11y.gardenCinematic": "{season}的 Menet 社区花园",
     "a11y.challengeScene": "{title}——Menet 花园中的一幕",
     "season.orderNotice": "季节会按顺序变化。下一回合是{emoji} {season}。",
-    "reset.removeConfirm": "要从花园中移除{name}吗？\n\n退款：{refund}。依赖它的野生邻居或设计关联可能会离开，直到你重建它们的栖息地。"
+    "reset.removeConfirm": "要从花园中移除{name}吗？\n\n退款：{refund}。依赖它的野生邻居或设计关联可能会离开，直到你重建它们的栖息地。",
+    "catalog.hintWithTerm": "{hint}{term}",
+    "summary.wildNeighbours": "🐾 潜在野生邻居：{count}/10",
+    "completion.keyDecision.placed": "你把{first}放在{second}附近，让它们形成了有用的关系，而不是两个孤立的物体。",
+    "completion.keyDecision.chose": "你选择了{name}，作为花园最初的基石之一。"
   }
 }

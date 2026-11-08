@@ -1578,7 +1578,22 @@
     "pillars.habitat.tip": "Среда обитания: {value}% — укрытие лучше всего работает рядом с пищей и водой",
     "pillars.sharing.name": "Справедливое распределение",
     "pillars.sharing.tip.one": "Справедливое распределение — выполнено {count} действие дарения",
-    "pillars.sharing.tip.other": "Справедливое распределение — число выполненных действий дарения: {count}"
+    "pillars.sharing.tip.other": "Справедливое распределение — число выполненных действий дарения: {count}",
+    "community.person.camille": "Camille",
+    "community.person.noa": "Noa",
+    "community.person.lea": "Léa",
+    "community.person.malik": "Malik",
+    "community.person.anais": "Anaïs",
+    "community.person.baptiste": "Baptiste",
+    "summary.connectionsHeading": "Найденные проектные связи",
+    "challenge.mission": "Твоя задача",
+    "visit.deferAria": "Не сейчас — пусть этот гость вернётся в другое время года",
+    "guild.activeBadge": "✓ Работает в твоём саду",
+    "guild.voiceButton": "↻ Голос сада",
+    "reflection.replayCue": "↺ Послушать ещё раз",
+    "footer.helpTitle": "Выбери элемент и размести его на участке. Значок с круговыми стрелками означает, что сообщество может помочь тебе его построить; семена бесплатно выдаёт банк семян.",
+    "season.autumnPreview": "Предпросмотр осени · Укоренившиеся, хорошо связанные яблони и созревшие однолетние культуры можно собирать; опавшие листья становятся ресурсом для почвы.",
+    "winter.safeInGarden": "в безопасности в саду"
   },
   "templates": {
     "common.count.entries": "Записей: {count}",
@@ -1742,7 +1757,12 @@
     "challenge.seasonAlt": "Сезон «{season}» в общественном саду Menet",
     "completion.button.progress": "◌ Поразмышлять о моём саде · {progress}",
     "completion.status.certificate": "Сертификат об обучении получен · {status}",
-    "completion.strength.activeGuilds": "Ты поддерживаешь {count} активных проектных связей — элементы работают сообща",
+    "completion.strength.activeGuilds": {
+      "one": "Ты поддерживаешь {count} активную проектную связь — элементы работают сообща",
+      "few": "Ты поддерживаешь {count} активные проектные связи — элементы работают сообща",
+      "many": "Ты поддерживаешь {count} активных проектных связей — элементы работают сообща",
+      "other": "Ты поддерживаешь {count} активной проектной связи — элементы работают сообща"
+    },
     "completion.strength.wildlife": "Сейчас проект соответствует подсказкам о среде обитания для видов диких соседей: {count}",
     "completion.arrival.returning": "Вернулось соседей: {count} — весна пришла! 🌸",
     "completion.arrival.new": "Возможно, {count} диких соседей нашли подходящую среду обитания 🌿",
@@ -1801,6 +1821,10 @@
     "a11y.gardenCinematic": "Общественный сад Menet в сезон «{season}»",
     "a11y.challengeScene": "{title} — сцена из сада в Menet",
     "season.orderNotice": "Сезоны идут по порядку. Следующий ход — {emoji} {season}.",
-    "reset.removeConfirm": "Убрать {name} из сада?\n\nВозврат: {refund}. Дикие животные или проектные связи, зависящие от этого элемента, могут уйти, пока ты не восстановишь их среду обитания."
+    "reset.removeConfirm": "Убрать {name} из сада?\n\nВозврат: {refund}. Дикие животные или проектные связи, зависящие от этого элемента, могут уйти, пока ты не восстановишь их среду обитания.",
+    "catalog.hintWithTerm": "{hint} {term}",
+    "summary.wildNeighbours": "🐾 Возможные дикие соседи: {count}/10",
+    "completion.keyDecision.placed": "Рядом стоят {first} и {second} — вместо двух изолированных объектов возникла полезная связь.",
+    "completion.keyDecision.chose": "Один из первых строительных блоков сада — твой выбор: {name}."
   }
 }

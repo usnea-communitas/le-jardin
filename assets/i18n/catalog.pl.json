@@ -1578,7 +1578,22 @@
     "pillars.habitat.tip": "Siedlisko {value}% — schronienie działa najlepiej w sąsiedztwie pożywienia i wody",
     "pillars.sharing.name": "Dzielenie się",
     "pillars.sharing.tip.one": "Sprawiedliwy podział — dary przekazane społeczności: {count}",
-    "pillars.sharing.tip.other": "Sprawiedliwy podział — dary przekazane społeczności: {count}"
+    "pillars.sharing.tip.other": "Sprawiedliwy podział — dary przekazane społeczności: {count}",
+    "community.person.camille": "Camille",
+    "community.person.noa": "Noa",
+    "community.person.lea": "Léa",
+    "community.person.malik": "Malik",
+    "community.person.anais": "Anaïs",
+    "community.person.baptiste": "Baptiste",
+    "summary.connectionsHeading": "Odkryte połączenia projektowe",
+    "challenge.mission": "Twoje zadanie",
+    "visit.deferAria": "Nie teraz — niech ten gość wróci w innej porze roku",
+    "guild.activeBadge": "✓ Aktywne w twoim ogrodzie",
+    "guild.voiceButton": "↻ Głos ogrodu",
+    "reflection.replayCue": "↺ Odsłuchaj ponownie",
+    "footer.helpTitle": "Wybierz element, a potem umieść go na działce. Symbol okrągłych strzałek oznacza, że społeczność może pomóc ci go zbudować; nasiona są za darmo ze społecznego banku nasion.",
+    "season.autumnPreview": "Zapowiedź jesieni · Ukorzenione, dobrze połączone jabłonie i dojrzałe rośliny jednoroczne można zbierać; opadłe liście stają się zasobem dla gleby.",
+    "winter.safeInGarden": "bezpiecznie w ogrodzie"
   },
   "templates": {
     "common.count.entries": "Liczba wpisów: {count}",
@@ -1801,6 +1816,10 @@
     "a11y.gardenCinematic": "Społeczny ogród w Menet w porze {season}",
     "a11y.challengeScene": "{title} — scena z ogrodu w Menet",
     "season.orderNotice": "Pory roku następują po sobie. Następna tura to {emoji} {season}.",
-    "reset.removeConfirm": "Usunąć z ogrodu: {name}?\n\nZwrot: {refund}. Dzikie zwierzęta lub połączenia projektowe zależne od tego elementu mogą odejść, dopóki nie odbudujesz ich siedliska."
+    "reset.removeConfirm": "Usunąć z ogrodu: {name}?\n\nZwrot: {refund}. Dzikie zwierzęta lub połączenia projektowe zależne od tego elementu mogą odejść, dopóki nie odbudujesz ich siedliska.",
+    "catalog.hintWithTerm": "{hint} {term}",
+    "summary.wildNeighbours": "🐾 Potencjalni dzicy sąsiedzi: {count}/10",
+    "completion.keyDecision.placed": "Blisko siebie stoją {first} i {second} — zamiast dwóch odizolowanych obiektów powstała użyteczna relacja.",
+    "completion.keyDecision.chose": "Jednym z pierwszych elementów ogrodu jest twój wybór: {name}."
   }
 }

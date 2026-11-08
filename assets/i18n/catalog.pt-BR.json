@@ -1572,7 +1572,22 @@
     "arrival.livingHere": "Vida no seu jardim",
     "arrival.welcomeBack": "Boas-vindas de volta — a primavera chegou!",
     "arrival.promisingHabitat": "Seu projeto agora oferece um habitat promissor",
-    "common.noPayment": "sem pagamento"
+    "common.noPayment": "sem pagamento",
+    "community.person.camille": "Camille",
+    "community.person.noa": "Noa",
+    "community.person.lea": "Léa",
+    "community.person.malik": "Malik",
+    "community.person.anais": "Anaïs",
+    "community.person.baptiste": "Baptiste",
+    "summary.connectionsHeading": "Conexões de design descobertas",
+    "challenge.mission": "Sua missão",
+    "visit.deferAria": "Agora não — deixe este visitante voltar em outra estação",
+    "guild.activeBadge": "✓ Ativa no seu jardim",
+    "guild.voiceButton": "↻ Voz do jardim",
+    "reflection.replayCue": "↺ Ouvir de novo",
+    "footer.helpTitle": "Escolha um elemento e coloque-o no canteiro. O símbolo de setas circulares indica que a comunidade pode ajudar você a construí-lo; as sementes são gratuitas no banco de sementes.",
+    "season.autumnPreview": "Prévia do outono · Macieiras estabelecidas e bem conectadas e culturas anuais maduras podem ser colhidas; as folhas caídas se tornam um recurso para o solo.",
+    "winter.safeInGarden": "em segurança no jardim"
   },
   "templates": {
     "common.count.entries": "{count} entradas",
@@ -1736,7 +1751,10 @@
     "challenge.seasonAlt": "{season} no jardim comunitário em Menet",
     "completion.button.progress": "◌ Refletir sobre meu jardim · {progress}",
     "completion.status.certificate": "Certificado de aprendizagem conquistado · {status}",
-    "completion.strength.activeGuilds": "Você está mantendo {count} conexões de design ativas — elementos trabalhando em equipe",
+    "completion.strength.activeGuilds": {
+      "one": "Você está mantendo {count} conexão de design ativa — elementos trabalhando em equipe",
+      "other": "Você está mantendo {count} conexões de design ativas — elementos trabalhando em equipe"
+    },
     "completion.strength.wildlife": "O design atualmente corresponde a pistas de habitat de {count} tipos de vizinhos silvestres",
     "completion.arrival.returning": "{count} vizinhos voltaram — a primavera chegou! 🌸",
     "completion.arrival.new": "{count} vizinhos silvestres podem ter encontrado um habitat adequado 🌿",
@@ -1795,6 +1813,10 @@
     "a11y.gardenCinematic": "O jardim comunitário em Menet em {season}",
     "a11y.challengeScene": "{title} — uma cena do jardim em Menet",
     "season.orderNotice": "As estações seguem uma ordem. A próxima rodada é {emoji} {season}.",
-    "reset.removeConfirm": "Remover {name} do jardim?\n\nReembolso: {refund}. A vida silvestre ou as conexões de design que dependem desse elemento podem partir até que você reconstrua o habitat."
+    "reset.removeConfirm": "Remover {name} do jardim?\n\nReembolso: {refund}. A vida silvestre ou as conexões de design que dependem desse elemento podem partir até que você reconstrua o habitat.",
+    "catalog.hintWithTerm": "{hint} {term}",
+    "summary.wildNeighbours": "🐾 {count}/10 possíveis vizinhos silvestres",
+    "completion.keyDecision.placed": "Você colocou {first} perto de {second}, criando uma relação útil em vez de dois objetos isolados.",
+    "completion.keyDecision.chose": "Você escolheu {name} como um dos primeiros blocos de construção do jardim."
   }
 }

@@ -1572,7 +1572,22 @@
     "arrival.livingHere": "La vie dans ton jardin",
     "arrival.welcomeBack": "Bon retour — le printemps est là !",
     "arrival.promisingHabitat": "Ton aménagement offre désormais un habitat prometteur",
-    "common.noPayment": "aucun paiement"
+    "common.noPayment": "aucun paiement",
+    "community.person.camille": "Camille",
+    "community.person.noa": "Noa",
+    "community.person.lea": "Léa",
+    "community.person.malik": "Malik",
+    "community.person.anais": "Anaïs",
+    "community.person.baptiste": "Baptiste",
+    "summary.connectionsHeading": "Liens fonctionnels de conception découverts",
+    "challenge.mission": "Ta mission",
+    "visit.deferAria": "Pas maintenant — laisse ce visiteur revenir à une autre saison",
+    "guild.activeBadge": "✓ Actif dans ton jardin",
+    "guild.voiceButton": "↻ Voix du jardin",
+    "reflection.replayCue": "↺ Réécouter",
+    "footer.helpTitle": "Choisis un élément, puis place-le sur la parcelle. Le symbole des flèches circulaires signifie que la communauté peut t’aider à le construire ; les semences sont gratuites à la grainothèque.",
+    "season.autumnPreview": "Aperçu de l’automne · Les pommiers établis et bien reliés ainsi que les cultures annuelles arrivées à maturité peuvent être récoltés ; les feuilles mortes deviennent une ressource pour le sol.",
+    "winter.safeInGarden": "à l’abri dans le jardin"
   },
   "templates": {
     "common.count.entries": "Entrées : {count}",
@@ -1795,6 +1810,10 @@
     "a11y.gardenCinematic": "Le jardin communautaire de Menet — saison : {season}",
     "a11y.challengeScene": "{title} — une scène du jardin de Menet",
     "season.orderNotice": "Les saisons avancent dans l’ordre. Le prochain tour est {emoji} {season}.",
-    "reset.removeConfirm": "Retirer {name} du jardin ?\n\nRemboursement : {refund}. La faune sauvage ou les liens de conception qui en dépendent peuvent partir jusqu’à ce que tu reconstitues leur habitat."
+    "reset.removeConfirm": "Retirer {name} du jardin ?\n\nRemboursement : {refund}. La faune sauvage ou les liens de conception qui en dépendent peuvent partir jusqu’à ce que tu reconstitues leur habitat.",
+    "catalog.hintWithTerm": "{hint} {term}",
+    "summary.wildNeighbours": "🐾 Voisins sauvages potentiels : {count}/10",
+    "completion.keyDecision.placed": "Tu as placé {first} près de {second}, créant une relation utile au lieu de deux objets isolés.",
+    "completion.keyDecision.chose": "Tu as choisi {name} comme l’un des premiers éléments de base du jardin."
   }
 }

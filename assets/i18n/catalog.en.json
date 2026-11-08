@@ -1572,7 +1572,22 @@
     "arrival.livingHere": "Living in your garden",
     "arrival.welcomeBack": "Welcome back — spring is here!",
     "arrival.promisingHabitat": "Your design now offers promising habitat",
-    "common.noPayment": "no payment"
+    "common.noPayment": "no payment",
+    "community.person.camille": "Camille",
+    "community.person.noa": "Noa",
+    "community.person.lea": "Léa",
+    "community.person.malik": "Malik",
+    "community.person.anais": "Anaïs",
+    "community.person.baptiste": "Baptiste",
+    "summary.connectionsHeading": "Design connections discovered",
+    "challenge.mission": "Your mission",
+    "visit.deferAria": "Not now; let this visitor return another season",
+    "guild.activeBadge": "✓ Active in your garden",
+    "guild.voiceButton": "↻ Garden voice",
+    "reflection.replayCue": "↺ Replay cue",
+    "footer.helpTitle": "Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank.",
+    "season.autumnPreview": "Autumn preview · Established, well-connected apple trees and mature annual crops can be harvested; fallen leaves become a soil resource.",
+    "winter.safeInGarden": "safe in the garden"
   },
   "templates": {
     "common.count.entries": "{count} entries",
@@ -1736,7 +1751,10 @@
     "challenge.seasonAlt": "{season} in the community garden at Menet",
     "completion.button.progress": "◌ Reflect on my garden · {progress}",
     "completion.status.certificate": "Learning certificate earned · {status}",
-    "completion.strength.activeGuilds": "You are sustaining {count} active design connections — elements working as a team",
+    "completion.strength.activeGuilds": {
+      "one": "You are sustaining {count} active design connection — elements working as a team",
+      "other": "You are sustaining {count} active design connections — elements working as a team"
+    },
     "completion.strength.wildlife": "The design currently matches habitat clues for {count} kinds of wild neighbour",
     "completion.arrival.returning": "{count} neighbours are back — spring is here! 🌸",
     "completion.arrival.new": "{count} wild neighbours may have found suitable habitat 🌿",
@@ -1795,6 +1813,10 @@
     "a11y.gardenCinematic": "The community garden at Menet in {season}",
     "a11y.challengeScene": "{title} — a scene from the garden at Menet",
     "season.orderNotice": "Seasons move in order. The next turn is {emoji} {season}.",
-    "reset.removeConfirm": "Remove {name} from the garden?\n\nRefund: {refund}. Wildlife or design connections that depend on it may leave until you rebuild their habitat."
+    "reset.removeConfirm": "Remove {name} from the garden?\n\nRefund: {refund}. Wildlife or design connections that depend on it may leave until you rebuild their habitat.",
+    "catalog.hintWithTerm": "{hint} {term}",
+    "summary.wildNeighbours": "🐾 {count}/10 potential wild neighbours",
+    "completion.keyDecision.placed": "You placed {first} close to {second}, creating a useful relationship instead of two isolated objects.",
+    "completion.keyDecision.chose": "You chose {name} as one of the garden’s first building blocks."
   }
 }

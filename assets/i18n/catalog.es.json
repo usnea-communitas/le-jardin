@@ -1572,7 +1572,22 @@
     "arrival.livingHere": "La vida en tu jardín",
     "arrival.welcomeBack": "¡Qué bueno verte de nuevo: la primavera ya está aquí!",
     "arrival.promisingHabitat": "Tu diseño ahora ofrece un hábitat prometedor",
-    "common.noPayment": "sin pago"
+    "common.noPayment": "sin pago",
+    "community.person.camille": "Camille",
+    "community.person.noa": "Noa",
+    "community.person.lea": "Léa",
+    "community.person.malik": "Malik",
+    "community.person.anais": "Anaïs",
+    "community.person.baptiste": "Baptiste",
+    "summary.connectionsHeading": "Conexiones de diseño descubiertas",
+    "challenge.mission": "Tu misión",
+    "visit.deferAria": "Ahora no: deja que este visitante vuelva en otra estación",
+    "guild.activeBadge": "✓ Activa en tu jardín",
+    "guild.voiceButton": "↻ Voz del jardín",
+    "reflection.replayCue": "↺ Volver a escuchar",
+    "footer.helpTitle": "Elige un elemento y colócalo en la parcela. El símbolo de flechas circulares indica que la comunidad puede ayudarte a construirlo; las semillas son gratis en el banco de semillas.",
+    "season.autumnPreview": "Avance de otoño · Los manzanos establecidos y bien conectados y los cultivos anuales maduros se pueden cosechar; las hojas caídas se convierten en un recurso para el suelo.",
+    "winter.safeInGarden": "a salvo en el jardín"
   },
   "templates": {
     "common.count.entries": "{count} entradas",
@@ -1736,7 +1751,10 @@
     "challenge.seasonAlt": "{season} en el jardín comunitario de Menet",
     "completion.button.progress": "◌ Reflexiona sobre mi jardín · {progress}",
     "completion.status.certificate": "Certificado de aprendizaje obtenido · {status}",
-    "completion.strength.activeGuilds": "Mantienes {count} conexiones de diseño activas — elementos que trabajan en equipo",
+    "completion.strength.activeGuilds": {
+      "one": "Mantienes {count} conexión de diseño activa — elementos que trabajan en equipo",
+      "other": "Mantienes {count} conexiones de diseño activas — elementos que trabajan en equipo"
+    },
     "completion.strength.wildlife": "El diseño coincide actualmente con las pistas de hábitat de {count} tipos de vecinos silvestres",
     "completion.arrival.returning": "Han vuelto {count} vecinos — ¡la primavera ya está aquí! 🌸",
     "completion.arrival.new": "Puede que {count} vecinos silvestres hayan encontrado un hábitat adecuado 🌿",
@@ -1795,6 +1813,10 @@
     "a11y.gardenCinematic": "El jardín comunitario de Menet en {season}",
     "a11y.challengeScene": "{title} — una escena del jardín de Menet",
     "season.orderNotice": "Las estaciones avanzan en orden. El próximo turno es {emoji} {season}.",
-    "reset.removeConfirm": "¿Quieres quitar {name} del jardín?\n\nReembolso: {refund}. La fauna silvestre o las conexiones de diseño que dependan de este elemento podrían marcharse hasta que reconstruyas su hábitat."
+    "reset.removeConfirm": "¿Quieres quitar {name} del jardín?\n\nReembolso: {refund}. La fauna silvestre o las conexiones de diseño que dependan de este elemento podrían marcharse hasta que reconstruyas su hábitat.",
+    "catalog.hintWithTerm": "{hint} {term}",
+    "summary.wildNeighbours": "🐾 {count}/10 posibles vecinos silvestres",
+    "completion.keyDecision.placed": "Colocaste {first} cerca de {second} y creaste una relación útil en lugar de dos objetos aislados.",
+    "completion.keyDecision.chose": "Elegiste {name} como uno de los primeros elementos básicos del jardín."
   }
 }

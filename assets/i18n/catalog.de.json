@@ -1572,7 +1572,22 @@
     "arrival.livingHere": "Leben in deinem Garten",
     "arrival.welcomeBack": "Willkommen zurück — der Frühling ist da!",
     "arrival.promisingHabitat": "Dein Gartenentwurf bietet jetzt vielversprechenden Lebensraum",
-    "common.noPayment": "keine Zahlung"
+    "common.noPayment": "keine Zahlung",
+    "community.person.camille": "Camille",
+    "community.person.noa": "Noa",
+    "community.person.lea": "Léa",
+    "community.person.malik": "Malik",
+    "community.person.anais": "Anaïs",
+    "community.person.baptiste": "Baptiste",
+    "summary.connectionsHeading": "Entdeckte Gestaltungsbeziehungen",
+    "challenge.mission": "Deine Aufgabe",
+    "visit.deferAria": "Nicht jetzt – lass diesen Besuch in einer anderen Jahreszeit wiederkommen",
+    "guild.activeBadge": "✓ Aktiv in deinem Garten",
+    "guild.voiceButton": "↻ Stimme des Gartens",
+    "reflection.replayCue": "↺ Noch einmal hören",
+    "footer.helpTitle": "Wähle ein Element und setze es dann auf das Beet. Das Symbol mit den Kreispfeilen bedeutet, dass die Gemeinschaft dir beim Bauen helfen kann; Saatgut gibt es kostenlos in der Saatgutbank.",
+    "season.autumnPreview": "Herbstvorschau · Etablierte, gut vernetzte Apfelbäume und reife einjährige Kulturen können geerntet werden; Falllaub wird zu einer Ressource für den Boden.",
+    "winter.safeInGarden": "sicher im Garten"
   },
   "templates": {
     "common.count.entries": "{count} Einträge",
@@ -1736,7 +1751,10 @@
     "challenge.seasonAlt": "{season} im Gemeinschaftsgarten bei Menet",
     "completion.button.progress": "◌ Meinen Garten reflektieren · {progress}",
     "completion.status.certificate": "Lernzertifikat erhalten · {status}",
-    "completion.strength.activeGuilds": "Du erhältst {count} aktive Gestaltungsbeziehungen aufrecht — Elemente, die als Team zusammenarbeiten",
+    "completion.strength.activeGuilds": {
+      "one": "Du erhältst {count} aktive Gestaltungsbeziehung aufrecht — Elemente, die als Team zusammenarbeiten",
+      "other": "Du erhältst {count} aktive Gestaltungsbeziehungen aufrecht — Elemente, die als Team zusammenarbeiten"
+    },
     "completion.strength.wildlife": "Das Design passt derzeit zu den Lebensraum-Hinweisen für {count} Arten wilder Nachbarn",
     "completion.arrival.returning": "Rückkehr verzeichnet: {count} — der Frühling ist da! 🌸",
     "completion.arrival.new": "🌿 Mögliche neue Lebensraumtreffer: {count}",
@@ -1795,6 +1813,10 @@
     "a11y.gardenCinematic": "Der Gemeinschaftsgarten bei Menet – {season}",
     "a11y.challengeScene": "{title} — eine Szene aus dem Garten bei Menet",
     "season.orderNotice": "Die Jahreszeiten folgen aufeinander. Die nächste Runde ist {emoji} {season}.",
-    "reset.removeConfirm": "{name} aus dem Garten entfernen?\n\nRückerstattung: {refund}. Wilde Nachbarn oder Gestaltungsbeziehungen, die davon abhängen, können verschwinden, bis du ihren Lebensraum wiederherstellst."
+    "reset.removeConfirm": "{name} aus dem Garten entfernen?\n\nRückerstattung: {refund}. Wilde Nachbarn oder Gestaltungsbeziehungen, die davon abhängen, können verschwinden, bis du ihren Lebensraum wiederherstellst.",
+    "catalog.hintWithTerm": "{hint} {term}",
+    "summary.wildNeighbours": "🐾 {count}/10 mögliche wilde Nachbarn",
+    "completion.keyDecision.placed": "Du hast {first} nahe an {second} gesetzt und so eine nützliche Beziehung statt zwei isolierter Objekte geschaffen.",
+    "completion.keyDecision.chose": "Du hast {name} als einen der ersten Bausteine des Gartens gewählt."
   }
 }

@@ -2114,7 +2114,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
                   <div class="pg-gate-hero">
                     {{ gateView.image }}
                     <div class="pg-gate-hero-copy">
-                      <div style="display:flex;align-items:center;gap:8px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#F1E4B6">{{ gateView.seasonEmblem }}<span>The garden speaks · {{ gateView.target }}</span></div>
+                      <div style="display:flex;align-items:center;gap:8px;font-size:10px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#F1E4B6">{{ gateView.seasonEmblem }}<span>{{ gateView.kicker }}</span></div>
                       <h2>{{ gateView.title }}</h2>
                     </div>
                   </div>
@@ -2182,7 +2182,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
                       {{ gateView.learningArt }}
                       <div style="font-size:12px;line-height:1.55">{{ gateView.lesson }}</div>
                       <sc-if value="{{ gateView.hasImpact }}" hint-placeholder-val="{{ false }}"><div style="margin-top:10px;background:rgba(255,253,246,.72);border:1px solid rgba(94,126,74,.22);border-radius:11px;padding:8px 10px;font-size:12px;font-weight:700;color:#4D643E">↳ {{ gateView.impactLabel }} · {{ gateView.impact }}</div></sc-if>
-                      <div style="margin-top:10px;padding-top:9px;border-top:1px solid rgba(94,126,74,.2);font-size:10.5px;font-weight:700;color:#6D7E5C">Skill practised · {{ gateView.skill }}</div>
+                      <div style="margin-top:10px;padding-top:9px;border-top:1px solid rgba(94,126,74,.2);font-size:10.5px;font-weight:700;color:#6D7E5C">{{ gateView.skillLine }}</div>
                     </div>
                     <div style="display:flex;gap:8px;justify-content:center;margin-top:13px">
                       <sc-if value="{{ gateView.canRetry }}" hint-placeholder-val="{{ false }}">
@@ -2412,7 +2412,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
               <div class="pg-kit-holding">
                 <span class="pg-kit-holding-text">
                   <span class="pg-kit-holding-name">{{ seedPickName }}</span>
-                  <span class="pg-kit-holding-sub">{{ seedPickWindow }} · {{ seedPickCount }} in the drawer</span>
+                  <span class="pg-kit-holding-sub">{{ seedPickHolding }}</span>
                 </span>
               </div>
               <div class="pg-seed-lore">
@@ -2432,7 +2432,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
               <p class="pg-kit-table-text">Seed given away is the only seed that survives a bad year. Someone else keeps a copy for you.</p>
               <sc-for list="{{ seedRows }}" as="sg" hint-placeholder-count="5">
                 <sc-if value="{{ sg.hasSeed }}" hint-placeholder-val="{{ false }}">
-                  <button class="pg-kit-give pg-seed-give" sc-camel-on-click="{{ sg.onShare }}">Give {{ sg.name }} seed</button>
+                  <button class="pg-kit-give pg-seed-give" sc-camel-on-click="{{ sg.onShare }}">{{ sg.giveLabel }}</button>
                 </sc-if>
               </sc-for>
               <div class="pg-kit-tally"><span class="pg-icon-label">{{ reuseIconSeedTally }} {{ seedGivenCount }} given</span></div>
@@ -2533,10 +2533,10 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
       {{ gardenCinematicImageEl }}
       <div class="pg-cinematic-shade"></div>
       <div class="pg-cinematic-copy">
-        <div style="font-size:10px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;color:#EADDAF">The garden speaks · {{ gardenCinematicSeason }}</div>
+        <div style="font-size:10px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;color:#EADDAF">{{ gardenCinematicKicker }}</div>
         <h2>{{ gardenCinematicTitle }}</h2>
         <blockquote>“{{ gardenCinematicText }}”</blockquote>
-        <div class="pg-cinematic-actions"><button class="pg-cinematic-replay" sc-camel-on-click="{{ onReplayGardenCinematic }}">↻ Replay garden voice</button><button sc-camel-on-click="{{ onDismissGardenCinematic }}">Enter {{ gardenCinematicSeason }} →</button></div>
+        <div class="pg-cinematic-actions"><button class="pg-cinematic-replay" sc-camel-on-click="{{ onReplayGardenCinematic }}">↻ Replay garden voice</button><button sc-camel-on-click="{{ onDismissGardenCinematic }}">{{ gardenCinematicEnter }}</button></div>
       </div>
     </div>
   </sc-if>
@@ -2579,7 +2579,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
           <div style="flex:1;min-width:0">
             <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;color:#2C3525;line-height:1.15">{{ sumStatus }}</div>
             <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:6px;font-size:11px;color:#7A6E58;font-weight:600">
-              <span>🐾 {{ sumCritterCount }}/10 potential wild neighbours</span>
+              <span>{{ sumCritterLine }}</span>
               <span>✦ {{ sumGuildCount }}/{{ guildTotal }} design connections</span>
               <span class="pg-icon-label">{{ reuseIconSummary }} {{ sumShares }} given</span>
             </div>
@@ -2790,7 +2790,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:17px 19px 13px;border-bottom:1px solid #EFE2C6;flex:none">
           <div style="min-width:0">
             <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px;color:#2C3525;line-height:1.1">✦ Design connections</div>
-            <div style="font-size:12px;color:#746B59;margin-top:3px;line-height:1.4">{{ guildCount }}/{{ guildTotal }} discovered · each pair is one useful connection, not a complete plant guild by itself</div>
+            <div style="font-size:12px;color:#746B59;margin-top:3px;line-height:1.4">{{ guildCountLine }}</div>
           </div>
           <button class="pg-guild-close" sc-camel-on-click="{{ onToggleGuildList }}" title="Close" aria-label="Close discovered design connections" style="width:30px;height:30px;flex:none;border-radius:9px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;cursor:pointer;display:grid;place-items:center;font-size:15px" style-hover="border-color:#B5613A;color:#B5613A">✕</button>
         </div>
@@ -4373,6 +4373,15 @@ class Component extends DCLogic {
   i18nValue(value){
     const i18n=this.i18n();return i18n?i18n.translateValue(value):value;
   }
+  // Seasons as a list in the player's language ("spring and summer", "jaro a léto"),
+  // never English names glued with "and" or "&" inside a translated sentence.
+  seasonList(seasons,type='conjunction'){
+    const i18n=this.i18n(),locale=this.currentLocale();
+    const names=(seasons||[]).map(season=>{const name=String(season).toLowerCase();return i18n&&locale!=='en'?i18n.translateValue(name):name;});
+    if(names.length<2){return names[0]||'';}
+    if(i18n&&locale!=='en'&&typeof i18n.list==='function'){return i18n.list(names,{style:'long',type:type});}
+    return names.slice(0,-1).join(', ')+(type==='disjunction'?' or ':' and ')+names[names.length-1];
+  }
   livingLessonFocusText(focus){
     const labels={soil:['systems.soil.name','Living soil'],water:['systems.water.name','Water security'],food:['systems.food.name','Food web'],habitat:['systems.habitat.name','Habitat'],sharing:['pillars.sharing.name','Sharing'],relationships:['common.relationships','Relationships'],season:['common.season','Season']};
     const label=labels[focus]||labels.relationships;return this.i18nText(label[0],label[1]);
@@ -5443,7 +5452,7 @@ class Component extends DCLogic {
     if(!cd){ return; }
     const season=this.state.season||'Summer';
     if(!((p.stage||1)>=cd.readyAt && cd.window.indexOf(season)>=0)){
-      this.flash('🌱 Not ready yet — '+this.catalog[p.type].name.toLowerCase()+' are harvested in '+cd.window.join(' / ')+'.');
+      this.flash('🌱 Not ready yet — '+this.catalog[p.type].name.toLowerCase()+' are harvested in '+this.seasonList(cd.window,'disjunction')+'.');
       return;
     }
     // Only annuals flower and set seed in the year you eat them. Carrots, beets and the
@@ -5714,7 +5723,9 @@ class Component extends DCLogic {
   }
   formatToday(){
     // The English copy uses British spelling, so English dates keep the day-month-year order.
-    const locale=this.currentLocale(),options={day:'numeric',month:'long',year:'numeric'};
+    const locale=this.currentLocale(),options={day:'numeric',month:'long',year:'numeric'},i18n=this.i18n();
+    // through the runtime, so the page knows this date is already in the player's language
+    if(locale!=='en'&&i18n&&typeof i18n.date==='function'){return i18n.date(new Date(),options);}
     try{return new Intl.DateTimeFormat(locale==='en'?'en-GB':locale,options).format(new Date());}
     catch(_){return new Date().toLocaleDateString('en-GB',options);}
   }
@@ -6636,7 +6647,7 @@ class Component extends DCLogic {
     const passageImage=stillPassage
       ?React.createElement('img',{src:passage.image||'',alt:passageAlt,loading:'eager',draggable:false})
       :React.createElement('video',{src:passage.loop,poster:passage.image||'',autoPlay:true,muted:true,loop:true,playsInline:true,preload:'auto',draggable:false,role:'img','aria-label':passageAlt,onError:()=>this.setState(s=>({gateMotionFailed:{...(s.gateMotionFailed||{}),[g.target]:true}}))});
-    return {visible:true,dialogClass:'pg-gate-dialog pg-gate--'+g.key+' pg-gate--'+g.status,title:def.title,emoji:def.emoji,target:g.target,seasonEmoji:seasonEmoji,seasonEmblem:React.createElement('img',{className:'pg-season-emblem',src:'assets/season-passages/'+String(g.target).toLowerCase()+'-emblem.webp',alt:'',draggable:false,onError:(e)=>{const n=e.currentTarget;if(n&&n.parentNode){n.parentNode.removeChild(n);}}}),image:passageImage,scene:sceneImage,gardenVoice:passage.voice||this.gateVoice(g.key,g.target),principle:def.principle,story:def.story,prompt:def.prompt,progressText:progressText,
+    return {visible:true,dialogClass:'pg-gate-dialog pg-gate--'+g.key+' pg-gate--'+g.status,title:def.title,emoji:def.emoji,target:g.target,kicker:'The garden speaks · '+g.target,skillLine:def.skill?('Skill practised · '+def.skill):'',seasonEmoji:seasonEmoji,seasonEmblem:React.createElement('img',{className:'pg-season-emblem',src:'assets/season-passages/'+String(g.target).toLowerCase()+'-emblem.webp',alt:'',draggable:false,onError:(e)=>{const n=e.currentTarget;if(n&&n.parentNode){n.parentNode.removeChild(n);}}}),image:passageImage,scene:sceneImage,gardenVoice:passage.voice||this.gateVoice(g.key,g.target),principle:def.principle,story:def.story,prompt:def.prompt,progressText:progressText,
       tiles:tiles,buttons:play?buttons:[],hasButtons:play&&buttons.length>0,
       hasTimer:play&&timerPct!=null,timerStyle:{height:'100%',width:Math.max(0,Math.min(100,timerPct||0))+'%',background:timerColor,borderRadius:'4px',transition:'width .12s linear'},
       boardStyle:boardStyle,onBoardClick:onBoardClick,onBoardMove:onBoardMove,
@@ -6804,10 +6815,10 @@ class Component extends DCLogic {
       return {type:type,name:c.name,art:this.sprites[type],barterable:e.barter!=null&&!isCrop,moneyOnly:e.barter==null,isCrop:isCrop,showPrice:!isCrop,barter:e.barter,price:eff.price,
         hasTermHelp:!!termHelp,termHelp:termHelp,
         reuseIcon:this.uiIcon('recycle',11),seedIcon:this.uiIcon('seed',11),
-        hasSeasonBadge:!!winP,seasonBadge:winP?seasonIconSet(winP.s,10):null,seasonBadgeTitle:winP?('Can be planted in '+winP.s.join(' and ')):'',
+        hasSeasonBadge:!!winP,seasonBadge:winP?seasonIconSet(winP.s,10):null,seasonBadgeTitle:winP?('Can be planted in '+this.seasonList(winP.s)):'',
         seasonBadgeStyle:{display:'inline-flex',alignItems:'center',background:offSeason?'#F6E3D3':'#EDF1E0',color:offSeason?'#B5613A':'#5E7E4A',fontSize:'10px',fontWeight:'700',padding:'1.5px 5px',borderRadius:'6px',opacity:offSeason?1:.85},
         priceStyle:{fontSize:'10px',fontWeight:discounted?'800':'600',color:discounted?'#4E6B3D':'#A99E86',minWidth:'30px',textAlign:'right'},
-        hint:(offSeason?(c.name+' — '+winP.why+' Plantable: '+winP.s.join(' & ')+'.'):(seedLocked?(c.name+' — place a Seed bank first: seeds come from the community swap'):(discounted?(c.name+' — cheaper thanks to reclaimed materials from neighbours'):(affordable?c.name:(c.name+' — not affordable yet: give to earn shares')))))+(termHelp?' In this game: '+termHelp+'.':''),
+        hint:(()=>{const head=(offSeason?(c.name+' — '+winP.why+' Plantable: '+this.seasonList(winP.s)+'.'):(seedLocked?(c.name+' — place a Seed bank first: seeds come from the community swap'):(discounted?(c.name+' — cheaper thanks to reclaimed materials from neighbours'):(affordable?c.name:(c.name+' — not affordable yet: give to earn shares')))));return termHelp?localText('catalog.hintWithTerm','{hint} {term}',{hint:this.i18nValue(head),term:localText('catalog.term','In this game: {definition}.',{definition:termHelp})}):head;})(),
         // The chip is named by its visible text; hidden words around it say what pressing it does and what the bare numbers mean.
         srBefore:affordable?localText('catalog.selectHeading','Select'):localText('catalog.unavailableHeading','Unavailable'),
         srAfter:e.barter!=null&&!isCrop?localText('a11y.elementCost','— {shares} or €{price}',{shares:localText('a11y.shareCount',e.barter===1?'1 share':e.barter+' shares',{count:e.barter}),price:eff.price}):'',
@@ -6928,7 +6939,7 @@ class Component extends DCLogic {
             this.placeType(ct,spot.x,spot.y);};
           return {type:ct,name:this.catalog[ct].name,art:this.sprites[ct],
             badge:wp?seasonIconSet(wp.s,10):null,
-            title:off?(this.catalog[ct].name+' — '+wp.why+' Plantable: '+wp.s.join(' & ')):('Plant '+this.catalog[ct].name+' next to the seed bank — free seed'),
+            title:off?(this.catalog[ct].name+' — '+wp.why+' Plantable: '+this.seasonList(wp.s)+'.'):('Plant '+this.catalog[ct].name+' next to the seed bank — free seed'),
             style:{display:'flex',alignItems:'center',gap:'8px',width:'100%',padding:'4px 7px',borderRadius:'9px',background:'#fff',border:'1px solid #EBE2D0',fontFamily:'inherit',fontSize:'12px',fontWeight:'600',textAlign:'left',color:'#3A3527',cursor:off?'not-allowed':'pointer',opacity:off?.45:1,userSelect:'none'},
             onPlant:plantSeed,onKeyDown:(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();plantSeed(e);}}};
         }):[],
@@ -7116,7 +7127,7 @@ class Component extends DCLogic {
       const showFreshSale=k==='cherries'&&!meta.preserve;
       const freshSaleTitle=localText('economy.freshStall.buttonTitle','Sell one fresh cherry cluster at the Menet village stall for €15');
       return {key:k,name:meta.name,count:basketObj[k]||0,art:prodImg(meta.img),isPreserve:!!meta.preserve,
-        shareTitle:inSeason?('Give '+meta.name+' to the community table (grows the shared pool)'):(meta.name+' are out of season — preserve them to share later'),
+        shareTitle:inSeason?('Give '+meta.name+' to the community table (grows the shared pool)'):('🍽️ '+meta.name+' are out of season — preserve them in the kitchen to share later.'),
         onShare:()=>this.shareProduce(k),
         shareCls:(nudgeNow&&nudgeNow.key==='share'&&inSeason)?'pg-share-call':'',
         shareDisabled:inSeason?'false':'true',
@@ -7311,7 +7322,7 @@ class Component extends DCLogic {
       const on=i===storyIndex, drift=storyDrift[i]||[0,0];
       return {src:Math.abs(i-storyIndex)<=1?d.src:transparentStoryFrame,style:{opacity:on?1:0,zIndex:on?2:1,objectPosition:d.position||'50% 50%',transform:'translate3d('+drift[0]+'%,'+drift[1]+'%,0) scale('+(on?'1.025':'1.09')+')',transitionDuration:'1.45s,'+Math.max(7,(d.ms||9000)/1000)+'s'}};
     });
-    const storyDots=this.storyScenes.map((d,i)=>({className:'pg-story-dot'+(i===storyIndex?' is-current':''),label:'Chapter '+(i+1)+': '+d.title,onClick:()=>this.goStory(i)}));
+    const storyDots=this.storyScenes.map((d,i)=>({className:'pg-story-dot'+(i===storyIndex?' is-current':''),label:this.i18nText('story.chapterAria','Chapter {number}: {title}',{number:i+1,title:this.i18nValue(d.title)}),onClick:()=>this.goStory(i)}));
     const particleSeeds=[[12,24,0,5.8],[23,71,1.2,7.1],[38,19,2.4,6.4],[51,62,.6,7.6],[64,28,3.1,6.1],[76,74,1.8,7.3],[88,35,.3,6.8],[17,48,3.8,7.8],[58,83,2.1,6.6],[82,57,4.2,7.4]];
     const storyParticles=particleSeeds.map((p,i)=>({style:{left:p[0]+'%',top:p[1]+'%',animationDelay:p[2]+'s',animationDuration:p[3]+'s',opacity:storyIndex<3?.32:.64,width:(3+(i%3))+'px',height:(3+(i%3))+'px'}}));
     const communityMemoryView=(st.communityMemory||[]).slice(0,2).map(m=>{const p=this.communityPerson(m.person);return {...m,personInitial:p.initial,personStyle:{width:'21px',height:'21px',borderRadius:'50%',display:'grid',placeItems:'center',background:p.color,color:'#fff',fontSize:'10px',fontWeight:'800',flex:'none'}};});
@@ -7560,7 +7571,7 @@ class Component extends DCLogic {
       gateEl:React.createElement('img',{src:(this.gates[season]||this.gates.Summer),alt:'Garden gate',draggable:false,style:{width:'100%',display:'block'}}),
       decor:this._decorV2,
       placedView:placedView,linkReachView:linkReachView,critterView:critterView,
-      systemLinksArt:systemLinksArt,guildLinksArt:guildLinksArt,guildLabels:guildLabels,guildCount:discCount,guildTotal:this.guildDefs.length,
+      systemLinksArt:systemLinksArt,guildLinksArt:guildLinksArt,guildLabels:guildLabels,guildCount:discCount,guildTotal:this.guildDefs.length,guildCountLine:discCount+'/'+this.guildDefs.length+' discovered · each pair is one useful connection, not a complete plant guild by itself',
       nudgeVisible:!!nudgeNow,nudgeMark:nudgeNow?nudgeNow.mark:'',nudgeTitle:nudgeNow?nudgeNow.title:'',nudgeText:nudgeNow?nudgeNow.text:'',nudgeCls:'pg-nudge-bar pg-nudge-'+(nudgeNow?nudgeNow.key:'none'),
       guildCardVisible:!!cardDef,guildCard:guildCardData,guildCardFresh:!!cardDef&&!st.guildReview,
       onDismissGuild:()=>this.dismissGuild(),
@@ -7614,7 +7625,7 @@ class Component extends DCLogic {
       gateVisible:!!st.gate,
       gateView:this.buildGateView(),
       gardenReflectionVisible:!!st.gardenReflection,gardenReflectionText:st.gardenReflection?st.gardenReflection.text:'',gardenReflectionBackgroundSrc:'assets/reflections/'+this.reflectionArtBase(st)+'-background.webp',gardenReflectionMotifSrc:'assets/reflections/'+this.reflectionArtBase(st)+'-motif.webp',gardenReflectionNote:st.gardenReflection?st.gardenReflection.note:'',onDismissGardenReflection:()=>this.dismissGardenReflection(),onReplayGardenReflection:()=>this.replayGardenReflection(),
-      gardenCinematicVisible:!!st.gardenCinematic,gardenCinematicSeason:st.gardenCinematic?st.gardenCinematic.season:'',gardenCinematicTitle:st.gardenCinematic?st.gardenCinematic.title:'',gardenCinematicText:st.gardenCinematic?st.gardenCinematic.text:'',gardenCinematicImageEl:st.gardenCinematic?((st.gardenCinematic.loop&&!(typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches))?E('video',{className:'pg-cinematic-image pg-cinematic-motion',src:st.gardenCinematic.loop,poster:st.gardenCinematic.image,autoPlay:true,muted:true,loop:true,playsInline:true,preload:'auto',draggable:false,role:'img','aria-label':'The community garden at Menet in '+st.gardenCinematic.season,onError:()=>this.setState(s=>s.gardenCinematic?{gardenCinematic:{...s.gardenCinematic,loop:''}}:null)}):E('img',{className:'pg-cinematic-image',src:st.gardenCinematic.image,alt:'The community garden at Menet in '+st.gardenCinematic.season,loading:'eager',draggable:false})):null,onReplayGardenCinematic:()=>{if(st.gardenCinematic){this.setMusicMode('season');this.speakGarden('cinematic-'+st.gardenCinematic.season.toLowerCase());}},onDismissGardenCinematic:()=>this.dismissGardenCinematic(),
+      gardenCinematicVisible:!!st.gardenCinematic,gardenCinematicSeason:st.gardenCinematic?st.gardenCinematic.season:'',gardenCinematicKicker:st.gardenCinematic?('The garden speaks · '+st.gardenCinematic.season):'',gardenCinematicEnter:st.gardenCinematic?('Enter '+st.gardenCinematic.season+' →'):'',gardenCinematicTitle:st.gardenCinematic?st.gardenCinematic.title:'',gardenCinematicText:st.gardenCinematic?st.gardenCinematic.text:'',gardenCinematicImageEl:st.gardenCinematic?((st.gardenCinematic.loop&&!(typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches))?E('video',{className:'pg-cinematic-image pg-cinematic-motion',src:st.gardenCinematic.loop,poster:st.gardenCinematic.image,autoPlay:true,muted:true,loop:true,playsInline:true,preload:'auto',draggable:false,role:'img','aria-label':'The community garden at Menet in '+st.gardenCinematic.season,onError:()=>this.setState(s=>s.gardenCinematic?{gardenCinematic:{...s.gardenCinematic,loop:''}}:null)}):E('img',{className:'pg-cinematic-image',src:st.gardenCinematic.image,alt:'The community garden at Menet in '+st.gardenCinematic.season,loading:'eager',draggable:false})):null,onReplayGardenCinematic:()=>{if(st.gardenCinematic){this.setMusicMode('season');this.speakGarden('cinematic-'+st.gardenCinematic.season.toLowerCase());}},onDismissGardenCinematic:()=>this.dismissGardenCinematic(),
       visitVisible:!!st.visit,
       visitView:this.buildVisitView(),
       onDismissArrival:()=>this.setState(s=>{
@@ -7741,16 +7752,18 @@ class Component extends DCLogic {
           cls:'pg-kit-item pg-seed-item'+(st.seedPick===k?' pg-kit-item-on':''),
           pressed:st.seedPick===k,
           onPick:()=>this.pickSeed(k),
+          giveLabel:'Give '+this.catalog[k].name+' seed',
           onShare:()=>this.shareSeed(k)};
       }),
       seedEmpty:!this.seedCrops().some(k=>((st.seedStock||{})[k]||0)>0),
       seedHasPick:!!st.seedPick,
       seedPickName:st.seedPick?this.catalog[st.seedPick].name:'',
-      seedPickWindow:st.seedPick&&this.plantWindows[st.seedPick]?('Sown in '+this.plantWindows[st.seedPick].s.join(' or ')):'',
+      seedPickWindow:st.seedPick&&this.plantWindows[st.seedPick]?('Sown in '+this.seasonList(this.plantWindows[st.seedPick].s,'disjunction')):'',
       seedPickWhy:st.seedPick&&this.plantWindows[st.seedPick]?this.plantWindows[st.seedPick].why:'',
       seedPickKeeps:st.seedPick&&this.seedLore[st.seedPick]?this.seedLore[st.seedPick].keeps:'',
       seedPickNote:st.seedPick&&this.seedLore[st.seedPick]?this.seedLore[st.seedPick].note:'',
       seedPickCount:st.seedPick?((st.seedStock||{})[st.seedPick]||0):0,
+      seedPickHolding:st.seedPick?((this.plantWindows[st.seedPick]?('Sown in '+this.seasonList(this.plantWindows[st.seedPick].s,'disjunction')):'')+' · '+((st.seedStock||{})[st.seedPick]||0)+' in the drawer'):'',
       seedHasNote:!!st.seedNote,
       seedNoteTitle:st.seedNote?st.seedNote.title:'',
       seedNoteText:st.seedNote?st.seedNote.text:'',
@@ -7793,7 +7806,7 @@ class Component extends DCLogic {
       sumScore:summaryScore,sumStatus:flourishingReady?('Learning certificate earned · '+statusText):(firstCycleReady?'First learning cycle complete · keep tending toward flourishing':statusText),sumDate:today,summaryCredit:localText('completion.summary.credit','Le Jardin · Usnea communitas'),
       summaryMapStyle:{position:'relative',height:'150px',borderRadius:'14px',overflow:'hidden',marginBottom:'12px',background:'linear-gradient(rgba(20,34,17,.05),rgba(20,34,17,.12)),url("'+mapStageSrc+'") center 55% / cover no-repeat',boxShadow:'inset 0 0 0 1px rgba(90,110,60,.3),inset 0 10px 24px -14px rgba(40,60,20,.45)'},
       miniPlaced:miniPlaced,miniCritters:miniCritters,
-      sumCritters:arrivedList,sumCritterCount:arrivedList.length,
+      sumCritters:arrivedList,sumCritterCount:arrivedList.length,sumCritterLine:'🐾 '+arrivedList.length+'/10 potential wild neighbours',
       sumGuilds:foundGuilds,sumGuildCount:foundGuilds.length,hasGuilds:foundGuilds.length>0,
       sumStrengths:strengths,hasStrengths:strengths.length>0,
       sumImprove:summaryImprove.slice(0,3),hasImprove:summaryImprove.length>0,perfectGarden:flourishingReady&&missing.length===0,
