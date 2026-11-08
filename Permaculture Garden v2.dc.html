@@ -7264,7 +7264,7 @@ class Component extends DCLogic {
         style:{position:'absolute',left:Math.max(3,Math.min(95,anchor.x+m.dx))+'%',top:Math.max(5,Math.min(93,anchor.y+m.dy))+'%',transform:'translate(-50%,-50%)',width:'11px',height:'11px',zIndex:12,pointerEvents:'none'}});
     });
     const arrivedList=this.wildlife.filter(w=>activeSet.has(w.key)).map(w=>({name:w.name,art:this.critters[w.key]}));
-    const foundGuilds=activeGuildList.map(d=>d.emoji+' '+d.name);
+    const foundGuilds=activeGuildList.map(g=>g.def.emoji+' '+g.def.name);
     const strengths=[];
     if(soil)strengths.push('You built living soil — the foundation every garden stands on');
     if(water)strengths.push('Your garden catches and keeps its own water');
