@@ -2001,7 +2001,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
               <div style="display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:700;color:#5A5240"><span class="pg-system-icon" aria-hidden="true">{{ sv.icon }}</span>{{ sv.name }}</div>
               <div style="{{ sv.valueStyle }}">{{ sv.value }}%</div>
               <div class="pg-system-track"><div style="{{ sv.barStyle }}"></div></div>
-              <sc-if value="{{ sv.hasLearned }}" hint-placeholder-val="{{ false }}"><div style="grid-column:1/-1;font-size:10px;line-height:1.3;color:#536148;background:#F1F5E9;border-radius:7px;padding:3px 6px">Learned practice · {{ sv.learned }}</div></sc-if>
+              <sc-if value="{{ sv.hasLearned }}" hint-placeholder-val="{{ false }}"><div style="grid-column:1/-1;font-size:10px;line-height:1.3;color:#536148;background:#F1F5E9;border-radius:7px;padding:3px 6px">{{ sv.learnedLine }}</div></sc-if>
             </div>
           </sc-for>
         </div>
@@ -7090,7 +7090,7 @@ class Component extends DCLogic {
       {name:localText('pillars.sharing.name','Sharing'),ok:community,iconSrc:designIcons.sharing,tip:localText(giftActionCount===1?'pillars.sharing.tip.one':'pillars.sharing.tip.other','Fair share — {count} gift action'+(giftActionCount===1?'':'s')+' completed',{count:giftActionCount})}
     ].map(p=>({name:p.name,icon:designIcon(p.iconSrc),tip:p.tip,style:pillStyle(p.ok)}));
 
-    const systemView=systems.view.map(v=>({name:v.name,emoji:v.emoji,icon:designIcon(designIcons[v.key]||designIcons.voice),value:v.value,reason:v.reason,hasLearned:v.learned.length>0,learned:v.learned.join(' · '),
+    const systemView=systems.view.map(v=>({name:v.name,emoji:v.emoji,icon:designIcon(designIcons[v.key]||designIcons.voice),value:v.value,reason:v.reason,hasLearned:v.learned.length>0,learned:v.learned.join(' · '),learnedLine:'Learned practice · '+v.learned.join(' · '),
       barStyle:{height:'100%',width:v.value+'%',borderRadius:'5px',background:v.key==='water'?'#6F9DB2':(v.key==='food'?'#C99A3C':(v.key==='habitat'?'#7A9A58':'#6F5530')),transition:'width .55s ease'},
       valueStyle:{fontFamily:"'Bricolage Grotesque',sans-serif",fontSize:'10px',fontWeight:'800',color:v.value<35?'#B5613A':(v.value<65?'#9A7428':'#4E6B3D')}}));
     const lessonBox=st.livingLesson,lesson=lessonBox&&lessonBox.lesson,lessonExperiment=st.livingLessonExperiment;

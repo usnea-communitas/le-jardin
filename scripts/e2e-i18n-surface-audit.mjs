@@ -350,6 +350,9 @@ try {
     for (const season of ["Spring", "Summer", "Autumn", "Winter"]) {
       await scenario(`main:${mode}:${season}`, {
         mode,
+        // as the game does when switching modes: the explore view opens the
+        // design panel (systems, learned practices), the guided view folds it
+        insightsExpanded: mode === "explore",
         season,
         springSprouts: season === "Spring" ? 3 : 0,
         cherryPicks: season === "Summer" ? 3 : 0,
