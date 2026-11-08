@@ -1334,8 +1334,8 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
 
   <sc-if value="{{ ambientVideoVisible }}" hint-placeholder-val="false">
   <video class="pg-game-ambient" autoplay="autoplay" muted="muted" loop="loop" playsinline="playsinline" preload="metadata" sc-camel-poster="{{ ambientVideoPoster }}" aria-hidden="true" tabindex="-1">
-    <source sc-camel-src="{{ ambientVideoWebm }}" type="video/webm">
     <source sc-camel-src="{{ ambientVideoMp4 }}" type="video/mp4">
+    <source sc-camel-src="{{ ambientVideoWebm }}" type="video/webm">
   </video>
   </sc-if>
 
@@ -7334,6 +7334,8 @@ class Component extends DCLogic {
     const phoneArt=typeof window!=='undefined'&&typeof window.matchMedia==='function'&&window.matchMedia(this.phoneArtQuery).matches;
     const mapStageSrc=mapStage==='bare'?(phoneArt?'assets/map-stages/garden-bare-960.webp':'assets/map-stages/garden-bare.webp'):(mapStage==='growing'?(phoneArt?'assets/map-stages/garden-growing-960.webp':'assets/map-stages/garden-growing.webp'):'assets/story/story-07-invitation.webp');
     const reducedMotion=typeof window!=='undefined'&&window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // a reader who asked to save data keeps the still poster instead of the moving loop
+    const saveData=typeof navigator!=='undefined'&&!!(navigator.connection&&navigator.connection.saveData);
     const communityAvailable=!guided||journey.index>=4||journey.ready;
     const activePane=st.viewportMode==='tablet'?(st.tabletPane||'build'):(st.phonePane||'garden');
     const navDefs=[
@@ -7455,7 +7457,7 @@ class Component extends DCLogic {
       placementTitle:st.movingPlacedId?'Choose a new place':(st.plantType?('Place '+this.catalog[st.plantType].name):''),
       placementHint:st.movingPlacedId?'Tap anywhere inside the garden plot.':'Tap a clear place inside the garden plot.',
       onCancelPlacement:()=>this.cancelPlacement(),
-      ambientVideoVisible:!st.story&&!reducedMotion,
+      ambientVideoVisible:!st.story&&!reducedMotion&&!saveData,
       ambientVideoPoster:'assets/story/story-01-menet.webp',
       ambientVideoWebm:'assets/video/garden-ambient-loop.webm',
       ambientVideoMp4:'assets/video/garden-ambient-loop.mp4',
