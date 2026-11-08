@@ -70,6 +70,14 @@ assert.equal(
 assert.equal(i18n.translateValue("Chapter 1: At the edge of Menet"), i18n.t("story.chapterAria", { number: 1, title: i18n.translateValue("At the edge of Menet") }),
   "a count placeholder only takes a number, so a chapter title is not split at \"of\"");
 assert.equal(i18n.translateValue("🔥 Hot-bed idea"), `🔥 ${i18n.translateValue("Hot-bed idea")}`, "an emoji before a known text is kept");
+const spring = i18n.translateValue("Spring");
+const summer = i18n.translateValue("Summer");
+assert.equal(i18n.translateValue("🌸 Spring · ☀️ Summer"), `🌸 ${spring} · ☀️ ${summer}`, "every item of an emoji list is translated");
+assert.equal(
+  i18n.translateValue("🗓️ Not now — carrots and beets are sown while the soil is warm, so the roots can size up before the cold. Plantable: 🌸 Spring · ☀️ Summer").endsWith(`🌸 ${spring} · ☀️ ${summer}`),
+  true,
+  "a season list inside a sentence is translated item by item"
+);
 const unknownSentence = "Choose a path that nobody has walked before today";
 assert.equal(i18n.translateValue(unknownSentence), unknownSentence, "an unknown sentence is not half translated by a short template");
 assert.equal(i18n.translateValue("Water cannot jump there yet."), "Water cannot jump there yet.");
