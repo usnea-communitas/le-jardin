@@ -55,7 +55,9 @@ const baseState = {
   seasonTurns: 0,
   seedAllowance: {},
   seedStock: {},
-  unlocksSeen: [],
+  // Unlock cards have their own journeys. Here the sharing card would open about
+  // 700 ms after the first sale and cover the controls this flow clicks next.
+  unlocksSeen: ["sharing", "seedbank", "kitchen", "askgarden", "seedsaved"],
   grownHarvests: 0,
   preservedCount: 0,
   stallSales: 0,
