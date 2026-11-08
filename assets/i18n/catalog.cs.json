@@ -1614,7 +1614,9 @@
       "many": "{count} další mladé plodiny je ohroženo mrazem",
       "other": "{count} dalších mladých plodin je ohroženo mrazem"
     },
-    "season.preview.winter.protected": "modelované mladé plodiny jsou v tomto tahu chráněné"
+    "season.preview.winter.protected": "modelované mladé plodiny jsou v tomto tahu chráněné",
+    "community.fromPerson": " (od: {person})",
+    "visit.deferred.unknownName": "Návštěvník"
   },
   "templates": {
     "common.count.entries": "Počet záznamů: {count}",

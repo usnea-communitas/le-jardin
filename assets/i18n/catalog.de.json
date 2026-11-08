@@ -1603,7 +1603,9 @@
       "one": "{count} weitere junge Pflanze ist durch Frost gefährdet",
       "other": "{count} weitere junge Pflanzen sind durch Frost gefährdet"
     },
-    "season.preview.winter.protected": "die modellierten jungen Pflanzen sind in dieser Runde geschützt"
+    "season.preview.winter.protected": "die modellierten jungen Pflanzen sind in dieser Runde geschützt",
+    "community.fromPerson": " (von {person})",
+    "visit.deferred.unknownName": "dieser Besuch"
   },
   "templates": {
     "common.count.entries": "{count} Einträge",

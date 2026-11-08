@@ -1597,7 +1597,9 @@
     "season.preview.winter.atRisk": {
       "other": "另有{count}种幼嫩作物仍有受冻风险"
     },
-    "season.preview.winter.protected": "模拟中的幼嫩作物在这一回合受到保护"
+    "season.preview.winter.protected": "模拟中的幼嫩作物在这一回合受到保护",
+    "community.fromPerson": "（来自{person}）",
+    "visit.deferred.unknownName": "这位访客"
   },
   "templates": {
     "common.count.entries": "{count}条记录",

@@ -1603,7 +1603,9 @@
       "one": "{count} autre jeune culture reste menacée par le gel",
       "other": "{count} autres jeunes cultures restent menacées par le gel"
     },
-    "season.preview.winter.protected": "les jeunes cultures modélisées sont protégées pour ce tour"
+    "season.preview.winter.protected": "les jeunes cultures modélisées sont protégées pour ce tour",
+    "community.fromPerson": " (offert par {person})",
+    "visit.deferred.unknownName": "ce visiteur"
   },
   "templates": {
     "common.count.entries": "Entrées : {count}",

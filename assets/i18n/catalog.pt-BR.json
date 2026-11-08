@@ -1603,7 +1603,9 @@
       "one": "{count} outro cultivo jovem continua em risco de geada",
       "other": "{count} outros cultivos jovens continuam em risco de geada"
     },
-    "season.preview.winter.protected": "os cultivos jovens modelados estão protegidos nesta rodada"
+    "season.preview.winter.protected": "os cultivos jovens modelados estão protegidos nesta rodada",
+    "community.fromPerson": " (oferta de {person})",
+    "visit.deferred.unknownName": "O visitante"
   },
   "templates": {
     "common.count.entries": "{count} entradas",

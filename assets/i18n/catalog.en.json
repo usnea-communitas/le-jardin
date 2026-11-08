@@ -1603,7 +1603,9 @@
       "one": "{count} other young crop remains at risk from frost",
       "other": "{count} other young crops remain at risk from frost"
     },
-    "season.preview.winter.protected": "the modeled young crops are protected for this turn"
+    "season.preview.winter.protected": "the modeled young crops are protected for this turn",
+    "community.fromPerson": " from {person}",
+    "visit.deferred.unknownName": "The visitor"
   },
   "templates": {
     "common.count.entries": "{count} entries",

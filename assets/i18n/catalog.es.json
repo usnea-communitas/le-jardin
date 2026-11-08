@@ -1603,7 +1603,9 @@
       "one": "{count} cultivo joven más sigue en riesgo de helada",
       "other": "{count} cultivos jóvenes más siguen en riesgo de helada"
     },
-    "season.preview.winter.protected": "los cultivos jóvenes modelados están protegidos en este turno"
+    "season.preview.winter.protected": "los cultivos jóvenes modelados están protegidos en este turno",
+    "community.fromPerson": " (oferta de {person})",
+    "visit.deferred.unknownName": "este visitante"
   },
   "templates": {
     "common.count.entries": "{count} entradas",

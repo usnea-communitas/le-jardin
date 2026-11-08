@@ -3371,7 +3371,9 @@ class Component extends DCLogic {
     const v=this.state.visit;if(!v){return;}
     if(v.status!=='ask'){this.closeVisit();return;}
     const visitor=this.wildlife.find(w=>w.key===v.key);
-    this.setState({visit:null,toast:'🌿 '+(visitor?visitor.name:'The visitor')+' can return another season — this opportunity has not been used up.'});
+    // the fallback name is written for the {name} slot of visit.deferred in each language
+    const name=visitor?this.i18nValue(visitor.name):this.i18nText('visit.deferred.unknownName','The visitor');
+    this.setState({visit:null,toast:this.i18nText('visit.deferred','🌿 {name} can return another season — this opportunity has not been used up.',{name:name})});
   }
   buildVisitView(){
     const st=this.state,v=st.visit;
@@ -5457,16 +5459,19 @@ class Component extends DCLogic {
     const eligibility=this.offeringEligibility(o,this.state);
     if(!eligibility.eligible){this.flash(eligibility.reason);return;}
     const cost=eligibility.cost;
-    const from=o.person?(' from '+o.person):'';
+    // from the catalogue: the reverse translator cannot place " from Camille" and
+    // would read "€15 from Noa" as €1 plus "5 from Noa"
+    const t=(key,fallback,vars)=>this.i18nText(key,fallback,vars);
+    const from=o.person?t('community.fromPerson',' from {person}',{person:o.person}):'';
     const person=o.person||'Camille';
     const offered=o.text.replace(/\s*\([^)]*\)\s*$/,'').toLowerCase();
     const remember=(s)=>[{id:'cm'+Date.now(),person:person,text:person+' offered '+offered+'. Taking it records help received as well as help given.'},...(s.communityMemory||[])].slice(0,4);
     const consume=(s)=>({market:s.market.filter(m=>m.id!==id),pool:Math.max(0,s.pool-cost),communityMemory:remember(s)});
-    if(o.kind==='shares'){ this.setState(s=>({...s,...consume(s),shares:s.shares+o.value,toast:'Received '+o.value+' game shares'+from+'; '+cost+' shared-pool points were used.'})); this.playSparkle(); return; }
-    if(o.kind==='budget'){ this.setState(s=>({...s,...consume(s),budget:s.budget+o.value,toast:'Received €'+o.value+from+'; '+cost+' shared-pool points were used.'})); this.playSparkle(); return; }
+    if(o.kind==='shares'){ this.setState(s=>({...s,...consume(s),shares:s.shares+o.value,toast:t('community.receivedShares','Received {count} game shares{from}; {cost} shared-pool points were used.',{count:o.value,from:from,cost:cost})})); this.playSparkle(); return; }
+    if(o.kind==='budget'){ this.setState(s=>({...s,...consume(s),budget:s.budget+o.value,toast:t('community.receivedBudget','Received €{amount}{from}; {cost} shared-pool points were used.',{amount:o.value,from:from,cost:cost})})); this.playSparkle(); return; }
     if(o.kind==='material'){
       const mm=this.MATS[o.mat];
-      this.setState(s=>({...s,...consume(s),materials:{...(s.materials||{}),[o.mat]:((s.materials||{})[o.mat]||0)+1},toast:'🧰 '+mm.name+' collected'+from+'; '+cost+' shared-pool points were used.'}));
+      this.setState(s=>({...s,...consume(s),materials:{...(s.materials||{}),[o.mat]:((s.materials||{})[o.mat]||0)+1},toast:t('community.receivedMaterial','🧰 {name} collected{from}; {cost} shared-pool points were used.',{name:this.i18nValue(mm.name),from:from,cost:cost})}));
       this.playSparkle(); return;
     }
     const needed=!this.state.placed.some(p=>p.type===o.type);

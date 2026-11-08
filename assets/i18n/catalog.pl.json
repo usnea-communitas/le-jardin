@@ -1615,7 +1615,9 @@
       "many": "{count} innych młodych upraw jest zagrożonych przymrozkiem",
       "other": "{count} innej młodej uprawy jest zagrożone przymrozkiem"
     },
-    "season.preview.winter.protected": "modelowane młode uprawy są w tej turze chronione"
+    "season.preview.winter.protected": "modelowane młode uprawy są w tej turze chronione",
+    "community.fromPerson": " (od: {person})",
+    "visit.deferred.unknownName": "Gość"
   },
   "templates": {
     "common.count.entries": "Liczba wpisów: {count}",

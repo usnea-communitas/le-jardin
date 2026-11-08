@@ -1615,7 +1615,9 @@
       "many": "{count} других молодых культур под угрозой заморозков",
       "other": "{count} другой молодой культуры под угрозой заморозков"
     },
-    "season.preview.winter.protected": "смоделированные молодые культуры защищены в этом ходу"
+    "season.preview.winter.protected": "смоделированные молодые культуры защищены в этом ходу",
+    "community.fromPerson": " (от: {person})",
+    "visit.deferred.unknownName": "Гость"
   },
   "templates": {
     "common.count.entries": "Записей: {count}",
