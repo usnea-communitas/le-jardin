@@ -2,6 +2,19 @@
 
 Notable changes to Le Jardin. Version numbers follow the game's internal release counter (`package.json`). Detailed handoff notes for the playtest releases are in [`docs/handoffs/`](docs/handoffs/).
 
+## v0.84.0 — 2026-11-10 — every text in the player's language
+
+Two improvement rounds, live since 25 October and 8 November 2026.
+
+- **Every text in the player's language.** The page translator prefers specific templates over generic ones, fills in numbers and plurals ("12 tokens"), translates lists joined with "·" and emoji-decorated items piece by piece, also inside a sentence, and no longer hides untranslated text. Newly translated: the "Take · −12" label, the learned-practice line, cherries in the community memory, what a locked element needs ("🔒 Compost needs 1 token (you have 0) or €40 …"), the winter preview that counts young crops, who gave an offering and the seasons in planting lists. The language audit now looks at what the game really shows, including challenge boards, the Living Lesson, the community memory and the open design panel: 232 scenarios with no untranslated text in any of the eight other languages. The new catalogue texts were machine-translated and have not yet been checked by native speakers.
+- **Lighter media.** The garden's background loop went from 2.5 MB to 463 kB (MP4 first), and with Save-Data or reduced motion only the still picture is used; a returning player no longer downloads a story picture they will not see; music and voice load only when played; phones up to 2× get 960 px garden backgrounds; the summer and winter gates are lossy WebP with a lossless alpha channel (248 → 123 kB and 255 → 93 kB).
+- **One score.** A single `gardenScore()` with a unit test drives the ring, the card and the certificate; the score is called *Resilience* and explains itself. The certificate exists in all nine languages, with localized dates and plurals.
+- **Honest labels.** The offline lesson is labelled "Garden wisdom offline", and the header reads "Le Jardin · Usnea communitas" instead of "Erasmus+ ecology project".
+- **Phones and readability.** The story card is centred and scrolls, the phone header shows "Le Jardin", the guide's instruction appears once, the footer shows the version from `package.json`, toasts stay off the toolbar, long badges wrap, accessible names start with the visible text and touch targets are at least 24 px (axe: no violations).
+- **Fixes.** Design connection names in the progress summary (no more "undefined undefined") and the icon on the rain challenge button.
+- **Checks.** Playwright is a dev dependency with a shared loader, and CI runs the core browser journeys as a second job; after every production deployment a workflow checks that the live site serves exactly the deployed build and that the game plays.
+- `.env.example`, Open Graph and Twitter meta tags and a web app manifest.
+
 ## v0.83.0 — 2026-10-24 — open-source release
 
 - Repository published as free software: MIT licence for code, CC BY-NC-SA 4.0 for media and texts, contributing guide, code of conduct, security policy and issue templates.
