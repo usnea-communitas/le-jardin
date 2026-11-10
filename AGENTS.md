@@ -33,6 +33,8 @@ npm run test:e2e:core   # the browser journeys CI runs; first `npx playwright in
 
 After a production deployment, `.github/workflows/production-smoke.yml` checks that the live site serves the deployed commit and plays (`npm run test:production`).
 
+Changes reach `main` through pull requests: work on a branch (`claude/<id>-…` or `codex/…`), open a pull request and merge it once both CI jobs are green. Every merge deploys to production. Do not push to `main` directly or rewrite its history, and keep the `backup/main-before-graft` branch.
+
 When you change layout, interaction or text, also run the relevant journeys (`npm run test:e2e:*`, or `node scripts/e2e-*.mjs` against `node scripts/static-server.mjs 8787`) and look at desktop, tablet and phone sizes in more than one language. Do not send test traffic to the live Living Lesson API: every model call costs credit.
 
 ## Product constraints
