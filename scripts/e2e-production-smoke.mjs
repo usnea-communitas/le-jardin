@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from './load-playwright.mjs';
@@ -27,6 +27,33 @@ if (process.env.EXPECT_LOCAL_BUILD === '1') {
     console.log(`PASS  ${file} on the live site is this commit's build`);
   }
 }
+// Security headers, cache and the share preview (vercel.json, package J-02).
+{
+  const must = (condition, message) => {
+    if (!condition) throw new Error(message);
+    console.log('PASS  ' + message);
+  };
+  const response = await fetch(baseUrl, { headers: { 'cache-control': 'no-cache' } });
+  const header = name => response.headers.get(name) || '';
+  must(header('x-content-type-options') === 'nosniff', 'X-Content-Type-Options: nosniff');
+  must(header('referrer-policy') === 'strict-origin-when-cross-origin', 'Referrer-Policy is set');
+  must(header('x-frame-options') === 'SAMEORIGIN', 'X-Frame-Options: SAMEORIGIN');
+  must(/camera=\(\)/.test(header('permissions-policy')), 'Permissions-Policy is set');
+  must(/frame-ancestors 'self'/.test(header('content-security-policy')), "CSP frame-ancestors 'self'");
+  const html = await response.text();
+  const preview = (html.match(/property="og:image" content="([^"]+)"/) || [])[1] || '';
+  const image = await fetch(preview);
+  must(/^https:\/\//.test(preview) && image.ok && /image\/jpeg/.test(image.headers.get('content-type') || ''), 'the share preview is a JPEG at an absolute address');
+  for (const file of ['robots.txt', 'sitemap.xml', 'favicon.ico']) {
+    must((await fetch(new URL(file, baseUrl))).ok, `${file} exists`);
+  }
+  const [font] = (await readdir(path.join(root, 'assets/fonts'))).filter(name => name.endsWith('.woff2'));
+  const fontResponse = await fetch(new URL(`assets/fonts/${font}`, baseUrl));
+  must(/immutable/.test(fontResponse.headers.get('cache-control') || ''), 'fonts are cached for a year');
+  const media = await fetch(new URL('assets/story/share-menet.jpg', baseUrl));
+  must(/max-age=86400/.test(media.headers.get('cache-control') || ''), 'media are cached for a day');
+}
+
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
 const errors = [];

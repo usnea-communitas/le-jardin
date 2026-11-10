@@ -134,7 +134,7 @@ Coverage includes adaptive navigation, safe-area and overflow boundaries, 44-pix
 
 ## Deployment
 
-`main` deploys to the Vercel project behind <https://permaculture-garden.vercel.app/> with the **Other** framework preset, no custom build command and no `vercel.json`; Vercel installs locked dependencies from `package-lock.json`. The Living Lesson function needs an AI Gateway credential on the Vercel side only (`AI_GATEWAY_API_KEY`, or the platform OIDC token); nothing is required in the browser. [`.env.example`](.env.example) lists the optional variables for local work.
+`main` deploys to the Vercel project behind <https://permaculture-garden.vercel.app/> with the **Other** framework preset and no custom build command; `vercel.json` only sets security headers and the cache for fonts and media; Vercel installs locked dependencies from `package-lock.json`. The Living Lesson function needs an AI Gateway credential on the Vercel side only (`AI_GATEWAY_API_KEY`, or the platform OIDC token); nothing is required in the browser. [`.env.example`](.env.example) lists the optional variables for local work.
 
 After every production deployment the *Production smoke test* workflow (`.github/workflows/production-smoke.yml`) runs `npm run test:production` on the deployed commit with `EXPECT_LOCAL_BUILD=1`: the live site must serve exactly that commit's `index.html` and `game.fragment.html`, and the short playthrough must pass without console errors. It never blocks a deploy; a failure shows on the commit and in Actions.
 
