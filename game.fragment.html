@@ -1480,7 +1480,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
           </div>
         </section>
       </sc-for>
-      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#655D4B;line-height:1.55;padding:7px 11px;background:#FBF8F1;border:1px solid #E7DECB;border-radius:12px;flex:none"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span data-pg-version="true" data-pg-no-i18n="true">v0.84.0</span> · <a class="pg-footer-usnea" href="https://usnea.ngo/" target="_blank" rel="noopener" data-pg-no-i18n="true" style="color:inherit;text-decoration:underline;text-underline-offset:2px">Usnea communitas, z. s.</a>
+      <div class="pg-footer-note" title="Choose an element, then place it on the plot. The circular-arrows symbol means the community can help you build it; seeds are free from the seed bank." style="font-size:12px;color:#655D4B;line-height:1.55;padding:7px 11px;background:#FBF8F1;border:1px solid #E7DECB;border-radius:12px;flex:none"><span class="pg-footer-desktop">Click or drag onto the plot</span><span class="pg-footer-touch">Tap an element, then tap the plot</span> · <span class="pg-icon-label">{{ reuseIconFooter }} build by sharing</span> · <span class="pg-icon-label">{{ seasonLegendIcons }} planting seasons</span> <span data-pg-version="true" data-pg-no-i18n="true">v0.84.0</span>
         <sc-if value="{{ freeExplore }}" hint-placeholder-val="false"><button class="pg-return-guided" sc-camel-on-click="{{ onSwitchGuided }}" style="display:block;border:0;background:transparent;color:#5E7E4A;font:inherit;font-weight:800;padding:5px 0 0;cursor:pointer">Return to Guided Journey</button></sc-if>
       </div>
     </div>
@@ -7833,7 +7833,7 @@ class Component extends DCLogic {
       onPrintCertificate:()=>this.printCertificate(),
       playerName:st.playerName||'',
       onNameChange:(e)=>this.setState({playerName:e.target.value.slice(0,80)}),
-      sumScore:summaryScore,sumStatus:flourishingReady?('Learning certificate earned · '+statusText):(firstCycleReady?'First learning cycle complete · keep tending toward flourishing':statusText),sumDate:today,summaryCredit:localText('completion.summary.credit','Le Jardin · Usnea communitas'),
+      sumScore:summaryScore,sumStatus:flourishingReady?('Learning certificate earned · '+statusText):(firstCycleReady?'First learning cycle complete · keep tending toward flourishing':statusText),sumDate:today,summaryCredit:localText('completion.summary.credit','Le Jardin'),
       summaryMapStyle:{position:'relative',height:'150px',borderRadius:'14px',overflow:'hidden',marginBottom:'12px',background:'linear-gradient(rgba(20,34,17,.05),rgba(20,34,17,.12)),url("'+mapStageSrc+'") center 55% / cover no-repeat',boxShadow:'inset 0 0 0 1px rgba(90,110,60,.3),inset 0 10px 24px -14px rgba(40,60,20,.45)'},
       miniPlaced:miniPlaced,miniCritters:miniCritters,
       sumCritters:arrivedList,sumCritterCount:arrivedList.length,sumCritterLine:'🐾 '+arrivedList.length+'/10 potential wild neighbours',
