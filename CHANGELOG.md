@@ -6,7 +6,7 @@ Notable changes to Le Jardin. Version numbers follow the game's internal release
 
 - **Faster first start on phones.** While the opening story's cover is on screen, the garden behind it is not built: it is built 1.5 seconds into the story or when the story closes, so the cover appears sooner and pressing play answers at once. The raw template stays hidden until the runtime replaces it, so it is never laid out. On tall, narrow screens the story shows 600 × 900 crops of its paintings (1.1 MB instead of 2.7 MB for all seven), and the second picture loads at the first touch or key instead of during the first load.
 - English pages no longer build the reverse translation index that only other languages use, and today's date is formatted once a day instead of on every render.
-- The game no longer names or links to Usnea communitas for now.
+- The palette footer no longer carries a link, and the summary's credit reads simply *Le Jardin*.
 
 ## v0.84.0 — 2026-11-10 — every text in the player's language
 

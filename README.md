@@ -10,7 +10,7 @@
 
 **Play it:** <https://permaculture-garden.vercel.app/> — free, no account, progress stays in your browser.
 
-Le Jardin is an open-source project of [Usnea communitas, z. s.](https://usnea.ngo), a Czech nonprofit association for education, communities, nature and permaculture. It is built and maintained by [Martin Pazderník](https://github.com/martinpazdernik-source).
+Le Jardin is an open-source project built and maintained by [Martin Pazderník](https://github.com/martinpazdernik-source).
 
 ---
 
@@ -143,7 +143,7 @@ After every production deployment the *Production smoke test* workflow (`.github
 - **Prototype (spring–July 2026)** — a single-file browser prototype with the core placement garden, seasons, guilds, wildlife and sharing.
 - **OpenAI Build Week (13–19 July 2026)** — the prototype was rebuilt into a complete product with Codex as engineering collaborator: the eleven challenges, the cinematic introduction, the organic soundscape, hardened saving and progression, the Living Lesson architecture and the first automated journeys. The entry did not place; the submission text and provenance records are kept in [`docs/build-week/`](docs/build-week/).
 - **Playtest line (v0.78–v0.82, late July 2026)** — nine full language versions, Czech narration, the garden kitchen and seed bank, a rebalanced economy, adjustable garden size, phone and tablet layouts, and a growing set of browser regression journeys. Release notes live in [`docs/handoffs/`](docs/handoffs/) and in [CHANGELOG.md](CHANGELOG.md).
-- **Le Jardin under Usnea communitas (September 2026 →)** — the repository moved to the association's GitHub organisation, the name was unified to *Le Jardin*, the API boundary was hardened and accessibility contrast was improved.
+- **Le Jardin (September 2026 →)** — the repository moved to its current GitHub organisation, the name was unified to *Le Jardin*, the API boundary was hardened and accessibility contrast was improved.
 - **Open-source release v0.83.0 (24 October 2026)** — the repository was made public under the MIT licence (CC BY-NC-SA for media), with the unified Build Week + playtest history, CI, a changelog and contributor documentation.
 - **v0.84.0 (10 November 2026)** — every text in the player's language in all nine versions, lighter media for phones, one Resilience score shared by the ring, card and certificate, and a check of the live game after every deployment. Details in [CHANGELOG.md](CHANGELOG.md).
 
