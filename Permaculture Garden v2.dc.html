@@ -39,6 +39,7 @@ x-dc{display:none!important}
 </style>
 <script src="lib/i18n.js"></script>
 <script src="lib/living-lesson.js"></script>
+<script src="lib/workshop.js"></script>
 <script src="a642a266-8af5-4398-9a56-263a98de83c8"></script>
 
 </head>
@@ -851,6 +852,71 @@ html[data-pg-header] .pg-header-book,html[data-pg-header] .pg-header-reset{width
 html[data-pg-header] .pg-header-place{width:34px;padding:0!important;justify-content:center}
 html[data-pg-header] .pg-header-place-label{display:none}
 html[data-pg-header="tighter"] .pg-header-progress,html[data-pg-header="tighter"] .pg-header-audio-language{display:none!important}
+/* Workshop mode: the start choice on the story cover and the facilitator's panel */
+.pg-ws-start{display:grid;justify-items:center;gap:8px;max-width:430px;margin:0 auto 20px;padding:13px 15px 14px;border:1px solid rgba(126,145,110,.3);border-radius:15px;background:rgba(250,248,239,.84)}
+.pg-ws-start label{font:800 13px/1.3 'Hanken Grotesk',sans-serif;color:#3f4939}
+.pg-ws-start select{width:100%;max-width:340px;min-height:42px;border:1px solid #cdbf9f;border-radius:11px;background:#fffdf7;color:#2f3b2a;padding:8px 30px 8px 12px;font:700 13px 'Hanken Grotesk',sans-serif;cursor:pointer}
+.pg-ws-start select:focus-visible{outline:3px solid rgba(94,126,74,.55);outline-offset:2px}
+.pg-ws-start p{margin:0;max-width:40ch;font-size:11.5px;line-height:1.45;color:#59604f;text-wrap:balance}
+.pg-workshop{width:min(640px,94vw)}
+.pg-workshop .pg-living-lesson-title{margin:4px 44px 8px 0}
+.pg-ws-intro{margin:0 0 4px;max-width:60ch;font-size:12.5px;line-height:1.55;color:#5c5545}
+.pg-ws-section{margin-top:16px;padding-top:15px;border-top:1px solid rgba(107,87,57,.16)}
+.pg-ws-section h3{margin:0 0 9px;font:700 18px/1.25 Georgia,'Times New Roman',serif;color:#2f4128}
+.pg-ws-section p{margin:0 0 9px;font-size:13px;line-height:1.5;color:#4a5341}
+.pg-ws-act-name{display:flex;flex-direction:column;gap:2px}
+.pg-ws-now-title{font:800 14px/1.3 'Hanken Grotesk',sans-serif;color:#33502a}
+.pg-ws-now-label{font-size:13px;color:#4a5341}
+.pg-ws-question{margin-bottom:2px}
+.pg-ws-question p{margin:0!important;font:italic 16px/1.45 Georgia,'Times New Roman',serif!important;color:#4a3f26!important}
+.pg-ws-acts{list-style:none;margin:0;padding:0;display:grid;gap:3px}
+.pg-ws-acts details{border:1px solid transparent;border-radius:12px;transition:background .18s,border-color .18s}
+.pg-ws-acts details[open]{background:rgba(255,253,246,.78);border-color:rgba(88,115,71,.22)}
+.pg-ws-acts summary{display:flex;align-items:flex-start;gap:10px;padding:8px 10px;border-radius:12px;list-style:none;cursor:pointer;font-size:13px;line-height:1.4;color:#3f4939}
+.pg-ws-acts summary::-webkit-details-marker{display:none}
+.pg-ws-acts summary:after{content:"";flex:none;width:7px;height:7px;margin:5px 2px 0 auto;border:solid #7d8b6c;border-width:0 1.6px 1.6px 0;transform:rotate(45deg);transition:transform .18s}
+.pg-ws-acts details[open] summary:after{transform:translateY(3px) rotate(-135deg)}
+.pg-ws-acts summary:hover{background:rgba(232,239,216,.62)}
+.pg-ws-acts summary:focus-visible,.pg-ws-log:focus-visible,.pg-ws-langs a:focus-visible,.pg-ws-link:focus-visible,.pg-ws-danger:focus-visible,.pg-ws-actions button:focus-visible{outline:3px solid rgba(94,126,74,.6);outline-offset:2px}
+.pg-ws-act-title{min-width:0}
+.pg-ws-act-title strong{font-weight:800;color:#33502a}
+.pg-ws-mark{flex:none;position:relative;width:18px;height:18px;margin-top:1px;border:1.6px solid #a3ae94;border-radius:50%;background:#fffdf6}
+.pg-ws-act.is-done .pg-ws-mark{border-color:#56714a;background:#56714a}
+.pg-ws-act.is-done .pg-ws-mark:after{content:"";position:absolute;left:5px;top:2px;width:4px;height:8px;border:solid #fff9ea;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.pg-ws-act.is-current .pg-ws-mark{border-color:#b98a2e;background:radial-gradient(circle,#b98a2e 0 4px,#fffdf6 4.6px)}
+.pg-ws-acts details>p{margin:0 12px 9px 38px;font-size:12.5px}
+.pg-ws-ask-label{display:block;margin-bottom:2px;font:900 10px/1.2 'Hanken Grotesk',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#7b6327}
+.pg-ws-log{list-style:none;margin:0 0 11px;padding:3px 0;max-height:228px;overflow-y:auto;overscroll-behavior:contain;border:1px solid rgba(105,87,59,.17);border-radius:13px;background:rgba(255,253,246,.78)}
+.pg-ws-log li{display:grid;grid-template-columns:3.4em minmax(0,1fr);gap:10px;padding:7px 13px;font-size:12.5px;line-height:1.42;color:#3f4939}
+.pg-ws-log li+li{border-top:1px solid rgba(107,87,57,.1)}
+.pg-ws-log time{font-weight:800;font-variant-numeric:tabular-nums;color:#665d4b}
+.pg-ws-empty{padding:11px 13px;border:1px dashed rgba(105,87,59,.28);border-radius:13px;color:#5c5545!important}
+.pg-ws-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:0 0 6px}
+.pg-ws-actions button,.pg-ws-link,.pg-ws-danger{min-height:40px;border-radius:11px;padding:10px 15px;font:800 12px/1.2 'Hanken Grotesk',sans-serif;cursor:pointer}
+.pg-ws-actions button[aria-disabled="true"]{opacity:.55;cursor:not-allowed}
+.pg-ws-link{display:inline-flex;align-items:center;color:#fff8e9!important;text-decoration:none}
+.pg-ws-langs{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font-size:12px;color:#5c5545}
+.pg-ws-langs a{color:#3f5c33;font-weight:800;text-decoration:underline;text-decoration-color:rgba(63,92,51,.4);text-underline-offset:3px}
+.pg-ws-status{min-height:0;margin:0!important;font-size:12px!important;font-weight:700;color:#3f5c33!important}
+.pg-ws-status:empty{display:none}
+.pg-ws-fine{margin:4px 0 0!important;font-size:11.5px!important;color:#655d4b!important}
+.pg-ws-danger{border:1px solid rgba(163,79,50,.42);background:#fff7ef;color:#8c3d21}
+.pg-ws-danger:hover{background:#fbe8da;border-color:#a34f32}
+@media (max-width:1179px){.pg-ws-acts summary,.pg-ws-actions button,.pg-ws-link,.pg-ws-danger,.pg-ws-start select{min-height:44px}}
+@media (prefers-reduced-motion:reduce){.pg-ws-acts details,.pg-ws-acts summary:after{transition:none}}
+/* Printing the session log: only the sheet made for it, on a portrait page */
+.pg-workshop-print{display:none}
+@media print{
+  html.pg-print-log body>*:not(.pg-workshop-print){display:none!important}
+  html.pg-print-log .pg-workshop-print{display:block!important;color:#2c3525;font:10.5pt/1.5 'Hanken Grotesk',sans-serif}
+  html.pg-print-log .pg-workshop-print,html.pg-print-log .pg-workshop-print *{visibility:visible!important}
+  html.pg-print-log .pg-workshop-print h1{margin:0 0 4pt;font:700 18pt/1.2 'Bricolage Grotesque',sans-serif;color:#3f5c33}
+  html.pg-print-log .pg-workshop-print p{margin:0 0 3pt}
+  html.pg-print-log .pg-workshop-print ol{list-style:none;margin:12pt 0;padding:0}
+  html.pg-print-log .pg-workshop-print li{display:grid;grid-template-columns:3.6em 1fr;gap:8pt;padding:3.5pt 0;border-bottom:.5pt solid #d8cdb4;break-inside:avoid}
+  html.pg-print-log .pg-workshop-print time{font-weight:700;font-variant-numeric:tabular-nums;color:#5f584a}
+  html.pg-print-log .pg-workshop-print-foot{margin-top:10pt;font-size:9pt;color:#5f584a}
+}
 @media(prefers-reduced-motion:reduce){.pg-living-lesson-orbit{animation:none;border-color:#5e7e4a}}
 .pg-guild-voice{margin:0 0 13px;padding:10px 12px;border:1px solid rgba(111,134,96,.22);border-radius:12px;background:linear-gradient(145deg,#f4f1e4,#e7edda);font:italic 13px/1.48 Georgia,'Times New Roman',serif;color:#43523b}
 .pg-cinematic{position:absolute;inset:0;z-index:720;background:#162017;overflow:hidden;display:grid;place-items:center;animation:pgCineIn .65s ease both}
@@ -1447,10 +1513,18 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         </button>
       </sc-if>
       <button class="pg-header-tool pg-header-help" sc-camel-on-click="{{ onOpenIntro }}" title="How to play" aria-label="Open how to play" style="width:32px;height:32px;border-radius:10px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;font-weight:700;font-size:14px;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;transition:all .15s" style-hover="border-color:#5E7E4A;color:#5E7E4A">?</button>
+      <sc-if value="{{ resetVisible }}" hint-placeholder-val="{{ true }}">
       <button class="pg-header-tool pg-header-reset" sc-camel-on-click="{{ onReset }}" aria-label="Reset the whole garden" style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #E0D6C2;color:#6A604C;font-weight:600;font-size:12px;padding:8px 13px;border-radius:10px;cursor:pointer;font-family:inherit;transition:all .15s" style-hover="border-color:#B5613A;color:#B5613A">
         <svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 4v4h4"></path></svg>
         Reset
       </button>
+      </sc-if>
+      <sc-if value="{{ workshopMode }}" hint-placeholder-val="{{ false }}">
+      <button class="pg-header-tool pg-header-reset pg-header-workshop" data-testid="workshop-open" sc-camel-on-click="{{ onOpenWorkshop }}" aria-haspopup="dialog" title="Open the facilitator panel" style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #E0D6C2;color:#6A604C;font-weight:600;font-size:12px;padding:8px 13px;border-radius:10px;cursor:pointer;font-family:inherit;transition:all .15s" style-hover="border-color:#5E7E4A;color:#5E7E4A">
+        <svg width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19.5c.6-3.3 2.8-5.2 5.5-5.2s4.9 1.9 5.5 5.2"></path><circle cx="17.2" cy="9.4" r="2.4"></circle><path d="M16 14.6c2.4-.2 4.2 1.4 4.6 4.4"></path></svg>
+        Workshop
+      </button>
+      </sc-if>
       <div class="pg-header-more-wrap">
         <button id="pg-header-more" class="pg-header-more" sc-camel-on-click="{{ onToggleHeaderMenu }}" aria-label="Open garden menu" aria-haspopup="menu" aria-expanded="{{ headerMenuOpen }}">•••</button>
         <sc-if value="{{ headerMenuOpen }}" hint-placeholder-val="{{ false }}">
@@ -1471,7 +1545,12 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
               </select>
             </div>
             <sc-if value="{{ showEnglishAudioNote }}" hint-placeholder-val="{{ false }}"><div class="pg-audio-language-note pg-audio-language-menu" role="none">{{ audioLanguageNote }}</div></sc-if>
-            <button role="menuitem" class="pg-header-menu-danger" sc-camel-on-click="{{ onMenuReset }}"><span aria-hidden="true">↻</span> Reset garden</button>
+            <sc-if value="{{ resetVisible }}" hint-placeholder-val="{{ true }}">
+              <button role="menuitem" class="pg-header-menu-danger" sc-camel-on-click="{{ onMenuReset }}"><span aria-hidden="true">↻</span> Reset garden</button>
+            </sc-if>
+            <sc-if value="{{ workshopMode }}" hint-placeholder-val="{{ false }}">
+              <button role="menuitem" data-testid="workshop-open-menu" sc-camel-on-click="{{ onMenuWorkshop }}"><span class="pg-header-menu-icon" aria-hidden="true"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"></circle><path d="M3.5 19.5c.6-3.3 2.8-5.2 5.5-5.2s4.9 1.9 5.5 5.2"></path><circle cx="17.2" cy="9.4" r="2.4"></circle><path d="M16 14.6c2.4-.2 4.2 1.4 4.6 4.4"></path></svg></span> Workshop</button>
+            </sc-if>
           </div>
         </sc-if>
       </div>
@@ -2569,6 +2648,77 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
     </div>
   </sc-if>
 
+  <!-- Workshop mode: the facilitator's panel -->
+  <sc-if value="{{ workshopVisible }}" hint-placeholder-val="{{ false }}">
+    <div class="pg-garden-dialog-backdrop" sc-camel-on-click="{{ onCloseWorkshop }}">
+      <div class="pg-living-lesson-dialog pg-workshop" data-pg-dialog="workshop" role="dialog" aria-modal="true" aria-labelledby="pg-ws-title" aria-describedby="pg-ws-intro" tabindex="-1" sc-camel-on-click="{{ stopProp }}">
+        <button class="pg-living-lesson-close" sc-camel-on-click="{{ onCloseWorkshop }}" aria-label="Close the facilitator panel">✕</button>
+        <h2 class="pg-living-lesson-title" id="pg-ws-title">For the facilitator</h2>
+        <p class="pg-ws-intro" id="pg-ws-intro">This workshop garden is kept apart from anyone’s own game on this device. The garden’s reflections come from its offline lessons, so no AI is used and every group hears the same.</p>
+
+        <section class="pg-ws-section" aria-labelledby="pg-ws-now-h">
+          <h3 id="pg-ws-now-h">Where this group is</h3>
+          <p class="pg-ws-act-name" data-testid="workshop-current-act"><strong class="pg-ws-now-title">{{ workshopNowTitle }}</strong><span class="pg-ws-now-label">{{ workshopNowLabel }}</span></p>
+          <p class="pg-ws-goal">{{ workshopNowGoal }}</p>
+          <div class="pg-ll-question pg-ws-question">
+            <span class="pg-ll-question-label">Ask the group</span>
+            <p>{{ workshopNowAsk }}</p>
+          </div>
+        </section>
+
+        <section class="pg-ws-section" aria-labelledby="pg-ws-acts-h">
+          <h3 id="pg-ws-acts-h">The six acts</h3>
+          <ol class="pg-ws-acts">
+            <sc-for list="{{ workshopActsView }}" as="wa" hint-placeholder-count="6">
+              <li class="{{ wa.className }}">
+                <details>
+                  <summary><span class="pg-ws-mark" aria-hidden="true"></span><span class="pg-ws-act-title"><strong>{{ wa.eyebrow }}</strong> {{ wa.label }}</span><span class="pg-sr-only">{{ wa.statusText }}</span></summary>
+                  <p class="pg-ws-goal">{{ wa.goal }}</p>
+                  <p class="pg-ws-ask"><span class="pg-ws-ask-label">Ask the group</span> {{ wa.ask }}</p>
+                </details>
+              </li>
+            </sc-for>
+          </ol>
+        </section>
+
+        <section class="pg-ws-section" aria-labelledby="pg-ws-log-h">
+          <h3 id="pg-ws-log-h">Session log</h3>
+          <sc-if value="{{ workshopLogEmpty }}" hint-placeholder-val="{{ false }}">
+            <p class="pg-ws-empty">The log fills in as the group plays: acts, challenges, gifts and seasons.</p>
+          </sc-if>
+          <sc-if value="{{ workshopHasEntries }}" hint-placeholder-val="{{ true }}">
+            <ol class="pg-ws-log" data-testid="workshop-log" tabindex="0" aria-labelledby="pg-ws-log-h">
+              <sc-for list="{{ workshopLogView }}" as="we" hint-placeholder-count="3">
+                <li><time datetime="{{ we.t }}">{{ we.time }}</time><span>{{ we.text }}</span></li>
+              </sc-for>
+            </ol>
+          </sc-if>
+          <div class="pg-ws-actions">
+            <button class="pg-living-lesson-secondary" data-testid="workshop-save-log" sc-camel-on-click="{{ onWorkshopSaveLog }}" aria-disabled="{{ workshopLogEmpty }}">Save as a file</button>
+            <button class="pg-living-lesson-secondary" data-testid="workshop-print-log" sc-camel-on-click="{{ onWorkshopPrintLog }}" aria-disabled="{{ workshopLogEmpty }}">Print</button>
+          </div>
+          <p class="pg-ws-status" role="status" aria-live="polite" aria-atomic="true">{{ workshopNote }}</p>
+          <p class="pg-ws-fine">The log stays on this device. Nothing in it is sent anywhere.</p>
+        </section>
+
+        <section class="pg-ws-section" aria-labelledby="pg-ws-guide-h">
+          <h3 id="pg-ws-guide-h">Facilitator guide</h3>
+          <p>Goals and questions for every act, the solutions to all eleven challenges and plans for 45, 90 and 120 minutes.</p>
+          <div class="pg-ws-actions">
+            <a class="pg-primary-action pg-ws-link" data-testid="workshop-guide" href="{{ workshopGuideHref }}" hreflang="{{ workshopGuideLang }}" target="_blank" rel="noopener">Open the guide (PDF)</a>
+            <span class="pg-ws-langs"><span class="pg-ws-langs-label">Other languages:</span><sc-for list="{{ workshopGuideOthers }}" as="gl"><a href="{{ gl.href }}" hreflang="{{ gl.lang }}" lang="{{ gl.lang }}" target="_blank" rel="noopener" data-pg-no-i18n="true">{{ gl.label }}</a></sc-for></span>
+          </div>
+        </section>
+
+        <section class="pg-ws-section" aria-labelledby="pg-ws-next-h">
+          <h3 id="pg-ws-next-h">Next group</h3>
+          <p>Clears this workshop garden and its log and goes back to the start, so the next group begins fresh. Anyone’s own game on this device stays as it is.</p>
+          <button class="pg-ws-danger" data-testid="workshop-next-group" sc-camel-on-click="{{ onWorkshopPrepareNext }}">Prepare for the next group</button>
+        </section>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- Garden Speaks · pattern 02: earned reflection -->
   <sc-if value="{{ gardenReflectionVisible }}" hint-placeholder-val="{{ false }}">
     <div class="pg-garden-dialog-backdrop" sc-camel-on-click="{{ onDismissGardenReflection }}">
@@ -2738,9 +2888,25 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
             </label>
             <div style="display:inline-flex;align-items:center;gap:7px;background:#E8EDD9;border:1px solid #D7E1C7;color:#5B6D4F;font-size:11px;font-weight:700;padding:7px 11px;border-radius:20px;margin-bottom:20px"><span aria-hidden="true">♫</span> Gentle sound begins when you press play · captions stay on</div>
             <sc-if value="{{ showEnglishAudioNote }}" hint-placeholder-val="{{ false }}"><div class="pg-audio-language-note"><span aria-hidden="true">◌</span>{{ audioLanguageNote }}</div></sc-if>
+            <sc-if value="{{ workshopCover }}" hint-placeholder-val="{{ false }}">
+              <div class="pg-ws-start">
+                <label for="pg-ws-start-select">Where does this group begin?</label>
+                <select id="pg-ws-start-select" data-testid="workshop-start" value="{{ workshopStartValue }}" sc-camel-on-change="{{ onWorkshopStartChange }}">
+                  <sc-for list="{{ workshopStartOptions }}" as="wo"><option data-pg-no-i18n="true" value="{{ wo.value }}">{{ wo.label }}</option></sc-for>
+                </select>
+                <p>Workshop mode: this garden is kept apart from anyone’s own game on this device.</p>
+              </div>
+            </sc-if>
             <div style="display:flex;flex-direction:column;align-items:center;gap:11px">
-              <button sc-camel-on-click="{{ onBeginStory }}" class="pg-story-primary">Begin the story <span aria-hidden="true">→</span></button>
-              <button sc-camel-on-click="{{ onSkipStory }}" style="border:0;background:transparent;color:#78836F;font:700 11px 'Hanken Grotesk',sans-serif;cursor:pointer;padding:5px 9px">Skip story</button>
+              <sc-if value="{{ coverBeginsStory }}" hint-placeholder-val="{{ true }}">
+                <button sc-camel-on-click="{{ onBeginStory }}" class="pg-story-primary">Begin the story <span aria-hidden="true">→</span></button>
+              </sc-if>
+              <sc-if value="{{ coverBeginsAct }}" hint-placeholder-val="{{ false }}">
+                <button data-testid="workshop-begin" sc-camel-on-click="{{ onWorkshopBegin }}" class="pg-story-primary">Begin at this act <span aria-hidden="true">→</span></button>
+              </sc-if>
+              <sc-if value="{{ coverShowsSkip }}" hint-placeholder-val="{{ true }}">
+                <button sc-camel-on-click="{{ onSkipStory }}" style="border:0;background:transparent;color:#78836F;font:700 11px 'Hanken Grotesk',sans-serif;cursor:pointer;padding:5px 9px">Skip story</button>
+              </sc-if>
             </div>
           </div>
         </div>
@@ -4082,6 +4248,9 @@ class Component extends DCLogic {
     const finish=(lesson)=>this.finishLivingLesson(lesson,snapshot,candidates,fingerprint,requestId);
     const start=()=>{
       if(!isCurrent()){return;}
+      // A workshop always hears the reviewed offline lesson: no model call, no cost,
+      // and the same lesson for every group (no cached model answer either).
+      if(this.WORKSHOP.enabled){const lesson=engine.fallbackLesson(snapshot,candidates);lesson.fallbackReason='workshop';finish(lesson);return;}
       const cached=this.lessonCacheRead(fingerprint);
       if(cached){finish(cached);return;}
       const useFallback=(reason)=>{
@@ -4227,6 +4396,160 @@ class Component extends DCLogic {
     if(this._fitHeaderFrame){return;}
     // after the translator has put the player's words in place
     this._fitHeaderFrame=requestAnimationFrame(()=>{this._fitHeaderFrame=null;if(!this._unmounted){this.fitHeader();}});
+  }
+  // Workshop mode. lib/workshop.js holds the rules (link, act presets, session log);
+  // these methods connect them to the game. Nothing here uses the network.
+  readWorkshopLink(){
+    const api=typeof window!=='undefined'?window.PermacultureWorkshop:null;
+    const search=typeof location!=='undefined'?location.search:'';
+    if(api){return api.readQuery(search);}
+    // without its helper a workshop link must still never reach anyone's own game
+    return {enabled:/[?&]workshop=(?:1|true|yes)(?:&|$)/i.test(search),start:null};
+  }
+  workshopApi(){return typeof window!=='undefined'?window.PermacultureWorkshop:null;}
+  readWorkshopLog(){
+    const api=this.workshopApi();if(!api||!this.WORKSHOP.enabled){return null;}
+    try{const raw=localStorage.getItem(api.LOG_KEY);return raw?api.sanitizeLog(JSON.parse(raw)):null;}catch(_){return null;}
+  }
+  storeWorkshopLog(log){
+    const api=this.workshopApi();if(!api||!log||this._workshopLeaving){return;}
+    try{localStorage.setItem(api.LOG_KEY,JSON.stringify(log));}catch(_){}
+  }
+  logWorkshop(events){
+    const api=this.workshopApi(),log=this.state.workshopLog;
+    if(!api||!log||!this.WORKSHOP.enabled||this._workshopLeaving||!events||!events.length){return;}
+    const next=api.append(log,events,Date.now());if(!next){return;}
+    this.storeWorkshopLog(next);this.setState({workshopLog:next});
+  }
+  // Called after every update: what changed since the last one goes into the log.
+  observeWorkshop(st){
+    const api=this.workshopApi();if(!api){return;}
+    const done=this.journeyModel(st).steps.filter(step=>step.done).map(step=>step.key);
+    const snap=api.snapshot(st,done),prev=this._workshopSnap;this._workshopSnap=snap;
+    if(prev&&st.workshopLog){const events=api.diff(prev,snap,st.workshopLog.acts);if(events.length){this.logWorkshop(events);}}
+  }
+  chooseWorkshopStart(value){
+    const api=this.workshopApi(),start=(api&&api.normalizeStart(value))||'story';
+    this.setState({workshopStart:start});
+    // the address remembers the choice, so a language change and the next group keep it
+    try{const url=new URL(location.href);url.searchParams.set('act',String(start));history.replaceState(history.state,'',url.href);}catch(_){}
+  }
+  beginWorkshop(){
+    const api=this.workshopApi();if(!api||!this.WORKSHOP.enabled){return;}
+    const from=api.normalizeStart(this.state.workshopStart)||'story';
+    const log=api.newLog(from,Date.now());this.storeWorkshopLog(log);
+    if(from==='story'){this.setState({workshopLog:log},()=>this.beginStory());return;}
+    if(from===1){this.setState({workshopLog:log},()=>this.enterFromStory('guided'));return;}
+    // A later act: write the garden as a group would find it there and start again from it.
+    this._workshopLeaving=true;this.clearTransientWork();this.stopAllAudio();
+    try{localStorage.setItem(this.STORE,JSON.stringify(api.presetSave(from)));}catch(_){}
+    location.reload();
+  }
+  openWorkshop(fromMenu=false){
+    this.suspendGardenWhisper();
+    this.setState({workshopOpen:true,workshopNote:'',headerMenuOpen:false,plantType:null,movingPlacedId:null,giveMode:false,selectedPlacedId:null,seedMenuId:null},()=>{
+      // opened from the phone menu, whose item is gone now: focus returns to the menu button
+      if(fromMenu){this._dialogReturnFocus=document.getElementById('pg-header-more');}
+    });
+  }
+  closeWorkshop(){this.setState({workshopOpen:false,workshopNote:''});}
+  prepareNextGroup(){
+    const api=this.workshopApi();if(!api||!this.WORKSHOP.enabled){return;}
+    const message=this.i18nText('workshop.next.confirm','Prepare for the next group? This workshop garden and its session log will be cleared. Save or print the log first if you need it.');
+    if(!window.confirm(message)){return;}
+    const log=this.state.workshopLog,from=(log&&log.from)||this.state.workshopStart||'story';
+    this._workshopLeaving=true;this.clearTransientWork();this.stopAllAudio();
+    try{localStorage.removeItem(this.STORE);localStorage.removeItem(api.LOG_KEY);}catch(_){}
+    // the next group begins where this one did
+    try{const url=new URL(location.href);url.searchParams.set('act',String(from));location.replace(url.href);}catch(_){location.reload();}
+  }
+  workshopActs(){
+    const goals={
+      soil:this.i18nText('workshop.act.soil.goal','Living soil comes first: organic matter and cover feed the life that feeds every plant.'),
+      water:this.i18nText('workshop.act.water.goal','Rain is caught, slowed and stored, so it serves the garden instead of rushing away.'),
+      food:this.i18nText('workshop.act.food.goal','Food grows in layers and partnerships, not as single crops standing alone.'),
+      shelter:this.i18nText('workshop.act.shelter.goal','A resilient garden leaves room for wild neighbours, which need shelter and water as well as food.'),
+      share:this.i18nText('workshop.act.share.goal','Fair share: a genuine surplus circulates as a gift and never turns into personal currency.'),
+      challenge:this.i18nText('workshop.act.challenge.goal','Seasons change the garden; observe the whole system before acting on one symptom.')
+    };
+    const asks={
+      soil:this.i18nText('workshop.act.soil.ask','What lives in the soil, and what does it need from us before anything else can grow?'),
+      water:this.i18nText('workshop.act.water.ask','Where does the rain on this garden go now, and where could it pause and be useful?'),
+      food:this.i18nText('workshop.act.food.ask','Which of your plants does more than one job, and what could you place beside it?'),
+      shelter:this.i18nText('workshop.act.shelter.ask','Who else lives in this garden, and what does each of them need besides food?'),
+      share:this.i18nText('workshop.act.share.ask','What can the garden give away without becoming poorer, and why is a gift not a purchase here?'),
+      challenge:this.i18nText('workshop.act.challenge.ask','What changed with the season, and which other parts of the garden does that change reach?')
+    };
+    return this.journeyModel(this.state).steps.map(step=>({key:step.key,eyebrow:this.i18nValue(step.eyebrow),label:this.i18nValue(step.label),done:!!step.done,goal:goals[step.key],ask:asks[step.key]}));
+  }
+  workshopEventText(ev){
+    const t=(key,fallback,vars)=>this.i18nText(key,fallback,vars);
+    const act=(key)=>{const a=this.workshopActs().find(x=>x.key===key);return a?a.eyebrow:key;};
+    const challenge=(key)=>{const def=this.gateDefs()[key];return def?this.i18nValue(def.title):key;};
+    if(ev.k==='start'){return ev.from==='story'?t('workshop.log.startStory','Began with the opening story'):t('workshop.log.startAct','Began at {act}',{act:act(this.workshopApi().ACT_KEYS[ev.from-1])});}
+    if(ev.k==='act'){return t('workshop.log.act','Act complete: {act}',{act:act(ev.act)});}
+    if(ev.k==='challenge'){
+      const solved=t('workshop.log.challenge','Challenge solved: {title}',{title:challenge(ev.key)});
+      return ev.clues?solved+' · '+t('workshop.log.tries',ev.clues===1?'{count} other way tried first':'{count} other ways tried first',{count:ev.clues}):solved;
+    }
+    if(ev.k==='challengeLater'){return t('workshop.log.challengeLater','Challenge left for later: {title}',{title:challenge(ev.key)});}
+    if(ev.k==='season'){return t('workshop.log.season','The season turned: {season}',{season:this.i18nValue(ev.season)});}
+    if(ev.k==='connection'){const g=this.guildDefs.find(x=>x.key===ev.key);return t('workshop.log.connection','Design connection found: {name}',{name:g?this.i18nValue(g.name):ev.key});}
+    if(ev.k==='wildlife'){const w=this.wildlife.find(x=>x.key===ev.key);return t('workshop.log.wildlife','A wild neighbour arrived: {name}',{name:w?this.i18nValue(w.name):ev.key});}
+    if(ev.k==='gift'){return t('workshop.log.gift','A gift reached the community table · {count} so far',{count:ev.count});}
+    if(ev.k==='lesson'){return t('workshop.log.lesson','A Living Lesson experiment was completed');}
+    if(ev.k==='ending'){return t('workshop.log.ending','The garden reached the flourishing ending');}
+    if(ev.k==='certificate'){return ev.how==='print'?t('workshop.log.certificatePrinted','A certificate was printed'):t('workshop.log.certificateSaved','A certificate was saved');}
+    return '';
+  }
+  workshopTime(value){
+    const i18n=this.i18n(),locale=this.currentLocale(),options={hour:'2-digit',minute:'2-digit'},date=new Date(value);
+    if(locale!=='en'&&i18n&&typeof i18n.date==='function'){return i18n.date(date,options);}
+    try{return new Intl.DateTimeFormat('en-GB',options).format(date);}catch(_){return String(value).slice(11,16);}
+  }
+  workshopLogWords(log){
+    const i18n=this.i18n(),locale=this.currentLocale(),options={day:'numeric',month:'long',year:'numeric'},started=new Date(log.startedAt);
+    let day;
+    if(locale!=='en'&&i18n&&typeof i18n.date==='function'){day=i18n.date(started,options);}
+    else{try{day=new Intl.DateTimeFormat('en-GB',options).format(started);}catch(_){day=log.startedAt.slice(0,10);}}
+    return {
+      title:this.i18nText('workshop.log.fileTitle','Le Jardin — workshop log'),
+      header:[day],
+      describe:(ev)=>this.workshopEventText(ev),
+      time:(value)=>this.workshopTime(value),
+      footer:this.i18nText('workshop.log.privacy','The log stays on this device. Nothing in it is sent anywhere.')
+    };
+  }
+  downloadWorkshopLog(){
+    const api=this.workshopApi(),log=this.state.workshopLog;if(!api||!log){return;}
+    const file='le-jardin-workshop-log-'+log.startedAt.slice(0,10)+'.txt';
+    const url=URL.createObjectURL(new Blob([api.logText(log,this.workshopLogWords(log))],{type:'text/plain;charset=utf-8'}));
+    const link=document.createElement('a');link.href=url;link.download=file;link.style.display='none';document.body.appendChild(link);link.click();link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    this.setState({workshopNote:this.i18nText('workshop.log.savedAs','Saved on this device as {file}',{file:file})});
+  }
+  clearWorkshopPrint(){
+    document.documentElement.classList.remove('pg-print-log');
+    ['pg-workshop-print','pg-workshop-print-page'].forEach(id=>{const el=document.getElementById(id);if(el){el.remove();}});
+  }
+  // Prints only the log, on a portrait page, from a sheet outside the game.
+  printWorkshopLog(){
+    const log=this.state.workshopLog;if(!log){return;}
+    this.clearWorkshopPrint();
+    const words=this.workshopLogWords(log),make=(tag,text,cls)=>{const el=document.createElement(tag);if(text){el.textContent=text;}if(cls){el.className=cls;}return el;};
+    const sheet=make('section',null,'pg-workshop-print');sheet.id='pg-workshop-print';sheet.setAttribute('data-pg-no-i18n','true');
+    sheet.appendChild(make('h1',words.title));
+    words.header.forEach(line=>{if(line){sheet.appendChild(make('p',line));}});
+    const list=make('ol');
+    log.events.forEach(ev=>{const li=make('li'),time=make('time',words.time(ev.t));time.dateTime=ev.t;li.appendChild(time);li.appendChild(make('span',words.describe(ev)));list.appendChild(li);});
+    sheet.appendChild(list);sheet.appendChild(make('p',words.footer,'pg-workshop-print-foot'));
+    document.body.appendChild(sheet);
+    // after the game's own stylesheet, so this page size wins over the certificate's landscape
+    const page=make('style','@page{size:A4 portrait;margin:16mm}');page.id='pg-workshop-print-page';document.body.appendChild(page);
+    document.documentElement.classList.add('pg-print-log');
+    const done=()=>{window.removeEventListener('afterprint',done);this.clearWorkshopPrint();};
+    window.addEventListener('afterprint',done);
+    window.print();
   }
   journeyModel(st=this.state){
     const t=new Set((st.placed||[]).map(p=>p.type));
@@ -4432,10 +4755,13 @@ class Component extends DCLogic {
     ];
     return {values:values,view:view,links:links,average:Math.round((values.soil+values.water+values.food+values.habitat)/4)};
   }
-  state=this.freshState(true);
+  // A workshop link (?workshop=1) keeps its garden and its session log under their
+  // own keys (lib/workshop.js): a workshop never touches anyone's own game here.
+  WORKSHOP=this.readWorkshopLink();
+  state={...this.freshState(true),workshopOpen:false,workshopLog:null,workshopStart:this.WORKSHOP.start||'story'};
   dragData=null;
   _n=0;_g=0;
-  STORE='permagarden_v2';
+  STORE=this.WORKSHOP.enabled?'permagarden_workshop_v1':'permagarden_v2';
   PERSIST_KEYS=['placed','shares','budget','pool','goodwill','given','awarded','market','lastCommunityCheck','storySeen','introSeen','mode','gardenSize','gardenWidth','gardenHeight','insightsExpanded','journeyMoments','gardenEffects','lastChallengeKey','gate','gardenReflectionsSeen','gardenReflection','gardenReflectionQueue','gardenWhisper','gardenWhisperQueue','residentBeatsSeen','residentSeasons','residentWinters','pestActive','pestSeasons','pestCleared','pestRelief','pestBeatsSeen','pestLastSettled','guildCard','guildCardQueue','arrivalQueue','gardenCinematic','livingLessonExperiment','livingLessonHistory','communityMemory','reflectionOpened','reflectionNote','endingSeen','discovered','guildVoicePlayed','seenWildlife','sharedActs','rewardedGiftTypes','seasonTurns','seedAllowance','seedStock','unlocksSeen','grownHarvests','preservedCount','stallSales','freshSales','muted','playerName','season','springBonusDone','autumnHarvestDone','rakeRewardDone','springForageDone','springSprouts','leafPiles','cherryPicks','returnQueue','basket','materials','harvestEver','gatesPlayed','guests','visitsDone','visitSeason','visit','lastSystemChange','payWith'];
   storyScenes=[
     {src:'assets/story/story-01-menet.webp',voice:'assets/audio/story/narration-01.mp3',location:'Menet · Early morning',chapter:'01 · A quiet place',title:'At the edge of Menet',caption:'I rest beneath the hills and the wide French sky.',ms:7640,position:'50% 48%'},
@@ -4626,6 +4952,7 @@ class Component extends DCLogic {
       if(this.state.bookOpen&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){e.preventDefault();this.turnBook(e.key==='ArrowRight'?1:-1);return;}
       if(e.key!=='Escape'){return;}
       if(this.state.story){return;}
+      if(this.state.workshopOpen){this.closeWorkshop();return;}
       if(this.state.gardenCinematic){this.dismissGardenCinematic();return;}
       if(this.state.gardenReflection){this.dismissGardenReflection();return;}
       if(this.state.residentStory){this.dismissResidentStory();return;}
@@ -4834,6 +5161,7 @@ class Component extends DCLogic {
       if(typeof console!=='undefined'&&console.warn){console.warn('[Permaculture Garden] Saved game could not be restored.',e);}
     }
     if(!restored){this.capturePreviousState();}
+    if(this.WORKSHOP.enabled){const workshopLog=this.readWorkshopLog();if(workshopLog){this.setState({workshopLog:workshopLog});}}
     this.scheduleFitHeader();
     if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{if(!this._unmounted){this.scheduleFitHeader();}});}
     this.later(()=>{this.syncResponsiveAccess();this.syncDialogAccess();this.syncAmbientVideoPlayback();},0);
@@ -4937,6 +5265,7 @@ class Component extends DCLogic {
   storySound(scene,seekBed=true){ return this.playStoryScene(scene,seekBed); }
   activeDialogKey(st=this.state){
     if(st.story){return 'story';}
+    if(st.workshopOpen){return 'workshop';}
     if(st.gardenCinematic){return 'garden-cinematic';}
     if(st.gardenReflection){return 'garden-reflection';}
     if(st.residentStory){return 'resident-story';}
@@ -5106,7 +5435,8 @@ class Component extends DCLogic {
   }
   persist(){
     clearTimeout(this._reflectionPersistT);this._reflectionPersistT=null;
-    if(this._storageUnavailable){return false;}
+    // a workshop that is starting over must not write the old garden back
+    if(this._storageUnavailable||this._workshopLeaving){return false;}
     try{
       const s=this.state;
       const pendingGate=s.gate&&(s.gate.status==='won'||s.gate.status==='lost')?s.gate:null;
@@ -5149,6 +5479,7 @@ class Component extends DCLogic {
     this.syncDialogAccess();
     this.syncAmbientVideoPlayback();
     const st=this.state;
+    if(this.WORKSHOP.enabled){this.observeWorkshop(st);}
     const headerTools=document.querySelector('.pg-header-actions');
     const headerSig=(headerTools?headerTools.childElementCount:0)+'|'+st.viewportMode+'|'+st.viewportWidth;
     if(headerSig!==this._headerSig){this._headerSig=headerSig;this.scheduleFitHeader();}
@@ -5986,7 +6317,7 @@ class Component extends DCLogic {
       this._certificateUrl=url;
       const link=document.createElement('a');link.href=url;link.download=out.filename;link.style.display='none';document.body.appendChild(link);link.click();link.remove();
       setTimeout(()=>{URL.revokeObjectURL(url);if(this._certificateUrl===url){this._certificateUrl=null;}},4000);
-      if(isCurrent()){this.setState({certificatePreparing:false,toast:'💾 Standalone certificate saved — its artwork will remain visible offline.'});}
+      if(isCurrent()){this.setState({certificatePreparing:false,toast:'💾 Standalone certificate saved — its artwork will remain visible offline.'});this.logWorkshop([{k:'certificate',how:'save'}]);}
     }catch(error){
       if(isCurrent()){this.setState({certificatePreparing:false,toast:'The certificate artwork could not be embedded. Please check the connection and try again.'});}
     }finally{
@@ -5994,6 +6325,8 @@ class Component extends DCLogic {
     }
   }
   printCertificate(){
+    this.clearWorkshopPrint();
+    this.logWorkshop([{k:'certificate',how:'print'}]);
     window.print();
   }
   giveElement(id,type){
@@ -6512,7 +6845,7 @@ class Component extends DCLogic {
         let ns={...s,gate:{...s.gate,d:d,status:res,effectNew:effectNew},shares:effectNew?s.shares+1:s.shares,gatesPlayed:{...(s.gatesPlayed||{}),[g.key]:((s.gatesPlayed||{})[g.key]||0)+1}};
         if(res==='won'){ns=this.applyChallengeImpact(ns,g.key);}
         return ns;
-      },()=>{if(res==='won'){this.setMusicMode('reflection');this.speakGarden('challenge:'+g.key);}});
+      },()=>{if(res==='won'){this.setMusicMode('reflection');this.speakGarden('challenge:'+g.key);this.logWorkshop([{k:'challenge',key:g.key,clues:d.mist||0}]);}});
       if(res==='won'){this.playSparkle();}else{this.playThud();}
     } else {
       this.setState(s=>({gate:{...s.gate,d:d}}));
@@ -6540,6 +6873,7 @@ class Component extends DCLogic {
     this.stopGardenVoice('challenge:'+g.key);
     if(g.status==='won'||g.status==='lost'){this.gateFinish();return;}
     clearInterval(this._gateIv);
+    this.logWorkshop([{k:'challengeLater',key:g.key}]);
     const t=g.target,p=this.seasonPassages[t]||{};
     const cinematic={season:t,title:p.title||('Welcome, '+t),text:'You let the challenge pass, and the season turned all the same. It will be waiting above the plot whenever you want it.',image:p.image||'',loop:p.loop||''};
     this.setState({gate:null,gardenCinematic:cinematic},()=>{this._applySeasonNow(t);this.setMusicMode('season');this.speakGarden('cinematic-'+t.toLowerCase());});
@@ -7541,8 +7875,39 @@ class Component extends DCLogic {
     const calmPhase=(st.plantType||st.movingPlacedId)?'place':(st.selectedPlacedId?'notice':'choose');
     const calmFocusTitle=guided?(guidedEndingReady?'The garden is ready to reflect':journey.current.label):nextStep.label;
     const calmFocusWhy=guided?readinessWhy:nextStep.why;
+    // Workshop mode (lib/workshop.js): the start choice on the story cover and the facilitator's panel.
+    const workshopApi=this.workshopApi(),workshopOn=!!this.WORKSHOP.enabled&&!!workshopApi;
+    const workshopCover=workshopOn&&!st.workshopLog,workshopEntries=st.workshopLog?st.workshopLog.events.length:0;
+    const workshopView={workshopStartValue:String(st.workshopStart||'story'),workshopStartOptions:[],workshopNowTitle:'',workshopNowLabel:'',workshopNowGoal:'',workshopNowAsk:'',workshopActsView:[],workshopLogView:[],workshopGuideHref:'',workshopGuideLang:'en',workshopGuideOthers:[]};
+    if(workshopOn){
+      const acts=this.workshopActs();
+      if(workshopCover){workshopView.workshopStartOptions=[{value:'story',label:localText('workshop.cover.story','The opening story')}].concat(acts.map((a,i)=>({value:String(i+1),label:a.eyebrow})));}
+      if(st.workshopOpen){
+        const current=journey.ready?null:acts[journey.index];
+        workshopView.workshopNowTitle=current?current.eyebrow:localText('workshop.now.doneTitle','All six acts are complete');
+        workshopView.workshopNowLabel=current?current.label:'';
+        workshopView.workshopNowGoal=current?current.goal:localText('workshop.now.doneGoal','Care for the earth, care for people and fair share now work together in one garden.');
+        workshopView.workshopNowAsk=current?current.ask:localText('workshop.now.doneAsk','Which relationship from your garden would you try first in a real one, and why?');
+        workshopView.workshopActsView=acts.map(a=>{const here=!!current&&a.key===current.key;return {...a,className:'pg-ws-act'+(a.done?' is-done':'')+(here?' is-current':''),statusText:a.done?localText('workshop.acts.done','done'):(here?localText('workshop.acts.current','this group is here'):localText('workshop.acts.todo','not yet'))};});
+        workshopView.workshopLogView=(st.workshopLog?st.workshopLog.events.slice().reverse():[]).map(ev=>({t:ev.t,time:this.workshopTime(ev.t),text:this.workshopEventText(ev)}));
+        const guideLang=workshopApi.guideLocale(locale),guideNames={en:'English',cs:'Čeština',fr:'Français'};
+        workshopView.workshopGuideHref=workshopApi.guideHref(guideLang);
+        workshopView.workshopGuideLang=guideLang;
+        workshopView.workshopGuideOthers=workshopApi.GUIDE_LOCALES.filter(l=>l!==guideLang).map(l=>({lang:l,label:guideNames[l],href:workshopApi.guideHref(l)}));
+      }
+    }
 
     return {
+      ...workshopView,
+      workshopMode:workshopOn,resetVisible:!workshopOn,workshopCover:workshopCover,
+      coverBeginsStory:!workshopCover||st.workshopStart==='story',coverBeginsAct:workshopCover&&st.workshopStart!=='story',coverShowsSkip:!workshopCover,
+      onWorkshopStartChange:(e)=>this.chooseWorkshopStart(e&&e.target?e.target.value:'story'),
+      onWorkshopBegin:()=>this.beginWorkshop(),
+      workshopVisible:workshopOn&&!!st.workshopOpen,
+      onOpenWorkshop:()=>this.openWorkshop(false),onMenuWorkshop:()=>this.openWorkshop(true),onCloseWorkshop:()=>this.closeWorkshop(),
+      workshopLogEmpty:!workshopEntries,workshopHasEntries:workshopEntries>0,workshopNote:st.workshopNote||'',
+      onWorkshopSaveLog:()=>this.downloadWorkshopLog(),onWorkshopPrintLog:()=>this.printWorkshopLog(),
+      onWorkshopPrepareNext:()=>this.prepareNextGroup(),
       shellClass:'pg-game-shell pg-viewport-'+(st.viewportMode||'desktop'),
       shellStyle:shellStyle,
       gardenSize:gardenSize,
@@ -7621,7 +7986,7 @@ class Component extends DCLogic {
       storyHasNext:storyIndex<this.storyScenes.length-1,
       storyPauseLabel:st.storyPaused?'Resume story':'Pause story',
       storyPauseIcon:st.storyPaused?'▶':'Ⅱ',storySoundIcon:st.muted?'×♫':'♫',
-      onBeginStory:()=>this.beginStory(),
+      onBeginStory:()=>workshopCover?this.beginWorkshop():this.beginStory(),
       onSkipStory:()=>this.finishStory(true),
       // The story's closing scene carries the choice, so watching it costs one gate
       // instead of two. Skipping still lands on the mode card — that path has no scene

@@ -38,19 +38,23 @@
     "test:translations": "node scripts/test-translations.mjs",
     "translations:export": "node scripts/translations.mjs export",
     "translations:import": "node scripts/translations.mjs import",
-    "test": "npm run check && npm run test:i18n && npm run test:living-lesson && npm run test:score && npm run test:translations",
+    "test": "npm run check && npm run test:i18n && npm run test:living-lesson && npm run test:score && npm run test:translations && npm run test:workshop",
     "test:e2e:kitchen": "node scripts/run-local-e2e.mjs scripts/e2e-kitchen-seedbank.mjs",
     "test:e2e:v81": "node scripts/run-local-e2e.mjs scripts/e2e-v81-polish.mjs",
     "test:e2e:v82": "node scripts/run-local-e2e.mjs scripts/e2e-v82-economy-resize.mjs",
     "test:e2e:playthrough": "node scripts/run-local-e2e.mjs scripts/e2e-playthrough.mjs",
-    "test:e2e:core": "node scripts/run-local-e2e.mjs scripts/e2e-playthrough.mjs scripts/e2e-touch-placement.mjs scripts/e2e-responsive-platforms.mjs scripts/e2e-living-lesson.mjs scripts/e2e-release-audit.mjs",
-    "test:production": "node scripts/e2e-production-smoke.mjs"
+    "test:e2e:core": "node scripts/run-local-e2e.mjs scripts/e2e-playthrough.mjs scripts/e2e-touch-placement.mjs scripts/e2e-responsive-platforms.mjs scripts/e2e-living-lesson.mjs scripts/e2e-release-audit.mjs scripts/e2e-workshop.mjs",
+    "test:production": "node scripts/e2e-production-smoke.mjs",
+    "test:workshop": "node scripts/test-workshop.mjs",
+    "test:e2e:workshop": "node scripts/run-local-e2e.mjs scripts/e2e-workshop.mjs"
   },
   "dependencies": {
     "ai": "^7.0.162",
     "zod": "^4.6.7"
   },
   "devDependencies": {
-    "playwright": "^1.64.1"
+    "marked": "18.1.2",
+    "playwright": "^1.64.1",
+    "qrcode-svg": "1.1.0"
   }
 }
