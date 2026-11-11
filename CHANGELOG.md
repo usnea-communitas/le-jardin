@@ -2,18 +2,22 @@
 
 Notable changes to Le Jardin. Version numbers follow the game's internal release counter (`package.json`). Detailed handoff notes for the playtest releases are in [`docs/handoffs/`](docs/handoffs/).
 
-## Unreleased
+## v0.85.0 — 2026-11-12 — workshop mode and a facilitator guide
+
+Live since 10–12 November 2026: the game can be played with groups, a facilitator has a guide in three languages, and phones start faster.
 
 - **Workshop mode for groups** (`?workshop=1`, issue #7). The workshop garden is saved apart from anyone's own game on the device. The opening card asks where the group begins: with the opening story or at any of the six acts (`&act=3` preselects one); a later act starts with the earlier ones done using plain elements placed far apart, so every design connection is still the group's to find. The Living Lesson answers only from the reviewed offline lessons — no model call, no cost, the same lesson for every group. *Workshop* replaces *Reset* in the header and opens a panel for the facilitator: where the group is and a question to ask, the six acts with their learning goals, a session log that stays on the device (saved as a text file or printed on its own), the facilitator guide and *Prepare for the next group*, which clears only the workshop garden and its log after a confirmation.
 - **Facilitator guide** in English, Czech and French in [`docs/facilitator/`](docs/facilitator/), with PDFs: how the game teaches, workshop mode and preparation, the goal, questions, common misconceptions and a tip for each act, the task, solution and explanation of all eleven challenges (generated from the game's catalogues, so it always matches the screen), questions for the closing conversation and plans for 45, 90 and 120 minutes, with QR codes of the workshop links.
-- **The header fits laptop windows in every language.** In German, French, Spanish, Polish and Russian the desktop header was wider than windows of 1180–1440 px: the last button left the screen and the game's name was cut. The header now measures itself; when it does not fit, its tools show only their icons, and if that is still not enough, the community progress and the audio note step aside.
-- French names the six acts consistently as *actes* (the first two were *gestes*), and the mushroom names in German, French, Polish and Chinese show their Latin names in brackets instead of between stray asterisks.
-- The new interface texts were translated by Claude into the eight other languages and have not yet been checked by native speakers.
-
+- **Playtest kit** in [`docs/playtest/`](docs/playtest/), in English and Czech: a 60–90 minute session plan with the six acts to watch and discussion questions, an observation sheet, an anonymous paper questionnaire for players, a consent text that says exactly what the game stores and sends, and the steps for filing a *Playtest report* linked from issue #8.
 - **Faster first start on phones.** While the opening story's cover is on screen, the garden behind it is not built: it is built 1.5 seconds into the story or when the story closes, so the cover appears sooner and pressing play answers at once. The raw template stays hidden until the runtime replaces it, so it is never laid out. On tall, narrow screens the story shows 600 × 900 crops of its paintings (1.1 MB instead of 2.7 MB for all seven), and the second picture loads at the first touch or key instead of during the first load.
+- **The header fits laptop windows in every language.** In German, French, Spanish, Polish and Russian the desktop header was wider than windows of 1180–1440 px: the last button left the screen and the game's name was cut. The header now measures itself; when it does not fit, its tools show only their icons, and if that is still not enough, the community progress and the audio note step aside.
+- **Security headers and caching.** `vercel.json` sends `X-Content-Type-Options`, a referrer policy, frame protection, a permissions policy and a content security policy for frames, plugins and base addresses; fonts are cached for a year and pictures, sound and video for a day. A 1200 × 630 JPEG share preview, a canonical address, `robots.txt` and `sitemap.xml`. A return visit downloads about 3 kB.
+- **A review kit for native speakers.** `npm run translations:export` writes a CSV and a Markdown sheet per language to [`docs/translations/`](docs/translations/), and the import refuses a row whose `{placeholders}` changed; good-first issues #17–#24 invite a reviewer for each language.
+- French names the six acts consistently as *actes* (the first two were *gestes*), and the mushroom names in German, French, Polish and Chinese show their Latin names in brackets instead of between stray asterisks.
 - English pages no longer build the reverse translation index that only other languages use, and today's date is formatted once a day instead of on every render.
 - The palette footer no longer carries a link, and the summary's credit reads simply *Le Jardin*.
-- **Playtest kit** in [`docs/playtest/`](docs/playtest/), in English and Czech: a 60–90 minute session plan with the six acts to watch and discussion questions, an observation sheet, an anonymous paper questionnaire for players, a consent text that says exactly what the game stores and sends, and the steps for filing a *Playtest report* linked from issue #8.
+- Dependabot proposes dependency and workflow updates once a month.
+- The new interface texts were translated by Claude into the eight other languages and have not yet been checked by native speakers.
 
 ## v0.84.0 — 2026-11-10 — every text in the player's language
 
