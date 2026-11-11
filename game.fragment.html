@@ -795,6 +795,16 @@ html,body{margin:0;padding:0}
 .pg-living-lesson-secondary{border:1px solid rgba(95,114,80,.3);background:rgba(255,252,243,.7);color:#526249}
 .pg-living-lesson-trust{margin-top:13px;padding-top:11px;border-top:1px solid rgba(107,87,57,.17);font-size:9.5px;line-height:1.45;color:#7a705f}
 @media(max-width:600px){.pg-living-lesson-dialog{padding:24px 18px 20px}.pg-living-lesson-voice{font-size:18px}}
+/* A desktop header in a longer language can outgrow a laptop window: fitHeader() then
+   shows the tools as icons (tight) and, if that is not enough, sets the community
+   progress and the audio note aside (tighter). Every tool keeps its name for screen readers. */
+html[data-pg-header-measure] .pg-header-inner *{transition:none!important}
+html[data-pg-header] .pg-header-story{width:34px;padding:0!important;justify-content:center}
+html[data-pg-header] .pg-header-story span:last-child{display:none}
+html[data-pg-header] .pg-header-book,html[data-pg-header] .pg-header-reset{width:34px;height:34px;padding:0!important;justify-content:center;font-size:0!important}
+html[data-pg-header] .pg-header-place{width:34px;padding:0!important;justify-content:center}
+html[data-pg-header] .pg-header-place-label{display:none}
+html[data-pg-header="tighter"] .pg-header-progress,html[data-pg-header="tighter"] .pg-header-audio-language{display:none!important}
 @media(prefers-reduced-motion:reduce){.pg-living-lesson-orbit{animation:none;border-color:#5e7e4a}}
 .pg-guild-voice{margin:0 0 13px;padding:10px 12px;border:1px solid rgba(111,134,96,.22);border-radius:12px;background:linear-gradient(145deg,#f4f1e4,#e7edda);font:italic 13px/1.48 Georgia,'Times New Roman',serif;color:#43523b}
 .pg-cinematic{position:absolute;inset:0;z-index:720;background:#162017;overflow:hidden;display:grid;place-items:center;animation:pgCineIn .65s ease both}
@@ -4154,6 +4164,24 @@ class Component extends DCLogic {
     const ns=this.freshState(false);ns.season='Summer';ns.market=this.freshMarket('Summer');ns.cherryPicks=3;ns.springSprouts=0;ns.leafPiles=0;
     this.setState(ns,()=>{this.capturePreviousState();this._suppressFx=false;this.setMusicMode('garden');});
   }
+  // Measured, because the words decide: English fits a laptop window, German or Polish may not.
+  fitHeader(){
+    const root=document.documentElement,inner=document.querySelector('.pg-header-inner');
+    if(!inner||this.state.viewportMode!=='desktop'){if(root.dataset.pgHeader){delete root.dataset.pgHeader;}return;}
+    const brand=inner.querySelector('.pg-brand-title');
+    // nothing pushed out of the window, and the name of the game shown whole
+    const fits=()=>inner.scrollWidth<=inner.clientWidth+1&&(!brand||brand.scrollWidth<=brand.clientWidth+1);
+    // the tools ease their size in; measure their final size, not the first frame
+    root.dataset.pgHeaderMeasure='1';
+    delete root.dataset.pgHeader;
+    if(!fits()){root.dataset.pgHeader='tight';if(!fits()){root.dataset.pgHeader='tighter';}}
+    delete root.dataset.pgHeaderMeasure;
+  }
+  scheduleFitHeader(){
+    if(this._fitHeaderFrame){return;}
+    // after the translator has put the player's words in place
+    this._fitHeaderFrame=requestAnimationFrame(()=>{this._fitHeaderFrame=null;if(!this._unmounted){this.fitHeader();}});
+  }
   journeyModel(st=this.state){
     const t=new Set((st.placed||[]).map(p=>p.type));
     const moment=(k)=>this.hasJourneyMoment(st,k);
@@ -4760,6 +4788,8 @@ class Component extends DCLogic {
       if(typeof console!=='undefined'&&console.warn){console.warn('[Permaculture Garden] Saved game could not be restored.',e);}
     }
     if(!restored){this.capturePreviousState();}
+    this.scheduleFitHeader();
+    if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{if(!this._unmounted){this.scheduleFitHeader();}});}
     this.later(()=>{this.syncResponsiveAccess();this.syncDialogAccess();this.syncAmbientVideoPlayback();},0);
     // the second story picture loads at the first touch or key, not while the cover is still arriving
     this._warmOnInput=()=>{window.removeEventListener('pointerdown',this._warmOnInput,true);window.removeEventListener('keydown',this._warmOnInput,true);this.warmNextStory();};
@@ -4778,6 +4808,7 @@ class Component extends DCLogic {
     window.removeEventListener('resize',this._resize);
     window.removeEventListener('orientationchange',this._resize);
     if(this._resizeFrame){cancelAnimationFrame(this._resizeFrame);this._resizeFrame=null;}
+    if(this._fitHeaderFrame){cancelAnimationFrame(this._fitHeaderFrame);this._fitHeaderFrame=null;}
     document.removeEventListener('pointerdown',this._headerOutside,true);
     document.removeEventListener('pointerdown',this._downCap,true);
     document.removeEventListener('mousedown',this._downCap,true);
@@ -5072,6 +5103,9 @@ class Component extends DCLogic {
     this.syncDialogAccess();
     this.syncAmbientVideoPlayback();
     const st=this.state;
+    const headerTools=document.querySelector('.pg-header-actions');
+    const headerSig=(headerTools?headerTools.childElementCount:0)+'|'+st.viewportMode+'|'+st.viewportWidth;
+    if(headerSig!==this._headerSig){this._headerSig=headerSig;this.scheduleFitHeader();}
     if(this._prevPlaced===undefined){this.capturePreviousState(st);this._suppressFx=false;this.persist();if((st.gardenReflectionQueue||[]).length){this.scheduleGardenReflection(500);}return;}
     const prevPlaced=this._prevPlaced, prevToast=this._prevToast, prevWhisper=this._prevWhisper, prevPulse=this._prevPulse, prevAwarded=this._prevAwarded, prevJourneyCount=this._prevJourneyCount||0;
     const journeyCount=this.journeyModel(st).done;
