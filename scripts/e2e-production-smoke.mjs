@@ -52,6 +52,14 @@ if (process.env.EXPECT_LOCAL_BUILD === '1') {
   must(/immutable/.test(fontResponse.headers.get('cache-control') || ''), 'fonts are cached for a year');
   const media = await fetch(new URL('assets/story/share-menet.jpg', baseUrl));
   must(/max-age=86400/.test(media.headers.get('cache-control') || ''), 'media are cached for a day');
+  // The facilitator guides open in the browser's own PDF viewer (package J-03).
+  for (const locale of ['en', 'cs', 'fr']) {
+    const guide = await fetch(new URL(`docs/facilitator/pdf/le-jardin-facilitator-guide-${locale}.pdf`, baseUrl));
+    const csp = guide.headers.get('content-security-policy') || '';
+    const start = guide.ok ? Buffer.from(await guide.arrayBuffer()).subarray(0, 5).toString() : '';
+    must(start === '%PDF-' && /application\/pdf/.test(guide.headers.get('content-type') || '') && /frame-ancestors 'self'/.test(csp) && !/object-src/.test(csp),
+      `the ${locale} facilitator guide is a PDF the browser can show`);
+  }
 }
 
 const browser = await chromium.launch({ headless: true });
