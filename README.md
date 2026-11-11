@@ -42,9 +42,21 @@ Players design a living garden rather than optimise isolated objects. They place
 - a garden kitchen with four preservation methods, a village stall and a seed bank;
 - a fair-share economy: community gifts build a shared fund and goodwill, but never convert into personal currency;
 - earned reflections, a learning journal and an exportable garden certificate;
+- a workshop mode for groups, with a facilitator panel, a session log and a printable guide (see [Workshops](#workshops));
 - an optional **Living Lesson** — an AI reflection that stays inside a deterministic learning contract (see below);
 - nine interface languages, full Czech voice narration, English voice fallback elsewhere;
 - desktop as the reference experience, with dedicated phone and tablet layouts in portrait and landscape, touch placement, keyboard navigation and reduced-motion support.
+
+## Workshops
+
+For a group, open the game with `?workshop=1` (for example <https://permaculture-garden.vercel.app/?workshop=1&lang=cs>; add `&act=3` to preselect a start point):
+
+- the workshop garden is saved apart from anyone's own game on the device, which is never read, changed or cleared;
+- the opening card asks where the group begins: with the opening story or at any of the six acts, the earlier acts already done with plain elements placed far apart, so every design connection is still the group's to find;
+- the Living Lesson answers only from the reviewed offline lessons: no AI, no cost, the same lesson for every group;
+- *Workshop* replaces *Reset* in the header and opens a panel for the facilitator: where the group is and a question to ask, the six acts with their learning goals, a session log that stays on the device (save as a text file or print), the guide and *Prepare for the next group*.
+
+The facilitator guide in English, Czech and French — the six acts, the solutions to all eleven challenges, questions for the closing conversation and plans for 45, 90 and 120 minutes — is in [`docs/facilitator/`](docs/facilitator/), with PDFs to print. Its challenge chapter is generated from the game's catalogues (`node scripts/facilitator-guide.mjs`). Playtests use the kit in [`docs/playtest/`](docs/playtest/).
 
 ## The Living Lesson: AI that reflects instead of ruling
 
@@ -88,11 +100,12 @@ The game is a local-first static site generated from a single editable source in
 | `scripts/check.mjs`, `scripts/check-i18n.mjs` | Validate script syntax, local resource references, production invariants and catalogue completeness. |
 | `lib/i18n.js` | Runtime localisation: locale detection, catalogue loading, formatting. |
 | `lib/living-lesson.js` | The deterministic experiment engine shared by client and server. |
+| `lib/workshop.js` | Workshop mode: the link, the separate save, the garden at the start of each act and the session log. |
 | `api/garden-reflection.js` | The protected Vercel Function and the model boundary. |
 | `assets/` | Local WebP art, MP3 audio, fonts, icons, the ambient video and the i18n catalogues. |
 | `vendor/` | Bundled React runtime and the Design Component runtime used by the static game. |
 | `scripts/e2e-*.mjs` | Playwright browser journeys (see below). |
-| `docs/` | Release handoffs, Build Week records and asset provenance. |
+| `docs/` | The facilitator guide, the playtest kit, release handoffs, Build Week records and asset provenance. |
 
 Player progress is stored locally in the browser. No account or external database is required.
 
@@ -103,7 +116,7 @@ Requirements: Node.js 22+ and npm (the API tests use `module.registerHooks`, ava
 ```sh
 npm ci
 npm run generate   # rebuild index.html and game.fragment.html from the canonical source
-npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests
+npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, workshop mode and guide
 ```
 
 Serve the static build locally:
@@ -125,7 +138,8 @@ npm run test:e2e:touch          # tap-to-place and tap-to-move
 npm run test:e2e:playthrough    # a full guided playthrough
 npm run test:e2e:i18n-layout    # 9 languages × viewports × main surfaces
 npm run test:e2e:living-lesson  # reflection flow, caching, offline fallback
-npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit
+npm run test:e2e:workshop       # workshop mode: start at an act, offline lesson, log, next group
+npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit, workshop
 ```
 
 Audits without an npm alias, such as `node scripts/e2e-accessibility.mjs`, `e2e-journey.mjs` or `e2e-layout-audit.mjs`, test the instance in `GAME_URL` (by default <http://127.0.0.1:8787/>), so start `node scripts/static-server.mjs 8787` first. `npm run test:production` plays the live site from the story cover to the first seasonal challenge without calling the Living Lesson API. To use a Playwright installed elsewhere, point `CODEX_NODE_MODULES` at that `node_modules` folder (plain npm or pnpm layout).

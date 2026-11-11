@@ -5,11 +5,11 @@ For a facilitator running Le Jardin with a group, about 60–90 minutes. One per
 ## Before the session (about 20 minutes)
 
 - **Devices.** One device per player or per pair. A laptop or a tablet gives the reference experience; phones work in portrait and landscape. Charge everything.
-- **Connection.** The game needs an internet connection; it does not play offline yet. Open <https://permaculture-garden.vercel.app/> on every device and let the opening story's cover appear once.
+- **Connection.** The game needs an internet connection; it does not play offline yet. Open the workshop link <https://permaculture-garden.vercel.app/?workshop=1> on every device and let the opening card appear once.
 - **Language.** Pick the language in the game's language menu before the players start. Czech has full voice narration; the other languages show their text with English voice.
 - **Sound.** Headphones, or sound off in a shared room (the *Sound on / Sound off* button in the header).
-- **A clean garden.** A device used before keeps its garden in the browser. Open the menu, choose *Reset garden* and confirm.
-- **The Living Lesson.** The AI reflection needs a connection. When the model is not reachable, the game shows a reviewed lesson labelled *Garden wisdom offline*. Both are fine for a playtest; note which one appeared.
+- **A clean garden.** The workshop link keeps its garden apart from anyone's own game on the device, and *Workshop* → *Prepare for the next group* clears it between groups. The [facilitator guide](../../facilitator/README.md) explains workshop mode.
+- **The Living Lesson.** With the workshop link it always shows a reviewed lesson labelled *Garden wisdom offline* and calls no AI. To playtest the AI reflection itself, use the ordinary link instead and reset the garden by hand afterwards (menu → *Reset garden*); note which kind of lesson appeared.
 - **Print** one observation sheet per observed player or pair, one [questionnaire](player-questionnaire.md) per player and the [consent text](consent.md).
 
 ## Opening (5 minutes)
@@ -49,7 +49,7 @@ Hand out the [player questionnaire](player-questionnaire.md). It is anonymous; c
 
 ## After the session (about 30 minutes)
 
-- Reset the garden on shared devices (menu → *Reset garden*).
+- On shared devices: *Workshop* → *Save as a file* if you want the session log, then *Prepare for the next group*.
 - Remove names from all notes, then file the report as described in [reporting.md](reporting.md).
 - Report bugs separately, each with the device, browser and language.
 
