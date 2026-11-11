@@ -22,6 +22,7 @@ Le Jardin is a story-led educational browser game about designing a living perma
 - Images are WebP only (the build refuses PNG references; the share preview `assets/story/share-menet.jpg` is the one JPEG, for social networks) and audio is MP3. `vercel.json` only sets headers: security headers and cache for fonts and media, no build or routing.
 - The palette footer shows the version from `package.json`, filled in at build time.
 - `catalog.en.json` is the source catalogue; all nine catalogues must keep the same keys and placeholders.
+- Workshop mode (`?workshop=1`) lives in `lib/workshop.js` and keeps its garden and log under their own storage keys; never let it touch `permagarden_v2`. The facilitator guide in `docs/facilitator/` is hand-written in English, Czech and French, except its challenge chapter, which `node scripts/facilitator-guide.mjs` generates from the catalogues together with the QR codes and PDFs: run it after changing the guide, a challenge or a translation, and commit the results together (`npm test` fails on a stale chapter).
 
 ## Before committing
 

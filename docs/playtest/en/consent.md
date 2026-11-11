@@ -6,7 +6,7 @@ Le Jardin is a free educational browser game about designing a living permacultu
 
 **What is recorded.** Paper notes about what happens in the game, without your name. No photos, audio or video are taken unless you agree to that separately. The notes are summarised in a public report on GitHub with all names and identifying details removed.
 
-**What the game stores.** The game saves your garden only in the browser of the device you play on; it is cleared before the next group. When the device is online and you open the Living Lesson, the game sends an AI model an anonymous summary of your garden (element types, season, relationship counts and the language) — never your name, anything you wrote or your saved game.
+**What the game stores.** The game saves your garden only in the browser of the device you play on; it is cleared before the next group. With the workshop link the facilitator uses, the game sends nothing anywhere. Otherwise, when the device is online and you open the Living Lesson, the game sends an AI model an anonymous summary of your garden (element types, season, relationship counts and the language) — never your name, anything you wrote or your saved game.
 
 **Taking part is voluntary.** You can stop at any time without giving a reason, and you can ask for your notes to be left out of the report.
 

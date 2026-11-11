@@ -6,7 +6,7 @@ Le Jardin je bezplatná vzdělávací hra v prohlížeči o navrhování živé 
 
 **Co se zaznamenává.** Papírové poznámky o tom, co se ve hře děje, bez vašeho jména. Bez vašeho samostatného souhlasu se nepořizují fotografie, zvuk ani video. Poznámky se shrnou do veřejné zprávy na GitHubu, ze které jsou odstraněná všechna jména a údaje, podle kterých by šlo někoho poznat.
 
-**Co si ukládá hra.** Hra ukládá vaši zahradu jen v prohlížeči zařízení, na kterém hrajete; před další skupinou se smaže. Když je zařízení online a otevřete Živou lekci, hra pošle modelu umělé inteligence anonymní shrnutí zahrady (druhy prvků, roční období, počty vztahů a jazyk) — nikdy vaše jméno, nic z toho, co napíšete, ani uloženou hru.
+**Co si ukládá hra.** Hra ukládá vaši zahradu jen v prohlížeči zařízení, na kterém hrajete; před další skupinou se smaže. S odkazem na workshop, který používá facilitátor, hra nikam nic neposílá. Jinak když je zařízení online a otevřete Živou lekci, hra pošle modelu umělé inteligence anonymní shrnutí zahrady (druhy prvků, roční období, počty vztahů a jazyk) — nikdy vaše jméno, nic z toho, co napíšete, ani uloženou hru.
 
 **Účast je dobrovolná.** Kdykoli můžete přestat, bez udání důvodu, a můžete požádat, aby vaše poznámky ve zprávě nebyly.
 

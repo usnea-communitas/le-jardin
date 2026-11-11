@@ -5,11 +5,11 @@ Pro facilitátora, který hraje Le Jardin se skupinou, zhruba 60–90 minut. Jed
 ## Před sezením (asi 20 minut)
 
 - **Zařízení.** Jedno zařízení na hráče nebo na dvojici. Notebook nebo tablet dává referenční zážitek; telefony fungují na výšku i na šířku. Všechno nabijte.
-- **Připojení.** Hra potřebuje internet; bez připojení zatím nehraje. Na každém zařízení otevřete <https://permaculture-garden.vercel.app/> a nechte jednou zobrazit obálku úvodního příběhu.
+- **Připojení.** Hra potřebuje internet; bez připojení zatím nehraje. Na každém zařízení otevřete odkaz na workshop <https://permaculture-garden.vercel.app/?workshop=1&lang=cs> a nechte jednou zobrazit úvodní kartu.
 - **Jazyk.** Jazyk vyberte v nabídce jazyků hry ještě předtím, než hráči začnou. Čeština má celý namluvený hlas; ostatní jazyky mají text a anglický hlas.
 - **Zvuk.** Sluchátka, nebo ve společné místnosti zvuk vypnutý (tlačítko *Zvuk zapnutý / Zvuk vypnutý* v záhlaví).
-- **Čistá zahrada.** Zařízení, na kterém už někdo hrál, má zahradu uloženou v prohlížeči. Otevřete nabídku, zvolte *Začít zahradu znovu* a potvrďte.
-- **Živá lekce.** Úvaha s umělou inteligencí potřebuje připojení. Když model není dostupný, hra ukáže ověřenou lekci s označením *Zahradní moudrost offline*. Pro test se hodí obojí; zapište si, která se objevila.
+- **Čistá zahrada.** Odkaz na workshop ukládá zahradu odděleně od vlastní hry kohokoli na zařízení a *Workshop* → *Připravit pro další skupinu* ji mezi skupinami smaže. Režim workshopu vysvětluje [průvodce pro facilitátory](../../facilitator/README.md).
+- **Živá lekce.** S odkazem na workshop hra vždy ukáže ověřenou lekci s označením *Zahradní moudrost offline* a umělou inteligenci nevolá. Chcete-li testovat právě úvahu s umělou inteligencí, použijte obyčejný odkaz a zahradu potom začněte znovu ručně (nabídka → *Začít zahradu znovu*); zapište si, která lekce se objevila.
 - **Vytiskněte** jeden pozorovací arch na pozorovaného hráče nebo dvojici, jeden [dotazník](dotaznik-pro-hrace.md) na hráče a [text souhlasu](souhlas.md).
 
 ## Úvod (5 minut)
@@ -49,7 +49,7 @@ Rozdejte [dotazník pro hráče](dotaznik-pro-hrace.md). Je anonymní; vybírejt
 
 ## Po sezení (asi 30 minut)
 
-- Na sdílených zařízeních začněte zahradu znovu (nabídka → *Začít zahradu znovu*).
+- Na sdílených zařízeních: *Workshop* → *Uložit jako soubor*, pokud chcete deník sezení, a potom *Připravit pro další skupinu*.
 - Ze všech poznámek odstraňte jména a pak zapište zprávu podle [jak-zapsat-ohlasy.md](jak-zapsat-ohlasy.md).
 - Chyby hlaste zvlášť, každou se zařízením, prohlížečem a jazykem.
 
