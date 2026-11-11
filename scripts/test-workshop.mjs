@@ -161,6 +161,17 @@ for (const locale of workshop.GUIDE_LOCALES) {
   assert.ok(pdf.subarray(0, 5).toString() === "%PDF-" && pages >= 8, `${href} is a printed guide of at least eight pages (${pages})`);
 }
 
+// A browser shows a PDF opened in a tab as a plugin document, so the guides are
+// served without the site's object-src 'none'; a later header rule overrides an
+// earlier one, and the guides keep frame-ancestors (production smoke checks it live).
+const headerRules = JSON.parse(readFileSync(path.join(root, "vercel.json"), "utf8")).headers;
+const cspOf = rule => (rule.headers.find(header => header.key === "Content-Security-Policy") || {}).value || "";
+const siteRule = headerRules.findIndex(rule => rule.source === "/(.*)");
+const guideRule = headerRules.findIndex(rule => rule.source === "/docs/facilitator/pdf/(.*)");
+assert.ok(siteRule >= 0 && guideRule > siteRule, "vercel.json gives the guide PDFs their own CSP after the site's");
+assert.ok(/object-src 'none'/.test(cspOf(headerRules[siteRule])), "the site keeps object-src 'none'");
+assert.ok(/frame-ancestors 'self'/.test(cspOf(headerRules[guideRule])) && !/object-src/.test(cspOf(headerRules[guideRule])), "the guide PDFs keep frame-ancestors and drop object-src");
+
 // The guide speaks the game's words: its challenge chapter is generated from the
 // catalogues and must be current; the hand-written parts name the six acts and the
 // workshop controls exactly as the game shows them in that language.
