@@ -18,6 +18,12 @@ for (const locale of LOCALES) {
   assert.deepEqual([...listed].sort(), [...ids].sort(), `${locale}: every message is listed`);
 }
 
+// the review sheets native speakers read are current
+for (const locale of LOCALES) {
+  const sheet = readFileSync(path.join(root, "docs/translations", `${locale}.csv`), "utf8");
+  assert.equal(sheet, toCsv(exportLocale(en, readCatalog(locale), locale)), `docs/translations/${locale}.csv is out of date; run npm run translations:export`);
+}
+
 // CSV round trip with commas, quotes and line breaks
 assert.deepEqual(parseCsv(toCsv([["id", "de"], ['a, "b"', "line\nbreak"]])), [["id", "de"], ['a, "b"', "line\nbreak"]]);
 
