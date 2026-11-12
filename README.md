@@ -105,11 +105,12 @@ The game is a local-first static site generated from a single editable source in
 
 | Path | Role |
 | --- | --- |
-| `Permaculture Garden v2.dc.html` | **The canonical source**: template, styles and the game logic class. Edit this, then run `npm run generate`. |
+| `Permaculture Garden v2.dc.html` | **The canonical source**: template, styles and the game class, which keeps every word, picture and sound and asks the rule modules. Edit this, then run `npm run generate`. |
 | `index.html`, `game.fragment.html`, `offline-manifest.json` | Generated output — never edit by hand (`sw.js` too gets its version from the build). |
 | `scripts/build.mjs` | Builds the loading shell and the game fragment from the source. |
 | `scripts/check.mjs`, `scripts/check-i18n.mjs` | Validate script syntax, local resource references, production invariants and catalogue completeness. |
 | `assets/i18n/audio.cs.json`, `audio.fr.json` | The Garden's 49 recorded lines in Czech and French: file, spoken text and length. `scripts/test-voice.mjs` checks that no recording is missing, that each has a length header and that the subtitles match. |
+| `lib/economy.js`, `lib/community-table.js`, `lib/seasons.js`, `lib/acts.js`, `lib/wildlife.js` | **The rules of the game**: prices and fair-share gifts, the community table, planting and harvest windows, the six acts, and the wild neighbours and pests. Pure functions with unit tests (`npm run test:rules`); how they fit together and how to change a rule is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). |
 | `lib/i18n.js` | Runtime localisation: locale detection, catalogue loading, formatting. |
 | `lib/living-lesson.js` | The deterministic experiment engine shared by client and server. |
 | `lib/workshop.js` | Workshop mode: the link, the separate save, the garden at the start of each act and the session log. |
@@ -130,7 +131,7 @@ Requirements: Node.js 22+ and npm (the API tests use `module.registerHooks`, ava
 ```sh
 npm ci
 npm run generate   # rebuild index.html and game.fragment.html from the canonical source
-npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, workshop mode and guide, offline package, the recorded voice
+npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, the rules of the game, workshop mode and guide, offline package, the recorded voice
 ```
 
 Serve the static build locally:
