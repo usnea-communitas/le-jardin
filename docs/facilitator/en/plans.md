@@ -67,5 +67,5 @@ Starting at the third act leaves soil and water already in place, so a short ses
 - **A challenge feels stuck.** A wrong choice gives a clue; read it together. A challenge can also be left for later and comes back.
 - **The Living Lesson does not show an AI answer.** In workshop mode it always answers from the game's reviewed offline lessons. That is intended.
 - **The sound is too much.** The speaker button in the header switches it off for that device.
-- **The page will not load.** The game needs a connection to load; reopen the link once the device is online. The workshop garden stays where it was.
+- **The page will not load.** Without a connection the game opens only on a device where it was downloaded beforehand (*Play without a connection*); otherwise reopen the link once the device is online. The workshop garden stays where it was.
 - **The next group arrives.** *Workshop* → *Prepare for the next group*. Anyone's own game on the device stays as it is.

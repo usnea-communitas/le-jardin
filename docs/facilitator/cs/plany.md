@@ -67,5 +67,5 @@ Začátek ve třetím dějství nechá půdu a vodu už na místě, takže i kr�
 - **Výzva se zasekla.** Špatná volba přinese nápovědu; přečtěte ji společně. Výzvu lze také odložit na později a vrátí se.
 - **Živá lekce neukazuje odpověď umělé inteligence.** V režimu workshopu odpovídá vždy z ověřených offline lekcí hry. Tak je to zamýšlené.
 - **Zvuku je moc.** Tlačítko s reproduktorem v záhlaví ho na daném zařízení vypne.
-- **Stránka se nenačte.** Hra se bez připojení nenačte; jakmile je zařízení online, otevřete odkaz znovu. Workshopová zahrada zůstane, kde byla.
+- **Stránka se nenačte.** Bez připojení se hra otevře jen na zařízení, kde byla předem stažená (*Hrát bez připojení*); jinak odkaz otevřete znovu, jakmile je zařízení online. Workshopová zahrada zůstane, kde byla.
 - **Přichází další skupina.** *Workshop* → *Připravit pro další skupinu*. Vlastní hra kohokoli na zařízení zůstane, jak je.

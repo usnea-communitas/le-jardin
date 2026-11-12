@@ -184,7 +184,7 @@ for (const locale of workshop.GUIDE_LOCALES) {
   const expected = [
     ...workshop.ACT_KEYS.map(act => messages[`journey.${act}.eyebrow`]),
     ...workshop.ACT_KEYS.map(act => messages[`journey.${act}.label`]),
-    ...["workshop.button", "workshop.cover.label", "workshop.title", "workshop.next.button", "workshop.log.save", "workshop.log.print"].map(key => messages[key])
+    ...["workshop.button", "workshop.cover.label", "workshop.title", "workshop.next.button", "workshop.log.save", "workshop.log.print", "offline.title"].map(key => messages[key])
   ].map(typeset);
   const missing = expected.filter(text => !parts.includes(text));
   assert.deepEqual(missing, [], `the ${locale} guide names the acts and workshop controls as the game does`);

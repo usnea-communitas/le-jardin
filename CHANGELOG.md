@@ -2,6 +2,11 @@
 
 Notable changes to Le Jardin. Version numbers follow the game's internal release counter (`package.json`). Detailed handoff notes for the playtest releases are in [`docs/handoffs/`](docs/handoffs/).
 
+## Unreleased
+
+- **Playing without a connection** (package J-05). *Play without a connection* (the arrow in the header; on a phone, in the ••• menu) shows the size first and downloads the game to the device: its pictures and sounds, English and the chosen language, and the Garden's voice and the music if the player keeps them (about 20 MB, 29 MB with the voice, 35 MB with music too). Afterwards the game, the workshop link included, opens and plays without a connection; other languages and the moving pictures still need one, and the game shows still pictures instead. The panel can remove the download again; the garden stays in the browser's storage and nothing is sent anywhere. A service worker (`sw.js`) is registered only after a download and answers from the download made for its own build, so a page never mixes two versions; a newer build downloads in the background (unchanged files are copied, not fetched again) and starts the next time the game opens, with the garden in progress intact. `offline-manifest.json` is generated with every file's size and hash, and the production check makes sure every file on it is served.
+- The facilitator guide and the playtest kit say how to prepare devices for a place with a weak signal.
+
 ## v0.85.0 — 2026-11-12 — workshop mode and a facilitator guide
 
 Live since 10–12 November 2026: the game can be played with groups, a facilitator has a guide in three languages, and phones start faster.
