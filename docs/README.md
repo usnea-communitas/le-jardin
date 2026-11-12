@@ -1,5 +1,6 @@
 # Documentation
 
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — how the game runs, where its rules live (`lib/`) and how to change one.
 - [`facilitator/`](facilitator/) — the facilitator guide in English, Czech and French, with PDFs and QR codes: workshop mode, the six acts, the solutions to all eleven challenges and session plans (issue #7).
 - [`playtest/`](playtest/) — the playtest kit in English and Czech: session plan, observation sheet, player questionnaire, consent text and how to file a report (issue #8).
 - [`translations/`](translations/) — review sheets for native speakers (a CSV and a Markdown sheet per language, `npm run translations:export`) and the [listening checklist for the French voice](translations/french-voice-review.md).
