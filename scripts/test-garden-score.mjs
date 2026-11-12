@@ -1,6 +1,7 @@
 // Unit tests for the garden score and the downloadable certificate.
 // The game logic lives in one Design Component class inside the generated game
-// fragment; it is evaluated here with minimal React and DCLogic stand-ins.
+// fragment, and asks the rule modules in lib/; both are evaluated here with
+// minimal React and DCLogic stand-ins.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
@@ -27,6 +28,11 @@ class DCLogic {
 const sandbox = { React, DCLogic, console, Math, Date, JSON, Intl, URL, setTimeout, clearTimeout, setInterval, clearInterval };
 sandbox.window = sandbox;
 vm.createContext(sandbox);
+// The game asks its rules (lib/, docs/ARCHITECTURE.md): load the helpers the page
+// loads before the game, apart from the translation runtime.
+for (const [, file] of source.matchAll(/<script src="(lib\/[a-z-]+\.js)"(?: defer)?><\/script>/g)) {
+  if (file !== "lib/i18n.js") vm.runInContext(await readFile(path.join(root, file), "utf8"), sandbox, { filename: file });
+}
 vm.runInContext(fragment.slice(start, end) + "\n;globalThis.__GameComponent = Component;", sandbox);
 const game = new sandbox.__GameComponent({});
 

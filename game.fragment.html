@@ -3319,6 +3319,17 @@ class Component extends DCLogic {
         attracts:['Bees','Butterflies']}
     };
   }
+  // The rules of the game live in lib/ (docs/ARCHITECTURE.md): economy.js,
+  // community-table.js, seasons.js, acts.js and wildlife.js decide; this class
+  // keeps the words, pictures and sounds, and asks them.
+  rules={economy:window.PermacultureEconomy,table:window.PermacultureCommunityTable,seasons:window.PermacultureSeasons,acts:window.PermacultureActs,wildlife:window.PermacultureWildlife};
+  // A rule table and the words for it, keyed by the same ids, joined into the
+  // table the game reads. rulesBy turns {id: value} into {id: {field: value}}.
+  withRules(rules,words){const out={};Object.keys(rules).forEach(k=>{out[k]={...rules[k],...(words[k]||{})};});return out;}
+  withRulesByKey(rules,words){return rules.map(r=>({...r,...(words[r.key]||{})}));}
+  // The rules of a story joined with its words, beat by beat (the conditions of the beats stay in lib/).
+  storiesWithRules(rules,words){return rules.map(r=>{const w=words[r.key]||{},beats=w.beats||{};return {...r,...w,beats:r.beats.map(b=>({id:b.id,...(beats[b.id]||{})}))};});}
+  rulesBy(table,field){const out={};Object.keys(table).forEach(k=>{out[k]={[field]:table[k]};});return out;}
   ICONS=this.makeIcons();
   catalog=this.makeCatalog();
   sprites=this.makeSprites();
@@ -3336,25 +3347,21 @@ class Component extends DCLogic {
   };
   // Must match the media query that gives .pg-plot the 960px stage art on small, low-density screens.
   phoneArtQuery='(max-width:430px) and (max-resolution:2dppx),(max-height:430px) and (max-width:900px) and (max-resolution:2dppx)';
-  cropDefs={
-    crop_potato:{produce:'potatoes',readyAt:3,window:['Autumn'],yieldN:2},
-    crop_root:{produce:'roots',readyAt:3,window:['Autumn'],yieldN:2},
-    crop_leafy:{produce:'leafy',readyAt:2,window:['Spring','Summer'],yieldN:2},
-    crop_cabbage:{produce:'cabbage',readyAt:3,window:['Autumn'],yieldN:2},
-    crop_herb:{produce:'herbs',readyAt:2,window:['Summer'],yieldN:2}
-  };
-  plantWindows={
-    crop_potato:{s:['Spring'],why:'seed potatoes go into warming spring soil and need the whole season to bulk up for an autumn lift.'},
-    crop_root:{s:['Spring','Summer'],why:'carrots and beets are sown while the soil is warm, so the roots can size up before the cold.'},
-    crop_leafy:{s:['Spring','Summer'],why:'salads want mild weather — they bolt in a heat wave and sulk in frost.'},
-    crop_cabbage:{s:['Spring'],why:'cabbage seedlings go out in spring so the heads can firm up by autumn.'},
-    crop_herb:{s:['Spring','Summer'],why:'herb cuttings only take root in warm, living soil.'},
-    appletree:{s:['Spring','Autumn'],why:'trees are planted while dormant — autumn or early spring, never into summer heat or frozen ground.'},
-    hugel:{s:['Spring','Summer','Autumn'],why:'you can’t dig a hügel bed into frozen winter ground.'},
-    herbspiral:{s:['Spring','Summer','Autumn'],why:'stone-laying and planting need unfrozen, workable ground.'},
-    pollinator:{s:['Spring','Summer'],why:'a flower strip is sown into warm soil so it blooms the same year.'},
-    birdhouse:{s:['Spring','Summer','Autumn','Winter'],why:'nest boxes can go up whenever it is safe, although autumn is ideal; never disturb an active nest.'}
-  };
+  // Crops, their growth and harvest windows: lib/seasons.js.
+  cropDefs=this.rules.seasons.CROPS;
+  // When each element can be planted is a rule (lib/seasons.js); why is said here.
+  plantWindows=this.withRules(this.rulesBy(this.rules.seasons.PLANTING,'s'),{
+    crop_potato:{why:'seed potatoes go into warming spring soil and need the whole season to bulk up for an autumn lift.'},
+    crop_root:{why:'carrots and beets are sown while the soil is warm, so the roots can size up before the cold.'},
+    crop_leafy:{why:'salads want mild weather — they bolt in a heat wave and sulk in frost.'},
+    crop_cabbage:{why:'cabbage seedlings go out in spring so the heads can firm up by autumn.'},
+    crop_herb:{why:'herb cuttings only take root in warm, living soil.'},
+    appletree:{why:'trees are planted while dormant — autumn or early spring, never into summer heat or frozen ground.'},
+    hugel:{why:'you can’t dig a hügel bed into frozen winter ground.'},
+    herbspiral:{why:'stone-laying and planting need unfrozen, workable ground.'},
+    pollinator:{why:'a flower strip is sown into warm soil so it blooms the same year.'},
+    birdhouse:{why:'nest boxes can go up whenever it is safe, although autumn is ideal; never disturb an active nest.'}
+  });
   produceMeta={
     cherries:{name:'Cherries',img:'harvest-cherries',seasons:['Summer']},
     apples:{name:'Apples',img:'harvest-apples',seasons:['Autumn']},
@@ -3425,23 +3432,17 @@ class Component extends DCLogic {
     }
     return {x:cx2(cx+((n%5)-2)*6),y:cy2(cy+((n%3)+1)*5)};
   }
-  // Biennials: the root or head you harvest IS the plant that would have flowered.
-  BIENNIAL=['crop_root','crop_cabbage'];
-  // One turn is one season. A grafted dwarf apple may begin bearing after roughly
-  // two to three years, not after its first trip around the calendar.
-  TREE_MATURITY=8;
-  WINTER_MULCH_CROPS=['crop_root','crop_cabbage'];
-  treeSeasons(st,p){return Math.max(0,(st.seasonTurns||0)-(p.placedAtTurn||0));}
-  treeGrowth(st,p){return Math.min(1,this.treeSeasons(st,p)/this.TREE_MATURITY);};
-  plotDistance(a,b){return Math.hypot(((Number(a.x)||0)-(Number(b.x)||0))*1.4,(Number(a.y)||0)-(Number(b.y)||0));}
-  applePollinationReady(st,p){
-    const placed=st.placed||[];
-    const partner=placed.some(q=>q.id!==p.id&&q.type==='appletree'&&this.treeSeasons(st,q)>=this.TREE_MATURITY&&this.plotDistance(p,q)<=42);
-    const flowers=placed.some(q=>(q.type==='pollinator'||q.type==='herbspiral')&&this.plotDistance(p,q)<=32);
-    return partner&&flowers;
-  }
-  MATS={planks:{name:'Wood planks',img:'material-planks',value:40},window:{name:'Old window',img:'material-window',value:50},bricks:{name:'Bricks',img:'material-bricks',value:40},straw:{name:'Straw bale',img:'material-straw',value:20}};
-  buildUses={kitchen:['planks','window','bricks','straw'],greenhouse:['window','planks']};
+  // Biennials, winter cover and tree maturity (eight seasons): lib/seasons.js.
+  BIENNIAL=this.rules.seasons.BIENNIAL;
+  TREE_MATURITY=this.rules.seasons.TREE_MATURITY;
+  WINTER_MULCH_CROPS=this.rules.seasons.WINTER_MULCH_CROPS;
+  treeSeasons(st,p){return this.rules.seasons.treeSeasons(st,p);}
+  treeGrowth(st,p){return this.rules.seasons.treeGrowth(st,p);}
+  plotDistance(a,b){return this.rules.seasons.plotDistance(a,b);}
+  applePollinationReady(st,p){return this.rules.seasons.applePollinationReady(st,p);}
+  // What each reclaimed material saves on a build is a rule (lib/economy.js).
+  MATS=this.withRules(this.rulesBy(this.rules.economy.MATERIAL_VALUES,'value'),{planks:{name:'Wood planks',img:'material-planks'},window:{name:'Old window',img:'material-window'},bricks:{name:'Bricks',img:'material-bricks'},straw:{name:'Straw bale',img:'material-straw'}});
+  buildUses=this.rules.economy.BUILD_USES;
   harvestArt=(()=>{const E=React.createElement;
     const img=(f)=>E('img',{src:'assets/'+f+'.webp',alt:'',loading:'lazy',draggable:false,style:{width:'100%',height:'100%',objectFit:'contain',objectPosition:'50% 100%',display:'block',pointerEvents:'none'}});
     this.sprites.appletree=img('tree-apple-summer');
@@ -3452,29 +3453,31 @@ class Component extends DCLogic {
     const apple={Spring:img('tree-apple-spring'),Summer:img('tree-apple-summer'),Autumn:img('tree-apple-autumn'),Winter:img('tree-apple-winter')};
     return {stages:stages,apple:apple};
   })();
-  econ={
-    compost:{price:40,barter:1,gift:2,material:'reclaimed pallets'},
-    hugel:{price:60,barter:2,gift:2,material:'logs and prunings'},
-    rain:{price:90,barter:null,gift:1,material:'a salvaged barrel'},
-    mulch:{price:20,barter:1,gift:1,material:'bags of autumn leaves'},
-    bughotel:{price:30,barter:1,gift:1,material:'offcuts, canes and bricks'},
-    arch:{price:90,barter:2,gift:1,material:'bent hazel rods'},
-    herbspiral:{price:70,barter:2,gift:2,material:'reclaimed stones'},
-    pollinator:{price:40,barter:1,gift:2,material:'divided perennials and saved seed'},
-    greenhouse:{price:220,barter:null,gift:2,material:'glass and timber'},
-    seedbank:{price:15,barter:1,gift:3,material:'saved and swapped seed'},
-    birdbath:{price:45,barter:1,gift:1,material:'a reclaimed dish'},
-    birdhouse:{price:35,barter:null,gift:1,material:'scrap planks'},
-    bench:{price:80,barter:null,gift:2,material:'old pallets'},
-    sign:{price:15,barter:1,gift:1,material:'painted offcuts'},
-    appletree:{price:50,barter:2,gift:2,material:'a grafted sapling from the seed swap'},
-    kitchen:{price:120,barter:null,gift:2,material:'planks, bricks and an old window'},
-    crop_potato:{price:0,barter:0,gift:1,material:'seed potatoes from the seed bank'},
-    crop_root:{price:0,barter:0,gift:1,material:'carrot and beet seed from the bank'},
-    crop_leafy:{price:0,barter:0,gift:1,material:'salad seed from the bank'},
-    crop_cabbage:{price:0,barter:0,gift:1,material:'cabbage seedlings from the bank'},
-    crop_herb:{price:0,barter:0,gift:1,material:'herb cuttings from the bank'}
-  };
+  // Prices in euros and game shares are rules (lib/economy.js); what each
+  // element is often made from is said here.
+  econ=this.withRules(this.rules.economy.PRICES,{
+    compost:{material:'reclaimed pallets'},
+    hugel:{material:'logs and prunings'},
+    rain:{material:'a salvaged barrel'},
+    mulch:{material:'bags of autumn leaves'},
+    bughotel:{material:'offcuts, canes and bricks'},
+    arch:{material:'bent hazel rods'},
+    herbspiral:{material:'reclaimed stones'},
+    pollinator:{material:'divided perennials and saved seed'},
+    greenhouse:{material:'glass and timber'},
+    seedbank:{material:'saved and swapped seed'},
+    birdbath:{material:'a reclaimed dish'},
+    birdhouse:{material:'scrap planks'},
+    bench:{material:'old pallets'},
+    sign:{material:'painted offcuts'},
+    appletree:{material:'a grafted sapling from the seed swap'},
+    kitchen:{material:'planks, bricks and an old window'},
+    crop_potato:{material:'seed potatoes from the seed bank'},
+    crop_root:{material:'carrot and beet seed from the bank'},
+    crop_leafy:{material:'salad seed from the bank'},
+    crop_cabbage:{material:'cabbage seedlings from the bank'},
+    crop_herb:{material:'herb cuttings from the bank'}
+  });
   giveText={
     compost:'spare compost for neighbours', hugel:'surplus vegetables', rain:'stored water in dry spells',
     mulch:'shared leaf litter and chips', bughotel:'know-how and spare habitat', arch:'climbing cuttings and shade',
@@ -3485,26 +3488,22 @@ class Component extends DCLogic {
     crop_potato:'seed potatoes for the swap', crop_root:'bundles of carrots and beets',
     crop_leafy:'fresh salad leaves', crop_cabbage:'firm cabbage heads', crop_herb:'fresh herb bunches'
   };
-  wildlife=[
-    {key:'worm',name:'Earthworms',needs:[['compost','hugel'],['mulch']],tip:'Organic matter and moist, undisturbed cover can support earthworms',why:'Organic matter and surface cover may support earthworms, although populations also depend on soil type, moisture, temperature and species. Their burrows and casts can contribute to soil structure and nutrient cycling.'},
-    {key:'winecap',name:'Wine cap',needs:[['mulch'],['hugel']],tip:'Cultivated wine caps need verified spawn, suitable wood chips and moisture',why:'Wine-cap mycelium introduced as verified spawn may colonise suitable untreated wood chips; fruiting is never guaranteed. Never identify or eat a mushroom from this game or from appearance alone.'},
-    {key:'oyster',name:'Oyster',needs:[['hugel'],['mulch','bughotel']],tip:'Cultivated oysters need verified spawn on suitable untreated wood',why:'Verified oyster spawn may digest suitable dead wood under the right moisture and temperature. Buried logs do not automatically produce edible mushrooms. Never use this game to identify food.'},
-    {key:'field',name:'Field cap',needs:[['compost'],['pollinator','herbspiral']],tip:'Wild fungi may appear where soil, weather and organic matter suit them',why:'A fruiting body may reveal fungal activity underground, but it is not a simple score of soil health. Wild mushrooms can be poisonous: never identify or eat one from this game or appearance alone.'},
-    {key:'bee',name:'Bees',needs:[['pollinator','herbspiral','arch'],['birdbath']],tip:'Flowers plus a clean, shallow drinking place can support visiting bees',why:'A long flowering season and safe shallow water may support visiting bees. A closed rain barrel is not a drinking source, and pollination varies with crop, weather and the insects present.'},
-    {key:'butterfly',name:'Butterflies',needs:[['pollinator','herbspiral'],['hugel','mulch','arch']],tip:'Adults need nectar; caterpillars need the right host plant for their species',why:'Nectar flowers may feed adults, but each butterfly species also needs particular larval host plants — such as nettles for peacocks and many tortoiseshells. A generic “wild corner” cannot meet every species’ needs.'},
-    {key:'bird',name:'Birds',needs:[['birdbath'],['birdhouse']],tip:'Clean shallow water and a safe nest box may suit some bird species',why:'Some cavity-nesting birds may use a correctly designed box and clean shallow water. A closed rain barrel is not a drinking place, and every species has different food, territory and nesting needs.'},
-    {key:'hedgehog',name:'Hedgehog',needs:[['mulch','hugel'],['pollinator','compost']],tip:'Connected access, undisturbed cover and varied invertebrate food may help hedgehogs',why:'Connected, pesticide-free cover can make a garden safer for night-time foraging and rest. Hedgehogs eat a varied diet that may include beetles, caterpillars and some slugs; no single feature guarantees a visit.'},
-    {key:'ladybug',name:'Ladybugs',needs:[['pollinator','herbspiral'],['bughotel']],tip:'Prey, flowering food and suitable dry crevices may support some ladybug species',why:'Some ladybug species may use prey-rich plants, pollen or nectar and dry shelter. Many larvae and adults eat aphids, but species, appetite and overwintering habits vary.'},
-    {key:'beetle',name:'Beetles',needs:[['bughotel'],['mulch','hugel','compost']],tip:'Undisturbed ground cover can support a diverse range of beetles',why:'Many ground beetles shelter under logs, stones or leaf litter and forage at night. Diets differ widely: some eat invertebrates, some seeds and some both, so their effects cannot be reduced to “pest control”.'}
-  ];
-  activeOf(placed){
-    const t=new Set(placed.map(p=>p.type));
-    const s=new Set();
-    this.wildlife.forEach(w=>{ if(w.needs.every(g=>g.some(x=>t.has(x)))){ s.add(w.key); } });
-    // A successful visitor quiz records a visit, not permanent habitat. Current
-    // residents and score must always be derived from conditions that still exist.
-    return s;
-  }
+  // What each wild neighbour needs to live here is a rule (lib/wildlife.js);
+  // its name and the notes about it are said here.
+  wildlife=this.withRulesByKey(this.rules.wildlife.HABITATS,{
+    worm:{name:'Earthworms',tip:'Organic matter and moist, undisturbed cover can support earthworms',why:'Organic matter and surface cover may support earthworms, although populations also depend on soil type, moisture, temperature and species. Their burrows and casts can contribute to soil structure and nutrient cycling.'},
+    winecap:{name:'Wine cap',tip:'Cultivated wine caps need verified spawn, suitable wood chips and moisture',why:'Wine-cap mycelium introduced as verified spawn may colonise suitable untreated wood chips; fruiting is never guaranteed. Never identify or eat a mushroom from this game or from appearance alone.'},
+    oyster:{name:'Oyster',tip:'Cultivated oysters need verified spawn on suitable untreated wood',why:'Verified oyster spawn may digest suitable dead wood under the right moisture and temperature. Buried logs do not automatically produce edible mushrooms. Never use this game to identify food.'},
+    field:{name:'Field cap',tip:'Wild fungi may appear where soil, weather and organic matter suit them',why:'A fruiting body may reveal fungal activity underground, but it is not a simple score of soil health. Wild mushrooms can be poisonous: never identify or eat one from this game or appearance alone.'},
+    bee:{name:'Bees',tip:'Flowers plus a clean, shallow drinking place can support visiting bees',why:'A long flowering season and safe shallow water may support visiting bees. A closed rain barrel is not a drinking source, and pollination varies with crop, weather and the insects present.'},
+    butterfly:{name:'Butterflies',tip:'Adults need nectar; caterpillars need the right host plant for their species',why:'Nectar flowers may feed adults, but each butterfly species also needs particular larval host plants — such as nettles for peacocks and many tortoiseshells. A generic “wild corner” cannot meet every species’ needs.'},
+    bird:{name:'Birds',tip:'Clean shallow water and a safe nest box may suit some bird species',why:'Some cavity-nesting birds may use a correctly designed box and clean shallow water. A closed rain barrel is not a drinking place, and every species has different food, territory and nesting needs.'},
+    hedgehog:{name:'Hedgehog',tip:'Connected access, undisturbed cover and varied invertebrate food may help hedgehogs',why:'Connected, pesticide-free cover can make a garden safer for night-time foraging and rest. Hedgehogs eat a varied diet that may include beetles, caterpillars and some slugs; no single feature guarantees a visit.'},
+    ladybug:{name:'Ladybugs',tip:'Prey, flowering food and suitable dry crevices may support some ladybug species',why:'Some ladybug species may use prey-rich plants, pollen or nectar and dry shelter. Many larvae and adults eat aphids, but species, appetite and overwintering habits vary.'},
+    beetle:{name:'Beetles',tip:'Undisturbed ground cover can support a diverse range of beetles',why:'Many ground beetles shelter under logs, stones or leaf litter and forage at night. Diets differ widely: some eat invertebrates, some seeds and some both, so their effects cannot be reduced to “pest control”.'}
+  });
+  // Who lives here now, from the elements that stand here today (lib/wildlife.js).
+  activeOf(placed){return this.rules.wildlife.activeOf(placed);}
   visitDefs={
     hedgehog:{intro:'a hedgehog shuffled out of the neighbour’s hedge and is sniffing at your gate!',
       q:'You want to leave it a welcome saucer. What must NEVER be in it?',
@@ -3671,9 +3670,8 @@ class Component extends DCLogic {
     {kind:'material',mat:'bricks',person:'Baptiste',seasons:['Spring','Summer'],text:'Clean bricks left after a chimney repair'},
     {kind:'material',mat:'straw',person:'Noa',seasons:['Autumn'],text:'Dry straw left after the harvest fair'}
   ];
-  freshMarket(season='Summer'){
-    return this.giftPool.filter(o=>!o.seasons||o.seasons.indexOf(season)>=0).slice(0,2).map((o,i)=>({...o,id:'market-'+season.toLowerCase()+'-'+(i+1)}));
-  }
+  // The table of a new garden: the first two gifts of the season (lib/community-table.js).
+  freshMarket(season='Summer'){return this.rules.table.firstOffers(this.giftPool,season);}
   awayWinter={worm:'less active in frost-free soil and sheltered organic matter',bee:'overwintering in species-specific ways — a colony, adult, larva or pupa',butterfly:'overwintering in a species-specific stage — egg, caterpillar, chrysalis or adult',hedgehog:'possibly hibernating in a quiet, well-built shelter',ladybug:'sheltering in dry crevices, leaf litter or other protected places',beetle:'sheltering in soil, litter or dead wood, depending on species',winecap:'remaining as mycelium while fruiting pauses',field:'remaining underground as mycelium while fruiting pauses'};
   seasonDefs={
     Spring:{emoji:'🌸',tint:'rgba(168,205,120,.12)',c1:'#5F9440',c2:'#7CB055',c3:'#A5CE7E',fruit:0,blossom:1,snow:0,decor:1,canopy:1,bare:0,litter:0,
@@ -3750,171 +3748,101 @@ class Component extends DCLogic {
     const viewportWidth=typeof window!=='undefined'?window.innerWidth:1440;
     const viewportHeight=typeof window!=='undefined'?window.innerHeight:900;
     const viewportMode=viewportWidth>=1180?'desktop':(viewportWidth>=768&&viewportHeight>=600?'tablet':'phone');
-    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,movingPlacedId:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:10,budget:300,pool:65,goodwill:0,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,gardenWarm:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:[],residentSeasons:{},residentWinters:{},pestActive:null,pestSeasons:{},pestCleared:{},pestRelief:{},pestBeatsSeen:[],pestStory:null,pestLastSettled:null,livingLesson:null,livingLessonExperiment:null,livingLessonHistory:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:[],grownHarvests:0,preservedCount:0,stallSales:0,freshSales:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null,bookOpen:false,bookTab:'elements',bookLeaf:0,bookDir:'fwd',kitchenOpen:false,kitchenPick:null,kitchenNote:null,kitchenBusy:null,kitchenStage:'simmer',kitchenDragging:false,kitchenOver:null,kitchenMotionFailed:{},gateMotionFailed:{},seedbankMotionFailed:false,viewportMode:viewportMode,viewportWidth:viewportWidth,viewportHeight:viewportHeight,phonePane:'garden',tabletPane:'build',headerMenuOpen:false,gardenSize:'balanced',gardenWidth:0,gardenHeight:0,gardenSizeOpen:false,insightsExpanded:false};
+    return {placed:[],selectedType:null,selectedPlacedId:null,plantType:null,movingPlacedId:null,paymentChoice:null,seedMenuId:null,inspectCritter:null,dragType:null,giveMode:false,showSummary:false,showGuilds:false,guildReview:false,shares:this.rules.economy.START.shares,budget:this.rules.economy.START.budget,pool:this.rules.economy.START.pool,goodwill:this.rules.economy.START.goodwill,given:0,awarded:[],toast:null,market:this.freshMarket(season),lastCommunityCheck:null,story:openStory,storySeen:!openStory,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,gardenWarm:false,storyToIntro:openStory,intro:false,introSeen:!openStory,mode:'guided',journeyMoments:[],gardenEffects:{},lastChallengeKey:null,gardenWhisper:null,gardenWhisperQueue:[],gardenWhisperReplay:null,gardenReflection:null,gardenReflectionQueue:[],gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:[],residentSeasons:{},residentWinters:{},pestActive:null,pestSeasons:{},pestCleared:{},pestRelief:{},pestBeatsSeen:[],pestStory:null,pestLastSettled:null,livingLesson:null,livingLessonExperiment:null,livingLessonHistory:[],gardenCinematic:null,gardenPulse:null,seasonFlash:null,communityMemory:[],reflectionOpened:false,reflectionNote:'',endingSeen:false,certificatePreparing:false,discovered:[],guildCard:null,guildCardQueue:[],guildVoicePlayed:false,arrivalQueue:[],seenWildlife:[],sharedActs:0,rewardedGiftTypes:[],seasonTurns:0,seedAllowance:{},seedStock:{},seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:[],grownHarvests:0,preservedCount:0,stallSales:0,freshSales:0,muted:this.state?!!this.state.muted:false,playerName:this.state?(this.state.playerName||''):'',season:season,springBonusDone:false,autumnHarvestDone:false,rakeRewardDone:false,springForageDone:false,harvestEver:false,gatesPlayed:{},leafPiles:season==='Autumn'?3:0,springSprouts:season==='Spring'?3:0,returnQueue:[],basket:{},materials:{},cherryPicks:season==='Summer'?3:0,keyboardPos:{x:50,y:62},gate:null,visit:null,visitSeason:null,guests:[],visitsDone:{},lastSystemChange:null,bookOpen:false,bookTab:'elements',bookLeaf:0,bookDir:'fwd',kitchenOpen:false,kitchenPick:null,kitchenNote:null,kitchenBusy:null,kitchenStage:'simmer',kitchenDragging:false,kitchenOver:null,kitchenMotionFailed:{},gateMotionFailed:{},seedbankMotionFailed:false,viewportMode:viewportMode,viewportWidth:viewportWidth,viewportHeight:viewportHeight,phonePane:'garden',tabletPane:'build',headerMenuOpen:false,gardenSize:'balanced',gardenWidth:0,gardenHeight:0,gardenSizeOpen:false,insightsExpanded:false};
   }
-  hasJourneyMoment(st,key){return (st.journeyMoments||[]).indexOf(key)>=0;}
+  hasJourneyMoment(st,key){return this.rules.acts.hasMoment(st,key);}
   milestoneArt={soil:'assets/milestones/soil.webp',water:'assets/milestones/water.webp',food:'assets/milestones/food.webp',shelter:'assets/milestones/shelter.webp',share:'assets/milestones/share.webp',challenge:'assets/milestones/challenge.webp'};
-  residentStories=[
-    {key:'hedgehog',name:'The hedgehog',beats:[
-      {id:'hedgehog-1',title:'Something crossed in the night',
-        text:'Something moved through the leaf litter last night. Small, unhurried, certain of its way. I did not plant it and I cannot keep it — but the cover you left made the crossing possible.',
-        when:(c)=>c.active.has('hedgehog')},
-      {id:'hedgehog-2',title:'It stayed through the cold',
-        text:'Under the wood and the mulch, through the coldest weeks, something slept and did not die. That is not luck alone. You left the corner undisturbed when tidying it would have been easier.',
-        when:(c)=>c.active.has('hedgehog')&&c.winters>=1},
-      {id:'hedgehog-3',title:'Smaller tracks beside the old ones',
-        text:'There are smaller prints now beside the first. I will not promise you they all live out the year — I cannot, and neither can anyone. But a garden safe enough to sleep in has become a garden safe enough to raise young in. That is the whole of it.',
-        when:(c)=>c.active.has('hedgehog')&&c.winters>=1&&c.seasons>=3&&c.v.habitat>=52}
-    ]},
-    {key:'bee',name:'The bees',beats:[
-      {id:'bee-1',title:'The flowers were found',
-        text:'Something came from somewhere else and decided this was worth the journey. I did not call it. Word travels here in a language of scent and distance.',
-        when:(c)=>c.active.has('bee')},
-      {id:'bee-2',title:'Something has stayed open',
-        text:'For weeks now, as one flower closed another was already waiting. That continuity is far harder to design than a single beautiful bed — and you built it without being asked to.',
-        when:(c)=>c.active.has('bee')&&c.seasons>=2},
-      {id:'bee-3',title:'The circle closes',
-        text:'Fruit is setting where the flowers stood. I cannot tell you which visit made which fruit — that is not how any of this works. But the visitors came, the harvest followed, and both belong to the same arrangement.',
-        when:(c)=>c.active.has('bee')&&c.seasons>=2&&c.v.food>=45}
-    ]},
-    {key:'worm',name:'The earthworms',beats:[
-      {id:'worm-1',title:'Work you will never watch',
-        text:'Beneath the cover something began that you will almost never see. Organic matter and a little shade were invitation enough.',
-        when:(c)=>c.active.has('worm')},
-      {id:'worm-2',title:'The ground opens',
-        text:'Rain sinks differently now. Burrows and castings change where water goes and how far roots may follow. Slowly — soil keeps its own time, not ours.',
-        when:(c)=>c.active.has('worm')&&c.v.soil>=50},
-      {id:'worm-3',title:'Alive under the frost',
-        text:'Even through the cold months, under the mulch, the work did not stop entirely. You have made something that no longer needs you to be watching it.',
-        when:(c)=>c.active.has('worm')&&c.winters>=1&&c.v.soil>=64}
-    ]}
-  ];
-  pestPressures=[
-    {key:'aphid',name:'Aphids',noun:'aphids',seasons:['Spring','Summer'],
-      crops:['crop_leafy','crop_herb','crop_root','crop_potato','crop_cabbage'],
-      ally:'ladybug',allyName:'Ladybugs',
+  // When each beat of the story of a resident is due is a rule (lib/wildlife.js);
+  // the stories themselves are told here.
+  residentStories=this.storiesWithRules(this.rules.wildlife.RESIDENTS,{
+    hedgehog:{name:'The hedgehog',beats:{
+      'hedgehog-1':{title:'Something crossed in the night',
+        text:'Something moved through the leaf litter last night. Small, unhurried, certain of its way. I did not plant it and I cannot keep it — but the cover you left made the crossing possible.'},
+      'hedgehog-2':{title:'It stayed through the cold',
+        text:'Under the wood and the mulch, through the coldest weeks, something slept and did not die. That is not luck alone. You left the corner undisturbed when tidying it would have been easier.'},
+      'hedgehog-3':{title:'Smaller tracks beside the old ones',
+        text:'There are smaller prints now beside the first. I will not promise you they all live out the year — I cannot, and neither can anyone. But a garden safe enough to sleep in has become a garden safe enough to raise young in. That is the whole of it.'}
+    }},
+    bee:{name:'The bees',beats:{
+      'bee-1':{title:'The flowers were found',
+        text:'Something came from somewhere else and decided this was worth the journey. I did not call it. Word travels here in a language of scent and distance.'},
+      'bee-2':{title:'Something has stayed open',
+        text:'For weeks now, as one flower closed another was already waiting. That continuity is far harder to design than a single beautiful bed — and you built it without being asked to.'},
+      'bee-3':{title:'The circle closes',
+        text:'Fruit is setting where the flowers stood. I cannot tell you which visit made which fruit — that is not how any of this works. But the visitors came, the harvest followed, and both belong to the same arrangement.'}
+    }},
+    worm:{name:'The earthworms',beats:{
+      'worm-1':{title:'Work you will never watch',
+        text:'Beneath the cover something began that you will almost never see. Organic matter and a little shade were invitation enough.'},
+      'worm-2':{title:'The ground opens',
+        text:'Rain sinks differently now. Burrows and castings change where water goes and how far roots may follow. Slowly — soil keeps its own time, not ours.'},
+      'worm-3':{title:'Alive under the frost',
+        text:'Even through the cold months, under the mulch, the work did not stop entirely. You have made something that no longer needs you to be watching it.'}
+    }}
+  });
+  // When a pest breaks out, what it feeds on, who keeps it in balance and when
+  // each beat of its story is due are rules (lib/wildlife.js); its story is told here.
+  pestPressures=this.storiesWithRules(this.rules.wildlife.PESTS,{
+    aphid:{name:'Aphids',noun:'aphids',
+      allyName:'Ladybugs',
       reading:'nothing here hunts them, and nothing that would could stay the winter',
-      build:['bughotel','pollinator','herbspiral'],
       relief:'Rinse the shoot tips with water',
       reliefWhy:'Plain water dislodges many of them and touches nothing else that lives here. The stems will be found again while the cause remains.',
-      beats:[
-        {id:'aphid-1',title:'Something is feeding on the new growth',
-          text:'The softest shoots are curling. Something small has found them, and there are many — they arrive faster than anything here can answer. I am not telling you this to alarm you. I am telling you because you asked to see what I see.',
-          when:(c)=>c.active||c.cleared},
-        {id:'aphid-2',title:'What is missing is not a remedy',
-          text:'You could ask what will remove them. I would rather tell you what is absent. Nothing here hunts them. There is no long flowering season to hold a predator between meals, and no dry crevice for one to pass the winter in. The aphids are not the problem — they are the reading.',
-          when:(c)=>(c.active&&c.seasons>=2)||c.cleared},
-        {id:'aphid-3',title:'Something came to meet them',
-          text:'There are ladybugs on the same stems now. I cannot tell you they will clear every one, and I would not want them to — a predator that finishes its prey has nowhere left to live. What you built was not a weapon. It was a place for something to stay long enough to matter.',
-          when:(c)=>c.cleared}
-      ]},
-    {key:'slug',name:'Slugs',noun:'slugs',seasons:['Spring','Autumn'],
-      crops:['crop_leafy','crop_cabbage'],
-      ally:'hedgehog',allies:['hedgehog','beetle','bird'],allyName:'Night foragers',
+      beats:{
+        'aphid-1':{title:'Something is feeding on the new growth',
+          text:'The softest shoots are curling. Something small has found them, and there are many — they arrive faster than anything here can answer. I am not telling you this to alarm you. I am telling you because you asked to see what I see.'},
+        'aphid-2':{title:'What is missing is not a remedy',
+          text:'You could ask what will remove them. I would rather tell you what is absent. Nothing here hunts them. There is no long flowering season to hold a predator between meals, and no dry crevice for one to pass the winter in. The aphids are not the problem — they are the reading.'},
+        'aphid-3':{title:'Something came to meet them',
+          text:'There are ladybugs on the same stems now. I cannot tell you they will clear every one, and I would not want them to — a predator that finishes its prey has nowhere left to live. What you built was not a weapon. It was a place for something to stay long enough to matter.'}
+      }},
+    slug:{name:'Slugs',noun:'slugs',
+      allyName:'Night foragers',
       reading:'the cover holds water and hides them, and nothing forages here after dark',
-      build:['mulch','hugel','bughotel','birdhouse'],
       relief:'Lift the boards at dusk and move them on',
       reliefWhy:'Collecting by hand at dusk works and harms nothing else. It also has to be done again every week the cause remains.',
-      beats:[
-        {id:'slug-1',title:'Silver trails across the leaves',
-          text:'By morning the young leaves had holes, and the trails were still bright across the soil. The damp cover you laid is good for much of what lives here. It is good for this, too.',
-          when:(c)=>c.active||c.cleared},
-        {id:'slug-2',title:'Shelter without a hunter',
-          text:'Mulch holds water, feeds the soil and hides the slugs from the sun. All of that is one decision, not three. What this garden does not yet have is anything that forages here at night — no undisturbed corner, no ground cover deep enough, no reason for a night visitor to make the crossing. Shelter without a hunter is only shelter for one side.',
-          when:(c)=>(c.active&&c.seasons>=2)||c.cleared},
-        {id:'slug-3',title:'The nights are busier now',
-          text:'Something works through the litter after dark. Slugs are still here — they will be, and that is not failure. Hedgehogs, birds and ground beetles eat many things, and the balance they keep is never a clean sweep. Fewer holes in the leaves is all I can honestly report. It is enough.',
-          when:(c)=>c.cleared}
-      ]},
-    {key:'caterpillar',name:'Caterpillars',noun:'caterpillars',seasons:['Summer'],
-      crops:['crop_cabbage'],
-      ally:'bird',allyName:'Birds',
+      beats:{
+        'slug-1':{title:'Silver trails across the leaves',
+          text:'By morning the young leaves had holes, and the trails were still bright across the soil. The damp cover you laid is good for much of what lives here. It is good for this, too.'},
+        'slug-2':{title:'Shelter without a hunter',
+          text:'Mulch holds water, feeds the soil and hides the slugs from the sun. All of that is one decision, not three. What this garden does not yet have is anything that forages here at night — no undisturbed corner, no ground cover deep enough, no reason for a night visitor to make the crossing. Shelter without a hunter is only shelter for one side.'},
+        'slug-3':{title:'The nights are busier now',
+          text:'Something works through the litter after dark. Slugs are still here — they will be, and that is not failure. Hedgehogs, birds and ground beetles eat many things, and the balance they keep is never a clean sweep. Fewer holes in the leaves is all I can honestly report. It is enough.'}
+      }},
+    caterpillar:{name:'Caterpillars',noun:'caterpillars',
+      allyName:'Birds',
       reading:'nothing includes these rows in its morning',
-      build:['birdhouse','birdbath'],
       relief:'Check the undersides and lift them off',
       reliefWhy:'Going leaf by leaf works on a small plot and takes only patience. It changes nothing about why they were the only ones looking.',
-      beats:[
-        {id:'caterpillar-1',title:'Eaten from the inside out',
-          text:'White butterflies came to the brassicas, and what they left behind is feeding now. It is easy to resent this. I would rather you look at it first — the same wings you welcomed among the flowers laid these eggs. They were never two different visitors.',
-          when:(c)=>c.active||c.cleared},
-        {id:'caterpillar-2',title:'No one is working these rows',
-          text:'Caterpillars are food. That is not a comfort — it is a fact this garden cannot yet use, because nothing here is hunting them. No nest box, no clean shallow water, no reason for a bird to include these rows in its morning.',
-          when:(c)=>(c.active&&c.seasons>=2)||c.cleared},
-        {id:'caterpillar-3',title:'The rows are on someone’s route',
-          text:'Birds work the brassicas in the early hours now. Some caterpillars will still finish, become butterflies and return to the flowers, which is how it should go. You did not remove anything from this garden. You added the part that was missing, and the rest arranged itself.',
-          when:(c)=>c.cleared}
-      ]}
-  ];
-  pestAllyKeys(p){return p.allies||[p.ally];}
-  pestMissingBuilds(st,p){
-    const have=new Set((st.placed||[]).map(x=>x.type));
-    return (p.build||[]).filter(t=>!have.has(t));
-  }
-  residentBeatCtx(st){
-    const active=this.activeOf(st.placed||[]);
-    const v=this.gardenSystems(st).values||{};
-    return {st:st,active:active,v:v,seasonsBy:st.residentSeasons||{},wintersBy:st.residentWinters||{}};
-  }
+      beats:{
+        'caterpillar-1':{title:'Eaten from the inside out',
+          text:'White butterflies came to the brassicas, and what they left behind is feeding now. It is easy to resent this. I would rather you look at it first — the same wings you welcomed among the flowers laid these eggs. They were never two different visitors.'},
+        'caterpillar-2':{title:'No one is working these rows',
+          text:'Caterpillars are food. That is not a comfort — it is a fact this garden cannot yet use, because nothing here is hunting them. No nest box, no clean shallow water, no reason for a bird to include these rows in its morning.'},
+        'caterpillar-3':{title:'The rows are on someone’s route',
+          text:'Birds work the brassicas in the early hours now. Some caterpillars will still finish, become butterflies and return to the flowers, which is how it should go. You did not remove anything from this garden. You added the part that was missing, and the rest arranged itself.'}
+      }}
+  });
+  pestAllyKeys(p){return this.rules.wildlife.allyKeys(p);}
+  pestMissingBuilds(st,p){return this.rules.wildlife.missingBuilds(st,p);}
+  // The beats due now (lib/wildlife.js), told with their words and pictures.
   pendingResidentBeats(st){
-    const base=this.residentBeatCtx(st),seen=st.residentBeatsSeen||[],out=[];
-    this.residentStories.forEach(r=>{
-      const c={...base,seasons:(base.seasonsBy[r.key]||0),winters:(base.wintersBy[r.key]||0)};
-      for(const b of r.beats){
-        if(seen.indexOf(b.id)>=0){continue;}
-        if(!b.when(c)){break;}
-        out.push({id:b.id,resident:r.key,residentName:r.name,title:b.title,text:b.text,
-          art:'assets/residents/'+b.id+'.webp',index:r.beats.indexOf(b)+1,total:r.beats.length});
-        break;
-      }
+    return this.rules.wildlife.dueResidentBeats(st,this.gardenSystems(st).values||{}).map(due=>{
+      const r=this.residentStories.find(x=>x.key===due.resident),b=r.beats[due.index-1];
+      return {id:b.id,resident:r.key,residentName:r.name,title:b.title,text:b.text,
+        art:'assets/residents/'+b.id+'.webp',index:due.index,total:due.total};
     });
-    return out;
   }
   pendingPestBeats(st){
-    const seasonsBy=st.pestSeasons||{},clearedBy=st.pestCleared||{},seen=st.pestBeatsSeen||[],out=[];
-    this.pestPressures.forEach(p=>{
-      const c={active:(st.pestActive||null)===p.key,cleared:!!clearedBy[p.key],seasons:seasonsBy[p.key]||0};
-      for(const b of p.beats){
-        if(seen.indexOf(b.id)>=0){continue;}
-        if(!b.when(c)){break;}
-        out.push({id:b.id,pest:p.key,pestName:p.name,noun:p.noun,title:b.title,text:b.text,
-          art:'assets/pests/'+b.id+'.webp',index:p.beats.indexOf(b)+1,total:p.beats.length,
-          resolved:c.cleared,reading:p.reading,relief:p.relief,reliefWhy:p.reliefWhy,allyName:p.allyName});
-        break;
-      }
+    return this.rules.wildlife.duePestBeats(st).map(due=>{
+      const p=this.pestPressures.find(x=>x.key===due.pest),b=p.beats[due.index-1];
+      return {id:b.id,pest:p.key,pestName:p.name,noun:p.noun,title:b.title,text:b.text,
+        art:'assets/pests/'+b.id+'.webp',index:due.index,total:due.total,
+        resolved:due.resolved,reading:p.reading,relief:p.relief,reliefWhy:p.reliefWhy,allyName:p.allyName};
     });
-    return out;
   }
-  stepPests(ns,season,activeWildlife,allowOnset=true){
-    const cleared={...(ns.pestCleared||{})},seasons={...(ns.pestSeasons||{})},relief={...(ns.pestRelief||{})};
-    const turns=Math.max(0,Math.floor(Number(ns.seasonTurns)||0));
-    let lastSettled=ns.pestLastSettled===null||ns.pestLastSettled===undefined?null:Math.floor(Number(ns.pestLastSettled));
-    const types=new Set((ns.placed||[]).map(p=>p.type));
-    const hasCrop=(p)=>(p.crops||[]).some(t=>types.has(t));
-    const allyPresent=(p)=>this.pestAllyKeys(p).some(k=>activeWildlife.has(k));
-    let active=ns.pestActive||null;
-    let pestReturned=null;
-    if(active){
-      const p=this.pestPressures.find(x=>x.key===active);
-      if(!p||!hasCrop(p)||allyPresent(p)||cleared[active]){
-        if(p&&allyPresent(p)){cleared[p.key]=true;}
-        active=null;lastSettled=turns;
-      }else{
-        seasons[p.key]=(seasons[p.key]||0)+1;
-        if(relief[p.key]){relief[p.key]=Math.max(0,relief[p.key]-1);}
-      }
-    }
-    // klid mezi přemnoženími: zahrada nikdy nepálí dvě rány po sobě
-    const calm=lastSettled===null||(turns-lastSettled)>=2;
-    if(!active&&allowOnset&&calm&&turns>=2){
-      const cand=this.pestPressures.find(p=>(p.seasons||[]).indexOf(season)>=0&&hasCrop(p)&&!allyPresent(p));
-      if(cand){
-        active=cand.key;
-        seasons[cand.key]=(seasons[cand.key]||0)+1;
-        if(cleared[cand.key]){pestReturned=cand.key;}
-      }
-    }
-    return {pestActive:active,pestSeasons:seasons,pestCleared:cleared,pestRelief:relief,pestLastSettled:lastSettled===null?null:lastSettled,pestReturned:pestReturned};
-  }
+  // A pest outbreak is a reading of the garden, never a dice roll (lib/wildlife.js).
+  stepPests(ns,season,activeWildlife,allowOnset=true){return this.rules.wildlife.stepPests(ns,season,activeWildlife,allowOnset);}
   pestMissingText(st){
     const key=st.pestStory?st.pestStory.pest:st.pestActive;
     const p=key?this.pestPressures.find(x=>x.key===key):null;
@@ -3923,12 +3851,7 @@ class Component extends DCLogic {
     if(!missing.length){return 'The parts are already here. '+p.allyName+' may still need a season or two to find them — nothing about this is owed to you on schedule.';}
     return 'Nothing in this garden yet offers what '+p.allyName.toLowerCase()+' need. Consider adding: '+missing.join(', ')+'.';
   }
-  pestHeldTypes(st){
-    const key=st.pestActive;
-    if(!key||(st.pestRelief||{})[key]||(st.pestCleared||{})[key]){return [];}
-    const p=this.pestPressures.find(x=>x.key===key);
-    return p?(p.crops||[]):[];
-  }
+  pestHeldTypes(st){return this.rules.wildlife.heldCrops(st);}
   lessonFocusArt={soil:'assets/learning/mulch.webp',water:'assets/learning/rain.webp',food:'assets/learning/hugel.webp',habitat:'assets/learning/shelter.webp',sharing:'assets/learning/kitchen.webp',relationships:'assets/learning/pexeso.webp',season:'assets/learning/season.webp'};
   bookTabDefs=[{key:'elements',label:'Elements',intro:'Everything you can place in the garden — what it is, why it matters, and which lives it may support.'},{key:'wildlife',label:'Who may visit',intro:'Neighbours who may arrive when conditions suit them. None of them are promised; gardens differ.'},{key:'guilds',label:'Connections',intro:'Pairwise design connections between elements. A full plant guild usually weaves several compatible species and functions together; one nearby pair is only a beginning.'},{key:'principles',label:'Principles',intro:'The lessons the garden teaches through its challenges — observation before action.'},{key:'balance',label:'Balance',intro:'When something multiplies beyond what the rest can absorb, it is describing an absence. These pages are about reading that, not about winning against it.'},{key:'keeping',label:'Keeping',intro:'A season gives more than a week can eat. These pages are about the two ways a garden carries itself forward — food kept, and seed kept.'}];
   keepingEntries=[
@@ -4227,7 +4150,7 @@ class Component extends DCLogic {
       lastChange:st.lastSystemChange?{system:st.lastSystemChange.systemKey||systemKey(st.lastSystemChange.system),delta:st.lastSystemChange.delta,text:st.lastSystemChange.text}:null
     });
   }
-  livingLessonUnlocked(st=this.state){return st.mode==='explore'||this.journeyModel(st).done>=2||(st.placed||[]).length>=2;}
+  livingLessonUnlocked(st=this.state){return this.rules.acts.askingOpen(st);}
   lessonCacheRead(fingerprint){
     try{
       const raw=JSON.parse(localStorage.getItem('permagarden_living_lessons_v1')||'{}');
@@ -4678,61 +4601,48 @@ class Component extends DCLogic {
     window.print();
   }
   journeyModel(st=this.state){
-    const t=new Set((st.placed||[]).map(p=>p.type));
-    const moment=(k)=>this.hasJourneyMoment(st,k);
-    // Physical acts describe the garden as it is now. Moments remember that a
-    // lesson was introduced, but must never keep a missing layer "complete".
-    const soil=t.has('compost')||t.has('mulch')||t.has('hugel');
-    const water=t.has('rain');
-    const food=['hugel','arch','herbspiral','greenhouse','appletree','crop_potato','crop_root','crop_leafy','crop_cabbage','crop_herb'].some(k=>t.has(k));
-    const shelter=t.has('bughotel')||t.has('birdhouse')||t.has('pollinator');
-    const shared=moment('share')||(st.sharedActs||0)>0;
-    const challenged=moment('challenge');
+    // Which acts are done is a rule (lib/acts.js): physical acts describe the garden
+    // as it is now; moments remember that a lesson was introduced, but must never
+    // keep a missing layer "complete". The words of each act are here.
+    const journey=this.rules.acts.progress(st),done=journey.done;
     const steps=[
-      {key:'soil',done:soil,eyebrow:'First act · Living soil',label:'Begin with my soil',why:'Choose compost or mulch, then place it where the bare ground needs care.',voice:'Feed me first. Everything visible begins with the life beneath.'},
-      {key:'water',done:water,eyebrow:'Second act · Every drop',label:'Catch and keep water',why:'Add rain harvesting. Later, place a growing area nearby so stored water has somewhere useful to go.',voice:'Rain should not rush away. Give it somewhere useful to pause.'},
-      {key:'food',done:food,eyebrow:'Third act · Useful abundance',label:'Grow food in layers',why:'Add an edible bed, fruit tree, herb spiral or planted arch. A seed bank can prepare a crop, but the act is complete when food is growing.',voice:'Let one place feed roots, leaves, fruit — and the people who tend me.'},
-      {key:'shelter',done:shelter,eyebrow:'Fourth act · Room for others',label:'Make a home for wildlife',why:'Plant flowers or add a bug hotel or bird house. A garden is more resilient when it is shared.',voice:'Leave a little room for lives you may never see at first.'},
-      {key:'share',done:shared,eyebrow:'Fifth act · Fair share',label:'Let one gift circulate',why:'Pick one glowing cherry cluster and share it from your harvest basket. Or grow a genuine spare before giving an element away.',voice:'What leaves my gate is not lost. It becomes someone else’s beginning.'},
-      {key:'challenge',done:challenged,eyebrow:'Sixth act · Learn through change',label:'Turn to the next season',why:'Advance the season and solve one garden challenge. Your answer will leave a lasting effect.',voice:'Turn the season. Read what changed, then act with the whole system in mind.'}
+      {key:'soil',done:done.soil,eyebrow:'First act · Living soil',label:'Begin with my soil',why:'Choose compost or mulch, then place it where the bare ground needs care.',voice:'Feed me first. Everything visible begins with the life beneath.'},
+      {key:'water',done:done.water,eyebrow:'Second act · Every drop',label:'Catch and keep water',why:'Add rain harvesting. Later, place a growing area nearby so stored water has somewhere useful to go.',voice:'Rain should not rush away. Give it somewhere useful to pause.'},
+      {key:'food',done:done.food,eyebrow:'Third act · Useful abundance',label:'Grow food in layers',why:'Add an edible bed, fruit tree, herb spiral or planted arch. A seed bank can prepare a crop, but the act is complete when food is growing.',voice:'Let one place feed roots, leaves, fruit — and the people who tend me.'},
+      {key:'shelter',done:done.shelter,eyebrow:'Fourth act · Room for others',label:'Make a home for wildlife',why:'Plant flowers or add a bug hotel or bird house. A garden is more resilient when it is shared.',voice:'Leave a little room for lives you may never see at first.'},
+      {key:'share',done:done.share,eyebrow:'Fifth act · Fair share',label:'Let one gift circulate',why:'Pick one glowing cherry cluster and share it from your harvest basket. Or grow a genuine spare before giving an element away.',voice:'What leaves my gate is not lost. It becomes someone else’s beginning.'},
+      {key:'challenge',done:done.challenge,eyebrow:'Sixth act · Learn through change',label:'Turn to the next season',why:'Advance the season and solve one garden challenge. Your answer will leave a lasting effect.',voice:'Turn the season. Read what changed, then act with the whole system in mind.'}
     ];
-    const done=steps.filter(x=>x.done).length;
-    const current=steps.find(x=>!x.done)||steps[steps.length-1];
-    return {steps:steps,done:done,total:steps.length,current:current,index:steps.indexOf(current),ready:done===steps.length};
+    return {steps:steps,done:journey.count,total:journey.total,current:steps[journey.index],index:journey.index,ready:journey.ready};
   }
   // Nikdo se nesmi zaseknout na tom, ze nevi co ted. Vraci jednu vetu a cil.
   // Kdyz se otevre nova moznost, musi to hrac poznat okamzite a bez hledani.
   unlockDefs=[
     {key:'sharing',art:'assets/unlocks/sharing.webp',
-      when:(st)=>this.sharingUnlocked(st),
       title:'The community table is open',
       text:'Whatever your garden can spare can now go to the table. Giving is not losing here \u2014 the shared pool is what carries this place through a bad year.',
       cta:'Show me the table',go:()=>this.setAdaptivePane('community',true)},
     {key:'seedbank',art:'assets/unlocks/seedbank.webp',
-      when:(st)=>(st.placed||[]).some(p=>p.type==='seedbank'),
       title:'You can sow your own seed now',
       text:'The seed bank is standing. Click it \u2014 or the Seed bank button up in the header \u2014 to choose what to sow, read what each plant wants, and swap packets with neighbours.',
       cta:'Open the seed bank',go:()=>this.openSeedbank()},
     {key:'kitchen',art:'assets/unlocks/kitchen.webp',
-      when:(st)=>(st.placed||[]).some(p=>p.type==='kitchen'),
       title:'You can keep what you grow',
       text:'The garden kitchen is built. Simmer, dry, ferment or simply store \u2014 press the Kitchen button in the header and decide how each harvest should last.',
       cta:'Step into the kitchen',go:()=>this.openKitchen()},
     {key:'askgarden',art:'assets/unlocks/askgarden.webp',
-      when:(st)=>this.livingLessonUnlocked(st)&&(this.journeyModel(st).done>=2||(st.placed||[]).length>=3),
       title:'The garden can be asked now',
       text:'You have made enough for the garden to have something of yours to look at. Press ✦ Ask the garden for help in the right-hand panel — it will read your plot and offer one thing worth trying.',
       cta:'Ask the garden',go:()=>this.openLivingLesson()},
     {key:'seedsaved',art:'assets/unlocks/seedsaved.webp',
-      when:(st)=>Object.keys(st.seedStock||{}).some(k=>((st.seedStock||{})[k]||0)>0),
       title:'A harvest of your own seed',
       text:'Some of what you just picked went back into the seed bank. Seed you saved yourself sows for free, ignores the season\u2019s single packet, and can be given away.',
       cta:'See the drawers',go:()=>this.openSeedbank()}
   ];
+  // When each card opens, and which one is next, are rules (lib/acts.js).
   pendingUnlock(st=this.state){
-    if(st.story||st.intro){return null;}
-    const seen=st.unlocksSeen||[];
-    return this.unlockDefs.find(u=>seen.indexOf(u.key)<0&&u.when(st))||null;
+    const key=this.rules.acts.nextUnlock(st);
+    return key?this.unlockDefs.find(u=>u.key===key)||null:null;
   }
   scheduleUnlock(delay=700){
     if(this._unlockT||this._unmounted){return;}
@@ -4776,31 +4686,25 @@ class Component extends DCLogic {
     });
   }
   journeyNudge(st=this.state){
-    if((st.mode||'guided')!=='guided'){return null;}
-    const j=this.journeyModel(st);
-    if(j.ready){return null;}
-    const cur=j.current&&j.current.key;
+    // what to suggest is a rule (lib/acts.js); what can be shared now depends on the produce
     const basket=st.basket||{};
     const season=st.season||'Summer';
     const shareable=Object.keys(basket).some(k=>{
       const m=this.produceMeta[k];
       return (basket[k]||0)>0&&m&&(!m.seasons||m.seasons.indexOf(season)>=0);
     });
-    if(cur==='share'){
-      if(shareable){return {key:'share',mark:'\u{1F381}',title:'Now give one away',
-        text:'Your basket has something to spare \u2014 find it beside the community sharing table. Press Share next to it; this act asks for a gift, not a bigger harvest.'};}
-      if((st.cherryPicks||0)>0&&this.sharingUnlocked(st)){return {key:'pick',mark:'\u{1F352}',title:'Pick the glowing cherries',
-        text:'Tap a glowing cherry cluster on the plot. Your basket then appears beside the community sharing table, ready to give one away.'};}
-      return {key:'grow',mark:'\u{1F331}',title:'Grow something worth giving',
-        text:'The garden is asking for a gift. Harvest a crop or pick ripe fruit first, then share one.'};
-    }
-    if(cur==='challenge'){return {key:'season',mark:'\u{1F343}',title:'Turn to the next season',
+    const nudge=this.rules.acts.nudge(st,shareable);
+    if(nudge==='share'){return {key:'share',mark:'\u{1F381}',title:'Now give one away',
+      text:'Your basket has something to spare \u2014 find it beside the community sharing table. Press Share next to it; this act asks for a gift, not a bigger harvest.'};}
+    if(nudge==='pick'){return {key:'pick',mark:'\u{1F352}',title:'Pick the glowing cherries',
+      text:'Tap a glowing cherry cluster on the plot. Your basket then appears beside the community sharing table, ready to give one away.'};}
+    if(nudge==='grow'){return {key:'grow',mark:'\u{1F331}',title:'Grow something worth giving',
+      text:'The garden is asking for a gift. Harvest a crop or pick ripe fruit first, then share one.'};}
+    if(nudge==='season'){return {key:'season',mark:'\u{1F343}',title:'Turn to the next season',
       text:'Press Next season above the plot. A challenge will meet you there \u2014 that is where the garden teaches.'};}
     return null;
   }
-  sharingUnlocked(st=this.state){
-    return st.mode==='explore'||this.hasJourneyMoment(st,'share')||this.journeyModel(st).index>=4;
-  }
+  sharingUnlocked(st=this.state){return this.rules.acts.sharingOpen(st);}
   LINK_CROPS=['hugel','arch','herbspiral','greenhouse','appletree','crop_potato','crop_root','crop_leafy','crop_cabbage','crop_herb'];
   systemLinks(){
     const crops=this.LINK_CROPS;
@@ -5275,7 +5179,7 @@ class Component extends DCLogic {
             }catch(_){pendingGate=null;}
           }
           restored=true;
-          this.setState({placed:cleanPlaced,shares:Math.max(0,Math.min(1000000,num(s.shares,10))),budget:Math.max(0,Math.min(1000000,num(s.budget,300))),pool:Math.max(0,Math.min(100,num(s.pool,65))),goodwill:Math.max(0,Math.min(1000000,num(s.goodwill,0))),given:Math.max(0,Math.min(1000000,num(s.given,0))),awarded:restoredAwarded,market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',gardenSize:['balanced','large','focus'].indexOf(s.gardenSize)>=0?s.gardenSize:'balanced',gardenSizeOpen:false,insightsExpanded:!!s.insightsExpanded,journeyMoments:restoredJourneyMoments,gardenEffects:restoredGardenEffects,lastChallengeKey:gateKeys.has(s.lastChallengeKey)?s.lastChallengeKey:null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:restoredResidentBeats,residentSeasons:restoredResidentSeasons,residentWinters:restoredResidentWinters,pestStory:null,pestActive:restoredPestActive,pestSeasons:restoredPestSeasons,pestCleared:restoredPestCleared,pestRelief:restoredPestRelief,pestBeatsSeen:restoredPestBeats,pestLastSettled:restoredPestSettled,livingLesson:null,livingLessonExperiment:restoredLessonExperiment,livingLessonHistory:restoredLessonHistory,gardenCinematic:null,communityMemory:restoredCommunityMemory,reflectionOpened:!!s.reflectionOpened,reflectionNote:typeof s.reflectionNote==='string'?s.reflectionNote.slice(0,1000):'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:restoredDiscovered,guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:Math.max(0,Math.min(1000000,num(s.sharedActs,0))),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,payWith:(s.payWith==='euro'?'euro':'shares'),seedAllowance:restoredSeedAllowance,seedStock:restoredSeedStock,seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:Array.from(new Set((Array.isArray(s.unlocksSeen)?s.unlocksSeen:[]).filter(v=>typeof v==='string'&&v.length<=80))),grownHarvests:Math.max(0,Math.min(1000000,num(s.grownHarvests,0))),preservedCount:Math.max(0,Math.min(1000000,num(s.preservedCount,0))),stallSales:Math.max(0,Math.min(1000000,num(s.stallSales,0))),paymentChoice:null,muted:!!s.muted,playerName:typeof s.playerName==='string'?s.playerName.slice(0,80):'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:restoredBasket,materials:restoredMaterials,harvestEver:!!s.harvestEver,gatesPlayed:restoredGatesPlayed,guests:restoredGuests,visitsDone:restoredVisitsDone,visitSeason:this.seasonDefs[s.visitSeason]?s.visitSeason:null,seenWildlife:restoredSeenWildlife,keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:restoredLastSystemChange});
+          this.setState({placed:cleanPlaced,shares:Math.max(0,Math.min(1000000,num(s.shares,this.rules.economy.START.shares))),budget:Math.max(0,Math.min(1000000,num(s.budget,this.rules.economy.START.budget))),pool:Math.max(0,Math.min(this.rules.economy.POOL_MAX,num(s.pool,this.rules.economy.START.pool))),goodwill:Math.max(0,Math.min(1000000,num(s.goodwill,this.rules.economy.START.goodwill))),given:Math.max(0,Math.min(1000000,num(s.given,0))),awarded:restoredAwarded,market:cleanMarket,lastCommunityCheck:typeof s.lastCommunityCheck==='string'&&s.lastCommunityCheck.length<80?s.lastCommunityCheck:null,story:!storySeen,storySeen:storySeen,storyStarted:false,storyScene:0,storyPaused:false,storyLeaving:false,storyToIntro:!introSeen,intro:storySeen&&!introSeen,introSeen:introSeen,mode:s.mode==='explore'?'explore':'guided',gardenSize:['balanced','large','focus'].indexOf(s.gardenSize)>=0?s.gardenSize:'balanced',gardenSizeOpen:false,insightsExpanded:!!s.insightsExpanded,journeyMoments:restoredJourneyMoments,gardenEffects:restoredGardenEffects,lastChallengeKey:gateKeys.has(s.lastChallengeKey)?s.lastChallengeKey:null,gardenWhisper:null,gardenWhisperReplay:null,gardenReflection:null,gardenReflectionsSeen:Array.isArray(s.gardenReflectionsSeen)?s.gardenReflectionsSeen:[],residentStory:null,residentBeatsSeen:restoredResidentBeats,residentSeasons:restoredResidentSeasons,residentWinters:restoredResidentWinters,pestStory:null,pestActive:restoredPestActive,pestSeasons:restoredPestSeasons,pestCleared:restoredPestCleared,pestRelief:restoredPestRelief,pestBeatsSeen:restoredPestBeats,pestLastSettled:restoredPestSettled,livingLesson:null,livingLessonExperiment:restoredLessonExperiment,livingLessonHistory:restoredLessonHistory,gardenCinematic:null,communityMemory:restoredCommunityMemory,reflectionOpened:!!s.reflectionOpened,reflectionNote:typeof s.reflectionNote==='string'?s.reflectionNote.slice(0,1000):'',endingSeen:!!s.endingSeen,certificatePreparing:false,discovered:restoredDiscovered,guildVoicePlayed:!!s.guildVoicePlayed,sharedActs:Math.max(0,Math.min(1000000,num(s.sharedActs,0))),rewardedGiftTypes:Array.isArray(s.rewardedGiftTypes)?s.rewardedGiftTypes.filter(t=>!!this.econ[t]):[],seasonTurns:seasonTurns,payWith:(s.payWith==='euro'?'euro':'shares'),seedAllowance:restoredSeedAllowance,seedStock:restoredSeedStock,seedbankOpen:false,seedPick:null,seedNote:null,unlockCard:null,unlocksSeen:Array.from(new Set((Array.isArray(s.unlocksSeen)?s.unlocksSeen:[]).filter(v=>typeof v==='string'&&v.length<=80))),grownHarvests:Math.max(0,Math.min(1000000,num(s.grownHarvests,0))),preservedCount:Math.max(0,Math.min(1000000,num(s.preservedCount,0))),stallSales:Math.max(0,Math.min(1000000,num(s.stallSales,0))),paymentChoice:null,muted:!!s.muted,playerName:typeof s.playerName==='string'?s.playerName.slice(0,80):'',season:bootSeason,springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:num(s.springSprouts,bootSeason==='Spring'?3:0),leafPiles:num(s.leafPiles,bootSeason==='Autumn'?3:0),returnQueue:restoredReturnQueue,basket:restoredBasket,materials:restoredMaterials,harvestEver:!!s.harvestEver,gatesPlayed:restoredGatesPlayed,guests:restoredGuests,visitsDone:restoredVisitsDone,visitSeason:this.seasonDefs[s.visitSeason]?s.visitSeason:null,seenWildlife:restoredSeenWildlife,keyboardPos:{x:50,y:62},cherryPicks:num(s.cherryPicks,bootSeason==='Summer'?3:0),gate:pendingGate,lastSystemChange:restoredLastSystemChange});
           this.setState({gardenSize:restoredGardenSize,gardenWidth:restoredGardenWidth,gardenHeight:restoredGardenHeight,
             springSprouts:Math.max(0,Math.min(3,Math.floor(num(s.springSprouts,bootSeason==='Spring'?3:0)))),
             leafPiles:Math.max(0,Math.min(3,Math.floor(num(s.leafPiles,bootSeason==='Autumn'?3:0)))),
@@ -5816,85 +5720,45 @@ class Component extends DCLogic {
       else{this.setState({plantType:null});this.placeType(type,pos.x,pos.y,'auto');}
     }
   }
-  effectivePrice(type,st){
-    const e=this.econ[type]; if(!e){ return {price:0,used:[]}; }
-    const uses=this.buildUses[type]; if(!uses){ return {price:e.price,used:[]}; }
-    const mats=st.materials||{}; let price=e.price; const used=[];
-    uses.forEach(m=>{ if((mats[m]||0)>0 && price-this.MATS[m].value>=10){ price-=this.MATS[m].value; used.push(m); } });
-    return {price:price,used:used};
-  }
-  paymentOptions(type,st=this.state){
-    const e=this.econ[type],eff=e?this.effectivePrice(type,st):{price:0,used:[]};
-    return {barter:!!e&&e.barter>0&&st.shares>=e.barter,buy:!!e&&eff.price>0&&st.budget>=eff.price,barterAmount:e?e.barter:null,buyAmount:eff.price,used:eff.used};
-  }
+  // Prices after reclaimed materials, and the ways to pay (lib/economy.js).
+  effectivePrice(type,st){return this.rules.economy.effectivePrice(type,st.materials);}
+  paymentOptions(type,st=this.state){return this.rules.economy.paymentOptions(type,st);}
   confirmPayment(source){
     const choice=this.state.paymentChoice;if(!choice){return;}
     this.setState({paymentChoice:null},()=>this.placeType(choice.type,choice.x,choice.y,source));
   }
   cancelPayment(){this.setState({paymentChoice:null,plantType:null});}
   placeType(type,x,y,via){
-    const e=this.econ[type], s=this.state;
+    const E=this.rules.economy,S=this.rules.seasons,W=this.rules.wildlife,e=this.econ[type],s=this.state;
     if(!e){ return; }
     const cdef=this.cropDefs[type];
-    if(cdef && via!=='gift' && !s.placed.some(p=>p.type==='seedbank')){ this.flash('🌰 Plant a Seed bank first — every crop here starts as saved community seed.'); return; }
-    // seed you saved yourself is yours to sow: it ignores the one-packet-a-season limit
-    const savedSeed=cdef&&via!=='gift'&&((s.seedStock||{})[type]||0)>0;
-    if(cdef && via!=='gift' && !savedSeed && ((s.seedAllowance||{})[type]||0)>=1){this.flash('One seed packet of this crop is available per season — or sow from your own saved seed. Turn the season before sowing it again.');return;}
+    // seed you saved yourself is yours to sow: it ignores the one-packet-a-season limit (lib/seasons.js)
+    const blocked=S.plantingBlock(type,via,s);
+    if(blocked==='seedbank'){ this.flash('🌰 Plant a Seed bank first — every crop here starts as saved community seed.'); return; }
+    if(blocked==='packet'){this.flash('One seed packet of this crop is available per season — or sow from your own saved seed. Turn the season before sowing it again.');return;}
     const winP=this.plantWindows[type];
-    if(winP && via!=='gift' && winP.s.indexOf(s.season||'Summer')<0){ this.flash('🗓️ Not now — '+winP.why+' Plantable: '+winP.s.map(k2=>this.seasonDefs[k2].emoji+' '+k2).join(' · ')); return; }
-    const eff=this.effectivePrice(type,s);
-    const options=this.paymentOptions(type,s);
-    let pay;
-    if(via==='gift'){ pay={source:'gift',amount:0}; }
-    else if(via==='barter'&&options.barter){pay={source:'barter',amount:e.barter};}
-    else if(via==='buy'&&options.buy){pay={source:'buy',amount:eff.price,used:eff.used};}
-    else if(via==='auto'&&options.barter&&options.buy){
-      if((s.payWith||'shares')==='euro'){pay={source:'buy',amount:eff.price,used:eff.used};}
-      else {pay={source:'barter',amount:e.barter};}
-    }
-    else if(options.barter){ pay={source:'barter',amount:e.barter}; }
-    else if(options.buy){ pay={source:'buy',amount:eff.price,used:eff.used}; }
-    else if(cdef&&e.barter===0){pay={source:'seed',amount:0};}
-    else { this.flash('Not enough game shares or budget — share a genuine surplus, learn through a challenge or wait for a community offering.'); return; }
+    if(blocked==='season'){ this.flash('🗓️ Not now — '+winP.why+' Plantable: '+winP.s.map(k2=>this.seasonDefs[k2].emoji+' '+k2).join(' · ')); return; }
+    const savedSeed=S.usesSavedSeed(type,via,s);
+    const pay=E.choosePayment(type,via,s,s.payWith,!!cdef);
+    if(!pay){ this.flash('Not enough game shares or budget — share a genuine surplus, learn through a challenge or wait for a community offering.'); return; }
     const id='p'+(++this._n);
     this.setState(st=>{
-      const shares=st.shares - (pay.source==='barter'?pay.amount:0);
-      const budget=st.budget - (pay.source==='buy'?pay.amount:0);
-      const given=st.given;
-      let materials=st.materials||{};
-      if(pay.source==='buy'&&pay.used&&pay.used.length){ materials={...materials}; pay.used.forEach(m=>{ materials[m]=Math.max(0,(materials[m]||0)-1); }); }
-      const item={id:id,type:type,x:x,y:y,paidMethod:pay.source,paidAmount:pay.amount,usedMaterials:(pay.used||[]).slice(),placedAtTurn:st.seasonTurns||0};
-      if(cdef){ item.stage=1; }
+      const wallet=E.pay(st,pay);
       // a newly planted tree is a sapling: it has to grow into its first autumn
-      if(type==='appletree'){ item.appleReady=false; }
-      const seedAllowance=(cdef&&!savedSeed)?{...(st.seedAllowance||{}),[type]:((st.seedAllowance||{})[type]||0)+1}:(st.seedAllowance||{});
-      const seedStock=savedSeed?{...(st.seedStock||{}),[type]:Math.max(0,((st.seedStock||{})[type]||0)-1)}:(st.seedStock||{});
-      let ns={...st, placed:[...st.placed,item], shares:shares, budget:budget, given:given, materials:materials,seedAllowance:seedAllowance,seedStock:seedStock,paymentChoice:null, selectedPlacedId:id, selectedType:type, plantType:null, toast:null};
+      const item=S.startGrowth({id:id,type:type,x:x,y:y,paidMethod:pay.source,paidAmount:pay.amount,usedMaterials:(pay.used||[]).slice(),placedAtTurn:st.seasonTurns||0});
+      const sown=S.afterSowing(st,type,savedSeed);
+      let ns={...st, placed:[...st.placed,item], shares:wallet.shares, budget:wallet.budget, given:st.given, materials:wallet.materials,seedAllowance:sown.seedAllowance,seedStock:sown.seedStock,paymentChoice:null, selectedPlacedId:id, selectedType:type, plantType:null, toast:null};
       if(pay.source==='buy'&&pay.used&&pay.used.length){ const saved=this.econ[type].price-pay.amount; ns.toast='🧰 Built with '+pay.used.map(m=>this.MATS[m].name.toLowerCase()).join(', ')+' from neighbours — saved €'+saved+'.'; }
-      const beforeW=this.activeOf(st.placed), afterW=this.activeOf(ns.placed);
-      const arrivedKeys=this.wildlife.filter(w=>afterW.has(w.key)&&!beforeW.has(w.key)).map(w=>w.key);
-      const seen=new Set(st.seenWildlife||[]);
-      const firstArrivals=arrivedKeys.filter(k=>!seen.has(k));
-      const returning=arrivedKeys.filter(k=>seen.has(k));
-      arrivedKeys.forEach(k=>seen.add(k));
-      ns.seenWildlife=Array.from(seen);
+      // who arrives and who may visit (lib/wildlife.js)
+      const came=W.arrivals(st.placed,ns.placed,st.seenWildlife);
+      const firstArrivals=came.first,returning=came.returning;
+      ns.seenWildlife=came.seen;
       if(firstArrivals.length&&!(st.seenWildlife||[]).length){ ns.arrivalQueue=[...(st.arrivalQueue||[]),firstArrivals[0]]; }
       else if(firstArrivals.length&&!ns.toast){ns.toast='🐾 New habitat match: '+firstArrivals.map(k=>{const w=this.wildlife.find(x=>x.key===k);return w?w.name:k;}).join(', ')+'. Open “Who might visit?” when you want the details.';}
       else if(returning.length&&!ns.toast){ ns.toast='🐾 '+returning.map(k=>{const w=this.wildlife.find(x=>x.key===k);return w?w.name:k;}).join(', ')+' returned — the habitat is welcoming again.'; }
-      const wildlifeIntroduced=st.mode==='explore'||this.journeyModel(st).index>=3||this.hasJourneyMoment(st,'shelter');
-      if(wildlifeIntroduced && !arrivedKeys.length && !st.visit && !st.gate && st.visitSeason!==(st.season||'Summer') && Math.random()<0.22){
-        const t2=new Set(ns.placed.map(p=>p.type));
-        const seasonV=st.season||'Summer';
-        const cands=this.wildlife.filter(w=>{
-          if(afterW.has(w.key)){return false;}
-          if((st.guests||[]).indexOf(w.key)>=0){return false;}
-          if((st.visitsDone||{})[w.key]){return false;}
-          const dv=this.visitDefs[w.key];if(!dv){return false;}
-          if(seasonV==='Winter'&&this.awayWinter[w.key]){return false;}
-          if(dv.seasons&&dv.seasons.indexOf(seasonV)<0){return false;}
-          return w.needs.filter(g=>!g.some(x=>t2.has(x))).length===1;
-        });
-        if(cands.length){ const wv=cands[Math.floor(Math.random()*cands.length)]; ns.visit={key:wv.key,status:'ask',picked:[]}; ns.visitSeason=seasonV; }
+      if(W.visitPossible(st,this.rules.acts.wildlifeIntroduced(st),came.arrived.length) && Math.random()<W.VISIT_CHANCE){
+        const cands=W.visitCandidates(st,ns.placed,came.active,this.visitDefs,this.awayWinter);
+        if(cands.length){ const key=cands[Math.floor(Math.random()*cands.length)]; ns.visit={key:key,status:'ask',picked:[]}; ns.visitSeason=st.season||'Summer'; }
       }
       ns=this.applyMilestones(ns);
       const beforeJourney=this.journeyModel(st), afterJourney=this.journeyModel(ns);
@@ -5908,76 +5772,55 @@ class Component extends DCLogic {
     });
     if(via!=='gift'){ this.maybeGift(); }
   }
+  // Game milestones are rules (lib/economy.js); what they say is here.
+  milestoneText={10:'🌿 Game milestone: perennial cuttings are now available on the learning-story table.',20:'🎁 Game milestone: the learning-story garden fund adds €100.',30:'✨ Game milestone: your participation adds 5 shares.'};
   applyMilestones(ns){
-    const tiers=[
-      {at:10,kind:'item',type:'pollinator',msg:'🌿 Game milestone: perennial cuttings are now available on the learning-story table.'},
-      {at:20,kind:'budget',value:100,msg:'🎁 Game milestone: the learning-story garden fund adds €100.'},
-      {at:30,kind:'shares',value:5,msg:'✨ Game milestone: your participation adds 5 shares.'}
-    ];
-    let awarded=ns.awarded.slice(), shares=ns.shares, budget=ns.budget, market=ns.market, toast=ns.toast;
-    tiers.forEach(t=>{
-      if(ns.given>=t.at && awarded.indexOf(t.at)<0){
-        awarded.push(t.at); toast=t.msg;
-        if(t.kind==='shares'){ shares+=t.value; }
-        else if(t.kind==='budget'){ budget+=t.value; }
-        else { market=[...market,{id:'g'+(++this._g),kind:'item',type:t.type,text:'Game milestone offering — '+this.catalog[t.type].name}]; }
-      }
+    const reached=this.rules.economy.reachMilestones(ns);
+    let market=ns.market, toast=ns.toast;
+    reached.reached.forEach(t=>{
+      toast=this.milestoneText[t.at];
+      if(t.kind==='item'){ market=[...market,{id:'g'+(++this._g),kind:'item',type:t.type,text:'Game milestone offering — '+this.catalog[t.type].name}]; }
     });
-    return {...ns, awarded:awarded, shares:shares, budget:budget, market:market, toast:toast};
+    return {...ns, awarded:reached.awarded, shares:reached.shares, budget:reached.budget, market:market, toast:toast};
   }
+  // When neighbours leave something on the table, and what (lib/community-table.js).
   maybeGift(){
-    const s=this.state;
-    if(!this.reciprocityUnlocked(s)||(s.market||[]).length>=4){return;}
-    let chance=Math.min(0.6, 0.12 + s.goodwill*0.03 + s.pool/400);
-    if(s.pool<20){ chance*=0.5; }
-    if(Math.random()<chance){ this.addGiftToMarket(); }
+    const s=this.state,T=this.rules.table;
+    if(!this.reciprocityUnlocked(s)||T.isFull(s.market)){return;}
+    if(Math.random()<T.giftChance(s)){ this.addGiftToMarket(); }
   }
   addGiftToMarket(){
-    if((this.state.market||[]).length>=4){return;}
-    const seasonNow=this.state.season||'Summer';
-    const inSeason=this.giftPool.filter(g=>!g.seasons||g.seasons.indexOf(seasonNow)>=0);
-    const onTable=new Set(this.state.market.map(m=>m.kind+':'+(m.type||m.mat||m.value||'')));
-    const candidates=inSeason.filter(g=>!onTable.has(g.kind+':'+(g.type||g.mat||g.value||'')));
-    const pool=candidates.length?candidates:inSeason;
-    const g=pool[Math.floor(Math.random()*pool.length)];
+    const T=this.rules.table;
+    if(T.isFull(this.state.market)){return;}
+    const g=T.pickGift(this.giftPool,this.state.season||'Summer',this.state.market,Math.random());
     if(!g){return;}
     this.setState(s=>{
-      if((s.market||[]).length>=4){return null;}
-      const offer={id:'g'+(++this._g),kind:g.kind,person:g.person||'Camille',seasons:g.seasons,text:g.text};
-      if(g.kind==='item'){offer.type=g.type;}
-      if(g.kind==='material'){offer.mat=g.mat;}
-      if(g.kind==='shares'||g.kind==='budget'){offer.value=g.value;}
+      if(T.isFull(s.market)){return null;}
+      const offer=T.offerFrom(g,'g'+(++this._g));
       return {...s, market:[...s.market,offer], toast:(g.person||'A neighbour')+' left something on the table: '+g.text};
     });
     this.playDing();
   }
   onSeeSharing(){
-    const s=this.state;
+    const s=this.state,T=this.rules.table;
     if(!this.reciprocityUnlocked(s)){this.setState({toast:'The table begins with contribution, not a vending machine. Share one real harvest or established spare, then neighbours may answer in time.'});return;}
     if(this._marketChecking){return;}
-    if(s.market.length>=4){ this.setState({toast:'The table is already full — take what you need first.'}); return; }
-    const checkKey=(s.seasonTurns||0)+':'+(s.sharedActs||0);
+    if(T.isFull(s.market)){ this.setState({toast:'The table is already full — take what you need first.'}); return; }
+    const checkKey=T.checkKey(s);
     if(s.lastCommunityCheck===checkKey){this.setState({toast:'You already checked since the last gift or seasonal turn. Let the community rhythm breathe before checking again.'});return;}
-    const chance=Math.min(.9, .35 + s.pool/160 + s.goodwill*.05);
-    const found=Math.random()<chance;
+    const found=Math.random()<T.checkChance(s);
     this._marketChecking=true;
     this.setState({lastCommunityCheck:checkKey,toast:found?s.toast:'Nobody has surplus right now — check back after another genuine gift or the next season.'},()=>{
       this._marketChecking=false;
       if(found){this.addGiftToMarket();}
     });
   }
-  offeringPoolCost(o,st=this.state){
-    if(!o){return 0;}
-    if(o.kind==='budget'){return 24;}
-    if(o.kind==='shares'){return 18;}
-    if(o.kind==='material'){return 10;}
-    if(o.kind==='item'){return (st.placed||[]).some(p=>p.type===o.type)?18:12;}
-    return 12;
-  }
+  // What taking an offer costs the shared pool, and whether it may be taken (lib/community-table.js).
+  offeringPoolCost(o,st=this.state){return this.rules.table.offerCost(o,st);}
   offeringEligibility(o,st=this.state){
-    const cost=this.offeringPoolCost(o,st);
-    if(!this.reciprocityUnlocked(st)){return {eligible:false,cost:cost,reason:'Contribute one genuine harvest or established spare before taking from the shared table.'};}
-    if((st.pool||0)<cost){return {eligible:false,cost:cost,reason:'The shared pool is too low for this offering. Let another genuine gift circulate first.'};}
+    const take=this.rules.table.canTake(o,st),cost=take.cost;
+    if(take.reason==='closed'){return {eligible:false,cost:cost,reason:'Contribute one genuine harvest or established spare before taking from the shared table.'};}
+    if(take.reason==='low'){return {eligible:false,cost:cost,reason:'The shared pool is too low for this offering. Let another genuine gift circulate first.'};}
     return {eligible:true,cost:cost,reason:'Taking this offering uses '+cost+' points from the shared pool.'};
   }
   takeOffering(id){
@@ -5992,12 +5835,13 @@ class Component extends DCLogic {
     const person=o.person||'Camille';
     const offered=o.text.replace(/\s*\([^)]*\)\s*$/,'').toLowerCase();
     const remember=(s)=>[{id:'cm'+Date.now(),person:person,text:person+' offered '+offered+'. Taking it records help received as well as help given.'},...(s.communityMemory||[])].slice(0,4);
-    const consume=(s)=>({market:s.market.filter(m=>m.id!==id),pool:Math.max(0,s.pool-cost),communityMemory:remember(s)});
-    if(o.kind==='shares'){ this.setState(s=>({...s,...consume(s),shares:s.shares+o.value,toast:t('community.receivedShares','Received {count} game shares{from}; {cost} shared-pool points were used.',{count:o.value,from:from,cost:cost})})); this.playSparkle(); return; }
-    if(o.kind==='budget'){ this.setState(s=>({...s,...consume(s),budget:s.budget+o.value,toast:t('community.receivedBudget','Received €{amount}{from}; {cost} shared-pool points were used.',{amount:o.value,from:from,cost:cost})})); this.playSparkle(); return; }
+    // the offer leaves the table, the pool pays, and what was offered arrives (lib/community-table.js)
+    const consume=(s)=>({...this.rules.table.takeOffer(s,o,cost),communityMemory:remember(s)});
+    if(o.kind==='shares'){ this.setState(s=>({...s,...consume(s),toast:t('community.receivedShares','Received {count} game shares{from}; {cost} shared-pool points were used.',{count:o.value,from:from,cost:cost})})); this.playSparkle(); return; }
+    if(o.kind==='budget'){ this.setState(s=>({...s,...consume(s),toast:t('community.receivedBudget','Received €{amount}{from}; {cost} shared-pool points were used.',{amount:o.value,from:from,cost:cost})})); this.playSparkle(); return; }
     if(o.kind==='material'){
       const mm=this.MATS[o.mat];
-      this.setState(s=>({...s,...consume(s),materials:{...(s.materials||{}),[o.mat]:((s.materials||{})[o.mat]||0)+1},toast:t('community.receivedMaterial','🧰 {name} collected{from}; {cost} shared-pool points were used.',{name:this.i18nValue(mm.name),from:from,cost:cost})}));
+      this.setState(s=>({...s,...consume(s),toast:t('community.receivedMaterial','🧰 {name} collected{from}; {cost} shared-pool points were used.',{name:this.i18nValue(mm.name),from:from,cost:cost})}));
       this.playSparkle(); return;
     }
     const needed=!this.state.placed.some(p=>p.type===o.type);
@@ -6024,7 +5868,7 @@ class Component extends DCLogic {
     const p=this.state.placed.find(q=>q.id===id);
     if(!p||!p.appleReady){ return; }
     this.setState(s=>({...s,placed:s.placed.map(q=>q.id===id?{...q,appleReady:false}:q),harvestEver:true,grownHarvests:(s.grownHarvests||0)+1,
-      basket:{...(s.basket||{}),apples:((s.basket||{}).apples||0)+3},
+      basket:{...(s.basket||{}),apples:((s.basket||{}).apples||0)+this.rules.seasons.APPLE_HARVEST},
       toast:'🍎 Apples harvested (+3) — share them fresh or dry them in the kitchen.'}));
     this.playHarvest();
   }
@@ -6034,23 +5878,22 @@ class Component extends DCLogic {
     if(!p){ return; }
     const cd=this.cropDefs[p.type];
     if(!cd){ return; }
-    const season=this.state.season||'Summer';
-    if(!((p.stage||1)>=cd.readyAt && cd.window.indexOf(season)>=0)){
+    const S=this.rules.seasons,season=this.state.season||'Summer';
+    if(!S.readyToHarvest(p,season)){
       this.flash('🌱 Not ready yet — '+this.catalog[p.type].name.toLowerCase()+' are harvested in '+this.seasonList(cd.window,'disjunction')+'.');
       return;
     }
     // Only annuals flower and set seed in the year you eat them. Carrots, beets and the
     // brassicas are biennial: the root you lift is the plant that would have flowered
-    // next summer, so lifting it and saving its seed cannot both happen.
-    const biennial=this.BIENNIAL.indexOf(p.type)>=0;
-    const savesSeed=this.state.placed.some(q=>q.type==='seedbank')&&!biennial;
-    const seedNote=savesSeed?' — and a little seed went to the seed bank.'
-      :(biennial?' — no seed from this one: it would have flowered next summer, and you have eaten it.'
+    // next summer, so lifting it and saving its seed cannot both happen (lib/seasons.js).
+    const crop=S.harvestOf(p,this.state.placed);
+    const seedNote=crop.savesSeed?' — and a little seed went to the seed bank.'
+      :(crop.biennial?' — no seed from this one: it would have flowered next summer, and you have eaten it.'
         :' — share fresh, or preserve in the garden kitchen.');
     this.setState(s=>({...s,placed:s.placed.filter(q=>q.id!==id),selectedPlacedId:null,harvestEver:true,grownHarvests:(s.grownHarvests||0)+1,
-      basket:{...(s.basket||{}),[cd.produce]:((s.basket||{})[cd.produce]||0)+cd.yieldN},
-      seedStock:savesSeed?{...(s.seedStock||{}),[p.type]:((s.seedStock||{})[p.type]||0)+1}:(s.seedStock||{}),
-      toast:'🧺 '+this.catalog[p.type].name+' harvested (+'+cd.yieldN+')'+seedNote}));
+      basket:{...(s.basket||{}),[crop.produce]:((s.basket||{})[crop.produce]||0)+crop.amount},
+      seedStock:crop.savesSeed?{...(s.seedStock||{}),[p.type]:((s.seedStock||{})[p.type]||0)+1}:(s.seedStock||{}),
+      toast:'🧺 '+this.catalog[p.type].name+' harvested (+'+crop.amount+')'+seedNote}));
     this.playHarvest();
   }
   preserveProduce(k){
@@ -6130,7 +5973,7 @@ class Component extends DCLogic {
     const name=this.catalog[k].name;
     this.setState(s=>({
       seedStock:{...(s.seedStock||{}),[k]:Math.max(0,((s.seedStock||{})[k]||0)-1)},
-      given:(s.given||0)+1,sharedActs:(s.sharedActs||0)+1,
+      ...this.rules.economy.afterGift(s,'seed'),
       seedNote:{tone:'done',title:'A packet went to the table',
         text:name+' seed is on the community table now. Seed given away is the only kind that survives a bad year in one garden — someone else is holding a copy for you.'}
     }));
@@ -6198,7 +6041,7 @@ class Component extends DCLogic {
     this.setState(st=>{
       const bb={...(st.basket||{})}; bb[k]=bb[k]-1;
       const person=this.communityRecipientFor(k,st.sharedActs||0);
-      let ns={...st,basket:bb,given:st.given+1,sharedActs:(st.sharedActs||0)+1,pool:Math.min(100,st.pool+6),goodwill:st.goodwill+1,
+      let ns={...st,basket:bb,...this.rules.economy.afterGift(st,'produce'),
         communityMemory:[{id:'cm'+Date.now(),person:person,text:this.communityReply(person,meta.name.toLowerCase())},...(st.communityMemory||[])].slice(0,4),
         toast:'🎁 '+meta.name+' reached the shared table. The community pool grew; a gift is not a purchase or personal repayment.'};
       ns=this.applyMilestones(ns);
@@ -6210,7 +6053,7 @@ class Component extends DCLogic {
   sellPreserve(k){
     const meta=this.produceMeta[k];
     if(!meta||!meta.preserve||((this.state.basket||{})[k]||0)<1){return;}
-    const amount=25;
+    const amount=this.rules.economy.STALL_PRICES.preserve;
     const i18n=this.i18n();
     const title=i18n?i18n.t('economy.stall.title',null,'A jar went to the village stall'):'A jar went to the village stall';
     const text=i18n?i18n.t('economy.stall.note',{name:meta.name,amount:amount},meta.name+' sold locally. €'+amount+' returned to the shared project fund; this is income for the garden, not a fair-share gift.'):(meta.name+' sold locally. €'+amount+' returned to the shared project fund; this is income for the garden, not a fair-share gift.');
@@ -6227,7 +6070,7 @@ class Component extends DCLogic {
   sellFreshProduce(k){
     const meta=this.produceMeta[k];
     if(k!=='cherries'||!meta||meta.preserve||((this.state.basket||{})[k]||0)<1){return;}
-    const amount=15;
+    const amount=this.rules.economy.STALL_PRICES.freshCherries;
     const i18n=this.i18n();
     const title=i18n?i18n.t('economy.freshStall.title',null,'Fresh cherries went to the village stall'):'Fresh cherries went to the village stall';
     const text=i18n?i18n.t('economy.freshStall.note',{name:meta.name,amount:amount},meta.name+' sold fresh for €'+amount+'. The money supports the garden project; this sale is not a fair-share gift.'):(meta.name+' sold fresh for €'+amount+'. The money supports the garden project; this sale is not a fair-share gift.');
@@ -6248,7 +6091,7 @@ class Component extends DCLogic {
     if(!eligible){ this.flash('No established spare yet. '+this.firstGiftHint(this.state)); return; }
     this.setState({giveMode:true,plantType:null,selectedPlacedId:null,toast:'🌿 Choose an established duplicate. Your garden keeps one; the spare continues through the community. (Esc cancels)'});
   }
-  reciprocityUnlocked(st=this.state){return (st.sharedActs||0)>0;}
+  reciprocityUnlocked(st=this.state){return this.rules.table.reciprocityUnlocked(st);}
   PROPAGABLE={compost:'a bucket of finished compost',mulch:'a share of the mulch pile',herbspiral:'rooted herb cuttings'};
   firstGiftHint(st=this.state){
     const season=st.season||'Summer';
@@ -6260,24 +6103,23 @@ class Component extends DCLogic {
     if(prop){return 'Your established '+this.catalog[prop.type].name.toLowerCase()+' can spare '+this.PROPAGABLE[prop.type]+' — it stays in the garden while the gift travels.';}
     return 'Easiest first gifts: pick ripe produce in season, or let compost, mulch or herbs establish one seasonal turn — they can share a division without leaving your garden.';
   }
+  // Only a genuine surplus can be given (lib/economy.js); why not is said here.
   elementGiftEligibility(id,st=this.state){
+    const gift=this.rules.economy.giftable(st,id,this.sharingUnlocked(st),type=>!!this.cropDefs[type]);
     const item=(st.placed||[]).find(p=>p.id===id);
-    if(!item){return {eligible:false,reason:'That element is no longer in the garden.'};}
-    if(!this.sharingUnlocked(st)){return {eligible:false,reason:'Complete the four living layers before opening the community table.'};}
-    if(this.cropDefs[item.type]){return {eligible:false,reason:'Share the harvested produce, not an unharvested crop.'};}
-    const established=(st.seasonTurns||0)-(item.placedAtTurn||0)>=1;
-    const copies=(st.placed||[]).filter(p=>p.type===item.type);
-    if(copies.length<2){
-      if(this.PROPAGABLE[item.type]){
-        if(!established){return {eligible:false,reason:'Newly placed — let it establish through one seasonal turn, then it can spare '+this.PROPAGABLE[item.type]+'.'};}
-        return {eligible:true,mode:'division',reason:'Established and abundant — it can spare '+this.PROPAGABLE[item.type]+' while staying in your garden.'};
-      }
-      return {eligible:false,reason:'Keep one living example in the garden; only an established duplicate is surplus. '+this.firstGiftHint(st)};
+    if(gift.reason==='gone'){return {eligible:false,reason:'That element is no longer in the garden.'};}
+    if(gift.reason==='closed'){return {eligible:false,reason:'Complete the four living layers before opening the community table.'};}
+    if(gift.reason==='crop'){return {eligible:false,reason:'Share the harvested produce, not an unharvested crop.'};}
+    if(gift.mode==='division'){
+      if(!gift.eligible){return {eligible:false,reason:'Newly placed — let it establish through one seasonal turn, then it can spare '+this.PROPAGABLE[item.type]+'.'};}
+      return {eligible:true,mode:'division',reason:'Established and abundant — it can spare '+this.PROPAGABLE[item.type]+' while staying in your garden.'};
     }
-    if(!established){return {eligible:false,reason:'This element is newly placed. Let it establish through one seasonal turn first.'};}
+    if(gift.reason==='keep'){return {eligible:false,reason:'Keep one living example in the garden; only an established duplicate is surplus. '+this.firstGiftHint(st)};}
+    if(!gift.eligible){return {eligible:false,reason:'This element is newly placed. Let it establish through one seasonal turn first.'};}
     return {eligible:true,reason:'Established duplicate available as a genuine spare.'};
   }
-  elementGiftReward(type,st=this.state){return 0;}
+  // A gift never pays the giver (lib/economy.js).
+  elementGiftReward(type,st=this.state){return this.rules.economy.giftReward();}
   // The one garden score shown on the resilience ring, the reflection card and the
   // downloadable certificate. It is derived from the garden state alone: the four
   // living layers carry most of the weight, then wild neighbours, active design
@@ -6319,22 +6161,23 @@ class Component extends DCLogic {
     this._todayKey=key;this._todayText=text;
     return text;
   }
+  // When the first cycle is complete and when a garden flourishes are rules
+  // (lib/acts.js); what is still missing is said here.
   completionModel(st=this.state){
     const journey=this.journeyModel(st),systems=this.gardenSystems(st);
-    const relationshipReady=systems.links.length>0;
-    const firstCycleReady=journey.ready&&relationshipReady;
     const activeGuilds=this.activeGuilds(st.placed||[]).length;
-    const challengeKinds=Object.keys(st.gardenEffects||{}).filter(k=>Number((st.gardenEffects||{})[k])>0).length;
-    const reasons=[];
-    if(!firstCycleReady){reasons.push(journey.ready?'Connect two complementary elements close enough to form a visible relationship.':journey.current.why);}
-    if((st.seasonTurns||0)<4){reasons.push('Observe the design through a full turn of four seasons.');}
-    if(systems.view.some(v=>v.value<45)){reasons.push('Bring every resilience relationship to at least 45%.');}
-    if(activeGuilds<2){reasons.push('Keep at least two useful design connections active in the current garden.');}
-    if((st.sharedActs||0)<2){reasons.push('Let two genuine gifts circulate without expecting personal repayment.');}
-    if(!st.harvestEver){reasons.push('Grow and harvest something from this garden.');}
-    if(challengeKinds<3){reasons.push('Retain learning from at least three different seasonal challenges.');}
-    const flourishingReady=firstCycleReady&&(st.seasonTurns||0)>=4&&systems.view.every(v=>v.value>=45)&&activeGuilds>=2&&(st.sharedActs||0)>=2&&!!st.harvestEver&&challengeKinds>=3;
-    return {firstCycleReady:firstCycleReady,flourishingReady:flourishingReady,reasons:reasons,activeGuilds:activeGuilds,challengeKinds:challengeKinds,systems:systems.values};
+    const done=this.rules.acts.completion(st,{links:systems.links.length,values:systems.values,connections:activeGuilds});
+    const missing={
+      act:journey.current.why,
+      relationship:'Connect two complementary elements close enough to form a visible relationship.',
+      seasons:'Observe the design through a full turn of four seasons.',
+      resilience:'Bring every resilience relationship to at least 45%.',
+      connections:'Keep at least two useful design connections active in the current garden.',
+      gifts:'Let two genuine gifts circulate without expecting personal repayment.',
+      harvest:'Grow and harvest something from this garden.',
+      challenges:'Retain learning from at least three different seasonal challenges.'
+    };
+    return {firstCycleReady:done.firstCycleReady,flourishingReady:done.flourishingReady,reasons:done.missing.map(k=>missing[k]),activeGuilds:activeGuilds,challengeKinds:done.challengeKinds,systems:systems.values};
   }
   certificateSvg(state,assets){
     const stats=this.certificateStats(state);
@@ -6472,7 +6315,7 @@ class Component extends DCLogic {
       const person=this.communityRecipientFor(type,s.sharedActs||0);
       const placed=division?s.placed:s.placed.filter(p=>p.id!==id);
       let ns={...s, placed:placed, giveMode:false, selectedPlacedId:null,
-        pool:Math.min(100,s.pool+10), goodwill:s.goodwill+1, shares:s.shares+reward, given:s.given+1, sharedActs:(s.sharedActs||0)+1,rewardedGiftTypes:Array.from(new Set([...(s.rewardedGiftTypes||[]),type])),
+        ...this.rules.economy.afterGift(s,'element'), shares:s.shares+reward,rewardedGiftTypes:Array.from(new Set([...(s.rewardedGiftTypes||[]),type])),
         communityMemory:[{id:'cm'+Date.now(),person:person,text:this.communityReply(person,c.name.toLowerCase())},...(s.communityMemory||[])].slice(0,4),
         toast:division?('🌿 You shared '+this.PROPAGABLE[type]+' — your '+c.name.toLowerCase()+' stays and keeps giving. The community pool grew.'):('🌿 Your established spare '+c.name.toLowerCase()+' reached the shared table. The community pool grew; your personal shares did not.')};
       ns=this.applyMilestones(ns);
@@ -6483,10 +6326,11 @@ class Component extends DCLogic {
   forageSprouts(){
     this.setState(s=>{
       const left=Math.max(0,(s.springSprouts||0)-1);
-      const hasBin=s.placed.some(p=>p.type==='compost'||p.type==='mulch');
+      // one share, once, for gathering the greens into a compost or mulch bed (lib/economy.js)
+      const chore=this.rules.economy.choreReward(s,'springForageDone'),hasBin=chore.hasBin;
       let ns={...s,springSprouts:left};
       if(left<=0){
-        if(hasBin&&!s.springForageDone){ ns.springForageDone=true; ns.shares=s.shares+1; ns.toast='🌿 You gathered wild nettles & greens for free compost tea — a gift of fertility for the community. +1 share!'; }
+        if(chore.rewarded){ ns.springForageDone=true; ns.shares=s.shares+chore.shares; ns.toast='🌿 You gathered wild nettles & greens for free compost tea — a gift of fertility for the community. +1 share!'; }
         else if(hasBin){ ns.toast='🌿 Wild greens gathered for your compost tea — nature\u2019s free plant food.'; }
         else { ns.toast='🌿 Wild greens gathered! With a compost or mulch bed they would brew free plant feed.'; }
       }
@@ -6497,10 +6341,11 @@ class Component extends DCLogic {
   rakeLeaves(){
     this.setState(s=>{
       const left=Math.max(0,(s.leafPiles||0)-1);
-      const hasBin=s.placed.some(p=>p.type==='compost'||p.type==='mulch');
+      // one share, once, for raking the leaves into a compost or mulch bed (lib/economy.js)
+      const chore=this.rules.economy.choreReward(s,'rakeRewardDone'),hasBin=chore.hasBin;
       let ns={...s,leafPiles:left};
       if(left<=0){
-        if(hasBin&&!s.rakeRewardDone){ ns.rakeRewardDone=true; ns.shares=s.shares+1; ns.toast='🍂 All leaves raked into your compost — nature\u2019s free fertility. +1 share!'; }
+        if(chore.rewarded){ ns.rakeRewardDone=true; ns.shares=s.shares+chore.shares; ns.toast='🍂 All leaves raked into your compost — nature\u2019s free fertility. +1 share!'; }
         else if(hasBin){ ns.toast='🍂 All leaves raked into your compost — the soil food web says thank you.'; }
         else { ns.toast='🍂 Leaves raked! With a compost or mulch bed they would become free fertility.'; }
       } else {
@@ -7280,60 +7125,35 @@ class Component extends DCLogic {
     if(gk){this.startGate(gk,k);return;}
     this._applySeasonNow(k);
   }
+  // A season turn. What happens is decided by the rules — the shared table
+  // (lib/community-table.js), residents and pests (lib/wildlife.js), growth and
+  // harvest (lib/seasons.js), the shared pool (lib/economy.js) — and told here.
   _applySeasonNow(k){
     if(k===(this.state.season||'Summer')||this._seasonChanging){return;}
     this._seasonChanging=true;
-    const rewardSparkle=(k==='Spring'&&!this.state.springBonusDone&&this.state.placed.some(p=>p.type==='seedbank'))||(k==='Autumn'&&!this.state.autumnHarvestDone);
+    const E=this.rules.economy,T=this.rules.table,S=this.rules.seasons,W=this.rules.wildlife;
+    const rewardSparkle=S.firstSpringSowing(this.state,k)||S.firstAutumnHarvest(this.state,k);
     this.setState(s=>{
       if(s.season===k){return null;}
-      const keptMarket=s.market.filter(m=>!m.seasons||m.seasons.indexOf(k)>=0);
-      const ns={...s,season:k,seasonTurns:(s.seasonTurns||0)+1,seedAllowance:{},toast:this.seasonDefs[k].tip,seasonFlash:{k:k,n:(this._flashN=(this._flashN||0)+1)},market:keptMarket.length?keptMarket:this.freshMarket(k),leafPiles:0,springSprouts:0};
-      const residentActive=this.activeOf(s.placed||[]);
-      const leavingWinter=(s.season||'Summer')==='Winter';
-      const rs={...(s.residentSeasons||{})},rw={...(s.residentWinters||{})};
-      this.residentStories.forEach(r=>{
-        if(residentActive.has(r.key)){rs[r.key]=(rs[r.key]||0)+1;if(leavingWinter){rw[r.key]=(rw[r.key]||0)+1;}}
-        else {rs[r.key]=0;rw[r.key]=0;}
-      });
-      ns.residentSeasons=rs;ns.residentWinters=rw;
-      const pestOnsetAllowed=!(s.mode==='guided'&&!this.journeyModel(s).ready);
-      const pestStep=this.stepPests(ns,k,residentActive,pestOnsetAllowed);
+      const ns={...s,season:k,seasonTurns:(s.seasonTurns||0)+1,seedAllowance:{},toast:this.seasonDefs[k].tip,seasonFlash:{k:k,n:(this._flashN=(this._flashN||0)+1)},market:T.marketForSeason(s.market,this.giftPool,k),leafPiles:0,springSprouts:0};
+      const residents=W.countResidents(s);
+      ns.residentSeasons=residents.residentSeasons;ns.residentWinters=residents.residentWinters;
+      const pestStep=this.stepPests(ns,k,residents.active,this.rules.acts.pestsAllowed(s));
       const returnedPest=pestStep.pestReturned;
       delete pestStep.pestReturned;
       Object.assign(ns,pestStep);
-      const pestHold=k==='Winter'?[]:this.pestHeldTypes(ns);
-      let heldCrops=0;
-      const hasGH=s.placed.some(p=>p.type==='greenhouse');
-      const hasMulch=s.placed.some(p=>p.type==='mulch');
-      let ghSaved=false,lostCrops=0,dormantCrops=0,appleWaiting=0;
-      ns.placed=ns.placed.map(p=>{
-        const cd=this.cropDefs[p.type];
-        if(cd&&(p.stage||1)<3){
-          if(k==='Winter'){
-            if(hasGH&&p.type==='crop_leafy'){ ghSaved=true; return {...p,stage:(p.stage||1)+1,winterState:'protected'}; }
-            if(hasMulch&&this.WINTER_MULCH_CROPS.indexOf(p.type)>=0){dormantCrops++;return {...p,winterState:'dormant'};}
-            lostCrops++;return null;
-          }
-          if(pestHold.indexOf(p.type)>=0){heldCrops++;return {...p,winterState:null,pestHeld:true};}
-          return {...p,stage:(p.stage||1)+1,winterState:null,pestHeld:false};
-        }
-        if(p.type==='appletree'){
-          const mature=this.treeSeasons(ns,p)>=this.TREE_MATURITY;
-          const ready=k==='Autumn'&&mature&&this.applePollinationReady(ns,p);
-          if(k==='Autumn'&&mature&&!ready){appleWaiting++;}
-          return {...p,appleReady:ready};
-        }
-        return p;
-      }).filter(Boolean);
+      const growth=S.growSeason(ns,k,k==='Winter'?[]:this.pestHeldTypes(ns));
+      const heldCrops=growth.held,appleWaiting=growth.applesWaiting;
+      ns.placed=growth.placed;
       if(k==='Winter'){
         const hasCrops=ns.placed.some(p=>this.cropDefs[p.type]);
         const outcomes=[];
-        if(ghSaved){outcomes.push('greenhouse salads kept growing');}
-        if(dormantCrops){outcomes.push(dormantCrops+' mulched crop'+(dormantCrops>1?'s':'')+' went dormant');}
-        if(lostCrops){outcomes.push(lostCrops+' unprotected young crop'+(lostCrops>1?'s were':' was')+' lost to frost');}
+        if(growth.greenhouseSaved){outcomes.push('greenhouse salads kept growing');}
+        if(growth.dormant){outcomes.push(growth.dormant+' mulched crop'+(growth.dormant>1?'s':'')+' went dormant');}
+        if(growth.lost){outcomes.push(growth.lost+' unprotected young crop'+(growth.lost>1?'s were':' was')+' lost to frost');}
         const tail=outcomes.length?' Winter outcome: '+outcomes.join('; ')+'.':(hasCrops?' Mature crops remain, but new growth pauses.':'');
-        if(hasMulch){ ns.pool=Math.min(100,(ns.pool||0)+2); ns.toast='❄️ The garden sleeps — your mulch blanket keeps the soil life safe underneath.'+tail; }
-        else { ns.pool=Math.max(0,(ns.pool||0)-3); ns.toast='❄️ Frost bites bare soil — a mulch blanket would protect the life underneath.'+tail; }
+        if(growth.hasMulch){ ns.pool=E.poolAfterSeason(ns.pool,'winterMulched'); ns.toast='❄️ The garden sleeps — your mulch blanket keeps the soil life safe underneath.'+tail; }
+        else { ns.pool=E.poolAfterSeason(ns.pool,'winterBare'); ns.toast='❄️ Frost bites bare soil — a mulch blanket would protect the life underneath.'+tail; }
       }
       if(k!=='Winter'&&ns.pestActive&&heldCrops){
         const pp=this.pestPressures.find(x=>x.key===ns.pestActive);
@@ -7343,20 +7163,20 @@ class Component extends DCLogic {
         const pp=this.pestPressures.find(x=>x.key===returnedPest);
         if(pp){ns.toast='🍃 '+pp.name+' have returned briefly. Balance means coexistence, not permanent absence; because you have already learned this pattern, crop growth is not paused.';}
       }
-      ns.cherryPicks=(k==='Summer')?3:0;
-      if(k==='Spring'){ ns.springSprouts=3; }
+      const finds=S.seasonFinds(k);
+      ns.cherryPicks=finds.cherryPicks;
+      if(finds.springSprouts){ ns.springSprouts=finds.springSprouts; }
       if(k==='Spring'&&s.season==='Winter'){
-        const act=this.activeOf(s.placed);
-        ns.returnQueue=this.wildlife.filter(w=>act.has(w.key)&&this.awayWinter[w.key]).map(w=>w.key).slice(0,3);
+        ns.returnQueue=W.returningInSpring(s.placed,this.awayWinter);
       }
-      if(k==='Spring'&&!s.springBonusDone&&s.placed.some(p=>p.type==='seedbank')){
+      if(S.firstSpringSowing(s,k)){
         ns.springBonusDone=true;
         ns.market=[...ns.market,{id:'sp'+(++this._g),kind:'item',type:'pollinator',seasons:['Spring'],text:'Spring sowing — your seed bank filled the swap table with free seedlings'}];
         ns.toast='🌱 Spring sowing! Your seed bank earned free seedlings on the sharing table.';
       }
       if(k==='Autumn'){
-        if(!s.autumnHarvestDone){ ns.autumnHarvestDone=true; ns.pool=Math.min(100,(ns.pool||0)+3); ns.toast='🍒 The cherry tree gave a seasonal surplus. The shared pool grew by 3; harvest it if you want to make a personal gift.'; }
-        ns.leafPiles=3;
+        if(S.firstAutumnHarvest(s,k)){ ns.autumnHarvestDone=true; ns.pool=E.poolAfterSeason(ns.pool,'firstAutumn'); ns.toast='🍒 The cherry tree gave a seasonal surplus. The shared pool grew by 3; harvest it if you want to make a personal gift.'; }
+        ns.leafPiles=finds.leafPiles;
         if(appleWaiting){ns.toast=(ns.toast?ns.toast+' ':'')+'🍎 '+appleWaiting+' established apple tree'+(appleWaiting>1?'s':'')+' did not set a game harvest. Add a second established apple tree nearby — standing for a compatible cultivar — plus a nearby flower strip or herb spiral.';}
       }
       if(k==='Summer'){
@@ -7367,7 +7187,8 @@ class Component extends DCLogic {
     },()=>{this._seasonChanging=false;this.playSeason(k);if(rewardSparkle){this.later(()=>this.playSparkle(),250);}});
     clearTimeout(this._flashT); this._flashT=setTimeout(()=>{ if(this.state.seasonFlash&&this.state.seasonFlash.k===k) this.setState({seasonFlash:null}); },1150);
     clearTimeout(this._seasonT);
-    this._seasonT=setTimeout(()=>{ if((this.state.season||'Summer')===k && this.state.market.length<3 && Math.random()<0.75){ this.addGiftToMarket(); } },4200);
+    // a sparse table may get one more offer a few seconds into the season
+    this._seasonT=setTimeout(()=>{ if((this.state.season||'Summer')===k && this.state.market.length<T.SEASON_REFILL.below && Math.random()<T.SEASON_REFILL.chance){ this.addGiftToMarket(); } },4200);
   }
 
   renderVals(){

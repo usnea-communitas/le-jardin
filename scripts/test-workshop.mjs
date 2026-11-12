@@ -26,20 +26,10 @@ assert.notEqual(workshop.LOG_KEY, workshop.PERSONAL_SAVE_KEY);
 assert.equal(workshop.PERSONAL_SAVE_KEY, "permagarden_v2");
 assert.deepEqual(workshop.ACT_KEYS, ["soil", "water", "food", "shelter", "share", "challenge"]);
 
-// The garden at the start of each act. The game's journey reads the acts from
-// element types and moments; the browser journey checks every preset against it.
-const typesFor = {
-  soil: ["compost", "mulch", "hugel"],
-  water: ["rain"],
-  food: ["hugel", "arch", "herbspiral", "greenhouse", "appletree", "crop_potato", "crop_root", "crop_leafy", "crop_cabbage", "crop_herb"],
-  shelter: ["bughotel", "birdhouse", "pollinator"]
-};
-const doneActs = save => workshop.ACT_KEYS.filter(act => {
-  const types = new Set(save.placed.map(p => p.type));
-  if (typesFor[act]) return typesFor[act].some(type => types.has(type));
-  if (act === "share") return save.journeyMoments.includes("share") || save.sharedActs > 0;
-  return save.journeyMoments.includes("challenge");
-});
+// The garden at the start of each act. The game reads the acts with the rules in
+// lib/acts.js; every preset is checked against them here and in the browser journey.
+const acts = require("../lib/acts.js");
+const doneActs = save => workshop.ACT_KEYS.filter(act => acts.actsDone(save)[act]);
 for (let act = 1; act <= 6; act += 1) {
   const save = workshop.presetSave(act);
   assert.deepEqual(doneActs(save), workshop.ACT_KEYS.slice(0, act - 1), `the preset for act ${act} completes exactly the acts before it`);
