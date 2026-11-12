@@ -60,6 +60,23 @@ if (process.env.EXPECT_LOCAL_BUILD === '1') {
     must(start === '%PDF-' && /application\/pdf/.test(guide.headers.get('content-type') || '') && /frame-ancestors 'self'/.test(csp) && !/object-src/.test(csp),
       `the ${locale} facilitator guide is a PDF the browser can show`);
   }
+  // Playing without a connection (package J-05): the worker and the list it
+  // downloads belong to one build, and every file on the list is served.
+  const offlineManifest = await (await fetch(new URL('offline-manifest.json', baseUrl), { headers: { 'cache-control': 'no-cache' } })).json();
+  const worker = await fetch(new URL('sw.js', baseUrl), { headers: { 'cache-control': 'no-cache' } });
+  must(/javascript/.test(worker.headers.get('content-type') || '') && (await worker.text()).includes(`const VERSION = "${offlineManifest.version}";`),
+    'the service worker and the offline package are the same build');
+  const listed = Object.entries(offlineManifest.files);
+  const missing = [];
+  for (let i = 0; i < listed.length; i += 8) {
+    await Promise.all(listed.slice(i, i + 8).map(async ([file, [size]]) => {
+      const response = await fetch(new URL(file, baseUrl), { method: 'HEAD' });
+      // a compressed answer names the compressed length, so only a plain one is compared
+      const length = response.headers.get('content-encoding') ? 0 : Number(response.headers.get('content-length'));
+      if (!response.ok || (length && length !== size)) missing.push(`${file} (${response.status}, ${length} of ${size})`);
+    }));
+  }
+  must(missing.length === 0, `all ${listed.length} files of the offline package are served at their size` + (missing.length ? ': ' + missing.slice(0, 5).join(', ') : ''));
 }
 
 const browser = await chromium.launch({ headless: true });

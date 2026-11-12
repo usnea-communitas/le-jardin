@@ -855,6 +855,23 @@ html[data-pg-header="tighter"] .pg-header-progress,html[data-pg-header="tighter"
 .pg-ws-fine{margin:4px 0 0!important;font-size:11.5px!important;color:#655d4b!important}
 .pg-ws-danger{border:1px solid rgba(163,79,50,.42);background:#fff7ef;color:#8c3d21}
 .pg-ws-danger:hover{background:#fbe8da;border-color:#a34f32}
+/* Playing without a connection (lib/offline.js, sw.js) */
+.pg-offline{width:min(560px,94vw)}
+.pg-offline .pg-living-lesson-title{margin:4px 44px 8px 0}
+.pg-off-choice{margin:14px 0 0;padding:0;border:0;display:grid;gap:8px;min-width:0}
+.pg-off-choice legend{padding:0;margin:0 0 4px;font:800 13px/1.3 'Hanken Grotesk',sans-serif;color:#2f4128}
+.pg-off-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px 12px;padding:2px 0;font:700 13px/1.3 'Hanken Grotesk',sans-serif;color:#3f4939}
+.pg-off-row select{min-height:40px;max-width:100%;border:1px solid #cdbf9f;border-radius:11px;background:#fffdf7;color:#2f3b2a;padding:7px 30px 7px 11px;font:700 13px 'Hanken Grotesk',sans-serif;cursor:pointer}
+.pg-off-check{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;min-height:44px;padding:6px 12px;border:1px solid rgba(105,87,59,.17);border-radius:12px;background:rgba(255,253,246,.78);font-size:13px;line-height:1.4;color:#3f4939;cursor:pointer}
+.pg-off-check input{width:18px;height:18px;margin:0;accent-color:#56714a;cursor:pointer}
+.pg-off-size{font-weight:800;font-variant-numeric:tabular-nums;color:#665d4b;white-space:nowrap}
+.pg-off-total{margin:12px 0 8px!important;font:800 14px/1.35 'Hanken Grotesk',sans-serif!important;color:#33502a!important}
+.pg-off-progress{display:block;width:100%;height:10px;margin:2px 0 8px;accent-color:#56714a}
+.pg-off-ready{padding:10px 12px;border:1px solid rgba(86,113,74,.32);border-radius:12px;background:#eef3e3;color:#2f4128!important;font-weight:700}
+.pg-off-row select:focus-visible,.pg-off-check:focus-within{outline:3px solid rgba(94,126,74,.55);outline-offset:2px}
+.pg-off-choice[disabled] .pg-off-check{opacity:.6;cursor:not-allowed}
+.pg-offline [aria-disabled="true"]{opacity:.55;cursor:not-allowed}
+@media (max-width:1179px){.pg-off-row select{min-height:44px}}
 @media (max-width:1179px){.pg-ws-acts summary,.pg-ws-actions button,.pg-ws-link,.pg-ws-danger,.pg-ws-start select{min-height:44px}}
 @media (prefers-reduced-motion:reduce){.pg-ws-acts details,.pg-ws-acts summary:after{transition:none}}
 /* Printing the session log: only the sheet made for it, on a portrait page */
@@ -1200,7 +1217,7 @@ button,input,select,textarea{font-family:inherit}
   .pg-brand-mark svg{width:19px;height:19px}
   .pg-brand-title{font-size:17px!important}
   .pg-story-cover{padding:calc(68px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) 18px max(14px,env(safe-area-inset-left))}
-  .pg-brand-subtitle,.pg-header-progress,.pg-header-story,.pg-header-book,.pg-header-help,.pg-header-reset,.pg-header-place{display:none!important}
+  .pg-brand-subtitle,.pg-header-progress,.pg-header-story,.pg-header-book,.pg-header-help,.pg-header-offline,.pg-header-reset,.pg-header-place{display:none!important}
   .pg-header-actions{gap:4px!important;min-width:0}
   .pg-header-pill{padding:4px 7px!important;gap:3px!important;min-height:36px}
   .pg-header-pill svg{width:12px;height:12px}
@@ -1466,6 +1483,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         </button>
       </sc-if>
       <button class="pg-header-tool pg-header-help" sc-camel-on-click="{{ onOpenIntro }}" title="How to play" aria-label="Open how to play" style="width:32px;height:32px;border-radius:10px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;font-weight:700;font-size:14px;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;transition:all .15s" style-hover="border-color:#5E7E4A;color:#5E7E4A">?</button>
+      <button class="pg-header-tool pg-header-offline" data-testid="offline-open" sc-camel-on-click="{{ onOpenOffline }}" aria-haspopup="dialog" title="Play without a connection" aria-label="Play without a connection" style="width:32px;height:32px;border-radius:10px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;cursor:pointer;display:grid;place-items:center;transition:all .15s" style-hover="border-color:#5E7E4A;color:#5E7E4A"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v10.5"></path><path d="m7.5 10 4.5 4.5 4.5-4.5"></path><path d="M5 19.5h14"></path></svg></button>
       <sc-if value="{{ resetVisible }}" hint-placeholder-val="{{ true }}">
       <button class="pg-header-tool pg-header-reset" sc-camel-on-click="{{ onReset }}" aria-label="Reset the whole garden" style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #E0D6C2;color:#6A604C;font-weight:600;font-size:12px;padding:8px 13px;border-radius:10px;cursor:pointer;font-family:inherit;transition:all .15s" style-hover="border-color:#B5613A;color:#B5613A">
         <svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 4v4h4"></path></svg>
@@ -1491,6 +1509,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
               <button role="menuitem" sc-camel-on-click="{{ onMenuSeedbank }}"><span aria-hidden="true">{{ seedIconMenu }}</span> Seed bank</button>
             </sc-if>
             <button role="menuitem" sc-camel-on-click="{{ onMenuHelp }}"><span aria-hidden="true">?</span> How to play</button>
+            <button role="menuitem" data-testid="offline-open-menu" sc-camel-on-click="{{ onMenuOffline }}"><span class="pg-header-menu-icon" aria-hidden="true"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v10.5"></path><path d="m7.5 10 4.5 4.5 4.5-4.5"></path><path d="M5 19.5h14"></path></svg></span> Play without a connection</button>
             <div class="pg-language-menu" role="none">
               <label for="pg-language-menu-select">Language</label>
               <select id="pg-language-menu-select" data-testid="language-select-menu" value="{{ locale }}" sc-camel-on-change="{{ onLanguageChange }}" aria-label="Game language">
@@ -2668,6 +2687,61 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
           <p>Clears this workshop garden and its log and goes back to the start, so the next group begins fresh. Anyone’s own game on this device stays as it is.</p>
           <button class="pg-ws-danger" data-testid="workshop-next-group" sc-camel-on-click="{{ onWorkshopPrepareNext }}">Prepare for the next group</button>
         </section>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- Playing without a connection: download the game to this device (lib/offline.js, sw.js) -->
+  <sc-if value="{{ offlineVisible }}" hint-placeholder-val="{{ false }}">
+    <div class="pg-garden-dialog-backdrop" sc-camel-on-click="{{ onCloseOffline }}">
+      <div class="pg-living-lesson-dialog pg-offline" data-pg-dialog="offline" role="dialog" aria-modal="true" aria-labelledby="pg-off-title" aria-describedby="pg-off-intro" tabindex="-1" sc-camel-on-click="{{ stopProp }}">
+        <button class="pg-living-lesson-close" sc-camel-on-click="{{ onCloseOffline }}" aria-label="Close">✕</button>
+        <h2 class="pg-living-lesson-title" id="pg-off-title">Play without a connection</h2>
+        <p class="pg-ws-intro" id="pg-off-intro">Download Le Jardin to this device, and it opens and plays without a connection. Nothing is sent anywhere, and your garden stays in this browser.</p>
+        <sc-if value="{{ offlineUnsupported }}" hint-placeholder-val="{{ false }}">
+          <p class="pg-ws-status" data-testid="offline-unsupported">This browser cannot keep the game for playing without a connection.</p>
+        </sc-if>
+        <sc-if value="{{ offlineNeedsConnection }}" hint-placeholder-val="{{ false }}">
+          <p class="pg-ws-status" data-testid="offline-needs-connection">Connect to the internet to download the game.</p>
+        </sc-if>
+        <sc-if value="{{ offlineDownloaded }}" hint-placeholder-val="{{ false }}">
+          <p class="pg-off-ready" data-testid="offline-ready">{{ offlineReadyText }}</p>
+        </sc-if>
+        <sc-if value="{{ offlineUpdateReady }}" hint-placeholder-val="{{ false }}">
+          <div class="pg-ws-section">
+            <p>A newer version of the game is downloaded. It starts the next time the game opens; your garden stays as it is.</p>
+            <div class="pg-ws-actions"><button class="pg-living-lesson-secondary" data-testid="offline-update" sc-camel-on-click="{{ onOfflineUpdate }}">Start it now</button></div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ offlineCanChoose }}" hint-placeholder-val="{{ false }}">
+          <fieldset class="pg-off-choice" disabled="{{ offlineBusy }}">
+            <legend>What to download</legend>
+            <label class="pg-off-row"><span>Language</span>
+              <select data-testid="offline-language" value="{{ offlineLocale }}" sc-camel-on-change="{{ onOfflineLocale }}">
+                <sc-for list="{{ languageOptions }}" as="lo"><option data-pg-no-i18n="true" value="{{ lo.code }}">{{ lo.label }}</option></sc-for>
+              </select>
+            </label>
+            <label class="pg-off-check"><input type="checkbox" data-testid="offline-voice" checked="{{ offlineVoice }}" sc-camel-on-change="{{ onOfflineVoice }}"><span>{{ offlineVoiceLabel }}</span><span class="pg-off-size">{{ offlineVoiceSize }}</span></label>
+            <label class="pg-off-check"><input type="checkbox" data-testid="offline-music" checked="{{ offlineMusic }}" sc-camel-on-change="{{ onOfflineMusic }}"><span>Music</span><span class="pg-off-size">{{ offlineMusicSize }}</span></label>
+          </fieldset>
+          <p class="pg-off-total" data-testid="offline-size">{{ offlineTotalText }}</p>
+          <sc-if value="{{ offlineBusy }}" hint-placeholder-val="{{ false }}">
+            <progress class="pg-off-progress" data-testid="offline-progress" max="{{ offlineProgressMax }}" value="{{ offlineProgressValue }}" aria-label="Download progress"></progress>
+          </sc-if>
+          <div class="pg-ws-actions">
+            <sc-if value="{{ offlineShowDownload }}" hint-placeholder-val="{{ true }}">
+              <button class="pg-primary-action pg-off-download" data-testid="offline-download" sc-camel-on-click="{{ onOfflineDownload }}" aria-disabled="{{ offlineBusy }}">{{ offlineDownloadLabel }}</button>
+            </sc-if>
+          </div>
+        </sc-if>
+        <p class="pg-ws-status" role="status" aria-live="polite" aria-atomic="true" data-testid="offline-status">{{ offlineStatusText }}</p>
+        <sc-if value="{{ offlineDownloaded }}" hint-placeholder-val="{{ false }}">
+          <div class="pg-ws-section">
+            <button class="pg-ws-danger" data-testid="offline-remove" sc-camel-on-click="{{ onOfflineRemove }}" aria-disabled="{{ offlineBusy }}">Remove the download</button>
+          </div>
+        </sc-if>
+        <p class="pg-ws-fine">Other languages and the moving pictures need a connection; without one, the game shows still pictures instead.</p>
+        <p class="pg-ws-fine">On iPhone and iPad, a game added to the Home Screen keeps its own storage: open it from there and download it there too.</p>
       </div>
     </div>
   </sc-if>
@@ -4406,6 +4480,97 @@ class Component extends DCLogic {
     });
   }
   closeWorkshop(){this.setState({workshopOpen:false,workshopNote:''});}
+  // Playing without a connection (lib/offline.js, sw.js; package J-05). The helper
+  // loads only when the panel opens, so a first visit stays as light as before.
+  offlineApi(){return typeof window!=='undefined'?window.PermacultureOffline||null:null;}
+  offlineSupported(){
+    return typeof window!=='undefined'&&!!window.isSecureContext&&!!window.caches&&typeof navigator!=='undefined'&&'serviceWorker' in navigator;
+  }
+  loadOfflineApi(){
+    if(this.offlineApi()){return Promise.resolve(this.offlineApi());}
+    if(!this._offlineLoading){
+      this._offlineLoading=new Promise((resolve,reject)=>{
+        const script=document.createElement('script');script.src='lib/offline.js';
+        script.onload=()=>resolve(this.offlineApi());
+        script.onerror=()=>{this._offlineLoading=null;reject(new Error('offline_helper'));};
+        document.head.appendChild(script);
+      });
+    }
+    return this._offlineLoading;
+  }
+  openOffline(fromMenu=false){
+    this.suspendGardenWhisper();
+    const choice=this.state.offlineChoice||{locale:this.currentLocale(),voice:true,music:false};
+    this.setState({offlineOpen:true,offlineNote:'',offlineChoice:choice,headerMenuOpen:false,plantType:null,movingPlacedId:null,giveMode:false,selectedPlacedId:null,seedMenuId:null},()=>{
+      if(fromMenu){this._dialogReturnFocus=document.getElementById('pg-header-more');}
+      this.refreshOffline();
+    });
+  }
+  closeOffline(){this.setState({offlineOpen:false,offlineNote:''});}
+  async refreshOffline(){
+    if(!this.offlineSupported()){this.setState({offlineState:'unsupported'});return;}
+    let api=null;
+    try{api=await this.loadOfflineApi();}catch(_){}
+    if(!api){this.setState({offlineState:'needs-connection'});return;}
+    let manifest=null,status=null,update=false;
+    try{const response=await fetch(api.MANIFEST,{cache:'no-cache',credentials:'same-origin'});if(response.ok){manifest=await response.json();}}catch(_){}
+    try{status=await api.status(window.caches,document.baseURI);}catch(_){}
+    try{const registration=await navigator.serviceWorker.getRegistration();update=!!(registration&&registration.waiting&&navigator.serviceWorker.controller);}catch(_){}
+    const choice=status&&status.settings&&!this._offlineChoiceTouched?status.settings:this.state.offlineChoice;
+    if(this._unmounted){return;}
+    this.setState({offlineManifest:manifest,offlineStatus:status,offlineUpdate:update,offlineChoice:choice,offlineState:manifest?'choose':(status?'downloaded':'needs-connection')});
+  }
+  setOfflineChoice(patch){
+    if(this.state.offlineBusy){return;}
+    this._offlineChoiceTouched=true;
+    this.setState(s=>({offlineChoice:{...(s.offlineChoice||{}),...patch},offlineNote:''}));
+  }
+  async downloadOffline(){
+    const api=this.offlineApi(),manifest=this.state.offlineManifest;
+    if(!api||!manifest||this.state.offlineBusy){return;}
+    const settings=api.normalizeSettings(this.state.offlineChoice,manifest);
+    const total=api.bytesOf(manifest,api.filesFor(manifest,settings));
+    try{
+      if(navigator.storage&&navigator.storage.estimate){
+        const room=await navigator.storage.estimate();
+        if(room&&room.quota&&room.quota-(room.usage||0)<total){this.setState({offlineNote:this.i18nText('offline.noSpace','There is not enough free space on this device for the download.')});return;}
+      }
+    }catch(_){}
+    this.setState({offlineBusy:true,offlineProgress:{done:0,total},offlineNote:''});
+    let shown=0;
+    try{
+      if(navigator.storage&&navigator.storage.persist){navigator.storage.persist().catch(()=>{});}
+      await api.saveSettings(window.caches,settings,document.baseURI);
+      const status=await api.download({caches:window.caches,fetch:window.fetch.bind(window),manifest,settings,base:document.baseURI,onProgress:progress=>{
+        const now=Date.now();
+        if(now-shown>150||progress.done>=progress.total){shown=now;if(!this._unmounted){this.setState({offlineProgress:progress});}}
+      }});
+      const registration=await navigator.serviceWorker.register('sw.js',{updateViaCache:'none'});
+      if(registration.active){registration.active.postMessage({type:'offline-changed'});}
+      this._offlineChoiceTouched=false;
+      if(!this._unmounted){this.setState({offlineBusy:false,offlineProgress:null,offlineStatus:status,offlineState:'choose',offlineChoice:status.settings,offlineNote:this.i18nText('offline.done','Downloaded. Le Jardin now plays on this device without a connection.')});}
+    }catch(error){
+      if(typeof console!=='undefined'&&console.warn){console.warn('[Le Jardin] The offline download stopped.',error);}
+      if(!this._unmounted){this.setState({offlineBusy:false,offlineProgress:null,offlineNote:this.i18nText('offline.failed','The download stopped before the end. Try again when the connection is steady.')});}
+    }
+  }
+  async removeOffline(){
+    const api=this.offlineApi();
+    if(!api||this.state.offlineBusy){return;}
+    if(!window.confirm(this.i18nText('offline.remove.confirm','Remove the downloaded game from this device? Your garden stays, but the game will need a connection again.'))){return;}
+    try{const registration=await navigator.serviceWorker.getRegistration();if(registration){await registration.unregister();}}catch(_){}
+    try{await api.remove(window.caches);}catch(_){}
+    this._offlineChoiceTouched=false;
+    this.setState({offlineStatus:null,offlineUpdate:false,offlineNote:this.i18nText('offline.removed','The download is removed. The game needs a connection again.')});
+  }
+  async startWaitingOffline(){
+    let registration=null;
+    try{registration=await navigator.serviceWorker.getRegistration();}catch(_){}
+    if(!registration||!registration.waiting){this.setState({offlineUpdate:false});return;}
+    this.clearTransientWork();this.stopAllAudio();this.persist();
+    navigator.serviceWorker.addEventListener('controllerchange',()=>window.location.reload(),{once:true});
+    registration.waiting.postMessage({type:'skip-waiting'});
+  }
   prepareNextGroup(){
     const api=this.workshopApi();if(!api||!this.WORKSHOP.enabled){return;}
     const message=this.i18nText('workshop.next.confirm','Prepare for the next group? This workshop garden and its session log will be cleared. Save or print the log first if you need it.');
@@ -4711,7 +4876,7 @@ class Component extends DCLogic {
   // A workshop link (?workshop=1) keeps its garden and its session log under their
   // own keys (lib/workshop.js): a workshop never touches anyone's own game here.
   WORKSHOP=this.readWorkshopLink();
-  state={...this.freshState(true),workshopOpen:false,workshopLog:null,workshopStart:this.WORKSHOP.start||'story'};
+  state={...this.freshState(true),workshopOpen:false,workshopLog:null,workshopStart:this.WORKSHOP.start||'story',offlineOpen:false,offlineBusy:false,offlineState:'',offlineManifest:null,offlineStatus:null,offlineUpdate:false,offlineChoice:null,offlineProgress:null,offlineNote:''};
   dragData=null;
   _n=0;_g=0;
   STORE=this.WORKSHOP.enabled?'permagarden_workshop_v1':'permagarden_v2';
@@ -4906,6 +5071,7 @@ class Component extends DCLogic {
       if(e.key!=='Escape'){return;}
       if(this.state.story){return;}
       if(this.state.workshopOpen){this.closeWorkshop();return;}
+      if(this.state.offlineOpen){this.closeOffline();return;}
       if(this.state.gardenCinematic){this.dismissGardenCinematic();return;}
       if(this.state.gardenReflection){this.dismissGardenReflection();return;}
       if(this.state.residentStory){this.dismissResidentStory();return;}
@@ -5219,6 +5385,7 @@ class Component extends DCLogic {
   activeDialogKey(st=this.state){
     if(st.story){return 'story';}
     if(st.workshopOpen){return 'workshop';}
+    if(st.offlineOpen){return 'offline';}
     if(st.gardenCinematic){return 'garden-cinematic';}
     if(st.gardenReflection){return 'garden-reflection';}
     if(st.residentStory){return 'resident-story';}
@@ -7850,8 +8017,54 @@ class Component extends DCLogic {
       }
     }
 
+    // Playing without a connection: the panel's choices, sizes and state.
+    const offlineApiNow=this.offlineApi(),offlineManifest=st.offlineManifest,offlineStatus=st.offlineStatus;
+    const offlineChoice=offlineApiNow?offlineApiNow.normalizeSettings(st.offlineChoice||{locale:locale,voice:true,music:false},offlineManifest):{locale:locale,voice:true,music:false};
+    const offlineView={offlineVisible:!!st.offlineOpen,offlineUnsupported:false,offlineNeedsConnection:false,offlineCanChoose:false,offlineDownloaded:false,offlineUpdateReady:false,offlineBusy:!!st.offlineBusy,
+      offlineLocale:offlineChoice.locale,offlineVoice:!!offlineChoice.voice,offlineMusic:!!offlineChoice.music,offlineVoiceLabel:'',offlineVoiceSize:'',offlineMusicSize:'',offlineTotalText:'',offlineReadyText:'',
+      offlineProgressValue:0,offlineProgressMax:1,offlineShowDownload:true,offlineDownloadLabel:localText('offline.download','Download'),offlineStatusText:st.offlineNote||''};
+    if(st.offlineOpen){
+      const size=bytes=>offlineApiNow?offlineApiNow.formatSize(bytes,locale):'';
+      offlineView.offlineUnsupported=st.offlineState==='unsupported';
+      offlineView.offlineNeedsConnection=st.offlineState==='needs-connection'&&!offlineStatus;
+      offlineView.offlineCanChoose=!!(offlineApiNow&&offlineManifest)&&st.offlineState!=='unsupported';
+      offlineView.offlineDownloaded=!!(offlineStatus&&offlineStatus.complete);
+      offlineView.offlineUpdateReady=!!st.offlineUpdate&&!st.offlineBusy;
+      offlineView.offlineVoiceLabel=offlineApiNow&&offlineApiNow.voiceLocale(offlineChoice.locale)==='cs'
+        ?localText('offline.voice.cs','The Garden’s voice and the story, in Czech')
+        :localText('offline.voice.en','The Garden’s voice and the story, in English');
+      if(offlineView.offlineDownloaded){
+        const at=new Date(offlineStatus.at);
+        let when=offlineStatus.at;
+        try{when=at.toLocaleDateString(locale,{day:'numeric',month:'long',year:'numeric'});}catch(_){}
+        offlineView.offlineReadyText=localText('offline.ready','Ready to play without a connection: {size} on this device, downloaded on {date}.',{size:size(offlineStatus.bytes||0),date:when});
+      }
+      if(offlineView.offlineCanChoose){
+        const parts=offlineApiNow.sizes(offlineManifest,offlineChoice.locale);
+        const total=offlineApiNow.bytesOf(offlineManifest,offlineApiNow.filesFor(offlineManifest,offlineChoice));
+        offlineView.offlineVoiceSize=size(parts.voice);
+        offlineView.offlineMusicSize=size(parts.music);
+        offlineView.offlineTotalText=localText('offline.total','Download: about {size}',{size:size(total)});
+        const same=offlineView.offlineDownloaded&&offlineStatus.settings&&offlineStatus.settings.locale===offlineChoice.locale&&!!offlineStatus.settings.voice===!!offlineChoice.voice&&!!offlineStatus.settings.music===!!offlineChoice.music&&offlineStatus.version===offlineManifest.version;
+        offlineView.offlineShowDownload=!same;
+        offlineView.offlineDownloadLabel=offlineView.offlineDownloaded?localText('offline.downloadAgain','Download with these choices'):localText('offline.download','Download');
+      }
+      if(st.offlineBusy&&st.offlineProgress){
+        const progress=st.offlineProgress;
+        offlineView.offlineProgressMax=Math.max(1,progress.total||1);
+        offlineView.offlineProgressValue=Math.min(progress.done||0,offlineView.offlineProgressMax);
+        offlineView.offlineStatusText=localText('offline.progress','Downloading… {done} of {total}',{done:size(progress.done||0),total:size(progress.total||0)});
+      }
+    }
+
     return {
       ...workshopView,
+      ...offlineView,
+      onOpenOffline:()=>this.openOffline(false),onMenuOffline:()=>this.openOffline(true),onCloseOffline:()=>this.closeOffline(),
+      onOfflineLocale:(e)=>this.setOfflineChoice({locale:e&&e.target?e.target.value:locale}),
+      onOfflineVoice:(e)=>this.setOfflineChoice({voice:!!(e&&e.target&&e.target.checked)}),
+      onOfflineMusic:(e)=>this.setOfflineChoice({music:!!(e&&e.target&&e.target.checked)}),
+      onOfflineDownload:()=>this.downloadOffline(),onOfflineRemove:()=>this.removeOffline(),onOfflineUpdate:()=>this.startWaitingOffline(),
       workshopMode:workshopOn,resetVisible:!workshopOn,workshopCover:workshopCover,
       coverBeginsStory:!workshopCover||st.workshopStart==='story',coverBeginsAct:workshopCover&&st.workshopStart!=='story',coverShowsSkip:!workshopCover,
       onWorkshopStartChange:(e)=>this.chooseWorkshopStart(e&&e.target?e.target.value:'story'),

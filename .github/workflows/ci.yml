@@ -19,7 +19,7 @@ jobs:
       - name: Generated files match the canonical source
         run: |
           npm run generate
-          git diff --exit-code -- index.html game.fragment.html
+          git diff --exit-code -- index.html game.fragment.html offline-manifest.json sw.js
       - run: npm test
 
   e2e:

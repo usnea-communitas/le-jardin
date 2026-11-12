@@ -419,7 +419,8 @@ try {
     compactMenu
   );
   check(
-    compactMenu.buttons.length === 4 &&
+    // story, book, how to play, playing without a connection, reset
+    compactMenu.buttons.length === 5 &&
       compactMenu.buttons.every(button => button.width >= 44 && button.height >= 44),
     'phone 320x568: every compact-menu action has a 44px touch target',
     compactMenu.buttons
