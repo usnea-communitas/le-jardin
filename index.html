@@ -89,7 +89,30 @@ x-dc{display:none!important}
     document.body.insertAdjacentHTML("beforeend", fragment);
     await load("vendor/dc-runtime.js");
   };
-  requestAnimationFrame(() => requestAnimationFrame(() => boot().catch(showError)));
+  // Playing without a connection (sw.js): a newer build downloaded in the background
+  // starts now, before the game runs, so a game never changes version while it is played.
+  const startWaitingBuild = async () => {
+    const workers = navigator.serviceWorker;
+    if (!workers || !workers.controller) return false;
+    const registration = await workers.getRegistration();
+    if (!registration) return false;
+    registration.update().catch(() => {});
+    if (!registration.waiting) return false;
+    // once per tab session, so a worker that will not take over can never start a reload loop
+    try {
+      if (sessionStorage.getItem("pg-offline-update")) return false;
+      sessionStorage.setItem("pg-offline-update", "1");
+    } catch (_) { return false; }
+    await new Promise((resolve) => {
+      workers.addEventListener("controllerchange", resolve, { once: true });
+      registration.waiting.postMessage({ type: "skip-waiting" });
+      setTimeout(resolve, 3000);
+    });
+    window.location.reload();
+    return true;
+  };
+  requestAnimationFrame(() => requestAnimationFrame(() => startWaitingBuild().catch(() => false)
+    .then((reloading) => reloading || boot()).catch(showError)));
 })();
 </script>
 

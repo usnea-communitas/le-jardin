@@ -1,11 +1,14 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { buildOfflineManifest, formatOfflineManifest, stampServiceWorker } from "./offline-manifest.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourcePath = path.join(root, "Permaculture Garden v2.dc.html");
 const outputPath = path.join(root, "index.html");
 const fragmentPath = path.join(root, "game.fragment.html");
+const manifestPath = path.join(root, "offline-manifest.json");
+const workerPath = path.join(root, "sw.js");
 
 const runtimeUuid = "a642a266-8af5-4398-9a56-263a98de83c8";
 const fontUuids = [
@@ -85,7 +88,30 @@ html = html.replace(
     '    document.body.insertAdjacentHTML("beforeend", fragment);',
     '    await load("vendor/dc-runtime.js");',
     '  };',
-    '  requestAnimationFrame(() => requestAnimationFrame(() => boot().catch(showError)));',
+    '  // Playing without a connection (sw.js): a newer build downloaded in the background',
+    '  // starts now, before the game runs, so a game never changes version while it is played.',
+    '  const startWaitingBuild = async () => {',
+    '    const workers = navigator.serviceWorker;',
+    '    if (!workers || !workers.controller) return false;',
+    '    const registration = await workers.getRegistration();',
+    '    if (!registration) return false;',
+    '    registration.update().catch(() => {});',
+    '    if (!registration.waiting) return false;',
+    '    // once per tab session, so a worker that will not take over can never start a reload loop',
+    '    try {',
+    '      if (sessionStorage.getItem("pg-offline-update")) return false;',
+    '      sessionStorage.setItem("pg-offline-update", "1");',
+    '    } catch (_) { return false; }',
+    '    await new Promise((resolve) => {',
+    '      workers.addEventListener("controllerchange", resolve, { once: true });',
+    '      registration.waiting.postMessage({ type: "skip-waiting" });',
+    '      setTimeout(resolve, 3000);',
+    '    });',
+    '    window.location.reload();',
+    '    return true;',
+    '  };',
+    '  requestAnimationFrame(() => requestAnimationFrame(() => startWaitingBuild().catch(() => false)',
+    '    .then((reloading) => reloading || boot()).catch(showError)));',
     '})();',
     '</script>',
   ].join("\n"),
@@ -117,14 +143,24 @@ const gameEnd = gameScriptEnd + "</script>".length;
 const fragment = html.slice(gameStart, gameEnd);
 html = html.slice(0, gameStart) + html.slice(gameEnd);
 
+// The offline package (lib/offline.js, sw.js): every file with its size and
+// hash, and the build's version stamped into the service worker.
+const offlineManifest = await buildOfflineManifest(root, { "index.html": html, "game.fragment.html": fragment });
+const manifestText = formatOfflineManifest(offlineManifest);
+const workerText = stampServiceWorker(await readFile(workerPath, "utf8"), offlineManifest.version);
+
 if (process.argv.includes("--check")) {
-  const [currentHtml, currentFragment] = await Promise.all([
+  const [currentHtml, currentFragment, currentManifest, currentWorker] = await Promise.all([
     readFile(outputPath, "utf8"),
     readFile(fragmentPath, "utf8"),
+    readFile(manifestPath, "utf8").catch(() => ""),
+    readFile(workerPath, "utf8"),
   ]);
   const stale = [];
   if (currentHtml !== html) stale.push(path.relative(root, outputPath));
   if (currentFragment !== fragment) stale.push(path.relative(root, fragmentPath));
+  if (currentManifest !== manifestText) stale.push(path.relative(root, manifestPath));
+  if (currentWorker !== workerText) stale.push(path.relative(root, workerPath));
   if (stale.length) {
     throw new Error(`Generated production files are stale: ${stale.join(", ")}. Run node scripts/build.mjs.`);
   }
@@ -132,6 +168,9 @@ if (process.argv.includes("--check")) {
 } else {
   await writeFile(outputPath, html, "utf8");
   await writeFile(fragmentPath, fragment, "utf8");
+  await writeFile(manifestPath, manifestText, "utf8");
+  await writeFile(workerPath, workerText, "utf8");
   console.log(`Built ${path.relative(root, outputPath)} loading shell (${html.length} characters).`);
   console.log(`Built ${path.relative(root, fragmentPath)} game content (${fragment.length} characters).`);
+  console.log(`Built ${path.relative(root, manifestPath)}: ${Object.keys(offlineManifest.files).length} files, version ${offlineManifest.version}.`);
 }
