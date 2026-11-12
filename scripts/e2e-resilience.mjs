@@ -110,6 +110,24 @@ try {
     await context.close();
   }
 
+  // A rule module that does not arrive (lib/, loaded deferred) must lead to the same
+  // recovery state instead of a game that starts without its rules.
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const page = await context.newPage();
+    await page.route('**/lib/wildlife.js*', route => route.fulfill({ status: 503, contentType: 'text/plain', body: 'temporary test outage' }));
+    await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+    const alert = page.getByRole('alert');
+    await alert.waitFor({ state: 'visible', timeout: 10000 });
+    const recovery = {
+      text: await alert.innerText(),
+      retryVisible: await page.getByRole('button', { name: 'Try again' }).isVisible(),
+      gameStarted: await page.evaluate(() => !!window.__PERMAGARDEN_APP__)
+    };
+    check(/could not finish loading/i.test(recovery.text) && recovery.retryVisible && !recovery.gameStarted, 'a missing rule module shows the retry action and the game does not start without its rules', recovery);
+    await context.close();
+  }
+
   // The first real action after restoring state must still run all discovery effects.
   {
     const { context, page } = await openState(savedState({

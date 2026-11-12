@@ -40,6 +40,11 @@ x-dc{display:none!important}
 <script src="lib/i18n.js"></script>
 <script src="lib/living-lesson.js"></script>
 <script src="lib/workshop.js"></script>
+<script src="lib/economy.js" defer></script>
+<script src="lib/community-table.js" defer></script>
+<script src="lib/seasons.js" defer></script>
+<script src="lib/acts.js" defer></script>
+<script src="lib/wildlife.js" defer></script>
 <link rel="preload" href="game.fragment.html" as="fetch" crossorigin>
 <link rel="preload" href="vendor/react.production.min.js" as="script">
 <link rel="preload" href="vendor/react-dom.production.min.js" as="script">
@@ -79,6 +84,12 @@ x-dc{display:none!important}
       retry.focus();
     }
   };
+  // The rule modules (lib/*.js with defer) run once the page is parsed, before
+  // DOMContentLoaded; the game starts only after them, without blocking the first paint.
+  const parsed = new Promise((resolve) => {
+    if (document.readyState === "complete") resolve();
+    else document.addEventListener("DOMContentLoaded", resolve, { once: true });
+  });
   const boot = async () => {
     const i18n = window.PermacultureI18n;
     const localeReady = i18n && typeof i18n.bootstrap === "function" ? i18n.bootstrap() : Promise.resolve();
@@ -87,6 +98,8 @@ x-dc{display:none!important}
     if (i18n && typeof i18n.installReact === "function") i18n.installReact(window.React);
     const [fragment] = await Promise.all([response.text(), load("vendor/react-dom.production.min.js")]);
     document.body.insertAdjacentHTML("beforeend", fragment);
+    await parsed;
+    if (["PermacultureEconomy","PermacultureCommunityTable","PermacultureSeasons","PermacultureActs","PermacultureWildlife"].some((name) => !window[name])) throw new Error("The rules of the game could not be loaded");
     await load("vendor/dc-runtime.js");
   };
   // Playing without a connection (sw.js): a newer build downloaded in the background

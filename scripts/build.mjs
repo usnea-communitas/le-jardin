@@ -36,6 +36,15 @@ if (!html.includes(runtimeTag)) {
   throw new Error(`Expected runtime tag is missing from ${path.basename(sourcePath)}`);
 }
 
+// The rule modules (docs/ARCHITECTURE.md) are deferred scripts: lib/seasons.js
+// defines window.PermacultureSeasons. The shell starts the game only once they
+// have all run, and shows the retry screen if one of them did not arrive.
+const ruleGlobals = [...html.matchAll(/<script src="lib\/([a-z-]+)\.js" defer><\/script>/g)]
+  .map(([, name]) => "Permaculture" + name.split("-").map(part => part[0].toUpperCase() + part.slice(1)).join(""));
+if (!ruleGlobals.length) {
+  throw new Error(`Expected the deferred rule modules in ${path.basename(sourcePath)}`);
+}
+
 html = html.replace(
   runtimeTag,
   [
@@ -78,6 +87,12 @@ html = html.replace(
     '      retry.focus();',
     '    }',
     '  };',
+    '  // The rule modules (lib/*.js with defer) run once the page is parsed, before',
+    '  // DOMContentLoaded; the game starts only after them, without blocking the first paint.',
+    '  const parsed = new Promise((resolve) => {',
+    '    if (document.readyState === "complete") resolve();',
+    '    else document.addEventListener("DOMContentLoaded", resolve, { once: true });',
+    '  });',
     '  const boot = async () => {',
     '    const i18n = window.PermacultureI18n;',
     '    const localeReady = i18n && typeof i18n.bootstrap === "function" ? i18n.bootstrap() : Promise.resolve();',
@@ -86,6 +101,8 @@ html = html.replace(
     '    if (i18n && typeof i18n.installReact === "function") i18n.installReact(window.React);',
     '    const [fragment] = await Promise.all([response.text(), load("vendor/react-dom.production.min.js")]);',
     '    document.body.insertAdjacentHTML("beforeend", fragment);',
+    '    await parsed;',
+    `    if (${JSON.stringify(ruleGlobals)}.some((name) => !window[name])) throw new Error("The rules of the game could not be loaded");`,
     '    await load("vendor/dc-runtime.js");',
     '  };',
     '  // Playing without a connection (sw.js): a newer build downloaded in the background',
