@@ -67,5 +67,5 @@ Commencer au troisième acte laisse le sol et l’eau déjà en place : même u
 - **Un défi semble bloqué.** Un mauvais choix donne un indice ; lisez-le ensemble. Un défi peut aussi être gardé pour plus tard, il revient.
 - **La leçon vivante ne montre pas de réponse d’IA.** En mode atelier, elle répond toujours à partir des leçons hors ligne vérifiées du jeu. C’est voulu.
 - **Le son est trop présent.** Le bouton haut-parleur de l’en-tête le coupe sur l’appareil.
-- **La page ne se charge pas.** Le jeu a besoin d’une connexion pour se charger ; rouvrez le lien quand l’appareil est en ligne. Le jardin d’atelier reste où il était.
+- **La page ne se charge pas.** Sans connexion, le jeu ne s’ouvre que sur un appareil où il a été téléchargé d’avance (*Jouer sans connexion*) ; sinon, rouvrez le lien quand l’appareil est en ligne. Le jardin d’atelier reste où il était.
 - **Le groupe suivant arrive.** *Atelier* → *Préparer pour le groupe suivant*. La partie personnelle de chacun sur l’appareil reste intacte.

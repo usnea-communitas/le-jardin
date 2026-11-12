@@ -43,6 +43,7 @@ Players design a living garden rather than optimise isolated objects. They place
 - a fair-share economy: community gifts build a shared fund and goodwill, but never convert into personal currency;
 - earned reflections, a learning journal and an exportable garden certificate;
 - a workshop mode for groups, with a facilitator panel, a session log and a printable guide (see [Workshops](#workshops));
+- an optional download for playing without a connection, for gardens and classrooms with a weak signal (see [Playing without a connection](#playing-without-a-connection));
 - an optional **Living Lesson** — an AI reflection that stays inside a deterministic learning contract (see below);
 - nine interface languages, full Czech voice narration, English voice fallback elsewhere;
 - desktop as the reference experience, with dedicated phone and tablet layouts in portrait and landscape, touch placement, keyboard navigation and reduced-motion support.
@@ -88,6 +89,14 @@ The language follows the browser's preferred language when it is supported and f
 
 Translation corrections and new languages are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Playing without a connection
+
+*Play without a connection* (the arrow in the header; on a phone, in the ••• menu) downloads the game to the device: the game itself and its pictures and sounds, English and the chosen language, and, if the player keeps them, the Garden's voice and the music — about 20 MB, 29 MB with the voice and 35 MB with music too. Afterwards the game, the workshop link included, opens and plays without a connection; other languages and the moving pictures still need one (the game shows still pictures instead). The panel shows the size before anything is downloaded and can remove the download again; the garden itself always stays in the browser's storage, and nothing is sent anywhere.
+
+Nothing changes for a player who never chooses it: the service worker (`sw.js`) is registered only after a download, and the helper (`lib/offline.js`) loads only when the panel opens. The worker answers from the download made for its own build, so a page never mixes two versions; a newer build downloads in the background, copying unchanged files instead of fetching them again, and starts the next time the game opens, with the garden in progress intact.
+
+On iPhone and iPad, a game added to the Home Screen keeps its own storage, separate from Safari: the download (and the garden) have to be made there as well.
+
 ## Architecture
 
 The game is a local-first static site generated from a single editable source into a small loading shell and a prebuilt game fragment. One serverless function is the only server boundary.
@@ -95,12 +104,14 @@ The game is a local-first static site generated from a single editable source in
 | Path | Role |
 | --- | --- |
 | `Permaculture Garden v2.dc.html` | **The canonical source**: template, styles and the game logic class. Edit this, then run `npm run generate`. |
-| `index.html`, `game.fragment.html` | Generated output — never edit by hand. |
+| `index.html`, `game.fragment.html`, `offline-manifest.json` | Generated output — never edit by hand (`sw.js` too gets its version from the build). |
 | `scripts/build.mjs` | Builds the loading shell and the game fragment from the source. |
 | `scripts/check.mjs`, `scripts/check-i18n.mjs` | Validate script syntax, local resource references, production invariants and catalogue completeness. |
 | `lib/i18n.js` | Runtime localisation: locale detection, catalogue loading, formatting. |
 | `lib/living-lesson.js` | The deterministic experiment engine shared by client and server. |
 | `lib/workshop.js` | Workshop mode: the link, the separate save, the garden at the start of each act and the session log. |
+| `lib/offline.js`, `sw.js` | Playing without a connection: the package for a choice, the download into a cache named after the build, and the service worker that answers from it (byte ranges included). |
+| `offline-manifest.json` | Generated list of every file in the offline package with its size and hash; its version is stamped into `sw.js`. `scripts/offline-manifest.mjs` places every file under `assets/` in a group, and the build stops when a new file belongs to none. |
 | `api/garden-reflection.js` | The protected Vercel Function and the model boundary. |
 | `assets/` | Local WebP art, MP3 audio, fonts, icons, the ambient video and the i18n catalogues. |
 | `vendor/` | Bundled React runtime and the Design Component runtime used by the static game. |
@@ -116,7 +127,7 @@ Requirements: Node.js 22+ and npm (the API tests use `module.registerHooks`, ava
 ```sh
 npm ci
 npm run generate   # rebuild index.html and game.fragment.html from the canonical source
-npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, workshop mode and guide
+npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, workshop mode and guide, offline package
 ```
 
 Serve the static build locally:
@@ -139,7 +150,8 @@ npm run test:e2e:playthrough    # a full guided playthrough
 npm run test:e2e:i18n-layout    # 9 languages × viewports × main surfaces
 npm run test:e2e:living-lesson  # reflection flow, caching, offline fallback
 npm run test:e2e:workshop       # workshop mode: start at an act, offline lesson, log, next group
-npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit, workshop
+npm run test:e2e:offline        # download, the first act with the server switched off, an update, removal
+npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit, workshop, offline
 ```
 
 Audits without an npm alias, such as `node scripts/e2e-accessibility.mjs`, `e2e-journey.mjs` or `e2e-layout-audit.mjs`, test the instance in `GAME_URL` (by default <http://127.0.0.1:8787/>), so start `node scripts/static-server.mjs 8787` first. `npm run test:production` plays the live site from the story cover to the first seasonal challenge without calling the Living Lesson API. To use a Playwright installed elsewhere, point `CODEX_NODE_MODULES` at that `node_modules` folder (plain npm or pnpm layout).

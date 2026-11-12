@@ -38,7 +38,7 @@ Ce que change le lien d’atelier :
 ## Avant la séance
 
 - **Appareils.** Un appareil pour deux ou trois joueurs fonctionne le mieux ; un par joueur convient aussi. Un ordinateur portable ou une tablette offre le plus de place ; les téléphones fonctionnent en portrait et en paysage. Chargez tout.
-- **Connexion.** Ouvrez le lien d’atelier sur chaque appareil avant l’arrivée du groupe. Le jeu charge ses images et ses sons par le réseau et ne fonctionne pas encore hors connexion.
+- **Connexion.** Ouvrez le lien d’atelier sur chaque appareil avant l’arrivée du groupe. Là où le réseau est faible, choisissez d’avance *Jouer sans connexion* sur chaque appareil (la flèche dans l’en-tête ; sur un téléphone, dans le menu •••) : le téléchargement fait environ 20 à 35 Mo selon que vous gardez la voix du jardin et la musique, puis le jeu, lien d’atelier compris, s’ouvre et se joue sans connexion. Les autres langues et les images animées en ont toujours besoin.
 - **Langue.** Choisissez-la sur la carte d’ouverture ou dans l’en-tête. Le jardin parle anglais et tchèque ; dans les autres langues, dont le français, les joueurs lisent le texte et entendent la voix anglaise.
 - **Son.** Dans une salle partagée, utilisez des écouteurs ou coupez le son avec le bouton haut-parleur de l’en-tête.
 - **Point de départ.** Décidez où les groupes commencent. Commencer par un acte plus tardif fait gagner du temps et mène directement au thème dont vous voulez parler (voir les déroulés).
