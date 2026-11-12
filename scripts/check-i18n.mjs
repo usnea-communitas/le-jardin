@@ -130,8 +130,8 @@ for (const testId of ["language-select-header", "language-select-menu", "languag
 assert.ok(source.includes("begin:'assets/audio/garden-voice/milestone-soil.mp3'"), "Missing begin voice alias.");
 for (const id of ["mulch", "compost", "hugel", "rain", "kitchen", "ladybug", "bee", "shelter", "pexeso", "seeds", "quiz"]) {
   assert.ok(
-    source.includes(`'challenge:${id}':{cs:'assets/audio/garden-voice/cs/challenge-${id}.mp3'`),
-    `Missing Czech challenge voice mapping: challenge:${id}`
+    source.includes(`'challenge:${id}':{cs:'assets/audio/garden-voice/cs/challenge-${id}.mp3',fr:'assets/audio/garden-voice/fr/challenge-${id}.mp3'`),
+    `Missing Czech or French challenge voice mapping: challenge:${id}`
   );
   assert.ok(
     source.includes(`en:'assets/audio/garden-voice/challenge-${id}.mp3'`),
@@ -141,7 +141,7 @@ for (const id of ["mulch", "compost", "hugel", "rain", "kitchen", "ladybug", "be
 assert.match(source, /dialog==='pest-story'[\s\S]{0,220}speakGarden\(p\.id\)/u, "Pest-story voice is not resumed after unmuting.");
 assert.ok(source.includes("this.localizedVoiceSources(src,'garden')"), "Garden voice does not use localized audio fallback.");
 assert.ok(source.includes("this.localizedVoiceSources(def.voice,'story')"), "Story voice does not use localized audio fallback.");
-assert.ok(source.includes("showEnglishAudioNote:locale!=='en'&&locale!=='cs'"), "Non-English audio status note is missing.");
+assert.ok(source.includes("showEnglishAudioNote:locale!=='en'&&!this.voiceLocales.includes(locale)"), "Non-English audio status note is missing.");
 assert.match(source, /res==='won'[\s\S]{0,800}speakGarden\('challenge:'\+g\.key\)/u, "Completed challenges do not play their localized garden voice.");
 
 const livingLesson = require(path.join(root, "lib", "living-lesson.js"));

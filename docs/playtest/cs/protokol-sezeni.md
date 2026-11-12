@@ -6,7 +6,7 @@ Pro facilitátora, který hraje Le Jardin se skupinou, zhruba 60–90 minut. Jed
 
 - **Zařízení.** Jedno zařízení na hráče nebo na dvojici. Notebook nebo tablet dává referenční zážitek; telefony fungují na výšku i na šířku. Všechno nabijte.
 - **Připojení.** Na každém zařízení otevřete odkaz na workshop <https://permaculture-garden.vercel.app/?workshop=1&lang=cs> a nechte jednou zobrazit úvodní kartu. Kde je slabý signál, zvolte nejdřív na každém zařízení *Hrát bez připojení* (šipka v záhlaví, na telefonu nabídka •••).
-- **Jazyk.** Jazyk vyberte v nabídce jazyků hry ještě předtím, než hráči začnou. Čeština má celý namluvený hlas; ostatní jazyky mají text a anglický hlas.
+- **Jazyk.** Jazyk vyberte v nabídce jazyků hry ještě předtím, než hráči začnou. Čeština a francouzština mají celý namluvený hlas; ostatní jazyky mají text a anglický hlas.
 - **Zvuk.** Sluchátka, nebo ve společné místnosti zvuk vypnutý (tlačítko *Zvuk zapnutý / Zvuk vypnutý* v záhlaví).
 - **Čistá zahrada.** Odkaz na workshop ukládá zahradu odděleně od vlastní hry kohokoli na zařízení a *Workshop* → *Připravit pro další skupinu* ji mezi skupinami smaže. Režim workshopu vysvětluje [průvodce pro facilitátory](../../facilitator/README.md).
 - **Živá lekce.** S odkazem na workshop hra vždy ukáže ověřenou lekci s označením *Zahradní moudrost offline* a umělou inteligenci nevolá. Chcete-li testovat právě úvahu s umělou inteligencí, použijte obyčejný odkaz a zahradu potom začněte znovu ručně (nabídka → *Začít zahradu znovu*); zapište si, která lekce se objevila.

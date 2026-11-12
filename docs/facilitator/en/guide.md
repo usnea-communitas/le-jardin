@@ -39,7 +39,7 @@ What changes with the workshop link:
 
 - **Devices.** One device for two or three players works best; one per player is fine too. A laptop or tablet gives the most room; phones work in portrait and landscape. Charge everything.
 - **Connection.** Open the workshop link on every device before the group arrives. Where the signal is weak, choose *Play without a connection* on each device beforehand (the arrow in the header; on a phone, in the ••• menu): the download is about 20–35 MB, depending on whether you keep the Garden's voice and the music, and afterwards the game, the workshop link included, opens and plays without a connection. Other languages and the moving pictures still need one.
-- **Language.** Choose it on the opening card or in the header. The garden speaks in English and Czech; in the other languages, including French, players read the text and hear the English voice.
+- **Language.** Choose it on the opening card or in the header. The garden speaks in English, Czech and French; in the other languages players read the text and hear the English voice.
 - **Sound.** In a shared room, use headphones or switch the sound off with the speaker button in the header.
 - **Start point.** Decide where the groups begin. Starting at a later act saves time and leads straight to the topic you want to discuss (see the plans below).
 - **A pause.** The game saves itself after every step. A group can close the tab and continue later on the same device with the same link.

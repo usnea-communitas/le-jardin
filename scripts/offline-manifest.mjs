@@ -30,7 +30,8 @@ export function staysOnline(file) {
 
 export function groupOf(file) {
   if (/^assets\/i18n\/catalog\.[^/]+\.json$/.test(file)) return "catalog";
-  if (/^assets\/audio\/(story|garden-voice)\/cs\/[^/]+\.mp3$/.test(file)) return "voice:cs";
+  const voice = file.match(/^assets\/audio\/(?:story|garden-voice)\/(cs|fr)\/[^/]+\.mp3$/);
+  if (voice) return "voice:" + voice[1];
   if (/^assets\/audio\/story\/narration-[^/]+\.mp3$/.test(file) || /^assets\/audio\/garden-voice\/[^/]+\.mp3$/.test(file)) return "voice:en";
   if (/^assets\/audio\/music\/[^/]+\.mp3$/.test(file) || /^assets\/audio\/story\/(intro-music|garden-ambience)\.mp3$/.test(file)) return "music";
   if (/^assets\/audio\/game(-v2)?\/[^/]+\.mp3$/.test(file)) return "core";
@@ -46,15 +47,14 @@ export async function buildOfflineManifest(root, generated) {
   const vendor = (await readdir(path.join(root, "vendor"))).filter(f => f.endsWith(".js")).sort().map(f => "vendor/" + f);
   const assets = (await walk(root, "assets")).sort();
 
-  const groups = { core: [...shell, ...lib, ...vendor], catalogs: {}, voice: { en: [], cs: [] }, music: [] };
+  const groups = { core: [...shell, ...lib, ...vendor], catalogs: {}, voice: { en: [], cs: [], fr: [] }, music: [] };
   const unplaced = [];
   for (const file of assets) {
     if (staysOnline(file)) continue;
     const group = groupOf(file);
     if (group === "core") groups.core.push(file);
     else if (group === "music") groups.music.push(file);
-    else if (group === "voice:en") groups.voice.en.push(file);
-    else if (group === "voice:cs") groups.voice.cs.push(file);
+    else if (group && group.startsWith("voice:")) groups.voice[group.slice(6)].push(file);
     else if (group === "catalog") groups.catalogs[file.match(/catalog\.([^/]+)\.json$/)[1]] = [file];
     else unplaced.push(file);
   }
@@ -64,7 +64,7 @@ export async function buildOfflineManifest(root, generated) {
   if (!groups.catalogs.en) throw new Error("The English catalogue is missing from the offline package.");
 
   const files = {};
-  const listed = [...groups.core, ...Object.values(groups.catalogs).flat(), ...groups.voice.en, ...groups.voice.cs, ...groups.music];
+  const listed = [...groups.core, ...Object.values(groups.catalogs).flat(), ...Object.values(groups.voice).flat(), ...groups.music];
   for (const file of listed) {
     const buffer = generated && Object.prototype.hasOwnProperty.call(generated, file)
       ? Buffer.from(generated[file], "utf8")
@@ -92,8 +92,7 @@ export function formatOfflineManifest(manifest) {
     Object.keys(g.catalogs).map(l => `      ${JSON.stringify(l)}: ${JSON.stringify(g.catalogs[l])}`).join(",\n"),
     "    },",
     '    "voice": {',
-    `      "en": ${list(g.voice.en, 6)},`,
-    `      "cs": ${list(g.voice.cs, 6)}`,
+    Object.keys(g.voice).map(l => `      ${JSON.stringify(l)}: ${list(g.voice[l], 6)}`).join(",\n"),
     "    },",
     `    "music": ${list(g.music, 4)}`,
     "  }",

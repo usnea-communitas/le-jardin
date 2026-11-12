@@ -1698,6 +1698,7 @@
     "offline.downloadAgain": "Pobierz z tym wyborem",
     "offline.voice.en": "Głos ogrodu i opowieść, po angielsku",
     "offline.voice.cs": "Głos ogrodu i opowieść, po czesku",
+    "offline.voice.fr": "Głos ogrodu i opowieść, po francusku",
     "offline.ready": "Gotowe do gry bez połączenia: {size} na tym urządzeniu, pobrano {date}.",
     "offline.total": "Pobieranie: około {size}",
     "offline.progress": "Pobieranie… {done} z {total}",
