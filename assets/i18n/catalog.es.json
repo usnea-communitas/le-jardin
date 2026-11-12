@@ -1684,6 +1684,7 @@
     "offline.downloadAgain": "Descargar con esta selección",
     "offline.voice.en": "La voz del jardín y la historia, en inglés",
     "offline.voice.cs": "La voz del jardín y la historia, en checo",
+    "offline.voice.fr": "La voz del jardín y la historia, en francés",
     "offline.ready": "Listo para jugar sin conexión: {size} en este dispositivo, descargado el {date}.",
     "offline.total": "Descarga: unos {size}",
     "offline.progress": "Descargando… {done} de {total}",

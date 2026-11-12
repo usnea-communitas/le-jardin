@@ -1684,6 +1684,7 @@
     "offline.downloadAgain": "Mit dieser Auswahl herunterladen",
     "offline.voice.en": "Die Stimme des Gartens und die Geschichte, auf Englisch",
     "offline.voice.cs": "Die Stimme des Gartens und die Geschichte, auf Tschechisch",
+    "offline.voice.fr": "Die Stimme des Gartens und die Geschichte, auf Französisch",
     "offline.ready": "Bereit zum Spielen ohne Verbindung: {size} auf diesem Gerät, heruntergeladen am {date}.",
     "offline.total": "Download: etwa {size}",
     "offline.progress": "Wird heruntergeladen … {done} von {total}",

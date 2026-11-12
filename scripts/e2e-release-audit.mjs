@@ -60,7 +60,8 @@ try {
         const key = id.slice('challenge:'.length);
         return localized &&
           localized.en === `assets/audio/garden-voice/challenge-${key}.mp3` &&
-          localized.cs === `assets/audio/garden-voice/cs/challenge-${key}.mp3`;
+          localized.cs === `assets/audio/garden-voice/cs/challenge-${key}.mp3` &&
+          localized.fr === `assets/audio/garden-voice/fr/challenge-${key}.mp3`;
       }),
       residentCoverage: app.residentStories
         .flatMap(resident => resident.beats.map(beat => beat.id))

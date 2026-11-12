@@ -1,0 +1,459 @@
+{
+  "locale": "fr",
+  "languageCode": "fr",
+  "voice": {
+    "id": "j3PYHC4NBf5MAIuCgGYU",
+    "name": "Corinne",
+    "source": "ElevenLabs voice library, standard French accent; chosen because the English and Czech voice (The Garden of Menet, Ks7JQ2YMsS1TBefsBD27) is not in the workspace used in November 2026 — see docs/ASSET_PROVENANCE.md",
+    "model": "eleven_v3",
+    "stability": 0.5,
+    "outputFormat": "mp3_44100_128",
+    "flow": "DOIeyXMkxpr06MTBm1Dd",
+    "generated": "2026-11-12",
+    "targetLufs": -16,
+    "truePeakDb": -2
+  },
+  "cues": [
+    {
+      "id": "story-01",
+      "kind": "story",
+      "targetPath": "assets/audio/story/fr/narration-01.mp3",
+      "input": "[softly] À la lisière de Menet, sous les collines et le vaste ciel français… j’attends.",
+      "caption": "À la lisière de Menet, sous les collines et le vaste ciel français… j’attends.",
+      "durationMs": 6348,
+      "generation": "0cpgPT0i1NPPYrFRNJlD"
+    },
+    {
+      "id": "story-02",
+      "kind": "story",
+      "targetPath": "assets/audio/story/fr/narration-02.mp3",
+      "input": "[reflective] Le calme n’est pas le vide. Sous mon sol, les racines cherchent — et mille petites vies attendent.",
+      "caption": "Le calme n’est pas le vide. Sous mon sol, les racines cherchent — et mille petites vies attendent.",
+      "durationMs": 8438,
+      "generation": "wWRIvDqGilss87a0BFc5"
+    },
+    {
+      "id": "story-03",
+      "kind": "story",
+      "targetPath": "assets/audio/story/fr/narration-03.mp3",
+      "input": "[concerned] Mais la lumière ne suffit pas. Un sol nu perd son eau. Les plantes isolées peinent à pousser. Ce qui n’est pas partagé… disparaît.",
+      "caption": "Mais la lumière ne suffit pas. Un sol nu perd son eau. Les plantes isolées peinent à pousser. Ce qui n’est pas partagé… disparaît.",
+      "durationMs": 10606,
+      "generation": "2qyISEjoDKTObQzieTKB"
+    },
+    {
+      "id": "story-04",
+      "kind": "story",
+      "targetPath": "assets/audio/story/fr/narration-04.mp3",
+      "input": "[with quiet hope] Puis de jeunes mains sont arrivées. Pas avec un plan parfait, mais avec des questions, des graines — et du courage.",
+      "caption": "Puis de jeunes mains sont arrivées. Pas avec un plan parfait, mais avec des questions, des graines — et du courage.",
+      "durationMs": 8673,
+      "generation": "VssDDCTlqN8Y1GAHPw6T"
+    },
+    {
+      "id": "story-05",
+      "kind": "story",
+      "targetPath": "assets/audio/story/fr/narration-05.mp3",
+      "input": "[warmly] La pluie a été recueillie. Le paillis a rafraîchi le sol. Les fleurs ont invité les pollinisateurs à s’installer. Les déchets d’hier ont nourri la croissance de demain.",
+      "caption": "La pluie a été recueillie. Le paillis a rafraîchi le sol. Les fleurs ont invité les pollinisateurs à s’installer. Les déchets d’hier ont nourri la croissance de demain.",
+      "durationMs": 13479,
+      "generation": "EA2u2VRDTz71o9MgyL1p"
+    },
+    {
+      "id": "story-06",
+      "kind": "story",
+      "targetPath": "assets/audio/story/fr/narration-06.mp3",
+      "input": "[with growing wonder] Je suis devenu un réseau vivant : le sol et l’eau, la faune sauvage et les personnes, la récolte et la générosité.",
+      "caption": "Je suis devenu un réseau vivant : le sol et l’eau, la faune sauvage et les personnes, la récolte et la générosité.",
+      "durationMs": 8594,
+      "generation": "Q3MwDwFqliyDN7QC4jNN"
+    },
+    {
+      "id": "story-07",
+      "kind": "story",
+      "targetPath": "assets/audio/story/fr/narration-07.mp3",
+      "input": "[almost a whisper] J’ai maintenant besoin de tes yeux. Écoute. Observe ce qui manque. Aide chaque élément à trouver sa place… et aide-moi à prendre vie.",
+      "caption": "J’ai maintenant besoin de tes yeux. Écoute. Observe ce qui manque. Aide chaque élément à trouver sa place… et aide-moi à prendre vie.",
+      "durationMs": 12356,
+      "generation": "1nAs9apPjdDn1YswvuSW"
+    },
+    {
+      "id": "soil",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/milestone-soil.mp3",
+      "input": "[softly] Commence par prendre soin du sol qui me porte. Tout ce qui se voit naît de la vie souterraine.",
+      "caption": "Commence par prendre soin du sol qui me porte. Tout ce qui se voit naît de la vie souterraine.",
+      "durationMs": 7340,
+      "generation": "5pNUqNOz48P8umcYVmgJ"
+    },
+    {
+      "id": "water",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/milestone-water.mp3",
+      "input": "[gently] La pluie ne devrait pas filer au loin. Offre-lui un endroit où ralentir et devenir utile.",
+      "caption": "La pluie ne devrait pas filer au loin. Offre-lui un endroit où ralentir et devenir utile.",
+      "durationMs": 7079,
+      "generation": "GN3ZjRw6uYkSLV9AsX8v"
+    },
+    {
+      "id": "food",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/milestone-food.mp3",
+      "input": "[warmly] Qu’un même lieu nourrisse les racines, les feuilles, les fruits — et les personnes qui prennent soin de moi.",
+      "caption": "Qu’un même lieu nourrisse les racines, les feuilles, les fruits — et les personnes qui prennent soin de moi.",
+      "durationMs": 6766,
+      "generation": "5P5d3JB2KPltJZ43hTA4"
+    },
+    {
+      "id": "shelter",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/milestone-shelter.mp3",
+      "input": "[with quiet wonder] Laisse un peu de place à des vies que tu ne verras peut-être pas tout de suite.",
+      "caption": "Laisse un peu de place à des vies que tu ne verras peut-être pas tout de suite.",
+      "durationMs": 4519,
+      "generation": "ZV2AfmyvDFMCt9qU20vk"
+    },
+    {
+      "id": "share",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/milestone-share.mp3",
+      "input": "[warmly] Ce qui franchit mon portail n’est pas perdu. Cela devient un nouveau départ pour quelqu’un d’autre.",
+      "caption": "Ce qui franchit mon portail n’est pas perdu. Cela devient un nouveau départ pour quelqu’un d’autre.",
+      "durationMs": 5799,
+      "generation": "Sa6Aun3i5Wl4AH3U2m6O"
+    },
+    {
+      "id": "guild-discovered",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/guild-discovered.mp3",
+      "input": "[with growing wonder] Tu as regardé entre les éléments. C’est là que mon aménagement prend toute sa force.",
+      "caption": "Tu as regardé entre les éléments. C’est là que mon aménagement prend toute sa force.",
+      "durationMs": 8124,
+      "generation": "tIoSVKvBMImcJIIDI4OV"
+    },
+    {
+      "id": "reflection-three",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/reflection-three.mp3",
+      "input": "[reflective] Je sens le sol, l’eau et la nourriture commencer à se répondre. La résilience grandit dans le dialogue qui les unit.",
+      "caption": "Je sens le sol, l’eau et la nourriture commencer à se répondre. La résilience grandit dans le dialogue qui les unit.",
+      "durationMs": 9639,
+      "generation": "GVP6v3q8k8pUTvIDVaja"
+    },
+    {
+      "id": "reflection-share",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/reflection-share.mp3",
+      "input": "[warmly] Tu as fait une place à des êtres que tu ne rencontreras peut-être jamais, puis laissé un don poursuivre son chemin au-delà de mon portail.",
+      "caption": "Tu as fait une place à des êtres que tu ne rencontreras peut-être jamais, puis laissé un don poursuivre son chemin au-delà de mon portail.",
+      "durationMs": 8908,
+      "generation": "Oj4CDpSuWQnkXMONWIvt"
+    },
+    {
+      "id": "cinematic-spring",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/season-spring.mp3",
+      "input": "[softly, with new hope] Le gel desserre son étreinte. De nouveaux compagnons se montrent peu à peu, et la pluie de l’an dernier remonte à travers le sol.",
+      "caption": "Le gel desserre son étreinte. De nouveaux compagnons se montrent peu à peu, et la pluie de l’an dernier remonte à travers le sol.",
+      "durationMs": 8281,
+      "generation": "I9cYl4vWRpV2LbyUaF9i"
+    },
+    {
+      "id": "cinematic-summer",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/season-summer.mp3",
+      "input": "[warmly] Mes feuilles sont pleines de lumière. L’eau, l’ombre et la diversité des fleurs déterminent si l’abondance peut garder son équilibre.",
+      "caption": "Mes feuilles sont pleines de lumière. L’eau, l’ombre et la diversité des fleurs déterminent si l’abondance peut garder son équilibre.",
+      "durationMs": 9482,
+      "generation": "Ul2ca5S4H8eP4D1CF1Rl"
+    },
+    {
+      "id": "cinematic-autumn",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/season-autumn.mp3",
+      "input": "[reflective] Les fruits, les feuilles et les graines arrivent ensemble. Ce qui est partagé, stocké ou rendu au sol aujourd’hui façonnera les mois silencieux.",
+      "caption": "Les fruits, les feuilles et les graines arrivent ensemble. Ce qui est partagé, stocké ou rendu au sol aujourd’hui façonnera les mois silencieux.",
+      "durationMs": 10188,
+      "generation": "9JTR3aXhrRW3WNnWtxkr"
+    },
+    {
+      "id": "cinematic-winter",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/season-winter.mp3",
+      "input": "[almost a whisper] J’ai ramené mon énergie vers l’intérieur. Sous le couvert et l’écorce, de nombreuses vies attendent sans avoir disparu.",
+      "caption": "J’ai ramené mon énergie vers l’intérieur. Sous le couvert et l’écorce, de nombreuses vies attendent sans avoir disparu.",
+      "durationMs": 10188,
+      "generation": "tTm67V0Uf69Bl8hwIBH8"
+    },
+    {
+      "id": "challenge:mulch",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-mulch.mp3",
+      "input": "[warmly] Tu as d’abord pris soin de mes endroits les plus secs. Désormais, le soleil peut atteindre les feuilles sans autant priver le sol.",
+      "caption": "Tu as d’abord pris soin de mes endroits les plus secs. Désormais, le soleil peut atteindre les feuilles sans autant priver le sol.",
+      "durationMs": 9247,
+      "generation": "EOCdjXIBfyGxsEiSOMeY"
+    },
+    {
+      "id": "challenge:compost",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-compost.mp3",
+      "input": "[softly] Les restes d’hier se réchauffent. Rien n’a disparu ; seul leur rôle a changé.",
+      "caption": "Les restes d’hier se réchauffent. Rien n’a disparu ; seul leur rôle a changé.",
+      "durationMs": 6348,
+      "generation": "X8grEXXABuk8fMkNdhHT"
+    },
+    {
+      "id": "challenge:hugel",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-hugel.mp3",
+      "input": "[reflective] Le bois tombé autrefois peut retenir plus longtemps la pluie sous les nouvelles racines. Observe ce que fait la butte lorsque viennent les jours secs.",
+      "caption": "Le bois tombé autrefois peut retenir plus longtemps la pluie sous les nouvelles racines. Observe ce que fait la butte lorsque viennent les jours secs.",
+      "durationMs": 10527,
+      "generation": "8nm1IaPReMrJ82n5wD4R"
+    },
+    {
+      "id": "challenge:rain",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-rain.mp3",
+      "input": "[gently] La prochaine pluie ralentira, remplira la cuve, débordera sans danger, puis s’infiltrera — au lieu de filer au loin.",
+      "caption": "La prochaine pluie ralentira, remplira la cuve, débordera sans danger, puis s’infiltrera — au lieu de filer au loin.",
+      "durationMs": 10371,
+      "generation": "AlggCVxBdaTM7N90I9EF"
+    },
+    {
+      "id": "challenge:kitchen",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-kitchen.mp3",
+      "input": "[warmly] L’été peut désormais garder une part de ses dons pour l’hiver.",
+      "caption": "L’été peut désormais garder une part de ses dons pour l’hiver.",
+      "durationMs": 3631,
+      "generation": "Mxqfa3IU4pCFYtIKcyc8"
+    },
+    {
+      "id": "challenge:ladybug",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-ladybug.mp3",
+      "input": "[with quiet wonder] Tous les insectes n’avaient pas besoin de se taire. Au lieu de cela, le dialogue entre les habitants du jardin a repris.",
+      "caption": "Tous les insectes n’avaient pas besoin de se taire. Au lieu de cela, le dialogue entre les habitants du jardin a repris.",
+      "durationMs": 8751,
+      "generation": "FrYRQyQ4CjP5J0196vY0"
+    },
+    {
+      "id": "challenge:bee",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-bee.mp3",
+      "input": "[with quiet wonder] Une saison de floraison passe désormais le relais à la suivante.",
+      "caption": "Une saison de floraison passe désormais le relais à la suivante.",
+      "durationMs": 4362,
+      "generation": "irr5E6OXQvYviRtnkXbJ"
+    },
+    {
+      "id": "challenge:shelter",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-shelter.mp3",
+      "input": "[almost a whisper] Même lorsque je dors, je ne suis pas vide. Des refuges sûrs demeurent ici pour les mois silencieux.",
+      "caption": "Même lorsque je dors, je ne suis pas vide. Des refuges sûrs demeurent ici pour les mois silencieux.",
+      "durationMs": 8202,
+      "generation": "F1tQOotIdRh5d4PSlR9E"
+    },
+    {
+      "id": "challenge:pexeso",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-pexeso.mp3",
+      "input": "[with growing wonder] Tu vois maintenant ce qui vit entre les éléments. C’est là que mon aménagement puise sa force.",
+      "caption": "Tu vois maintenant ce qui vit entre les éléments. C’est là que mon aménagement puise sa force.",
+      "durationMs": 7314,
+      "generation": "Qbfqwebs9AMHtMM1rSA7"
+    },
+    {
+      "id": "challenge:seeds",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-seeds.mp3",
+      "input": "[softly] Le jardin de demain tient déjà dans une poignée de semences soigneusement choisies.",
+      "caption": "Le jardin de demain tient déjà dans une poignée de semences soigneusement choisies.",
+      "durationMs": 5564,
+      "generation": "ieSFI23qTonXkvt1TFhX"
+    },
+    {
+      "id": "challenge:quiz",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/challenge-quiz.mp3",
+      "input": "[reflective] Avant d’agir, tu as marqué une courte pause. C’est l’un des meilleurs outils que tu puisses m’apporter.",
+      "caption": "Avant d’agir, tu as marqué une courte pause. C’est l’un des meilleurs outils que tu puisses m’apporter.",
+      "durationMs": 6191,
+      "generation": "mfSqe2LKodRc5nXYXDJE"
+    },
+    {
+      "id": "hedgehog-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/resident-hedgehog-1.mp3",
+      "input": "[softly] Quelque chose s’est déplacé dans la litière de feuilles la nuit dernière. Petit, tranquille, sûr de son chemin. Je ne l’ai pas planté et je ne peux pas le retenir — mais le couvert que tu as laissé a rendu ce passage possible.",
+      "caption": "Quelque chose s’est déplacé dans la litière de feuilles la nuit dernière. Petit, tranquille, sûr de son chemin. Je ne l’ai pas planté et je ne peux pas le retenir — mais le couvert que tu as laissé a rendu ce passage possible.",
+      "durationMs": 16196,
+      "generation": "jKbiPvqCPjri4fB4L2Ik"
+    },
+    {
+      "id": "hedgehog-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/resident-hedgehog-2.mp3",
+      "input": "[with quiet wonder] Sous le bois et le paillis, pendant les semaines les plus froides, quelque chose a dormi sans mourir. Ce n’est pas seulement une question de chance. Tu as laissé ce coin tranquille, alors qu’il aurait été plus facile de le ranger.",
+      "caption": "Sous le bois et le paillis, pendant les semaines les plus froides, quelque chose a dormi sans mourir. Ce n’est pas seulement une question de chance. Tu as laissé ce coin tranquille, alors qu’il aurait été plus facile de le ranger.",
+      "durationMs": 14289,
+      "generation": "D0cktjzlHz0VTYBkehkB"
+    },
+    {
+      "id": "hedgehog-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/resident-hedgehog-3.mp3",
+      "input": "[warmly] Il y a maintenant de petites empreintes près des premières. Je ne te promets pas que tous ces jeunes vivront jusqu’à la fin de l’année — je ne le peux pas, et personne ne le peut. Mais un jardin assez sûr pour y dormir est devenu un jardin assez sûr pour y élever des petits. C’est tout.",
+      "caption": "Il y a maintenant de petites empreintes près des premières. Je ne te promets pas que tous ces jeunes vivront jusqu’à la fin de l’année — je ne le peux pas, et personne ne le peut. Mais un jardin assez sûr pour y dormir est devenu un jardin assez sûr pour y élever des petits. C’est tout.",
+      "durationMs": 17241,
+      "generation": "hjYuO7ZlOli0ErfeEeoC"
+    },
+    {
+      "id": "bee-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/resident-bee-1.mp3",
+      "input": "[softly] Quelque chose est venu d’ailleurs et a décidé que le voyage en valait la peine. Je ne l’ai pas appelé. Ici, les nouvelles circulent dans une langue faite de parfums et de distances.",
+      "caption": "Quelque chose est venu d’ailleurs et a décidé que le voyage en valait la peine. Je ne l’ai pas appelé. Ici, les nouvelles circulent dans une langue faite de parfums et de distances.",
+      "durationMs": 12513,
+      "generation": "dn5CkhbNCOqcyIvtxDBR"
+    },
+    {
+      "id": "bee-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/resident-bee-2.mp3",
+      "input": "[warmly] Depuis des semaines, lorsqu’une fleur se refermait, une autre attendait déjà. Cette continuité est bien plus difficile à concevoir qu’une seule belle planche de culture — et tu l’as créée sans qu’on te le demande.",
+      "caption": "Depuis des semaines, lorsqu’une fleur se refermait, une autre attendait déjà. Cette continuité est bien plus difficile à concevoir qu’une seule belle planche de culture — et tu l’as créée sans qu’on te le demande.",
+      "durationMs": 13793,
+      "generation": "dKOlJXIJKWNoX0fogm7u"
+    },
+    {
+      "id": "bee-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/resident-bee-3.mp3",
+      "input": "[reflective] Les fruits se forment là où se trouvaient les fleurs. Je ne peux pas te dire quelle visite a donné quel fruit — ce n’est pas ainsi que tout cela fonctionne. Mais les visiteurs sont venus, la récolte a suivi, et les deux appartiennent au même agencement.",
+      "caption": "Les fruits se forment là où se trouvaient les fleurs. Je ne peux pas te dire quelle visite a donné quel fruit — ce n’est pas ainsi que tout cela fonctionne. Mais les visiteurs sont venus, la récolte a suivi, et les deux appartiennent au même agencement.",
+      "durationMs": 16588,
+      "generation": "wVh74OBuZjvQ6P389sBf"
+    },
+    {
+      "id": "worm-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/resident-worm-1.mp3",
+      "input": "[almost a whisper] Sous le couvert, quelque chose a commencé, que tu ne verras presque jamais. De la matière organique et un peu d’ombre ont suffi à l’inviter.",
+      "caption": "Sous le couvert, quelque chose a commencé, que tu ne verras presque jamais. De la matière organique et un peu d’ombre ont suffi à l’inviter.",
+      "durationMs": 10292,
+      "generation": "5QXp59U6901V4QtAMhxI"
+    },
+    {
+      "id": "worm-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/resident-worm-2.mp3",
+      "input": "[reflective] La pluie s’infiltre autrement maintenant. Les galeries et les turricules modifient le chemin de l’eau et la profondeur à laquelle les racines peuvent aller. Lentement — le sol suit son propre rythme, pas le nôtre.",
+      "caption": "La pluie s’infiltre autrement maintenant. Les galeries et les turricules modifient le chemin de l’eau et la profondeur à laquelle les racines peuvent aller. Lentement — le sol suit son propre rythme, pas le nôtre.",
+      "durationMs": 16039,
+      "generation": "h3QdOpAfCZZ2vPyNPjWS"
+    },
+    {
+      "id": "worm-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/resident-worm-3.mp3",
+      "input": "[with quiet wonder] Même pendant les mois froids, sous le paillis, le travail ne s’est pas entièrement arrêté. Tu as créé quelque chose qui n’a plus besoin que tu le surveilles.",
+      "caption": "Même pendant les mois froids, sous le paillis, le travail ne s’est pas entièrement arrêté. Tu as créé quelque chose qui n’a plus besoin que tu le surveilles.",
+      "durationMs": 9874,
+      "generation": "rfMYrVsWuYmJAa9pCgjv"
+    },
+    {
+      "id": "aphid-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/pest-aphid-1.mp3",
+      "input": "[quietly concerned] Les pousses les plus tendres se recroquevillent. Quelque chose de minuscule les a trouvées, et ces pucerons sont nombreux — ils arrivent plus vite que tout ce qui est ici ne peut réagir. Je ne te dis pas cela pour t’alarmer. Je te le dis parce que tu as demandé à voir ce que je vois.",
+      "caption": "Les pousses les plus tendres se recroquevillent. Quelque chose de minuscule les a trouvées, et ces pucerons sont nombreux — ils arrivent plus vite que tout ce qui est ici ne peut réagir. Je ne te dis pas cela pour t’alarmer. Je te le dis parce que tu as demandé à voir ce que je vois.",
+      "durationMs": 17162,
+      "generation": "QiNt7n4BiOT7tCC7qewa"
+    },
+    {
+      "id": "aphid-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/pest-aphid-2.mp3",
+      "input": "[reflective] Tu pourrais demander ce qui les fera disparaître. Je préfère te dire ce qui manque. Rien ici ne les chasse. Il n’y a pas de longue saison de floraison pour retenir un prédateur entre deux repas, ni de crevasse sèche où il pourrait passer l’hiver. Les pucerons ne sont pas le problème — ils en sont le révélateur.",
+      "caption": "Tu pourrais demander ce qui les fera disparaître. Je préfère te dire ce qui manque. Rien ici ne les chasse. Il n’y a pas de longue saison de floraison pour retenir un prédateur entre deux repas, ni de crevasse sèche où il pourrait passer l’hiver. Les pucerons ne sont pas le problème — ils en sont le révélateur.",
+      "durationMs": 21891,
+      "generation": "TxAlk71nXkbSZ9myStpJ"
+    },
+    {
+      "id": "aphid-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/pest-aphid-3.mp3",
+      "input": "[warmly] Il y a maintenant des coccinelles sur les mêmes tiges. Je ne peux pas te dire qu’elles feront disparaître tous les pucerons, et je ne le voudrais pas : un prédateur qui vient à bout de toutes ses proies n’a plus d’endroit où vivre. Ce que tu as construit n’était pas une arme. C’était un lieu où quelque chose pouvait rester assez longtemps pour compter.",
+      "caption": "Il y a maintenant des coccinelles sur les mêmes tiges. Je ne peux pas te dire qu’elles feront disparaître tous les pucerons, et je ne le voudrais pas : un prédateur qui vient à bout de toutes ses proies n’a plus d’endroit où vivre. Ce que tu as construit n’était pas une arme. C’était un lieu où quelque chose pouvait rester assez longtemps pour compter.",
+      "durationMs": 21316,
+      "generation": "EBA92aTFYB166T5OxRNJ"
+    },
+    {
+      "id": "slug-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/pest-slug-1.mp3",
+      "input": "[quietly concerned] Au matin, les jeunes feuilles étaient trouées et les traînées brillaient encore sur le sol. Le couvert humide que tu as installé convient à une grande partie de ce qui vit ici. Il convient aussi aux limaces.",
+      "caption": "Au matin, les jeunes feuilles étaient trouées et les traînées brillaient encore sur le sol. Le couvert humide que tu as installé convient à une grande partie de ce qui vit ici. Il convient aussi aux limaces.",
+      "durationMs": 13166,
+      "generation": "HkxRjMzhQFuPZfd8eFkN"
+    },
+    {
+      "id": "slug-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/pest-slug-2.mp3",
+      "input": "[reflective] Le paillis retient l’eau, nourrit le sol et cache les limaces du soleil. Tout cela découle d’une seule décision, pas de trois. Ce qui manque encore à ce jardin, c’est quelque chose qui vienne se nourrir ici la nuit : pas de coin laissé tranquille, pas de couverture du sol assez profonde, aucune raison pour qu’un visiteur nocturne fasse le trajet. Un abri sans chasseur n’est un abri que pour un seul camp.",
+      "caption": "Le paillis retient l’eau, nourrit le sol et cache les limaces du soleil. Tout cela découle d’une seule décision, pas de trois. Ce qui manque encore à ce jardin, c’est quelque chose qui vienne se nourrir ici la nuit : pas de coin laissé tranquille, pas de couverture du sol assez profonde, aucune raison pour qu’un visiteur nocturne fasse le trajet. Un abri sans chasseur n’est un abri que pour un seul camp.",
+      "durationMs": 28029,
+      "generation": "zXsGdrUQKcCkJiKwYpfL"
+    },
+    {
+      "id": "slug-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/pest-slug-3.mp3",
+      "input": "[warmly] Quelque chose fouille la litière après la tombée de la nuit. Les limaces sont toujours là — elles le seront, et ce n’est pas un échec. Les hérissons, les oiseaux et les carabes mangent beaucoup de choses, et l’équilibre qu’ils maintiennent n’est jamais une élimination totale. Tout ce que je peux honnêtement constater, ce sont moins de trous dans les feuilles. C’est déjà suffisant.",
+      "caption": "Quelque chose fouille la litière après la tombée de la nuit. Les limaces sont toujours là — elles le seront, et ce n’est pas un échec. Les hérissons, les oiseaux et les carabes mangent beaucoup de choses, et l’équilibre qu’ils maintiennent n’est jamais une élimination totale. Tout ce que je peux honnêtement constater, ce sont moins de trous dans les feuilles. C’est déjà suffisant.",
+      "durationMs": 27324,
+      "generation": "7N0drznAAojGMHaVdkRr"
+    },
+    {
+      "id": "caterpillar-1",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/pest-caterpillar-1.mp3",
+      "input": "[quietly concerned] Des papillons blancs sont venus sur les brassicacées, et ce qu’ils ont laissé derrière eux se nourrit maintenant. Il est facile de leur en vouloir. Je préférerais que tu regardes d’abord : ce sont les mêmes ailes que tu as accueillies parmi les fleurs qui ont pondu ces œufs. Il ne s’est jamais agi de deux visiteurs différents.",
+      "caption": "Des papillons blancs sont venus sur les brassicacées, et ce qu’ils ont laissé derrière eux se nourrit maintenant. Il est facile de leur en vouloir. Je préférerais que tu regardes d’abord : ce sont les mêmes ailes que tu as accueillies parmi les fleurs qui ont pondu ces œufs. Il ne s’est jamais agi de deux visiteurs différents.",
+      "durationMs": 20689,
+      "generation": "G2A7ssNg7E0oCQYchLQ7"
+    },
+    {
+      "id": "caterpillar-2",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/pest-caterpillar-2.mp3",
+      "input": "[reflective] Les chenilles sont de la nourriture. Ce n’est pas très réconfortant : c’est un fait dont ce jardin ne peut pas encore tirer parti, parce que rien ici ne les chasse. Pas de nichoir, pas d’eau peu profonde et propre, aucune raison pour qu’un oiseau inclue ces rangs dans son parcours du matin.",
+      "caption": "Les chenilles sont de la nourriture. Ce n’est pas très réconfortant : c’est un fait dont ce jardin ne peut pas encore tirer parti, parce que rien ici ne les chasse. Pas de nichoir, pas d’eau peu profonde et propre, aucune raison pour qu’un oiseau inclue ces rangs dans son parcours du matin.",
+      "durationMs": 18129,
+      "generation": "S3XLkFg9vF80Tj7G2Qbp"
+    },
+    {
+      "id": "caterpillar-3",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/pest-caterpillar-3.mp3",
+      "input": "[warmly] Les oiseaux s’affairent maintenant dans les brassicacées aux premières heures du jour. Certaines chenilles iront tout de même jusqu’au bout, deviendront des papillons et retourneront aux fleurs, comme il se doit. Tu n’as rien retiré de ce jardin. Tu as ajouté ce qui manquait, et le reste s’est organisé de lui-même.",
+      "caption": "Les oiseaux s’affairent maintenant dans les brassicacées aux premières heures du jour. Certaines chenilles iront tout de même jusqu’au bout, deviendront des papillons et retourneront aux fleurs, comme il se doit. Tu n’as rien retiré de ce jardin. Tu as ajouté ce qui manquait, et le reste s’est organisé de lui-même.",
+      "durationMs": 21551,
+      "generation": "QhdfvlIPCZEFyjfj9Shc"
+    },
+    {
+      "id": "ending",
+      "kind": "garden-voice",
+      "targetPath": "assets/audio/garden-voice/fr/ending.mp3",
+      "input": "[with quiet gratitude] Je ne suis pas terminé — un jardin ne l’est jamais. Grâce à toi, je peux continuer : une autre saison, un autre visiteur, un autre don.",
+      "caption": "Je ne suis pas terminé — un jardin ne l’est jamais. Grâce à toi, je peux continuer : une autre saison, un autre visiteur, un autre don.",
+      "durationMs": 12356,
+      "generation": "faWc1bqY2uNQDAT4MILW"
+    }
+  ]
+}

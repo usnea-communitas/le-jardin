@@ -1677,6 +1677,7 @@
     "offline.downloadAgain": "按此选择下载",
     "offline.voice.en": "花园的声音和故事（英语）",
     "offline.voice.cs": "花园的声音和故事（捷克语）",
+    "offline.voice.fr": "花园的声音和故事（法语）",
     "offline.ready": "已可离线游玩：本设备上 {size}，下载于 {date}。",
     "offline.total": "下载大小：约 {size}",
     "offline.progress": "正在下载… {done} / {total}",

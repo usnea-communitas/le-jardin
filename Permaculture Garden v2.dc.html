@@ -5028,18 +5028,22 @@ class Component extends DCLogic {
   currentLocale(){
     const i18n=this.i18n();return i18n&&i18n.normalizeLocale(i18n.locale)?i18n.locale:'en';
   }
+  // The Garden speaks Czech and French in their own recordings (assets/audio/*/cs|fr/)
+  // and English in every other language; a missing recording falls back to English.
+  voiceLocales=['cs','fr'];
   voiceAudioLocale(){
-    return this.currentLocale()==='cs'?'cs':'en';
+    const locale=this.currentLocale();return this.voiceLocales.includes(locale)?locale:'en';
   }
   localizedVoiceSources(src,kind){
     if(!src){return [];}
+    const locale=this.voiceAudioLocale();
     if(typeof src==='object'){
-      const english=src.en||src.default||null,czech=src.cs||null;
-      return (this.voiceAudioLocale()==='cs'?[czech,english]:[english]).filter((value,index,array)=>!!value&&array.indexOf(value)===index);
+      const english=src.en||src.default||null,local=locale!=='en'?src[locale]||null:null;
+      return [local,english].filter((value,index,array)=>!!value&&array.indexOf(value)===index);
     }
-    if(this.voiceAudioLocale()!=='cs'){return [src];}
+    if(locale==='en'){return [src];}
     const file=String(src).split('/').pop();
-    const folder=kind==='story'?'assets/audio/story/cs/':'assets/audio/garden-voice/cs/';
+    const folder=(kind==='story'?'assets/audio/story/':'assets/audio/garden-voice/')+locale+'/';
     return [folder+file,src];
   }
   changeLanguage(event){
@@ -6563,17 +6567,17 @@ class Component extends DCLogic {
     food:'assets/audio/garden-voice/milestone-food.mp3',
     shelter:'assets/audio/garden-voice/milestone-shelter.mp3',
     share:'assets/audio/garden-voice/milestone-share.mp3',
-    'challenge:mulch':{cs:'assets/audio/garden-voice/cs/challenge-mulch.mp3',en:'assets/audio/garden-voice/challenge-mulch.mp3'},
-    'challenge:compost':{cs:'assets/audio/garden-voice/cs/challenge-compost.mp3',en:'assets/audio/garden-voice/challenge-compost.mp3'},
-    'challenge:hugel':{cs:'assets/audio/garden-voice/cs/challenge-hugel.mp3',en:'assets/audio/garden-voice/challenge-hugel.mp3'},
-    'challenge:rain':{cs:'assets/audio/garden-voice/cs/challenge-rain.mp3',en:'assets/audio/garden-voice/challenge-rain.mp3'},
-    'challenge:kitchen':{cs:'assets/audio/garden-voice/cs/challenge-kitchen.mp3',en:'assets/audio/garden-voice/challenge-kitchen.mp3'},
-    'challenge:ladybug':{cs:'assets/audio/garden-voice/cs/challenge-ladybug.mp3',en:'assets/audio/garden-voice/challenge-ladybug.mp3'},
-    'challenge:bee':{cs:'assets/audio/garden-voice/cs/challenge-bee.mp3',en:'assets/audio/garden-voice/challenge-bee.mp3'},
-    'challenge:shelter':{cs:'assets/audio/garden-voice/cs/challenge-shelter.mp3',en:'assets/audio/garden-voice/challenge-shelter.mp3'},
-    'challenge:pexeso':{cs:'assets/audio/garden-voice/cs/challenge-pexeso.mp3',en:'assets/audio/garden-voice/challenge-pexeso.mp3'},
-    'challenge:seeds':{cs:'assets/audio/garden-voice/cs/challenge-seeds.mp3',en:'assets/audio/garden-voice/challenge-seeds.mp3'},
-    'challenge:quiz':{cs:'assets/audio/garden-voice/cs/challenge-quiz.mp3',en:'assets/audio/garden-voice/challenge-quiz.mp3'},
+    'challenge:mulch':{cs:'assets/audio/garden-voice/cs/challenge-mulch.mp3',fr:'assets/audio/garden-voice/fr/challenge-mulch.mp3',en:'assets/audio/garden-voice/challenge-mulch.mp3'},
+    'challenge:compost':{cs:'assets/audio/garden-voice/cs/challenge-compost.mp3',fr:'assets/audio/garden-voice/fr/challenge-compost.mp3',en:'assets/audio/garden-voice/challenge-compost.mp3'},
+    'challenge:hugel':{cs:'assets/audio/garden-voice/cs/challenge-hugel.mp3',fr:'assets/audio/garden-voice/fr/challenge-hugel.mp3',en:'assets/audio/garden-voice/challenge-hugel.mp3'},
+    'challenge:rain':{cs:'assets/audio/garden-voice/cs/challenge-rain.mp3',fr:'assets/audio/garden-voice/fr/challenge-rain.mp3',en:'assets/audio/garden-voice/challenge-rain.mp3'},
+    'challenge:kitchen':{cs:'assets/audio/garden-voice/cs/challenge-kitchen.mp3',fr:'assets/audio/garden-voice/fr/challenge-kitchen.mp3',en:'assets/audio/garden-voice/challenge-kitchen.mp3'},
+    'challenge:ladybug':{cs:'assets/audio/garden-voice/cs/challenge-ladybug.mp3',fr:'assets/audio/garden-voice/fr/challenge-ladybug.mp3',en:'assets/audio/garden-voice/challenge-ladybug.mp3'},
+    'challenge:bee':{cs:'assets/audio/garden-voice/cs/challenge-bee.mp3',fr:'assets/audio/garden-voice/fr/challenge-bee.mp3',en:'assets/audio/garden-voice/challenge-bee.mp3'},
+    'challenge:shelter':{cs:'assets/audio/garden-voice/cs/challenge-shelter.mp3',fr:'assets/audio/garden-voice/fr/challenge-shelter.mp3',en:'assets/audio/garden-voice/challenge-shelter.mp3'},
+    'challenge:pexeso':{cs:'assets/audio/garden-voice/cs/challenge-pexeso.mp3',fr:'assets/audio/garden-voice/fr/challenge-pexeso.mp3',en:'assets/audio/garden-voice/challenge-pexeso.mp3'},
+    'challenge:seeds':{cs:'assets/audio/garden-voice/cs/challenge-seeds.mp3',fr:'assets/audio/garden-voice/fr/challenge-seeds.mp3',en:'assets/audio/garden-voice/challenge-seeds.mp3'},
+    'challenge:quiz':{cs:'assets/audio/garden-voice/cs/challenge-quiz.mp3',fr:'assets/audio/garden-voice/fr/challenge-quiz.mp3',en:'assets/audio/garden-voice/challenge-quiz.mp3'},
     'guild-discovered':'assets/audio/garden-voice/guild-discovered.mp3',
     'aphid-1':'assets/audio/garden-voice/pest-aphid-1.mp3',
     'aphid-2':'assets/audio/garden-voice/pest-aphid-2.mp3',
@@ -8085,8 +8089,9 @@ class Component extends DCLogic {
       offlineView.offlineCanChoose=!!(offlineApiNow&&offlineManifest)&&st.offlineState!=='unsupported';
       offlineView.offlineDownloaded=!!(offlineStatus&&offlineStatus.complete);
       offlineView.offlineUpdateReady=!!st.offlineUpdate&&!st.offlineBusy;
-      offlineView.offlineVoiceLabel=offlineApiNow&&offlineApiNow.voiceLocale(offlineChoice.locale)==='cs'
-        ?localText('offline.voice.cs','The Garden’s voice and the story, in Czech')
+      const offlineVoiceLocale=offlineApiNow?offlineApiNow.voiceLocale(offlineChoice.locale):'en';
+      offlineView.offlineVoiceLabel=offlineVoiceLocale==='cs'?localText('offline.voice.cs','The Garden’s voice and the story, in Czech')
+        :offlineVoiceLocale==='fr'?localText('offline.voice.fr','The Garden’s voice and the story, in French')
         :localText('offline.voice.en','The Garden’s voice and the story, in English');
       if(offlineView.offlineDownloaded){
         const at=new Date(offlineStatus.at);
@@ -8156,7 +8161,7 @@ class Component extends DCLogic {
       locale:locale,
       languageOptions:languageOptions,
       onLanguageChange:(event)=>this.changeLanguage(event),
-      showEnglishAudioNote:locale!=='en'&&locale!=='cs',
+      showEnglishAudioNote:locale!=='en'&&!this.voiceLocales.includes(locale),
       audioLanguageNote:i18n?i18n.t('audio.englishStatus',null,'Audio: English'):'Audio: English',
       viewportMode:st.viewportMode||'desktop',
       phonePane:st.phonePane||'garden',

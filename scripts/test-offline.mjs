@@ -16,20 +16,21 @@ const manifest = {
   version: "aaaaaaaaaaaaaaaa",
   files: {
     "index.html": [5, "h-index"], "game.fragment.html": [7, "h-frag"], "assets/a.webp": [3, "h-a"],
-    "assets/i18n/catalog.en.json": [4, "h-en"], "assets/i18n/catalog.cs.json": [4, "h-cs"], "assets/i18n/catalog.fr.json": [4, "h-fr"],
-    "assets/audio/story/narration-01.mp3": [10, "h-ven"], "assets/audio/story/cs/narration-01.mp3": [11, "h-vcs"],
+    "assets/i18n/catalog.en.json": [4, "h-en"], "assets/i18n/catalog.cs.json": [4, "h-cs"], "assets/i18n/catalog.fr.json": [4, "h-fr"], "assets/i18n/catalog.de.json": [4, "h-de"],
+    "assets/audio/story/narration-01.mp3": [10, "h-ven"], "assets/audio/story/cs/narration-01.mp3": [11, "h-vcs"], "assets/audio/story/fr/narration-01.mp3": [12, "h-vfr"],
     "assets/audio/music/a.mp3": [20, "h-m"]
   },
   groups: {
     core: ["index.html", "game.fragment.html", "assets/a.webp"],
-    catalogs: { en: ["assets/i18n/catalog.en.json"], cs: ["assets/i18n/catalog.cs.json"], fr: ["assets/i18n/catalog.fr.json"] },
-    voice: { en: ["assets/audio/story/narration-01.mp3"], cs: ["assets/audio/story/cs/narration-01.mp3"] },
+    catalogs: { en: ["assets/i18n/catalog.en.json"], cs: ["assets/i18n/catalog.cs.json"], fr: ["assets/i18n/catalog.fr.json"], de: ["assets/i18n/catalog.de.json"] },
+    voice: { en: ["assets/audio/story/narration-01.mp3"], cs: ["assets/audio/story/cs/narration-01.mp3"], fr: ["assets/audio/story/fr/narration-01.mp3"] },
     music: ["assets/audio/music/a.mp3"]
   }
 };
 assert.deepEqual(offline.normalizeSettings({ locale: "xx", voice: 1 }, manifest), { locale: "en", voice: true, music: false });
 assert.deepEqual(offline.filesFor(manifest, { locale: "en" }), ["index.html", "game.fragment.html", "assets/a.webp", "assets/i18n/catalog.en.json"]);
-assert.deepEqual(offline.filesFor(manifest, { locale: "fr", voice: true }).slice(4), ["assets/i18n/catalog.fr.json", "assets/audio/story/narration-01.mp3"], "French plays the English voice, as the game does");
+assert.deepEqual(offline.filesFor(manifest, { locale: "fr", voice: true }).slice(4), ["assets/i18n/catalog.fr.json", "assets/audio/story/fr/narration-01.mp3"], "French plays the French voice, as the game does");
+assert.deepEqual(offline.filesFor(manifest, { locale: "de", voice: true }).slice(4), ["assets/i18n/catalog.de.json", "assets/audio/story/narration-01.mp3"], "German plays the English voice, as the game does");
 assert.ok(offline.filesFor(manifest, { locale: "cs", voice: true, music: true }).includes("assets/audio/story/cs/narration-01.mp3"));
 assert.ok(offline.filesFor(manifest, { locale: "cs", voice: true, music: true }).includes("assets/audio/music/a.mp3"));
 assert.ok(!offline.filesFor(manifest, { locale: "cs", voice: false }).some(f => f.includes("audio")));
@@ -153,7 +154,8 @@ assert.deepEqual(Object.keys(real.groups.catalogs).sort(), ["cs", "de", "en", "e
 for (const needed of ["index.html", "game.fragment.html", "lib/offline.js", "lib/i18n.js", "vendor/dc-runtime.js"]) {
   assert.ok(real.groups.core.includes(needed), `the package holds ${needed}`);
 }
-assert.ok(real.groups.voice.en.length > 40 && real.groups.voice.cs.length > 40, "both voices are listed");
+assert.deepEqual(Object.keys(real.groups.voice).sort(), ["cs", "en", "fr"], "the English, Czech and French voices are listed");
+for (const locale of ["en", "cs", "fr"]) assert.ok(real.groups.voice[locale].length >= 49, `the ${locale} voice has every line`);
 const largest = offline.bytesOf(real, offline.filesFor(real, { locale: "cs", voice: true, music: true }));
 assert.ok(largest < 40e6, `the largest package stays under 40 MB (${offline.formatSize(largest, "en")})`);
 

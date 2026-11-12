@@ -45,7 +45,7 @@ Players design a living garden rather than optimise isolated objects. They place
 - a workshop mode for groups, with a facilitator panel, a session log and a printable guide (see [Workshops](#workshops));
 - an optional download for playing without a connection, for gardens and classrooms with a weak signal (see [Playing without a connection](#playing-without-a-connection));
 - an optional **Living Lesson** — an AI reflection that stays inside a deterministic learning contract (see below);
-- nine interface languages, full Czech voice narration, English voice fallback elsewhere;
+- nine interface languages; the Garden speaks English, Czech and French in its own recordings, and English elsewhere;
 - desktop as the reference experience, with dedicated phone and tablet layouts in portrait and landscape, touch placement, keyboard navigation and reduced-motion support.
 
 ## Workshops
@@ -85,7 +85,9 @@ The model cannot invent an action, modify the economy, award points or decide wh
 
 The interface is fully localised in nine languages: English, Czech, German, French, Spanish, Brazilian Portuguese, Polish, Russian and Simplified Chinese. English is the source catalogue (`assets/i18n/catalog.en.json`, about 1,800 keys); every other catalogue must have the same structure, which `npm run check:i18n` enforces. Terminology decisions live in `assets/i18n/LOCALIZATION_GLOSSARY.md`.
 
-The language follows the browser's preferred language when it is supported and falls back to English otherwise; the player can switch languages in the interface, and the choice is kept in the URL and in local storage. Czech has a complete voice layer (49 tracks); other languages use the English voice.
+The language follows the browser's preferred language when it is supported and falls back to English otherwise; the player can switch languages in the interface, and the choice is kept in the URL and in local storage.
+
+The Garden's voice — the seven story scenes and 42 lines in the garden — is recorded in English, Czech and French; the other six languages hear English and the game says so. Each voiced language has a list of its 49 recordings, `assets/i18n/audio.<locale>.json`, with the spoken text: `node scripts/sync-audio-captions.mjs <locale>` copies it into the catalogue, so the subtitles say exactly what the voice says, and `scripts/normalize-voice.mjs` levels new takes (−16 LUFS, mono MP3 with a length header) and records their lengths. A recording that cannot load falls back to the English one. How the voices were made and chosen is in [`docs/ASSET_PROVENANCE.md`](docs/ASSET_PROVENANCE.md).
 
 Translation corrections and new languages are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
@@ -107,6 +109,7 @@ The game is a local-first static site generated from a single editable source in
 | `index.html`, `game.fragment.html`, `offline-manifest.json` | Generated output — never edit by hand (`sw.js` too gets its version from the build). |
 | `scripts/build.mjs` | Builds the loading shell and the game fragment from the source. |
 | `scripts/check.mjs`, `scripts/check-i18n.mjs` | Validate script syntax, local resource references, production invariants and catalogue completeness. |
+| `assets/i18n/audio.cs.json`, `audio.fr.json` | The Garden's 49 recorded lines in Czech and French: file, spoken text and length. `scripts/test-voice.mjs` checks that no recording is missing, that each has a length header and that the subtitles match. |
 | `lib/i18n.js` | Runtime localisation: locale detection, catalogue loading, formatting. |
 | `lib/living-lesson.js` | The deterministic experiment engine shared by client and server. |
 | `lib/workshop.js` | Workshop mode: the link, the separate save, the garden at the start of each act and the session log. |
@@ -127,7 +130,7 @@ Requirements: Node.js 22+ and npm (the API tests use `module.registerHooks`, ava
 ```sh
 npm ci
 npm run generate   # rebuild index.html and game.fragment.html from the canonical source
-npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, workshop mode and guide, offline package
+npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, workshop mode and guide, offline package, the recorded voice
 ```
 
 Serve the static build locally:
@@ -151,7 +154,8 @@ npm run test:e2e:i18n-layout    # 9 languages × viewports × main surfaces
 npm run test:e2e:living-lesson  # reflection flow, caching, offline fallback
 npm run test:e2e:workshop       # workshop mode: start at an act, offline lesson, log, next group
 npm run test:e2e:offline        # download, the first act with the server switched off, an update, removal
-npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit, workshop, offline
+npm run test:e2e:voice          # the Garden speaks French and Czech from story to garden, English elsewhere, with fallback
+npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit, workshop, offline, voice
 ```
 
 Audits without an npm alias, such as `node scripts/e2e-accessibility.mjs`, `e2e-journey.mjs` or `e2e-layout-audit.mjs`, test the instance in `GAME_URL` (by default <http://127.0.0.1:8787/>), so start `node scripts/static-server.mjs 8787` first. `npm run test:production` plays the live site from the story cover to the first seasonal challenge without calling the Living Lesson API. To use a Playwright installed elsewhere, point `CODEX_NODE_MODULES` at that `node_modules` folder (plain npm or pnpm layout).
@@ -174,7 +178,7 @@ After every production deployment the *Production smoke test* workflow (`.github
 - **v0.84.0 (10 November 2026)** — every text in the player's language in all nine versions, lighter media for phones, one Resilience score shared by the ring, card and certificate, and a check of the live game after every deployment. Details in [CHANGELOG.md](CHANGELOG.md).
 - **v0.85.0 (12 November 2026)** — a workshop mode for groups with a facilitator guide in English, Czech and French, a playtest kit, a faster first start on phones, security headers and caching, and a header that fits laptop windows in every language. Details in [CHANGELOG.md](CHANGELOG.md).
 
-Planned next — tracked as issues: [first playtests with young people and facilitators](https://github.com/usnea-communitas/le-jardin/issues/8), [facilitator tools](https://github.com/usnea-communitas/le-jardin/issues/7), a [shared workshop mode](https://github.com/usnea-communitas/le-jardin/issues/4) for groups of 10–25 players where each person tends their own garden around a common Community Table, [voice narration for the remaining seven languages](https://github.com/usnea-communitas/le-jardin/issues/5) and a [performance and media-budget audit](https://github.com/usnea-communitas/le-jardin/issues/6).
+Planned next — tracked as issues: [first playtests with young people and facilitators](https://github.com/usnea-communitas/le-jardin/issues/8), [facilitator tools](https://github.com/usnea-communitas/le-jardin/issues/7), a [shared workshop mode](https://github.com/usnea-communitas/le-jardin/issues/4) for groups of 10–25 players where each person tends their own garden around a common Community Table, [voice narration for the remaining six languages](https://github.com/usnea-communitas/le-jardin/issues/5) and a [performance and media-budget audit](https://github.com/usnea-communitas/le-jardin/issues/6).
 
 ## Contributing
 

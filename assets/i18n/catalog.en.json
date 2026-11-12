@@ -1684,6 +1684,7 @@
     "offline.downloadAgain": "Download with these choices",
     "offline.voice.en": "The Garden’s voice and the story, in English",
     "offline.voice.cs": "The Garden’s voice and the story, in Czech",
+    "offline.voice.fr": "The Garden’s voice and the story, in French",
     "offline.ready": "Ready to play without a connection: {size} on this device, downloaded on {date}.",
     "offline.total": "Download: about {size}",
     "offline.progress": "Downloading… {done} of {total}",

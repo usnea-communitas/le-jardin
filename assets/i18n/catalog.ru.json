@@ -1698,6 +1698,7 @@
     "offline.downloadAgain": "Скачать с этим выбором",
     "offline.voice.en": "Голос сада и история, на английском",
     "offline.voice.cs": "Голос сада и история, на чешском",
+    "offline.voice.fr": "Голос сада и история, на французском",
     "offline.ready": "Готово для игры без подключения: {size} на этом устройстве, скачано {date}.",
     "offline.total": "Загрузка: около {size}",
     "offline.progress": "Загрузка… {done} из {total}",

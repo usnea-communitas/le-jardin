@@ -39,7 +39,7 @@ Co odkaz na workshop mění:
 
 - **Zařízení.** Nejlépe funguje jedno zařízení na dva až tři hráče; jedno na hráče jde také. Notebook nebo tablet dává nejvíc místa; telefony fungují na výšku i na šířku. Všechno nabijte.
 - **Připojení.** Ještě než skupina přijde, otevřete odkaz na workshop na každém zařízení. Kde je slabý signál, zvolte předem na každém zařízení *Hrát bez připojení* (šipka v záhlaví, na telefonu v nabídce •••): stáhne se asi 20–35 MB podle toho, zda necháte hlas zahrady a hudbu, a hra se pak otevře a hraje i bez připojení, včetně odkazu na workshop. Jiné jazyky a pohyblivé obrázky připojení dál potřebují.
-- **Jazyk.** Vyberte ho na úvodní kartě nebo v záhlaví. Zahrada mluví česky a anglicky; v ostatních jazycích, i ve francouzštině, hráči čtou text a slyší anglický hlas.
+- **Jazyk.** Vyberte ho na úvodní kartě nebo v záhlaví. Zahrada mluví česky, anglicky a francouzsky; v ostatních jazycích hráči čtou text a slyší anglický hlas.
 - **Zvuk.** Ve společné místnosti použijte sluchátka nebo zvuk vypněte tlačítkem s reproduktorem v záhlaví.
 - **Kde začít.** Rozhodněte, kde skupiny začnou. Začátek v pozdějším dějství šetří čas a vede rovnou k tématu, o kterém chcete mluvit (viz plány níže).
 - **Přestávka.** Hra se po každém kroku sama uloží. Skupina může zavřít kartu a později pokračovat na stejném zařízení se stejným odkazem.
