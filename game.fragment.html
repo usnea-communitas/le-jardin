@@ -4127,11 +4127,19 @@ class Component extends DCLogic {
     this.setState({gardenWhisper:w,gardenWhisperReplay:null});
   }
   presentGardenWhisper(w){
-    if(!w){return;}clearTimeout(this._tt);clearTimeout(this._whisperT);const voice=this.speakGarden(w.key);
+    if(!w){return;}clearTimeout(this._tt);clearTimeout(this._whisperT);
+    const close=delay=>{clearTimeout(this._whisperT);this._whisperT=setTimeout(()=>{if(this.state.gardenWhisper===w){this.dismissGardenWhisper();}},delay);};
     const words=(w.text||'').trim().split(/\s+/).filter(Boolean).length;
-    const shown=9000+Math.max(0,words-12)*220;
-    this._whisperT=setTimeout(()=>{if(this.state.gardenWhisper===w){this.dismissGardenWhisper();}},shown);
-    if(voice){voice.addEventListener('ended',()=>{if(this.state.gardenWhisper===w){clearTimeout(this._whisperT);this._whisperT=setTimeout(()=>{if(this.state.gardenWhisper===w){this.dismissGardenWhisper();}},900);}} ,{once:true});}
+    const shown=9000+Math.max(0,words-12)*220,since=Date.now();
+    // The English text sets the time on screen; a recording that lasts longer (a
+    // translation often does) keeps the whisper open until it has been said.
+    this.speakGarden(w.key,{onPlaying:a=>{
+      if(this.state.gardenWhisper!==w){return;}
+      const left=isFinite(a.duration)&&a.duration>0?(a.duration-a.currentTime)*1000+900:0;
+      if(left>shown-(Date.now()-since)){close(left);}
+      a.addEventListener('ended',()=>{if(this.state.gardenWhisper===w){close(900);}},{once:true});
+    }});
+    close(shown);
   }
   scheduleGardenWhisper(w,delay=0){
     clearTimeout(this._whisperStartT);
