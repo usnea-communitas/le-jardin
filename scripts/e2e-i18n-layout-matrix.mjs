@@ -46,7 +46,9 @@ await new Promise((resolve, reject) => {
 const address = server.address();
 const baseUrl = `http://127.0.0.1:${address.port}/`;
 
-const locales = ["en", "cs", "de", "fr", "es", "pt-BR", "pl", "ru", "zh-CN"];
+// I18N_LOCALES=de,pl checks only those languages (all nine by default)
+const locales = ["en", "cs", "de", "fr", "es", "pt-BR", "pl", "ru", "zh-CN"]
+  .filter(locale => !process.env.I18N_LOCALES || process.env.I18N_LOCALES.split(",").includes(locale));
 const viewports = [
   { key: "desktop", width: 1440, height: 900, expectedMode: "desktop" },
   { key: "tablet", width: 820, height: 1180, expectedMode: "tablet" },
@@ -148,9 +150,14 @@ const quiet = {
   guildReview: false,
   showGuilds: false,
   showSummary: false,
-  toast: null
+  toast: null,
+  offlineOpen: false,
+  gardenFileOpen: false,
+  workshopOpen: false,
+  saveNotice: null
 };
 
+const SURFACES = 15;
 const report = [];
 const failures = [];
 const browser = await playwright.chromium.launch({ headless: true });
@@ -196,7 +203,8 @@ async function setState(page, patch) {
 async function inspect(page, locale, viewport, surface) {
   const evidence = await page.evaluate(() => {
     const rootElement = document.documentElement;
-    const dialog = [...document.querySelectorAll("[data-pg-dialog]")].find(element => {
+    // a dialog, or the notice that storage is full (it is not a dialog)
+    const dialog = [...document.querySelectorAll("[data-pg-dialog], .pg-save-notice")].find(element => {
       const style = getComputedStyle(element);
       const rect = element.getBoundingClientRect();
       return style.display !== "none" && style.visibility !== "hidden" &&
@@ -267,10 +275,13 @@ try {
         ) errors.push(`console ${message.type()}: ${message.text()}`);
       });
       try {
-        await page.goto(`${baseUrl}?lang=${encodeURIComponent(locale)}`, { waitUntil: "networkidle" });
+        // "load", then the app, its language and the fonts: text is measured as a player sees it
+        // (waiting for the network to fall silent took 16 s a page, for sound that keeps loading)
+        await page.goto(`${baseUrl}?lang=${encodeURIComponent(locale)}`, { waitUntil: "load" });
         await page.waitForFunction(expected =>
           window.__PERMAGARDEN_APP__ && window.PermacultureI18n?.locale === expected,
         locale, { timeout: 30000 });
+        await page.evaluate(() => document.fonts.ready);
         await inspect(page, locale, viewport, "main");
 
         await setState(page, { headerMenuOpen: true });
@@ -312,6 +323,38 @@ try {
         await setState(page, { gardenCinematic: cinematic, season: "Winter" });
         await inspect(page, locale, viewport, "cinematic");
 
+        // the surfaces added since: the cover's way in for groups (J-13), playing without a
+        // connection (J-05), the garden in a file and the full-storage notice (J-11)
+        await setState(page, { story: true, storyStarted: false, storyScene: 0, storyPaused: false, season: "Summer" });
+        await inspect(page, locale, viewport, "cover");
+
+        await setState(page, {});
+        await page.evaluate(() => window.__PERMAGARDEN_APP__.openOffline());
+        await page.locator('[data-testid="offline-size"]').filter({ hasText: /\d/ }).waitFor({ timeout: 15000 });
+        await twoFrames(page);
+        await inspect(page, locale, viewport, "offline");
+
+        await setState(page, { gardenFileOpen: true });
+        await inspect(page, locale, viewport, "garden file");
+
+        await setState(page, { saveNotice: "full" });
+        await inspect(page, locale, viewport, "save notice");
+
+        // workshop mode (J-03): where the group begins, and the facilitator's panel
+        await page.goto(`${baseUrl}?lang=${encodeURIComponent(locale)}&workshop=1`, { waitUntil: "load" });
+        await page.waitForFunction(expected =>
+          window.__PERMAGARDEN_APP__ && window.PermacultureI18n?.locale === expected,
+        locale, { timeout: 30000 });
+        await page.evaluate(() => document.fonts.ready);
+        await setState(page, { story: true, storyStarted: false, storyScene: 0, storyPaused: false });
+        await inspect(page, locale, viewport, "workshop cover");
+
+        await setState(page, {});
+        await page.evaluate(() => window.__PERMAGARDEN_APP__.openWorkshop());
+        await page.locator('[data-pg-dialog="workshop"]').waitFor();
+        await twoFrames(page);
+        await inspect(page, locale, viewport, "workshop panel");
+
         if (errors.length) {
           const item = { locale, viewport: viewport.key, surface: "browser", errors };
           report.push(item);
@@ -339,5 +382,5 @@ if (failures.length) {
   console.error(JSON.stringify(failures.slice(0, 12), null, 2));
   process.exitCode = 1;
 } else {
-  console.log(`i18n layout matrix passed: ${locales.length} locales × ${viewports.length} viewports × 9 surfaces.`);
+  console.log(`i18n layout matrix passed: ${locales.length} locales × ${viewports.length} viewports × ${SURFACES} surfaces.`);
 }

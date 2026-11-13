@@ -37,3 +37,19 @@ jobs:
         run: npx playwright install --with-deps chromium
       - name: Playthrough, touch, responsive, Living Lesson and release audit
         run: npm run test:e2e:core
+
+  layout:
+    name: Every language at every width
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+      - name: Nine languages × desktop, tablet and phone × fifteen surfaces
+        run: npm run test:e2e:i18n-layout

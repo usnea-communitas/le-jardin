@@ -77,7 +77,7 @@ try {
   await page.evaluate(([key, value]) => { localStorage.clear(); localStorage.setItem(key, value); }, [OWN, JSON.stringify(ownGame)]);
   await page.goto(at("?lang=en"), { waitUntil: "domcontentloaded" });
   await waitForApp();
-  await page.waitForFunction(() => window.__PERMAGARDEN_APP__.state.placed.length === 2, null, { timeout: 15000 });
+  await page.waitForFunction(() => window.__PERMAGARDEN_APP__?.state?.placed.length === 2, null, { timeout: 15000 });
   const ownBefore = await stored(OWN);
   await openDialog();
   const intro = await page.locator("#pg-gf-intro").innerText();
@@ -124,7 +124,7 @@ try {
   await page.getByTestId("workshop-start").waitFor({ state: "visible", timeout: 15000 });
   await Promise.all([page.waitForNavigation({ waitUntil: "domcontentloaded" }), page.getByTestId("workshop-begin").click()]);
   await waitForApp();
-  await page.waitForFunction(() => window.__PERMAGARDEN_APP__.state.workshopLog && window.__PERMAGARDEN_APP__.state.placed.length > 0, null, { timeout: 15000 });
+  await page.waitForFunction(() => window.__PERMAGARDEN_APP__?.state?.workshopLog && window.__PERMAGARDEN_APP__.state.placed.length > 0, null, { timeout: 15000 });
   const groupBefore = await stored(workshop.SAVE_KEY);
   await openDialog();
   check(/This group’s garden/.test(await page.locator("#pg-gf-intro").innerText()), "in a workshop the dialog speaks of the group's garden");
@@ -143,10 +143,10 @@ try {
   await page.getByTestId("workshop-start").waitFor({ state: "visible", timeout: 15000 });
   // the next group starts at the second act (a start with no story, in place or after a reload)
   await page.getByTestId("workshop-start").selectOption("2");
-  await page.getByTestId("workshop-begin").click();
-  await page.waitForLoadState("domcontentloaded");
+  // beginning reloads the page: wait for the new one, not the one being left
+  await Promise.all([page.waitForNavigation({ waitUntil: "domcontentloaded" }), page.getByTestId("workshop-begin").click()]);
   await waitForApp();
-  await page.waitForFunction(() => window.__PERMAGARDEN_APP__.state.workshopLog && !window.__PERMAGARDEN_APP__.state.story, null, { timeout: 15000 });
+  await page.waitForFunction(() => window.__PERMAGARDEN_APP__?.state?.workshopLog && !window.__PERMAGARDEN_APP__.state.story, null, { timeout: 15000 });
 
   await openDialog();
   let asked = "";

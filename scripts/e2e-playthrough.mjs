@@ -51,19 +51,31 @@ async function play(viewport) {
   return { context, page, tag };
 }
 
+// the garden can open something late (an unlock card, a whisper): close what is open
+async function clearGardenDialogs(page) {
+  for (let i = 0; i < 10; i++) {
+    if (!(await page.locator('.pg-garden-dialog-backdrop').count())) return;
+    const later = page.locator('.pg-unlock-later');
+    if (await later.count()) { await later.first().click({ force: true }); }
+    else { await page.keyboard.press('Escape'); }
+    await page.waitForTimeout(550);
+  }
+}
+
+// such a dialog may also open between finding a button and clicking it, more
+// often in a slower engine (WebKit in CI): close it and click again
+async function clickPast(page, locator) {
+  for (let attempt = 0; ; attempt++) {
+    try { await locator.click({ timeout: 5000 }); return; }
+    catch (error) { if (attempt >= 3) throw error; await clearGardenDialogs(page); }
+  }
+}
+
 // a player only ever sees labels — find the way in by its accessible name
 async function findWayIn(page, label) {
   const want = new RegExp(label.replace(/^Open (the )?/, ''), 'i');
   // zahrada muze neco otevrit i se zpozdenim - uklizet je treba pri kazdem pokusu
-  const clear = async () => {
-    for (let i = 0; i < 10; i++) {
-      if (!(await page.locator('.pg-garden-dialog-backdrop').count())) return;
-      const later = page.locator('.pg-unlock-later');
-      if (await later.count()) { await later.first().click({ force: true }); }
-      else { await page.keyboard.press('Escape'); }
-      await page.waitForTimeout(550);
-    }
-  };
+  const clear = () => clearGardenDialogs(page);
   await page.waitForTimeout(1800);
   for (let attempt = 0; attempt < 4; attempt++) {
     await clear();
@@ -96,7 +108,7 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 820, height: 1180
     tag + ': the way into the kitchen is a real touch target', box);
 
   // ---- open the kitchen by clicking it ------------------------------------
-  await kitchenWayIn.click();
+  await clickPast(page, kitchenWayIn);
   await page.waitForSelector('[data-pg-dialog="kitchen"]', { timeout: 8000 });
   await page.waitForTimeout(700);
   check(true, tag + ': clicking that button opens the garden kitchen');
@@ -146,7 +158,7 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 820, height: 1180
   const seedWayIn = await findWayIn(page, 'Open the seed bank');
   check(!!seedWayIn, tag + ': a player can find a way into the seed bank too');
   if (seedWayIn) {
-    await seedWayIn.click();
+    await clickPast(page, seedWayIn);
     await page.waitForSelector('[data-pg-dialog="seedbank"]', { timeout: 8000 });
     await page.waitForTimeout(600);
     check(true, tag + ': clicking that button opens the seed bank');
