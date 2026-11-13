@@ -1713,6 +1713,10 @@
     "saveNotice.otherTab": "Dein Garten wurde in einem anderen Tab geändert. Was du hier tust, wird erst gespeichert, wenn du ihn lädst.",
     "saveNotice.otherTabAction": "Neuesten Garten laden",
     "saveNotice.close": "Meldung schließen",
+    "groupEntry.title": "Spielt ihr in einer Gruppe?",
+    "groupEntry.text": "Im Workshop-Modus kann eine Gruppe bei jeder Handlung beginnen, und ihr Garten bleibt getrennt von jedem eigenen Spiel.",
+    "groupEntry.workshop": "Workshop-Modus öffnen",
+    "groupEntry.guide": "Leitfaden für die Moderation (PDF)",
     "intro.keepGarden": "Dein Garten wird in diesem Browser gespeichert. Damit er sicher ist oder du auf einem anderen Gerät spielen kannst, speichere ihn mit Gartendatei in der Kopfzeile oder im Menü als Datei."
   },
   "templates": {
