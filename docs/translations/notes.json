@@ -1,0 +1,82 @@
+{
+  "about": "The second reading of the translations (package S-19), one record per locale: what was changed because it was clearly wrong, and the places a native speaker should decide. `npm run translations:export` puts the questions at the top of <locale>.md and in the first rows of <locale>.csv. Ids name catalogue messages; a plural form is id#form.",
+  "cs": {
+    "read": "2026-11-13",
+    "fixed": [],
+    "check": [
+      { "id": "community.noSpare", "question": "Twice as long as the English and stiff. Would „Zatím nemáš žádný zakořeněný přebytek.” be better? (The game calls an element that has stood one seasonal turn „zakořeněný”.)" },
+      { "id": "termHelp.pollinator", "question": "A tooltip twice as long as the English. Would a shorter one do, for example „pás kvetoucích rostlin pro opylovače po většinu sezóny”?" }
+    ]
+  },
+  "de": {
+    "read": "2026-11-13",
+    "fixed": [],
+    "check": [
+      { "id": "workshop.acts.heading", "question": "The six acts are „Handlungen” here and in the journey („Erste Handlung · Lebendiger Boden”), but the fifth is „Gemeinschaftsakt” in three texts and „Gemeinschaftsaktion” in one, and the learning acts are „Lernaktionen”. An act is also a chapter of the story; „Akt” would carry that, like Czech „dějství” and French „actes”. Which one word should all of them use?" },
+      { "id": "certificate.learned.compost", "question": "Twice as long as the English on the printed certificate. Is the explanation of „Grünmaterialien” and „Braunmaterialien” needed there?" }
+    ]
+  },
+  "es": {
+    "read": "2026-11-13",
+    "fixed": [
+      { "id": "challenge.rain.story", "before": "…ofrece al rebosadero un destino útil.", "after": "…ofrece un destino útil al agua sobrante.", "why": "„rebosadero” is the overflow outlet; here the overflow is the water." },
+      { "id": "challenge.rain.prompt", "before": "…un suelo que pueda absorber el rebosadero.", "after": "…un suelo que pueda absorber el agua sobrante.", "why": "Soil absorbs the water, not the outlet." },
+      { "id": "challenge.rain.lesson", "before": "…dirige el rebosadero a una zona segura de infiltración.", "after": "…dirige el agua sobrante a una zona segura de infiltración.", "why": "The water goes to the infiltration area." },
+      { "id": "challenge.rain.swale.note", "before": "deja que el rebosadero se infiltre en el suelo", "after": "deja que el agua sobrante se infiltre en el suelo", "why": "The water soaks into the soil." }
+    ],
+    "check": [
+      { "id": "workshop.acts.heading", "question": "The six acts are „acciones” (Primera acción · Suelo vivo…), but the fifth is „el acto comunitario” in four texts. „Acto” is also a chapter of the story, like Czech „dějství” and French „actes”. Which word should all of them use?" },
+      { "id": "catalog.rain.why", "question": "„rebosadero” is the overflow outlet. Here („dirige el rebosadero”) and in certificate.learned.rain („ofrece a cada rebosadero una ruta segura”) the English may mean the water, „agua sobrante”, as the rain challenge now says. Which is meant?" },
+      { "id": "error.checkedAlready", "question": "The glossary calls a seasonal turn „turno estacional”; this text and community.checkedTooSoon say „cambio de estación”. Is that clearer for players, so the glossary should follow?" },
+      { "id": "certificate.learned.compost", "question": "More than twice as long as the English on the printed certificate. Is the explanation of the green and brown materials needed there?" }
+    ]
+  },
+  "fr": {
+    "read": "2026-11-13",
+    "fixed": [],
+    "check": [
+      { "id": "error.checkedAlready", "question": "The glossary calls a seasonal turn „tour de saison”; this text and community.checkedTooSoon say „changement de saison”, community.newElement „cycle saisonnier”. Which should all use?" },
+      { "id": "wildlife.wineCap.tip", "question": "Twice as long as the English. Would a shorter tip read better?" },
+      { "id": "certificate.learned.compost", "question": "Twice as long as the English on the printed certificate. Is the explanation of the green and brown materials needed there?" }
+    ]
+  },
+  "pl": {
+    "read": "2026-11-13",
+    "fixed": [
+      { "id": "error.checkedAlready", "before": "Od ostatniego daru lub zmiany sezonu…", "after": "Od ostatniego daru lub tury sezonu…", "why": "The binding Polish glossary says „tura sezonu” for a seasonal turn, as the other texts do." },
+      { "id": "community.checkedTooSoon", "before": "Od ostatniego daru lub zmiany sezonu…", "after": "Od ostatniego daru lub tury sezonu…", "why": "As above." }
+    ],
+    "check": [
+      { "id": "workshop.acts.heading", "question": "The six acts are „działania” (actions) everywhere. An act is also a chapter of the story; „akt” would carry that, like Czech „dějství” and French „actes”. Keep „działania”?" },
+      { "id": "challenge.seeds.action.wait.note", "question": "A short note twice as long as the English. Would a shorter one do?" },
+      { "id": "certificate.learned.compost", "question": "More than twice as long as the English on the printed certificate. Is the explanation of the green and brown materials needed there?" }
+    ]
+  },
+  "pt-BR": {
+    "read": "2026-11-13",
+    "fixed": [],
+    "check": [
+      { "id": "workshop.acts.heading", "question": "The six acts are „ações” (Primeira ação · Solo vivo…), but the fifth is „o ato comunitário” in four texts. „Ato” is also a chapter of the story, like Czech „dějství” and French „actes”. Which word should all of them use?" },
+      { "id": "error.giveLocked", "question": "The sharing table is „mesa comunitária de partilha” (glossary) and here „mesa de compartilhamento”. Brazilian players say „compartilhar”: which name should the table have everywhere?" },
+      { "id": "certificate.learned.compost", "question": "Twice as long as the English on the printed certificate. Is the explanation of the green and brown materials needed there?" }
+    ]
+  },
+  "ru": {
+    "read": "2026-11-13",
+    "fixed": [
+      { "id": "challenge.quiz.surplus.question", "before": "…чем может съесть ваша группа.", "after": "…чем может съесть твоя группа.", "why": "The game says ты to the player; the explanation of the same question already does (Поделись…)." }
+    ],
+    "check": [
+      { "id": "workshop.acts.heading", "question": "The six acts are „действия”, as in the acts of a play. Does that read as chapters of the story here, and the same in common.unit.acts?" },
+      { "id": "termHelp.pollinator", "question": "A tooltip more than twice as long as the English. Would a shorter one do?" }
+    ]
+  },
+  "zh-CN": {
+    "read": "2026-11-13",
+    "fixed": [],
+    "check": [
+      { "id": "workshop.acts.heading", "question": "The six acts are „步骤” (steps) in the journey and the workshop, but „行动” in common.unit.acts and the community act („社区行动”). Should all of them use one word, perhaps „幕” or „章” for a chapter of the story?" },
+      { "id": "community.firstGiftHint", "question": "The glossary calls a seasonal turn „季节回合”; this text and community.newElement say „一季”. Which should all use?" }
+    ]
+  }
+}

@@ -16,6 +16,7 @@ Le Jardin is played in nine languages. English is the source; **the other eight 
    - `en` – the English source.
    - your language (`de`, `pl` …) – the translation to check. **This is the column you edit.**
    - `area` – the part of the game the message belongs to (`season`, `catalog`, `certificate` …).
+   - `check` – a question from a second reading, on the first few rows only: places where a native speaker has to decide. Start with them. The top of your `.md` file lists the same questions and what the second reading already changed.
    - `note` – your comment, if a change needs explaining.
 3. Change a translation when it is wrong, sounds unnatural or does not match the glossary. Leave it as it is when it is fine; an empty cell also means "no change".
 4. Keep everything in braces exactly as it is (`{count}`, `{value}`, `{name}` …): the game fills in numbers and names there. A row whose braces differ from the English is refused on import.
@@ -33,3 +34,5 @@ npm run translations:export                         # refreshes these files afte
 ```
 
 The import changes only the reviewed locale's `assets/i18n/catalog.<locale>.json` and keeps its formatting; rows whose id no longer exists are skipped and reported. Commit through a pull request as usual.
+
+[`notes.json`](notes.json) records the second reading of each language (package S-19): what it changed and the questions for a native speaker. The export puts the questions first, and it stops when a note names a message the game no longer has. When a native speaker has answered a question, remove it from `notes.json` and export again.

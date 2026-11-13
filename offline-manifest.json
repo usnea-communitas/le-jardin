@@ -1,5 +1,5 @@
 {
-  "version": "60e3bcc4e4d39e7e",
+  "version": "14fe25dfa382e851",
   "files": {
     "index.html": [8365,"d70f5849529c5ad6"],
     "game.fragment.html": [754929,"1a0953ba11d3931a"],
@@ -364,11 +364,11 @@
     "assets/i18n/catalog.cs.json": [184721,"7645917f03914eb9"],
     "assets/i18n/catalog.de.json": [193100,"97b80975f45d21b0"],
     "assets/i18n/catalog.en.json": [167058,"59617ae2c108461d"],
-    "assets/i18n/catalog.es.json": [190796,"eecaa4c36783684e"],
+    "assets/i18n/catalog.es.json": [190808,"859dc540d4e3fa41"],
     "assets/i18n/catalog.fr.json": [202053,"9b9fb51a82efc450"],
-    "assets/i18n/catalog.pl.json": [189506,"3b25c0f2b09451ea"],
+    "assets/i18n/catalog.pl.json": [189502,"4ab4719fe1400d4c"],
     "assets/i18n/catalog.pt-BR.json": [188769,"7c0d9659c1e24844"],
-    "assets/i18n/catalog.ru.json": [270726,"444e6a5b0c928f3c"],
+    "assets/i18n/catalog.ru.json": [270726,"4de75dc9c02aa32a"],
     "assets/i18n/catalog.zh-CN.json": [167915,"481c4f4fdc88a35d"],
     "assets/audio/garden-voice/challenge-bee.mp3": [62319,"67aa73983efeefd6"],
     "assets/audio/garden-voice/challenge-compost.mp3": [121252,"8325771c81005007"],
