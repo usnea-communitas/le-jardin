@@ -1261,7 +1261,7 @@
     "garden.give": "Give to",
     "error.dropOutside": "Drop it on the green plot to plant it.",
     "error.seedBankRequired": "🌰 Plant a Seed bank first — every crop here starts as saved community seed.",
-    "error.saveUnavailable": "⚠ This browser could not save your progress. Keep this tab open while you play.",
+    "error.saveUnavailable": "This browser could not save your garden. Keep this tab open, or save the garden to a file.",
     "error.seedPacketUsed": "One seed packet of this crop is available per season — or sow from your own saved seed. Turn the season before sowing it again.",
     "error.resources": "Not enough game shares or budget — share a genuine surplus, learn through a challenge or wait for a community offering.",
     "error.kitchenRequired": "🏵 Build a Garden kitchen first — preserving needs a stove and shelves.",
@@ -1709,6 +1709,10 @@
     "gardenFile.error.newer": "This garden was saved by a newer version of the game. Nothing has changed.",
     "gardenFile.error.read": "The file could not be read. Nothing has changed.",
     "gardenFile.error.helper": "The game could not prepare the file. Check the connection and try again.",
+    "saveNotice.fileAction": "Save to a file",
+    "saveNotice.otherTab": "Your garden changed in another tab. Nothing you do here is saved until you load it.",
+    "saveNotice.otherTabAction": "Load the latest garden",
+    "saveNotice.close": "Close this message",
     "intro.keepGarden": "Your garden is kept in this browser. To keep it safe or play on another device, save it as a file with Garden file in the header or the menu."
   },
   "templates": {

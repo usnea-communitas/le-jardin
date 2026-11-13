@@ -44,6 +44,7 @@ Players design a living garden rather than optimise isolated objects. They place
 - earned reflections, a learning journal and an exportable garden certificate;
 - a workshop mode for groups, with a facilitator panel, a session log and a printable guide (see [Workshops](#workshops));
 - an optional download for playing without a connection, for gardens and classrooms with a weak signal (see [Playing without a connection](#playing-without-a-connection));
+- the garden saved to a file and loaded back, on another device or after the browser was cleared (see [Your garden in a file](#your-garden-in-a-file));
 - an optional **Living Lesson** — an AI reflection that stays inside a deterministic learning contract (see below);
 - nine interface languages; the Garden speaks English, Czech and French in its own recordings, and English elsewhere;
 - desktop as the reference experience, with dedicated phone and tablet layouts in portrait and landscape, touch placement, keyboard navigation and reduced-motion support.
@@ -55,7 +56,8 @@ For a group, open the game with `?workshop=1` (for example <https://permaculture
 - the workshop garden is saved apart from anyone's own game on the device, which is never read, changed or cleared;
 - the opening card asks where the group begins: with the opening story or at any of the six acts, the earlier acts already done with plain elements placed far apart, so every design connection is still the group's to find;
 - the Living Lesson answers only from the reviewed offline lessons: no AI, no cost, the same lesson for every group;
-- *Workshop* replaces *Reset* in the header and opens a panel for the facilitator: where the group is and a question to ask, the six acts with their learning goals, a session log that stays on the device (save as a text file or print), the guide and *Prepare for the next group*.
+- *Workshop* replaces *Reset* in the header and opens a panel for the facilitator: where the group is and a question to ask, the six acts with their learning goals, a session log that stays on the device (save as a text file or print), the guide and *Prepare for the next group*;
+- *Garden file* saves the group's garden to a file and loads it back, so a group can go on after the device was prepared for the next group, or on another device.
 
 The facilitator guide in English, Czech and French — the six acts, the solutions to all eleven challenges, questions for the closing conversation and plans for 45, 90 and 120 minutes — is in [`docs/facilitator/`](docs/facilitator/), with PDFs to print. Its challenge chapter is generated from the game's catalogues (`node scripts/facilitator-guide.mjs`). Playtests use the kit in [`docs/playtest/`](docs/playtest/).
 
@@ -91,6 +93,12 @@ The Garden's voice — the seven story scenes and 42 lines in the garden — is 
 
 Translation corrections and new languages are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Your garden in a file
+
+The garden is kept only in this browser's storage. *Garden file* (the page with a leaf in the header; on a phone, in the ••• menu) saves it as a small JSON file and loads it back: on another device, in another browser or after the browser's data was cleared. The file says which game and which version made it; a damaged file, another app's file or a file from a newer version is refused before anything changes, and loading over a garden in progress asks first. In workshop mode the file holds the group's garden, never anyone's own game.
+
+The game also guards the garden it keeps. Once a garden has elements, it asks the browser to keep its storage instead of clearing it when space runs low (not in Firefox, where that shows the player a prompt, and never in a workshop on a shared device). When the browser refuses a save, a message says so and offers the garden file, which carries the garden as it is on screen. When the same garden is open in two tabs and one of them saves it, the other stops saving, says so and loads the newer garden on request, so neither tab writes over the other. The helper (`lib/garden-file.js`) loads only when it is needed, and nothing is sent anywhere.
+
 ## Playing without a connection
 
 *Play without a connection* (the arrow in the header; on a phone, in the ••• menu) downloads the game to the device: the game itself and its pictures and sounds, English and the chosen language, and, if the player keeps them, the Garden's voice and the music — about 20 MB, 29 MB with the voice and 35 MB with music too. Afterwards the game, the workshop link included, opens and plays without a connection; other languages and the moving pictures still need one (the game shows still pictures instead). The panel shows the size before anything is downloaded and can remove the download again; the garden itself always stays in the browser's storage, and nothing is sent anywhere.
@@ -114,6 +122,7 @@ The game is a local-first static site generated from a single editable source in
 | `lib/i18n.js` | Runtime localisation: locale detection, catalogue loading, formatting. |
 | `lib/living-lesson.js` | The deterministic experiment engine shared by client and server. |
 | `lib/workshop.js` | Workshop mode: the link, the separate save, the garden at the start of each act and the session log. |
+| `lib/garden-file.js` | The garden in a file: what a saved file holds, the checks before one is loaded, its name, and where asking to keep the storage would show a prompt. |
 | `lib/offline.js`, `sw.js` | Playing without a connection: the package for a choice, the download into a cache named after the build, and the service worker that answers from it (byte ranges included). |
 | `offline-manifest.json` | Generated list of every file in the offline package with its size and hash; its version is stamped into `sw.js`. `scripts/offline-manifest.mjs` places every file under `assets/` in a group, and the build stops when a new file belongs to none. |
 | `api/garden-reflection.js` | The protected Vercel Function and the model boundary. |
@@ -131,7 +140,7 @@ Requirements: Node.js 22+ and npm (the API tests use `module.registerHooks`, ava
 ```sh
 npm ci
 npm run generate   # rebuild index.html and game.fragment.html from the canonical source
-npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, the rules of the game, workshop mode and guide, offline package, the recorded voice
+npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, the rules of the game, workshop mode and guide, offline package, the recorded voice, the garden file
 ```
 
 Serve the static build locally:
@@ -156,7 +165,9 @@ npm run test:e2e:living-lesson  # reflection flow, caching, offline fallback
 npm run test:e2e:workshop       # workshop mode: start at an act, offline lesson, log, next group
 npm run test:e2e:offline        # download, the first act with the server switched off, an update, removal
 npm run test:e2e:voice          # the Garden speaks French and Czech from story to garden, English elsewhere, with fallback
-npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit, workshop, offline, voice
+npm run test:e2e:garden-file    # the garden in a file: save and load, refusals, workshop, the phone menu
+npm run test:e2e:resilience     # damaged saves, a full browser, two tabs of one garden, reset
+npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit, workshop, offline, voice, garden file, resilience
 ```
 
 Audits without an npm alias, such as `node scripts/e2e-accessibility.mjs`, `e2e-journey.mjs` or `e2e-layout-audit.mjs`, test the instance in `GAME_URL` (by default <http://127.0.0.1:8787/>), so start `node scripts/static-server.mjs 8787` first. `npm run test:production` plays the live site from the story cover to the first seasonal challenge without calling the Living Lesson API. To use a Playwright installed elsewhere, point `CODEX_NODE_MODULES` at that `node_modules` folder (plain npm or pnpm layout).

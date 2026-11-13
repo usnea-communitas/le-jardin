@@ -1261,7 +1261,7 @@
     "garden.give": "Dar para",
     "error.dropOutside": "Solte no terreno verde para plantar.",
     "error.seedBankRequired": "🌰 Plante primeiro um banco de sementes — toda cultura daqui começa como semente comunitária guardada.",
-    "error.saveUnavailable": "⚠ Este navegador não conseguiu salvar seu progresso. Mantenha esta aba aberta enquanto joga.",
+    "error.saveUnavailable": "Este navegador não conseguiu salvar seu jardim. Mantenha esta aba aberta ou salve o jardim em um arquivo.",
     "error.seedPacketUsed": "Há um pacote de sementes dessa cultura disponível por estação — ou semeie a partir das suas próprias sementes guardadas. Avance a estação antes de semear novamente.",
     "error.resources": "Faltam fichas de participação ou orçamento — compartilhe um excedente real, aprenda por meio de um desafio ou espere uma oferta da comunidade.",
     "error.kitchenRequired": "🏵 Construa primeiro uma cozinha do jardim — conservar alimentos exige fogão e prateleiras.",
@@ -1709,6 +1709,10 @@
     "gardenFile.error.newer": "Este jardim foi salvo por uma versão mais nova do jogo. Nada mudou.",
     "gardenFile.error.read": "Não foi possível ler o arquivo. Nada mudou.",
     "gardenFile.error.helper": "O jogo não conseguiu preparar o arquivo. Verifique a conexão e tente de novo.",
+    "saveNotice.fileAction": "Salvar em um arquivo",
+    "saveNotice.otherTab": "Seu jardim mudou em outra aba. Nada do que você fizer aqui será salvo até você carregá-lo.",
+    "saveNotice.otherTabAction": "Carregar o jardim mais recente",
+    "saveNotice.close": "Fechar a mensagem",
     "intro.keepGarden": "Seu jardim fica salvo neste navegador. Para não perdê-lo ou jogar em outro aparelho, salve-o em um arquivo com Arquivo do jardim, no cabeçalho ou no menu."
   },
   "templates": {

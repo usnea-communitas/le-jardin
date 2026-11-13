@@ -44,7 +44,7 @@
     "test:e2e:v81": "node scripts/run-local-e2e.mjs scripts/e2e-v81-polish.mjs",
     "test:e2e:v82": "node scripts/run-local-e2e.mjs scripts/e2e-v82-economy-resize.mjs",
     "test:e2e:playthrough": "node scripts/run-local-e2e.mjs scripts/e2e-playthrough.mjs",
-    "test:e2e:core": "node scripts/run-local-e2e.mjs scripts/e2e-playthrough.mjs scripts/e2e-touch-placement.mjs scripts/e2e-responsive-platforms.mjs scripts/e2e-living-lesson.mjs scripts/e2e-release-audit.mjs scripts/e2e-workshop.mjs scripts/e2e-offline.mjs scripts/e2e-voice.mjs scripts/e2e-garden-file.mjs",
+    "test:e2e:core": "node scripts/run-local-e2e.mjs scripts/e2e-playthrough.mjs scripts/e2e-touch-placement.mjs scripts/e2e-responsive-platforms.mjs scripts/e2e-living-lesson.mjs scripts/e2e-release-audit.mjs scripts/e2e-workshop.mjs scripts/e2e-offline.mjs scripts/e2e-voice.mjs scripts/e2e-garden-file.mjs scripts/e2e-resilience.mjs",
     "test:production": "node scripts/e2e-production-smoke.mjs",
     "test:workshop": "node scripts/test-workshop.mjs",
     "test:e2e:workshop": "node scripts/run-local-e2e.mjs scripts/e2e-workshop.mjs",

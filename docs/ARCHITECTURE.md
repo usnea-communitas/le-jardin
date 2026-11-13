@@ -31,7 +31,7 @@ What every rule module promises:
 
 Some tables carry both rules and words: a price and what the element is often made from, a wild neighbour's needs and its name, a story beat's condition and its text. The rule part lives in the module and the words stay in the canonical source under the same ids. The game joins them into the tables it reads (`withRules`, `withRulesByKey`, `storiesWithRules`), so the rest of the game still reads `this.econ`, `this.wildlife` or `this.pestPressures`. Tables that are mostly words stay in the source and are passed to the rules: what neighbours can offer (`giftPool`), the visitor quizzes (`visitDefs`) and where each neighbour spends the winter (`awayWinter`).
 
-The other helpers in `lib/` follow the same idea for their own area: `i18n.js` (translation), `living-lesson.js` (the deterministic Living Lesson engine, shared with the server), `workshop.js` (workshop mode) and `offline.js` (playing without a connection, shared with `sw.js`).
+The other helpers in `lib/` follow the same idea for their own area: `i18n.js` (translation), `living-lesson.js` (the deterministic Living Lesson engine, shared with the server), `workshop.js` (workshop mode), `offline.js` (playing without a connection, shared with `sw.js`) and `garden-file.js` (the garden saved to a file and loaded back). The last two load only when they are needed, not as `<script defer>` in the page, so the build does not count them among the rules.
 
 ## Tests
 
