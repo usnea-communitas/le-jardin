@@ -1713,6 +1713,10 @@
     "saveNotice.otherTab": "Your garden changed in another tab. Nothing you do here is saved until you load it.",
     "saveNotice.otherTabAction": "Load the latest garden",
     "saveNotice.close": "Close this message",
+    "groupEntry.title": "Playing with a group?",
+    "groupEntry.text": "Workshop mode lets a group begin at any act and keeps its garden apart from anyone’s own game.",
+    "groupEntry.workshop": "Open workshop mode",
+    "groupEntry.guide": "Facilitator guide (PDF)",
     "intro.keepGarden": "Your garden is kept in this browser. To keep it safe or play on another device, save it as a file with Garden file in the header or the menu."
   },
   "templates": {

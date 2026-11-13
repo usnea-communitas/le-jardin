@@ -1727,6 +1727,10 @@
     "saveNotice.otherTab": "Twój ogród zmienił się w innej karcie. Nic, co zrobisz tutaj, nie zostanie zapisane, dopóki go nie wczytasz.",
     "saveNotice.otherTabAction": "Wczytaj najnowszy ogród",
     "saveNotice.close": "Zamknij komunikat",
+    "groupEntry.title": "Gracie w grupie?",
+    "groupEntry.text": "W trybie warsztatów grupa może zacząć od dowolnego działania, a jej ogród jest oddzielony od własnej gry każdej osoby.",
+    "groupEntry.workshop": "Otwórz tryb warsztatów",
+    "groupEntry.guide": "Przewodnik dla osoby prowadzącej (PDF)",
     "intro.keepGarden": "Twój ogród jest zapisany w tej przeglądarce. Żeby go nie stracić albo grać na innym urządzeniu, zapisz go w pliku przez Plik ogrodu w nagłówku lub w menu."
   },
   "templates": {

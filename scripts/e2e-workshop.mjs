@@ -224,6 +224,63 @@ try {
   const czech = await page.evaluate(() => ({ label: document.querySelector('label[for="pg-ws-start-select"]')?.textContent.trim(), third: document.querySelector('[data-testid="workshop-start"] option[value="3"]')?.textContent.trim() }));
   check(czech.label === "Kde tahle skupina začne?" && czech.third === "Třetí dějství · Užitečná hojnost", "the workshop cover speaks Czech", czech);
 
+  // 11. A teacher who found the game alone: "Playing with a group?" on the cover and in How to play.
+  for (const [width, height] of [[1440, 900], [360, 740]]) {
+    const fresh = await browser.newContext({ viewport: { width, height } });
+    const visitor = await fresh.newPage();
+    visitor.on("pageerror", error => errors.push("pageerror: " + error.message));
+    await visitor.route("**/api/garden-reflection", route => { apiCalls += 1; return route.fulfill({ status: 503, contentType: "application/json", body: "{}" }); });
+    await visitor.goto(at("?lang=en"), { waitUntil: "domcontentloaded" });
+    await visitor.waitForFunction(() => window.__PERMAGARDEN_APP__ && window.__PERMAGARDEN_APP__.state, null, { timeout: 15000 });
+    const entry = visitor.getByTestId("group-entry-cover");
+    await entry.scrollIntoViewIfNeeded();
+    await entry.waitFor({ state: "visible", timeout: 5000 });
+    const seen = await visitor.evaluate(() => {
+      const box = document.querySelector('[data-testid="group-entry-cover"]').getBoundingClientRect();
+      return { left: box.left, right: box.right, width: innerWidth, sideways: document.documentElement.scrollWidth - innerWidth,
+        workshop: document.querySelector('[data-testid="group-entry-cover-workshop"]').getAttribute("href"),
+        guide: document.querySelector('[data-testid="group-entry-cover-guide"]').getAttribute("href") };
+    });
+    check(seen.left >= 0 && seen.right <= seen.width && seen.sideways <= 0, `${width} px: the cover says workshop mode exists, inside the screen`, seen);
+    check(seen.workshop === "?workshop=1&lang=en" && /le-jardin-facilitator-guide-en\.pdf$/.test(seen.guide), `${width} px: it links workshop mode and the English guide`, seen);
+    const pdf = await fresh.request.get(new URL(seen.guide, baseUrl).href);
+    check(pdf.ok() && (await pdf.body()).subarray(0, 5).toString() === "%PDF-", `${width} px: the guide it links is served`, pdf.status());
+    // reachable by keyboard from the start of the cover
+    await visitor.evaluate(() => document.activeElement && document.activeElement.blur());
+    let reached = false;
+    for (let i = 0; i < 30 && !reached; i += 1) {
+      await visitor.keyboard.press("Tab");
+      reached = await visitor.evaluate(() => document.activeElement && document.activeElement.dataset.testid === "group-entry-cover-workshop");
+    }
+    check(reached, `${width} px: the keyboard reaches "Open workshop mode"`);
+    if (width === 1440) {
+      // How to play says it too
+      await visitor.evaluate(() => window.__PERMAGARDEN_APP__.setState({ story: false, storySeen: true }));
+      await visitor.evaluate(() => window.__PERMAGARDEN_APP__.openIntro());
+      await visitor.getByTestId("group-entry-help").waitFor({ state: "visible", timeout: 5000 });
+      check(/Playing with a group\?/.test(await visitor.getByTestId("group-entry-help").innerText()), "How to play says workshop mode exists");
+      await visitor.keyboard.press("Escape");
+      // and Enter on the link opens workshop mode (a first visit again: the story has not been seen)
+      await visitor.evaluate(() => localStorage.clear());
+      await visitor.goto(at("?lang=en"), { waitUntil: "domcontentloaded" });
+      await visitor.waitForFunction(() => window.__PERMAGARDEN_APP__ && window.__PERMAGARDEN_APP__.state, null, { timeout: 15000 });
+      await visitor.getByTestId("group-entry-cover-workshop").focus();
+      await Promise.all([visitor.waitForURL(/\?workshop=1&lang=en$/), visitor.keyboard.press("Enter")]);
+      await visitor.getByTestId("workshop-start").waitFor({ state: "visible", timeout: 15000 });
+      check(await visitor.getByTestId("group-entry-cover").count() === 0, "in workshop mode the cover asks where the group begins instead");
+    }
+    await fresh.close();
+  }
+  {
+    const fresh = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const visitor = await fresh.newPage();
+    await visitor.goto(at("?lang=cs"), { waitUntil: "domcontentloaded" });
+    await visitor.waitForFunction(() => window.__PERMAGARDEN_APP__ && window.__PERMAGARDEN_APP__.state, null, { timeout: 15000 });
+    const czech = await visitor.evaluate(() => ({ text: document.querySelector('[data-testid="group-entry-cover"]').innerText, guide: document.querySelector('[data-testid="group-entry-cover-guide"]').getAttribute("href") }));
+    check(/Hrajete se skupinou\?/.test(czech.text) && /Otevřít režim workshopu/.test(czech.text) && /guide-cs\.pdf$/.test(czech.guide), "in Czech it speaks Czech and links the Czech guide", czech);
+    await fresh.close();
+  }
+
   check(errors.length === 0, "no page or console errors", errors);
 } finally {
   await browser.close();

@@ -1713,6 +1713,10 @@
     "saveNotice.otherTab": "Seu jardim mudou em outra aba. Nada do que você fizer aqui será salvo até você carregá-lo.",
     "saveNotice.otherTabAction": "Carregar o jardim mais recente",
     "saveNotice.close": "Fechar a mensagem",
+    "groupEntry.title": "Vão jogar em grupo?",
+    "groupEntry.text": "No modo oficina, um grupo pode começar em qualquer ação, e o jardim dele fica separado do jogo pessoal de qualquer pessoa.",
+    "groupEntry.workshop": "Abrir o modo oficina",
+    "groupEntry.guide": "Guia para quem facilita (PDF)",
     "intro.keepGarden": "Seu jardim fica salvo neste navegador. Para não perdê-lo ou jogar em outro aparelho, salve-o em um arquivo com Arquivo do jardim, no cabeçalho ou no menu."
   },
   "templates": {
