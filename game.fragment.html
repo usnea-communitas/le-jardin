@@ -1217,7 +1217,7 @@ button,input,select,textarea{font-family:inherit}
   .pg-brand-mark svg{width:19px;height:19px}
   .pg-brand-title{font-size:17px!important}
   .pg-story-cover{padding:calc(68px + env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) 18px max(14px,env(safe-area-inset-left))}
-  .pg-brand-subtitle,.pg-header-progress,.pg-header-story,.pg-header-book,.pg-header-help,.pg-header-offline,.pg-header-reset,.pg-header-place{display:none!important}
+  .pg-brand-subtitle,.pg-header-progress,.pg-header-story,.pg-header-book,.pg-header-help,.pg-header-offline,.pg-header-gardenfile,.pg-header-reset,.pg-header-place{display:none!important}
   .pg-header-actions{gap:4px!important;min-width:0}
   .pg-header-pill{padding:4px 7px!important;gap:3px!important;min-height:36px}
   .pg-header-pill svg{width:12px;height:12px}
@@ -1484,6 +1484,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
       </sc-if>
       <button class="pg-header-tool pg-header-help" sc-camel-on-click="{{ onOpenIntro }}" title="How to play" aria-label="Open how to play" style="width:32px;height:32px;border-radius:10px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;font-weight:700;font-size:14px;cursor:pointer;font-family:'Bricolage Grotesque',sans-serif;transition:all .15s" style-hover="border-color:#5E7E4A;color:#5E7E4A">?</button>
       <button class="pg-header-tool pg-header-offline" data-testid="offline-open" sc-camel-on-click="{{ onOpenOffline }}" aria-haspopup="dialog" title="Play without a connection" aria-label="Play without a connection" style="width:32px;height:32px;border-radius:10px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;cursor:pointer;display:grid;place-items:center;transition:all .15s" style-hover="border-color:#5E7E4A;color:#5E7E4A"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v10.5"></path><path d="m7.5 10 4.5 4.5 4.5-4.5"></path><path d="M5 19.5h14"></path></svg></button>
+      <button class="pg-header-tool pg-header-gardenfile" data-testid="garden-file-open" sc-camel-on-click="{{ onOpenGardenFile }}" aria-haspopup="dialog" title="Save or load the garden" aria-label="Save or load the garden" style="width:32px;height:32px;border-radius:10px;background:#fff;border:1px solid #E0D6C2;color:#8A7E66;cursor:pointer;display:grid;place-items:center;transition:all .15s" style-hover="border-color:#5E7E4A;color:#5E7E4A"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3.5H7.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V8z"></path><path d="M14 3.5V8h4.5"></path><path d="M9.5 15.5c2.6.3 4.6-1.4 5-4.5-3 .1-4.9 1.7-5 4.5z"></path><path d="M9.5 15.5l2.2-2.2"></path></svg></button>
       <sc-if value="{{ resetVisible }}" hint-placeholder-val="{{ true }}">
       <button class="pg-header-tool pg-header-reset" sc-camel-on-click="{{ onReset }}" aria-label="Reset the whole garden" style="display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #E0D6C2;color:#6A604C;font-weight:600;font-size:12px;padding:8px 13px;border-radius:10px;cursor:pointer;font-family:inherit;transition:all .15s" style-hover="border-color:#B5613A;color:#B5613A">
         <svg width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 4v4h4"></path></svg>
@@ -1510,6 +1511,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
             </sc-if>
             <button role="menuitem" sc-camel-on-click="{{ onMenuHelp }}"><span aria-hidden="true">?</span> How to play</button>
             <button role="menuitem" data-testid="offline-open-menu" sc-camel-on-click="{{ onMenuOffline }}"><span class="pg-header-menu-icon" aria-hidden="true"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v10.5"></path><path d="m7.5 10 4.5 4.5 4.5-4.5"></path><path d="M5 19.5h14"></path></svg></span> Play without a connection</button>
+            <button role="menuitem" data-testid="garden-file-open-menu" sc-camel-on-click="{{ onMenuGardenFile }}"><span class="pg-header-menu-icon" aria-hidden="true"><svg width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3.5H7.5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V8z"></path><path d="M14 3.5V8h4.5"></path><path d="M9.5 15.5c2.6.3 4.6-1.4 5-4.5-3 .1-4.9 1.7-5 4.5z"></path><path d="M9.5 15.5l2.2-2.2"></path></svg></span> Garden file</button>
             <div class="pg-language-menu" role="none">
               <label for="pg-language-menu-select">Language</label>
               <select id="pg-language-menu-select" data-testid="language-select-menu" value="{{ locale }}" sc-camel-on-change="{{ onLanguageChange }}" aria-label="Game language">
@@ -2746,6 +2748,24 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
     </div>
   </sc-if>
 
+  <!-- The garden in a file: save it, load it on another device (lib/garden-file.js) -->
+  <sc-if value="{{ gardenFileVisible }}" hint-placeholder-val="{{ false }}">
+    <div class="pg-garden-dialog-backdrop" sc-camel-on-click="{{ onCloseGardenFile }}">
+      <div class="pg-living-lesson-dialog pg-offline pg-garden-file" data-pg-dialog="garden-file" role="dialog" aria-modal="true" aria-labelledby="pg-gf-title" aria-describedby="pg-gf-intro" tabindex="-1" sc-camel-on-click="{{ stopProp }}">
+        <button class="pg-living-lesson-close" sc-camel-on-click="{{ onCloseGardenFile }}" aria-label="Close">✕</button>
+        <h2 class="pg-living-lesson-title" id="pg-gf-title">Your garden in a file</h2>
+        <p class="pg-ws-intro" id="pg-gf-intro">{{ gardenFileIntro }}</p>
+        <div class="pg-ws-actions">
+          <button class="pg-primary-action" data-testid="garden-file-save" sc-camel-on-click="{{ onGardenFileSave }}">Save the garden as a file</button>
+          <button class="pg-living-lesson-secondary" data-testid="garden-file-load" sc-camel-on-click="{{ onGardenFileChoose }}">Load a garden from a file</button>
+          <input id="pg-garden-file-input" class="pg-garden-file-input" data-testid="garden-file-input" type="file" accept="application/json,.json" tabindex="-1" aria-hidden="true" style="display:none" sc-camel-on-change="{{ onGardenFilePick }}">
+        </div>
+        <p class="pg-ws-status" role="status" aria-live="polite" aria-atomic="true" data-testid="garden-file-status">{{ gardenFileNote }}</p>
+        <p class="pg-ws-fine">Loading a garden replaces the one in progress; the game asks first. Nothing is sent anywhere.</p>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- Garden Speaks · pattern 02: earned reflection -->
   <sc-if value="{{ gardenReflectionVisible }}" hint-placeholder-val="{{ false }}">
     <div class="pg-garden-dialog-backdrop" sc-camel-on-click="{{ onDismissGardenReflection }}">
@@ -3034,6 +3054,7 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
         </div>
 
         <div style="font-size:11px;color:#8A7E66;line-height:1.45;text-align:center">You can switch modes later without losing your garden.</div>
+        <div class="pg-intro-keep" style="font-size:11px;color:#8A7E66;line-height:1.45;text-align:center;margin-top:4px">Your garden is kept in this browser. To keep it safe or play on another device, save it as a file with Garden file in the header or the menu.</div>
         <button sc-camel-on-click="{{ onReplayStory }}" style="display:block;margin:9px auto 0;border:0;background:transparent;color:#718263;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;padding:5px 10px">↺ Replay “The Garden Is Waiting”</button>
         <div style="margin-top:8px;padding-top:9px;border-top:1px solid #E9E0CF;font-size:9.5px;color:#948A76;line-height:1.45;text-align:center">Original experience directed for this project · ambient scene generated with Kling AI · narration and sound generated with ElevenLabs · visual explorations with Picsart and Lovable</div>
       </div>
@@ -4438,6 +4459,83 @@ class Component extends DCLogic {
     });
   }
   closeOffline(){this.setState({offlineOpen:false,offlineNote:''});}
+  // The garden in a file (lib/garden-file.js): saved from the browser's own save,
+  // loaded back through the same start-up that cleans a stored garden. In workshop
+  // mode it is the group's garden (this.STORE), never anyone's own game.
+  gardenFileApi(){return typeof window!=='undefined'?window.PermacultureGardenFile||null:null;}
+  // loaded when first needed, like lib/offline.js, so the first visit stays as light
+  loadGardenFileApi(){
+    if(this.gardenFileApi()){return Promise.resolve(this.gardenFileApi());}
+    if(!this._gardenFileLoading){
+      this._gardenFileLoading=new Promise((resolve,reject)=>{
+        const script=document.createElement('script');script.src='lib/garden-file.js';
+        script.onload=()=>resolve(this.gardenFileApi());
+        script.onerror=()=>{this._gardenFileLoading=null;reject(new Error('garden_file_helper'));};
+        document.head.appendChild(script);
+      });
+    }
+    return this._gardenFileLoading;
+  }
+  openGardenFile(fromMenu=false){
+    this.suspendGardenWhisper();
+    this.loadGardenFileApi().catch(()=>{});
+    this.setState({gardenFileOpen:true,gardenFileNote:'',headerMenuOpen:false,plantType:null,movingPlacedId:null,giveMode:false,selectedPlacedId:null,seedMenuId:null},()=>{
+      if(fromMenu){this._dialogReturnFocus=document.getElementById('pg-header-more');}
+    });
+  }
+  closeGardenFile(){this.setState({gardenFileOpen:false,gardenFileNote:''});}
+  async saveGardenFile(){
+    let api=null;try{api=await this.loadGardenFileApi();}catch(_){}
+    if(!api){this.setState({gardenFileNote:this.i18nText('gardenFile.error.helper','The game could not prepare the file. Check the connection and try again.')});return;}
+    this.persist();
+    let stored=null;try{stored=localStorage.getItem(this.STORE);}catch(_){}
+    const versionEl=typeof document!=='undefined'?document.querySelector('[data-pg-version]'):null;
+    const text=api.pack(stored,{version:versionEl?versionEl.textContent.trim():'',workshop:!!this.WORKSHOP.enabled});
+    if(!text||!(this.state.placed||[]).length){this.setState({gardenFileNote:this.i18nText('gardenFile.nothing','There is no garden to save yet: place a first element.')});return;}
+    const file=api.fileName(new Date(),!!this.WORKSHOP.enabled);
+    const url=URL.createObjectURL(new Blob([text],{type:'application/json'}));
+    const link=document.createElement('a');link.href=url;link.download=file;link.style.display='none';document.body.appendChild(link);link.click();link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+    this.setState({gardenFileNote:this.i18nText('gardenFile.saved','Saved on this device as {file}.',{file:file})});
+  }
+  chooseGardenFile(){const input=document.getElementById('pg-garden-file-input');if(input){input.click();}}
+  pickGardenFile(e){
+    const input=e&&e.target,chosen=input&&input.files&&input.files[0];
+    if(input){input.value='';}
+    if(!chosen){return;}
+    const api=this.gardenFileApi();
+    const refuse=key=>this.setState({gardenFileNote:key==='newer'
+      ?this.i18nText('gardenFile.error.newer','This garden was saved by a newer version of the game. Nothing has changed.')
+      :key==='read'?this.i18nText('gardenFile.error.read','The file could not be read. Nothing has changed.')
+      :this.i18nText('gardenFile.error.format','This file is not a saved Le Jardin garden. Nothing has changed.')});
+    if(!api){refuse('read');return;}
+    const reader=new FileReader();
+    reader.onerror=()=>refuse('read');
+    reader.onload=()=>{
+      const result=api.unpack(String(reader.result||''));
+      if(!result.ok){refuse(result.error);return;}
+      if((this.state.placed||[]).length&&!window.confirm(this.i18nText('gardenFile.confirm','Loading replaces the garden in progress. Load the garden from the file?'))){return;}
+      // the old garden must not be written back while the page reloads
+      this._replacingGarden=true;this.clearTransientWork();this.stopAllAudio();
+      try{localStorage.setItem(this.STORE,result.garden);}catch(_){this._replacingGarden=false;refuse('read');return;}
+      this.setState({gardenFileNote:this.i18nText('gardenFile.loading','Loading the garden…')});
+      setTimeout(()=>location.reload(),150);
+    };
+    reader.readAsText(chosen);
+  }
+  // Once a garden exists, ask the browser to keep it for good. Firefox would ask the
+  // player in a prompt, so it is asked only through the offline download there.
+  async askToKeepGarden(){
+    if(this._askedToKeep||this.WORKSHOP.enabled){return;}
+    this._askedToKeep=true;
+    try{
+      if(typeof navigator==='undefined'||!navigator.storage||!navigator.storage.persist){return;}
+      const api=await this.loadGardenFileApi();
+      if(!api||api.persistPrompts(navigator.userAgent)){return;}
+      const kept=navigator.storage.persisted?await navigator.storage.persisted():false;
+      if(!kept){await navigator.storage.persist();}
+    }catch(_){}
+  }
   async refreshOffline(){
     if(!this.offlineSupported()){this.setState({offlineState:'unsupported'});return;}
     let api=null;
@@ -4788,7 +4886,7 @@ class Component extends DCLogic {
   // A workshop link (?workshop=1) keeps its garden and its session log under their
   // own keys (lib/workshop.js): a workshop never touches anyone's own game here.
   WORKSHOP=this.readWorkshopLink();
-  state={...this.freshState(true),workshopOpen:false,workshopLog:null,workshopStart:this.WORKSHOP.start||'story',offlineOpen:false,offlineBusy:false,offlineState:'',offlineManifest:null,offlineStatus:null,offlineUpdate:false,offlineChoice:null,offlineProgress:null,offlineNote:''};
+  state={...this.freshState(true),workshopOpen:false,workshopLog:null,workshopStart:this.WORKSHOP.start||'story',offlineOpen:false,offlineBusy:false,offlineState:'',offlineManifest:null,offlineStatus:null,offlineUpdate:false,offlineChoice:null,offlineProgress:null,offlineNote:'',gardenFileOpen:false,gardenFileNote:''};
   dragData=null;
   _n=0;_g=0;
   STORE=this.WORKSHOP.enabled?'permagarden_workshop_v1':'permagarden_v2';
@@ -4988,6 +5086,7 @@ class Component extends DCLogic {
       if(this.state.story){return;}
       if(this.state.workshopOpen){this.closeWorkshop();return;}
       if(this.state.offlineOpen){this.closeOffline();return;}
+      if(this.state.gardenFileOpen){this.closeGardenFile();return;}
       if(this.state.gardenCinematic){this.dismissGardenCinematic();return;}
       if(this.state.gardenReflection){this.dismissGardenReflection();return;}
       if(this.state.residentStory){this.dismissResidentStory();return;}
@@ -5302,6 +5401,7 @@ class Component extends DCLogic {
     if(st.story){return 'story';}
     if(st.workshopOpen){return 'workshop';}
     if(st.offlineOpen){return 'offline';}
+    if(st.gardenFileOpen){return 'garden-file';}
     if(st.gardenCinematic){return 'garden-cinematic';}
     if(st.gardenReflection){return 'garden-reflection';}
     if(st.residentStory){return 'resident-story';}
@@ -5472,7 +5572,7 @@ class Component extends DCLogic {
   persist(){
     clearTimeout(this._reflectionPersistT);this._reflectionPersistT=null;
     // a workshop that is starting over must not write the old garden back
-    if(this._storageUnavailable||this._workshopLeaving){return false;}
+    if(this._storageUnavailable||this._workshopLeaving||this._replacingGarden){return false;}
     try{
       const s=this.state;
       const pendingGate=s.gate&&(s.gate.status==='won'||s.gate.status==='lost')?s.gate:null;
@@ -5487,6 +5587,7 @@ class Component extends DCLogic {
       const livingLessonHistory=lessonEngine?lessonEngine.sanitizeHistory(s.livingLessonHistory):[];
       localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',gardenSize:s.gardenSize||'balanced',gardenWidth:this.clampGardenAxis(s.gardenWidth),gardenHeight:this.clampGardenAxis(s.gardenHeight),insightsExpanded:!!s.insightsExpanded,journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,residentBeatsSeen:s.residentBeatsSeen||[],residentSeasons:s.residentSeasons||{},residentWinters:s.residentWinters||{},pestActive:s.pestActive||null,pestSeasons:s.pestSeasons||{},pestCleared:s.pestCleared||{},pestRelief:s.pestRelief||{},pestBeatsSeen:s.pestBeatsSeen||[],pestLastSettled:(typeof s.pestLastSettled==='number'?s.pestLastSettled:null),pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,livingLessonExperiment:livingLessonExperiment,livingLessonHistory:livingLessonHistory,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},seedStock:s.seedStock||{},unlocksSeen:s.unlocksSeen||[],grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,stallSales:s.stallSales||0,freshSales:s.freshSales||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g}));
       this._persistedState=this.PERSIST_KEYS.reduce((snapshot,key)=>{snapshot[key]=this.persistenceValue(s,key);return snapshot;},{});
+      if((s.placed||[]).length){this.askToKeepGarden();}
       return true;
     }catch(e){
       this._storageUnavailable=true;
@@ -7895,6 +7996,12 @@ class Component extends DCLogic {
       ...workshopView,
       ...offlineView,
       onOpenOffline:()=>this.openOffline(false),onMenuOffline:()=>this.openOffline(true),onCloseOffline:()=>this.closeOffline(),
+      gardenFileVisible:!!st.gardenFileOpen,gardenFileNote:st.gardenFileNote||'',
+      gardenFileIntro:this.WORKSHOP.enabled
+        ?localText('gardenFile.introWorkshop','This group\u2019s garden is kept only in this browser. Save it as a file to take it with you, and load it here or on another device to go on.')
+        :localText('gardenFile.intro','Your garden is kept only in this browser. Save it as a file to keep it safe or to play on another device, and load it there.'),
+      onOpenGardenFile:()=>this.openGardenFile(false),onMenuGardenFile:()=>this.openGardenFile(true),onCloseGardenFile:()=>this.closeGardenFile(),
+      onGardenFileSave:()=>this.saveGardenFile(),onGardenFileChoose:()=>this.chooseGardenFile(),onGardenFilePick:(e)=>this.pickGardenFile(e),
       onOfflineLocale:(e)=>this.setOfflineChoice({locale:e&&e.target?e.target.value:locale}),
       onOfflineVoice:(e)=>this.setOfflineChoice({voice:!!(e&&e.target&&e.target.checked)}),
       onOfflineMusic:(e)=>this.setOfflineChoice({music:!!(e&&e.target&&e.target.checked)}),
