@@ -1,5 +1,5 @@
 {
-  "version": "cf215dd01bdc72eb",
+  "version": "172762785d09b374",
   "files": {
     "index.html": [8365,"d70f5849529c5ad6"],
     "game.fragment.html": [738249,"b4770f85c6bd7694"],
@@ -9,7 +9,7 @@
     "lib/community-table.js": [6158,"e5fe11a809a3bf13"],
     "lib/economy.js": [11443,"bbf6d188bca3888c"],
     "lib/i18n.js": [30012,"c51a67c158ccb721"],
-    "lib/living-lesson.js": [21344,"eb239b7577e023a3"],
+    "lib/living-lesson.js": [21684,"7b1f8d0f46ee4819"],
     "lib/offline.js": [11857,"c1ec13d29b0a3cf5"],
     "lib/seasons.js": [10216,"b38e3e8a66f53f52"],
     "lib/wildlife.js": [13828,"6118976db3ae9852"],
