@@ -51,7 +51,7 @@ Players design a living garden rather than optimise isolated objects. They place
 
 ## Workshops
 
-For a group, open the game with `?workshop=1` (for example <https://permaculture-garden.vercel.app/?workshop=1&lang=cs>; add `&act=3` to preselect a start point):
+A teacher who finds the game alone sees *Playing with a group?* on the opening story's cover and in *How to play*: two sentences, a link to workshop mode and one to the facilitator guide in their language (English, Czech or French). For a group, open the game with `?workshop=1` (for example <https://permaculture-garden.vercel.app/?workshop=1&lang=cs>; add `&act=3` to preselect a start point):
 
 - the workshop garden is saved apart from anyone's own game on the device, which is never read, changed or cleared;
 - the opening card asks where the group begins: with the opening story or at any of the six acts, the earlier acts already done with plain elements placed far apart, so every design connection is still the group's to find;

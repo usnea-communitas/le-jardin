@@ -1706,6 +1706,10 @@
     "saveNotice.otherTab": "你的花园已在另一个标签页中更改。在你载入它之前，这里的任何操作都不会保存。",
     "saveNotice.otherTabAction": "载入最新的花园",
     "saveNotice.close": "关闭此消息",
+    "groupEntry.title": "以小组形式游玩？",
+    "groupEntry.text": "在工作坊模式下，小组可以从任意一个步骤开始，其花园与任何人自己的游戏分开保存。",
+    "groupEntry.workshop": "打开工作坊模式",
+    "groupEntry.guide": "引导者指南（PDF）",
     "intro.keepGarden": "你的花园保存在这个浏览器里。为了不丢失或在别的设备上玩，可以通过页眉或菜单里的“花园文件”把它存成文件。"
   },
   "templates": {

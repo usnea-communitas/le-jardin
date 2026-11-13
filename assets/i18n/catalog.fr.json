@@ -1713,6 +1713,10 @@
     "saveNotice.otherTab": "Ton jardin a changé dans un autre onglet. Rien de ce que tu fais ici n’est enregistré tant que tu ne l’as pas chargé.",
     "saveNotice.otherTabAction": "Charger le jardin le plus récent",
     "saveNotice.close": "Fermer le message",
+    "groupEntry.title": "Vous jouez en groupe ?",
+    "groupEntry.text": "En mode atelier, un groupe peut commencer à n’importe quel acte, et son jardin reste séparé de la partie personnelle de chacun.",
+    "groupEntry.workshop": "Ouvrir le mode atelier",
+    "groupEntry.guide": "Guide pour l’animation (PDF)",
     "intro.keepGarden": "Ton jardin est gardé dans ce navigateur. Pour le mettre en sécurité ou jouer sur un autre appareil, enregistre-le dans un fichier avec Fichier du jardin, dans l’en-tête ou le menu."
   },
   "templates": {

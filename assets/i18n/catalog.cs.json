@@ -1726,6 +1726,10 @@
     "saveNotice.otherTab": "Tvoje zahrada se změnila v jiné kartě. Nic z toho, co uděláš tady, se neuloží, dokud ji nenačteš.",
     "saveNotice.otherTabAction": "Načíst nejnovější zahradu",
     "saveNotice.close": "Zavřít zprávu",
+    "groupEntry.title": "Hrajete se skupinou?",
+    "groupEntry.text": "V režimu workshopu může skupina začít u kteréhokoli dějství a její zahrada zůstane oddělená od vlastní hry kohokoli.",
+    "groupEntry.workshop": "Otevřít režim workshopu",
+    "groupEntry.guide": "Průvodce pro facilitátory (PDF)",
     "intro.keepGarden": "Tvoje zahrada je uložená v tomto prohlížeči. Aby se neztratila nebo abys mohl hrát jinde, ulož si ji do souboru přes Zahradu v souboru v záhlaví nebo v nabídce."
   },
   "templates": {
