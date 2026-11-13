@@ -143,18 +143,24 @@ try {
   await page.getByTestId("workshop-start").waitFor({ state: "visible", timeout: 15000 });
   // the next group starts at the second act (a start with no story, in place or after a reload)
   await page.getByTestId("workshop-start").selectOption("2");
+  // On a slow connection the file helper, fetched when the dialog opens, can arrive after a
+  // file has been chosen: hold it back, so the file below is chosen first and has to wait for it.
+  const slowHelper = "**/lib/garden-file.js";
+  await page.route(slowHelper, async route => { await new Promise(resolve => setTimeout(resolve, 1500)); await route.continue(); });
   // beginning reloads the page: wait for the new one, not the one being left
   await Promise.all([page.waitForNavigation({ waitUntil: "domcontentloaded" }), page.getByTestId("workshop-begin").click()]);
   await waitForApp();
   await page.waitForFunction(() => window.__PERMAGARDEN_APP__?.state?.workshopLog && !window.__PERMAGARDEN_APP__.state.story, null, { timeout: 15000 });
 
   await openDialog();
+  check(await page.evaluate(() => !window.PermacultureGardenFile), "the file is chosen before the helper has arrived");
   let asked = "";
   page.once("dialog", d => { asked = d.message(); d.accept(); });
   // the page reloads with the loaded garden: wait for the new page, not the old one
   await page.evaluate(() => { window.__beforeLoading = true; });
   await choose(group.name, group.text);
   await page.waitForFunction(() => !window.__beforeLoading && window.__PERMAGARDEN_APP__ && window.__PERMAGARDEN_APP__.state && window.__PERMAGARDEN_APP__.state.placed.length > 0, null, { timeout: 20000 });
+  await page.unroute(slowHelper);
   const loaded = await stored(workshop.SAVE_KEY);
   check(/replaces the garden in progress/.test(asked), "loading over a garden in progress asks first", asked);
   check(JSON.stringify(placedOf(loaded)) === JSON.stringify(placedOf(gardenFile.unpack(group.text).garden)), "the earlier group's garden is back after loading the file", { loaded: placedOf(loaded), file: placedOf(gardenFile.unpack(group.text).garden) });

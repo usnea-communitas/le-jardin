@@ -4540,16 +4540,17 @@ class Component extends DCLogic {
     this.setState({gardenFileNote:this.i18nText('gardenFile.saved','Saved on this device as {file}.',{file:file})});
   }
   chooseGardenFile(){const input=document.getElementById('pg-garden-file-input');if(input){input.click();}}
-  pickGardenFile(e){
+  async pickGardenFile(e){
     const input=e&&e.target,chosen=input&&input.files&&input.files[0];
     if(input){input.value='';}
     if(!chosen){return;}
-    const api=this.gardenFileApi();
     const refuse=key=>this.setState({gardenFileNote:key==='newer'
       ?this.i18nText('gardenFile.error.newer','This garden was saved by a newer version of the game. Nothing has changed.')
       :key==='read'?this.i18nText('gardenFile.error.read','The file could not be read. Nothing has changed.')
       :this.i18nText('gardenFile.error.format','This file is not a saved Le Jardin garden. Nothing has changed.')});
-    if(!api){refuse('read');return;}
+    // the helper starts loading when the dialog opens: a file chosen before it has arrived waits for it
+    let api=null;try{api=await this.loadGardenFileApi();}catch(_){}
+    if(!api){this.setState({gardenFileNote:this.i18nText('gardenFile.error.helper','The game could not prepare the file. Check the connection and try again.')});return;}
     const reader=new FileReader();
     reader.onerror=()=>refuse('read');
     reader.onload=()=>{
