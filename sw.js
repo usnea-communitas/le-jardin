@@ -8,7 +8,7 @@
  * until then, and the garden itself stays in the browser's storage.
  * The version below is stamped by `npm run generate` (scripts/build.mjs).
  */
-const VERSION = "318fd59fb2bdb3ee";
+const VERSION = "68d8f358bc93ab85";
 importScripts("lib/offline.js?v=" + VERSION);
 
 const offline = self.PermacultureOffline;
@@ -58,6 +58,15 @@ self.addEventListener("fetch", event => {
       const answer = await offline.respond(caches, VERSION, request, BASE);
       if (answer) return answer;
     }
-    return fetch(request);
+    try {
+      return await fetch(request);
+    } catch (error) {
+      // Sound and moving pictures left out of the download simply stay silent
+      // without a connection; Safari would report the failed answer on the page.
+      if (request.destination === "audio" || request.destination === "video") {
+        return new Response(null, { status: 503, statusText: "Offline" });
+      }
+      throw error;
+    }
   })());
 });

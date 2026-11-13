@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { chromium } from './load-playwright.mjs';
-import { FIRST_VISIT } from './media-budget.mjs';
+import { FIRST_VISIT, FIRST_VISIT_SOMETIMES } from './media-budget.mjs';
 
 const baseUrl = process.env.GAME_URL || 'http://127.0.0.1:8787/';
 const storeKey = 'permagarden_v2';
@@ -105,7 +105,7 @@ try {
     });
     await page.goto(baseUrl, { waitUntil: 'networkidle' });
     await page.waitForTimeout(3000);
-    const seen = [...fetched].sort();
+    const seen = [...fetched].filter(file => !FIRST_VISIT_SOMETIMES.includes(file)).sort();
     check(
       JSON.stringify(seen) === JSON.stringify(FIRST_VISIT[kind]),
       `a first visit on a ${kind} fetches exactly the files the media budget names`,

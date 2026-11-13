@@ -5226,6 +5226,8 @@ class Component extends DCLogic {
       this.setState({saveNotice:'tab'});
     };
     window.addEventListener('storage',this._otherTabSave);
+    // a returning player's garden is kept too: ask once the game has settled, not only after a change
+    this._keepTimer=setTimeout(()=>{if(!this._unmounted&&(this.state.placed||[]).length){this.askToKeepGarden();}},1500);
     try{
       const raw=localStorage.getItem(this.STORE);
       if(raw){
@@ -5380,6 +5382,7 @@ class Component extends DCLogic {
     document.removeEventListener('drop',this._dragClear,true);
     window.removeEventListener('pagehide',this._pageHide);
     window.removeEventListener('storage',this._otherTabSave);
+    clearTimeout(this._keepTimer);
     this.clearTransientWork();
     this.stopAllAudio();
     if(this._certificateUrl){URL.revokeObjectURL(this._certificateUrl);this._certificateUrl=null;}

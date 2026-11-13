@@ -66,8 +66,10 @@ const page = await context.newPage();
 const errors = [];
 const failed = [];
 page.on('pageerror', error => errors.push('pageerror: ' + error.message));
+// A load that fails is reported here in each browser's words (Firefox: "A ServiceWorker
+// intercepted the request…"); which loads may fail is checked on its own below.
 page.on('console', message => {
-  if (message.type() === 'error' && !/Failed to load resource|net::ERR_/.test(message.text())) errors.push('console: ' + message.text());
+  if (message.type() === 'error' && !/Failed to load resource|net::ERR_|A ServiceWorker intercepted the request and encountered an unexpected error/.test(message.text())) errors.push('console: ' + message.text());
 });
 page.on('requestfailed', request => failed.push(request.url()));
 page.on('dialog', dialog => dialog.accept());
@@ -159,7 +161,8 @@ check(Array.isArray(saved.placed) && saved.placed.some(item => item.type === 'co
 const inPackage = url => { const p = new URL(url).pathname.replace(/^\//, ''); return listed.has(p === '' ? 'index.html' : p); };
 const unexpected = failed.filter(inPackage);
 check(unexpected.length === 0, 'offline, everything the download holds was answered from it', unexpected);
-check(failed.every(url => /\.(webm|mp4|mp3)(\?|$)/.test(url)), 'offline, only sound and moving pictures left out of the download are missing', failed);
+// (WebKit also asks for sw.js, its own check for a newer worker)
+check(failed.every(url => /\.(webm|mp4|mp3)(\?|$)|\/sw\.js(\?|$)/.test(url)), 'offline, only sound and moving pictures left out of the download are missing', failed);
 
 // ── 3. a newer build is published while the game is open ──
 const fragment = await readFile(path.join(root, 'game.fragment.html'), 'utf8');
