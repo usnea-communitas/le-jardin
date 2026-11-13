@@ -40,15 +40,6 @@ The local Design Component runtime in `vendor/dc-runtime.js` is part of the appl
 - They are referenced only to describe tools or the real historical context. No endorsement is claimed.
 - The demo video shows no third-party logos except where unavoidable for a factual explanation, and contains only project-owned or properly licensed music, imagery and voice work.
 
-## Rights check (Build Week submission, July 2026)
+## Rights check of the Build Week submission
 
-Confirmed by the author before the submission; kept as a record:
-
-- [ ] I am authorised to submit the game's code, writing, designs and generated media.
-- [x] Public ElevenLabs guidance confirms a commercial licence for paid plans; I will retain proof that the submitted outputs were generated under Starter and were not Beta Services.
-- [x] Current Kling terms and the required text attribution are documented; I will retain the original generation/export record.
-- [x] Current Picsart and Lovable ownership/commercial-use guidance is documented; I will retain the original project/export records.
-- [ ] I have retained private evidence for those generation accounts and exports.
-- [ ] The demo video uses no unlicensed music, stock media, logos or third-party gameplay footage.
-- [ ] No collaborator's personal information, image or voice appears without permission.
-- [ ] All open-source dependencies retain their applicable licences and notices.
+The checklist confirmed for the OpenAI Build Week submission (July 2026), partly ticked, is kept as a historical record in [`docs/build-week/RIGHTS_CHECK.md`](docs/build-week/RIGHTS_CHECK.md). It describes that submission, not the game as it is now.
