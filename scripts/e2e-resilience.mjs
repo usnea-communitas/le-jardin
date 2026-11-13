@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { chromium } from './load-playwright.mjs';
+import { FIRST_VISIT } from './media-budget.mjs';
 
 const baseUrl = process.env.GAME_URL || 'http://127.0.0.1:8787/';
 const storeKey = 'permagarden_v2';
@@ -85,6 +86,31 @@ try {
     check(media.audio.length === 0, 'the unopened story makes no eager audio request', media);
     check(media.video.length === 0, 'ambient video stays unloaded behind the story cover', media);
     check(media.storyFrames.length > 0 && media.storyFrames.length <= 2, 'only the current and adjacent story frames load initially', media);
+    await context.close();
+  }
+
+  // A first visit fetches exactly the files the media budget names
+  // (scripts/media-budget.mjs, docs/MEDIA-BUDGET.md), so the budget's sum is true.
+  for (const [kind, options] of [
+    ['desktop', { viewport: { width: 1350, height: 940 } }],
+    ['phone', { viewport: { width: 412, height: 823 }, deviceScaleFactor: 1.75, isMobile: true, hasTouch: true }]
+  ]) {
+    const context = await browser.newContext(options);
+    const page = await context.newPage();
+    const fetched = new Set();
+    const origin = new URL(baseUrl).origin;
+    page.on('request', request => {
+      const url = new URL(request.url());
+      if (url.origin === origin) fetched.add(decodeURIComponent(url.pathname.slice(1)) || 'index.html');
+    });
+    await page.goto(baseUrl, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(3000);
+    const seen = [...fetched].sort();
+    check(
+      JSON.stringify(seen) === JSON.stringify(FIRST_VISIT[kind]),
+      `a first visit on a ${kind} fetches exactly the files the media budget names`,
+      { extra: seen.filter(file => !FIRST_VISIT[kind].includes(file)), missing: FIRST_VISIT[kind].filter(file => !seen.includes(file)) }
+    );
     await context.close();
   }
 

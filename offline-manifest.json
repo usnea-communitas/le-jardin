@@ -1,5 +1,5 @@
 {
-  "version": "bf1dcab61708c16c",
+  "version": "318fd59fb2bdb3ee",
   "files": {
     "index.html": [8365,"d70f5849529c5ad6"],
     "game.fragment.html": [754669,"5ae6d00a8568b520"],
@@ -105,10 +105,10 @@
     "assets/fonts/b55210b1-8cf9-41e5-9983-ed758dbf9ceb.woff2": [19588,"768af2923e0ab154"],
     "assets/fonts/e02e5547-5706-4b80-ad16-90743fc8c4d8.woff2": [12984,"b50a9d90a5264f20"],
     "assets/gate2-winter.webp": [103254,"145ab31c65259850"],
-    "assets/gates/gate-autumn-transparent.webp": [133336,"2c71f177c0347ac7"],
-    "assets/gates/gate-spring-transparent.webp": [129454,"056dd3a1fc1235f0"],
-    "assets/gates/gate-summer-transparent.webp": [123478,"a1fe1302afb0088b"],
-    "assets/gates/gate-winter-transparent.webp": [93020,"7c5757cf616fb091"],
+    "assets/gates/gate-autumn-transparent.webp": [33944,"05c2e8e8ed6c2540"],
+    "assets/gates/gate-spring-transparent.webp": [32208,"774dfa300f5a0482"],
+    "assets/gates/gate-summer-transparent.webp": [31040,"d2f6164048de28fd"],
+    "assets/gates/gate-winter-transparent.webp": [20674,"d9a56813848ac001"],
     "assets/guild-classroom.webp": [13846,"4ca57dcc83b75dc3"],
     "assets/guild-dripcorner.webp": [12512,"83f40e3d9db2a2fc"],
     "assets/guild-foodforest.webp": [16552,"cc9d81cdf00adf39"],

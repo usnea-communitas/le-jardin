@@ -20,6 +20,16 @@ border-connected paper, preserves the principal painted motif, trims it, centres
 and writes optimized WebP output at the dimensions expected by the game.
 
 
+## Season gates
+
+`assets/gates/gate-{spring,summer,autumn,winter}-transparent.webp` were scaled on
+13 November 2026 from 564 × 528 to 352 × 330 and re-encoded as WebP (quality 70,
+alpha quality 70): the game draws a gate at most 175 px wide (on a phone 120 px),
+so 352 px still covers a display of double or triple density. They weigh 20–34 kB
+instead of 93–133 kB, and screenshots before and after at 1440 px (density 2) and
+390 px (density 3) look the same. Remake them from the earlier versions in git if
+the gate is ever drawn larger.
+
 ## Story paintings for phones
 
 `assets/story/phone/story-01-menet.webp` … `story-07-invitation.webp` are 600 × 900

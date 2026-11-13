@@ -140,7 +140,7 @@ Requirements: Node.js 22+ and npm (the API tests use `module.registerHooks`, ava
 ```sh
 npm ci
 npm run generate   # rebuild index.html and game.fragment.html from the canonical source
-npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, the rules of the game, workshop mode and guide, offline package, the recorded voice, the garden file
+npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, the rules of the game, workshop mode and guide, offline package, the recorded voice, the garden file, the media budget
 ```
 
 Serve the static build locally:
