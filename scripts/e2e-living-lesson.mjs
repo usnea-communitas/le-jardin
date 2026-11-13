@@ -96,6 +96,23 @@ const dismissGardenMessages = async () => {
     await page.waitForTimeout(120);
   }
 };
+// A garden dialog can still open between closing the messages and the click, more
+// often in a slower engine (WebKit in CI): close it as a player would and click again.
+const clickPast = async locator => {
+  for (let attempt = 0; ; attempt += 1) {
+    try { await locator.click({ timeout: 5000 }); return; }
+    catch (error) {
+      if (attempt >= 3) throw error;
+      await dismissGardenMessages();
+      for (let index = 0; index < 6 && (await page.locator(".pg-garden-dialog-backdrop").count()); index += 1) {
+        const later = page.locator(".pg-unlock-later");
+        if (await later.count()) await later.first().click({ force: true });
+        else await page.keyboard.press("Escape");
+        await page.waitForTimeout(400);
+      }
+    }
+  }
+};
 
 try {
   await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
@@ -158,7 +175,7 @@ try {
     const response = await fetch("/api/garden-reflection", { headers: { Accept: "application/json" } });
     return response.json();
   }) : null;
-  await button.click();
+  await clickPast(button);
   const dialog = page.locator('[data-pg-dialog="living-lesson"]');
   await dialog.waitFor({ state: "visible" });
   await dialog.locator(".pg-living-lesson-experiment").waitFor({ state: "visible", timeout: 30000 });
@@ -208,7 +225,7 @@ try {
   // the same control a player would use before reopening the lesson.
   if (!localHarness) await page.waitForTimeout(700);
   await dismissGardenMessages();
-  await button.click();
+  await clickPast(button);
   await dialog.waitFor({ state: "visible" });
   check(apiCalls === 1, "identical garden state reuses the local reflection cache", { apiCalls });
   await page.getByTestId("living-lesson-accept").click();
@@ -234,7 +251,7 @@ try {
       // milestone. Close that player-facing message before requesting the next
       // lesson so this assertion tests the fallback path, not dialog stacking.
       await dismissGardenMessages();
-      await button.click();
+      await clickPast(button);
       await dialog.waitFor({ state: "visible" });
       await dialog.getByText("The garden answers from memory", { exact: true }).waitFor();
       const fallbackExperiment = await dialog.locator(".pg-living-lesson-experiment").innerText();
