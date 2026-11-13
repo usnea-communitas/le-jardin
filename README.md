@@ -168,6 +168,7 @@ npm run test:e2e:voice          # the Garden speaks French and Czech from story 
 npm run test:e2e:garden-file    # the garden in a file: save and load, refusals, workshop, the phone menu
 npm run test:e2e:resilience     # damaged saves, a full browser, two tabs of one garden, reset
 npm run test:e2e:core           # what CI runs: playthrough, touch, responsive, Living Lesson, release audit, workshop, offline, voice, garden file, resilience
+node scripts/run-local-e2e.mjs scripts/measure-start.mjs   # where the start spends its time on a phone (docs/START-PERFORMANCE.md)
 ```
 
 Audits without an npm alias, such as `node scripts/e2e-accessibility.mjs`, `e2e-journey.mjs` or `e2e-layout-audit.mjs`, test the instance in `GAME_URL` (by default <http://127.0.0.1:8787/>), so start `node scripts/static-server.mjs 8787` first. `npm run test:production` plays the live site from the story cover to the first seasonal challenge without calling the Living Lesson API. To use a Playwright installed elsewhere, point `CODEX_NODE_MODULES` at that `node_modules` folder (plain npm or pnpm layout).
