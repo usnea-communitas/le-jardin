@@ -160,7 +160,7 @@ npx playwright install chromium # once; add --with-deps on a fresh Linux machine
 npm run test:e2e:responsive     # 13 viewports from 320×568 to 1920×1080
 npm run test:e2e:touch          # tap-to-place and tap-to-move
 npm run test:e2e:playthrough    # a full guided playthrough
-npm run test:e2e:i18n-layout    # 9 languages × viewports × main surfaces
+npm run test:e2e:i18n-layout    # 9 languages × desktop, tablet, phone × 15 surfaces (also in CI)
 npm run test:e2e:living-lesson  # reflection flow, caching, offline fallback
 npm run test:e2e:workshop       # workshop mode: start at an act, offline lesson, log, next group
 npm run test:e2e:offline        # download, the first act with the server switched off, an update, removal

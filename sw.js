@@ -8,7 +8,7 @@
  * until then, and the garden itself stays in the browser's storage.
  * The version below is stamped by `npm run generate` (scripts/build.mjs).
  */
-const VERSION = "68d8f358bc93ab85";
+const VERSION = "60e3bcc4e4d39e7e";
 importScripts("lib/offline.js?v=" + VERSION);
 
 const offline = self.PermacultureOffline;
