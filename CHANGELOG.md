@@ -4,6 +4,8 @@ Notable changes to Le Jardin. Version numbers follow the game's internal release
 
 ## Unreleased
 
+- **A garden file chosen too early now waits.** The helper that reads a garden file loads when the dialog opens; a file chosen before it had arrived, which a slow connection makes possible, was refused as unreadable. Loading now waits for the helper, and if it cannot load, the dialog says to check the connection. The garden-file journey holds the helper back to test it, and the Living Lesson journey closes a garden message that opens just before its click (both had failed now and then in CI).
+
 ## v0.86.0 — 2026-11-13 — playing without a connection, the French voice and a garden that stays
 
 Live since 12–13 November 2026: the game can be downloaded and played without a connection, the Garden speaks French, a garden can be saved to a file and no longer disappears unnoticed, groups find their way in from the cover, and the translations, layouts and browsers are checked more closely.
