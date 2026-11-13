@@ -50,6 +50,9 @@ const FIRST_VISIT_SHARED = [
   "assets/ui/icons/garden-voice.svg",
   "assets/ui/icons/season.svg"
 ];
+// Fetched by some browsers only (Safari reads the web app manifest at once,
+// Chromium when it needs it): counted in the sum, allowed to be absent.
+export const FIRST_VISIT_SOMETIMES = ["manifest.webmanifest"];
 export const FIRST_VISIT = {
   phone: [...FIRST_VISIT_SHARED, "assets/story/phone/story-01-menet.webp"].sort(),
   desktop: [...FIRST_VISIT_SHARED, "assets/story/story-01-menet.webp"].sort()
@@ -70,8 +73,8 @@ export function measure(root) {
   const core = manifest.groups.core;
   const sum = files => files.reduce((total, file) => total + transferSize(root, file), 0) / KIB;
   return {
-    firstVisitPhone: sum(FIRST_VISIT.phone),
-    firstVisitDesktop: sum(FIRST_VISIT.desktop),
+    firstVisitPhone: sum([...FIRST_VISIT.phone, ...FIRST_VISIT_SOMETIMES]),
+    firstVisitDesktop: sum([...FIRST_VISIT.desktop, ...FIRST_VISIT_SOMETIMES]),
     gates: Object.fromEntries(core.filter(file => file.startsWith("assets/gates/")).map(file => [file, manifest.files[file][0] / KIB])),
     story: size(Object.keys(manifest.files).filter(file => file.startsWith("assets/story/"))),
     voice: Object.fromEntries(Object.entries(manifest.groups.voice).map(([lang, files]) => [lang, size(files)])),

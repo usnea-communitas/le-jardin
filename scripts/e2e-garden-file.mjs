@@ -33,15 +33,23 @@ const context = await browser.newContext({ viewport: { width: 1440, height: 900 
 // count the requests to keep the garden for good
 await context.addInitScript(() => {
   window.__persistCalls = 0;
-  if (navigator.storage && navigator.storage.persist) {
-    const persist = navigator.storage.persist.bind(navigator.storage);
-    navigator.storage.persist = () => { window.__persistCalls += 1; return persist(); };
+  // on the prototype: WebKit ignores methods set on navigator.storage itself
+  const manager = window.StorageManager && window.StorageManager.prototype;
+  if (manager && manager.persist) {
+    const persist = manager.persist;
+    manager.persist = function () { window.__persistCalls += 1; return persist.call(this); };
+  }
+  // what the browser said when the game asked whether the garden is kept already
+  if (manager && manager.persisted) {
+    const persisted = manager.persisted;
+    manager.persisted = async function () { const kept = await persisted.call(this); window.__keptAlready = kept; return kept; };
   }
 });
 const page = await context.newPage();
 const errors = [];
 page.on("pageerror", error => errors.push("pageerror: " + error.message));
-page.on("console", message => { if (message.type() === "error") errors.push("console: " + message.text()); });
+// (Firefox reports the fonts a reload interrupts as errors: status 2152398850, NS_BINDING_ABORTED)
+page.on("console", message => { if (message.type() === "error" && !/status=2152398850/.test(message.text())) errors.push("console: " + message.text()); });
 let apiCalls = 0;
 await page.route("**/api/garden-reflection", route => { apiCalls += 1; return route.fulfill({ status: 503, contentType: "application/json", body: "{}" }); });
 
@@ -90,8 +98,17 @@ try {
   await page.keyboard.press("Escape");
   await dialog.waitFor({ state: "detached", timeout: 3000 });
   check(await page.evaluate(() => document.activeElement && document.activeElement.dataset.testid) === "garden-file-open", "Escape closes the dialog and the focus goes back to its button");
-  const persistOwn = await app(() => window.__persistCalls);
-  check(persistOwn >= 1, "with a garden on the device, the game asks the browser to keep it", persistOwn);
+  // Firefox would show a prompt, an engine without the request has nothing to ask,
+  // and a browser that keeps the garden already needs no asking
+  const canAsk = await page.evaluate(() => !!(navigator.storage && navigator.storage.persist) && !/\bFirefox\//.test(navigator.userAgent));
+  if (canAsk) await page.waitForFunction(() => window.__persistCalls > 0 || window.__keptAlready === true, null, { timeout: 8000 }).catch(() => {});
+  const asking = await page.evaluate(() => ({ calls: window.__persistCalls, keptAlready: window.__keptAlready === true }));
+  const shouldAsk = canAsk && !asking.keptAlready;
+  check(
+    shouldAsk ? asking.calls >= 1 : asking.calls === 0,
+    shouldAsk ? "with a garden on the device, the game asks the browser to keep it" : "where the garden is kept already, or asking would show a prompt, the game does not ask",
+    { ...asking, canAsk }
+  );
 
   // 2. The help says where the garden lives.
   await clearPopups();

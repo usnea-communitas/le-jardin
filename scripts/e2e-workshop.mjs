@@ -113,7 +113,11 @@ try {
   await page.getByTestId("workshop-open").click();
   const dialog = page.locator('[data-pg-dialog="workshop"]');
   await dialog.waitFor({ state: "visible", timeout: 5000 });
-  await page.waitForTimeout(120);
+  // focus moves in a moment after the panel appears (later in Firefox and WebKit)
+  await page.waitForFunction(() => {
+    const d = document.querySelector('[data-pg-dialog="workshop"]');
+    return !!d && d.contains(document.activeElement);
+  }, null, { timeout: 3000 }).catch(() => {});
   const panel = await page.evaluate(() => {
     const d = document.querySelector('[data-pg-dialog="workshop"]');
     return {

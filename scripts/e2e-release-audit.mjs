@@ -121,7 +121,11 @@ try {
     check(briefing.title.length > 0, `${key}: challenge title is present`);
 
     await page.getByRole('button', { name: /Start challenge/i }).click();
-    await page.waitForTimeout(80);
+    // wait for the board itself, not a fixed time (WebKit draws it a little later)
+    await page.waitForFunction(() => {
+      const board = document.querySelector('.pg-gate-dialog [data-testid="gate-board"]');
+      return !!board && board.getBoundingClientRect().width > 0;
+    }, null, { timeout: 5000 }).catch(() => {});
     const play = await page.evaluate(() => {
       const dialog = document.querySelector('.pg-gate-dialog');
       const rect = dialog?.getBoundingClientRect();
@@ -142,7 +146,8 @@ try {
       const app = window.__PERMAGARDEN_APP__;
       app.gateResolve({ ...app.state.gate.d }, 'won');
     });
-    await page.waitForTimeout(80);
+    await page.waitForFunction(() => Array.from(document.querySelectorAll('.pg-gate-dialog button'))
+      .some(button => /Continue to/i.test(button.textContent || '')), null, { timeout: 5000 }).catch(() => {});
     const result = await page.evaluate(() => {
       const app = window.__PERMAGARDEN_APP__;
       const dialog = document.querySelector('.pg-gate-dialog');
