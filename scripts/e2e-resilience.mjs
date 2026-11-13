@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises';
 import { chromium } from './load-playwright.mjs';
 
 const baseUrl = process.env.GAME_URL || 'http://127.0.0.1:8787/';
@@ -320,12 +321,12 @@ try {
         const firstAttempts = attempts;
         await new Promise(resolve => app.setState(state => ({ budget: state.budget + 1 }), resolve));
         await new Promise(resolve => setTimeout(resolve, 80));
-        return { firstAttempts, attempts, unavailable: app._storageUnavailable, toast: app.state.toast };
+        return { firstAttempts, attempts, unavailable: app._storageUnavailable, notice: app.state.saveNotice };
       } finally {
         Storage.prototype.setItem = original;
       }
     }, storeKey);
-    check(failure.firstAttempts === 1 && failure.attempts === 1 && failure.unavailable === true && /could not save/i.test(failure.toast || ''), 'storage failure is announced once without a render-by-render retry loop', failure);
+    check(failure.firstAttempts === 1 && failure.attempts === 1 && failure.unavailable === true && failure.notice === 'full', 'storage failure is announced once without a render-by-render retry loop', failure);
     await context.close();
   }
 
@@ -427,6 +428,98 @@ try {
       'reset cancels stale work and returns every transient system to a clean Summer garden',
       reset
     );
+    await context.close();
+  }
+
+  // A browser that refuses to keep the garden (its storage is full): the game says so,
+  // keeps playing, leaves the stored garden as it was, and the garden file still
+  // carries the garden on screen.
+  const listen = page => {
+    page.on('pageerror', error => runtimeErrors.push('pageerror: ' + error.message));
+    page.on('console', message => { if (message.type() === 'error') runtimeErrors.push('console: ' + message.text()); });
+  };
+  const clearPopups = page => page.evaluate(() => window.__PERMAGARDEN_APP__.setState({ guildCard: null, guildCardQueue: [], gardenWhisper: null, gardenWhisperQueue: [], unlockCard: null, unlocksSeen: ['sharing', 'seedbank', 'kitchen', 'askgarden', 'seedsaved'], gardenReflection: null, gardenReflectionQueue: [], arrivalQueue: [], intro: false }));
+  // the features a garden opens on the way are already known, so no card opens over the message
+  const twoElements = savedState({ placed: [{ id: 'p7', type: 'bench', x: 50, y: 50 }], _n: 7, unlocksSeen: ['sharing', 'seedbank', 'kitchen', 'askgarden', 'seedsaved'] });
+  const loadGarden = async (page, state) => {
+    await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+    await page.waitForFunction(() => window.__PERMAGARDEN_APP__, null, { timeout: 15000 });
+    if (state) {
+      await page.evaluate(({ key, value }) => { localStorage.setItem(key, JSON.stringify(value)); sessionStorage.clear(); }, { key: storeKey, value: state });
+      await page.reload({ waitUntil: 'domcontentloaded' });
+    }
+    await page.waitForFunction(() => window.__PERMAGARDEN_APP__ && window.__PERMAGARDEN_APP__.state.placed.length === 1, null, { timeout: 15000 });
+  };
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, acceptDownloads: true });
+    await context.addInitScript(key => {
+      const set = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (k, v) {
+        if (window.__refuse && k === key) { const error = new Error('The quota has been exceeded.'); error.name = 'QuotaExceededError'; throw error; }
+        return set.call(this, k, v);
+      };
+    }, storeKey);
+    const page = await context.newPage();
+    listen(page);
+    await loadGarden(page, twoElements);
+    const before = await page.evaluate(key => localStorage.getItem(key), storeKey);
+    await page.evaluate(() => { window.__refuse = true; window.__PERMAGARDEN_APP__.placeType('sign', 52, 50, 'gift'); });
+    const notice = page.getByTestId('save-notice');
+    await notice.waitFor({ state: 'visible', timeout: 5000 });
+    const full = {
+      text: await notice.innerText(),
+      role: await notice.getAttribute('role'),
+      placed: await page.evaluate(() => window.__PERMAGARDEN_APP__.state.placed.map(item => item.id)),
+      unchanged: await page.evaluate(key => localStorage.getItem(key), storeKey) === before
+    };
+    check(full.role === 'alert' && /could not save your garden/.test(full.text), 'a browser that refuses the save says so out loud, with the way out', full);
+    check(full.placed.join() === 'p7,p8' && full.unchanged, 'the game keeps playing and the stored garden stays byte for byte as it was', full);
+    await clearPopups(page);
+    await page.getByTestId('save-notice-action').click();
+    await page.locator('[data-pg-dialog="garden-file"]').waitFor({ state: 'visible', timeout: 5000 });
+    const [download] = await Promise.all([page.waitForEvent('download'), page.getByTestId('garden-file-save').click()]);
+    const carried = JSON.parse(await readFile(await download.path(), 'utf8')).garden.placed.map(item => item.id);
+    check(carried.join() === 'p7,p8', 'the garden file carries the garden on screen, not the stale stored one', carried);
+    await page.keyboard.press('Escape');
+    await page.locator('[data-pg-dialog="garden-file"]').waitFor({ state: 'detached', timeout: 3000 });
+    await clearPopups(page);
+    await page.waitForTimeout(150);
+    const blocking = await page.evaluate(() => [...document.querySelectorAll('.pg-garden-dialog-backdrop [data-pg-dialog]')].map(d => d.dataset.pgDialog));
+    check(blocking.length === 0, 'no dialog is left over the message', blocking);
+    await page.getByTestId('save-notice-close').click();
+    await notice.waitFor({ state: 'detached', timeout: 3000 });
+    await context.close();
+  }
+
+  // Two tabs of one garden: a tab that the other tab has saved over stops writing,
+  // says so until it loads the newer garden, and loading shows that garden.
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const tabA = await context.newPage();
+    listen(tabA);
+    await loadGarden(tabA, twoElements);
+    const tabB = await context.newPage();
+    listen(tabB);
+    await loadGarden(tabB, null);
+    await tabA.evaluate(() => window.__PERMAGARDEN_APP__.placeType('sign', 52, 50, 'gift'));
+    await tabA.waitForFunction(key => JSON.parse(localStorage.getItem(key)).placed.length === 2, storeKey, { timeout: 5000 });
+    const savedByA = await tabA.evaluate(key => localStorage.getItem(key), storeKey);
+    const notice = tabB.getByTestId('save-notice');
+    await notice.waitFor({ state: 'visible', timeout: 5000 });
+    const told = { text: await notice.innerText(), closable: await tabB.getByTestId('save-notice-close').count() };
+    check(/changed in another tab/.test(told.text) && told.closable === 0, 'the other tab says the garden changed elsewhere and keeps saying it until the garden is loaded', told);
+    await tabB.evaluate(() => window.__PERMAGARDEN_APP__.placeType('sign', 30, 66, 'gift'));
+    await tabB.waitForTimeout(400);
+    check(await tabB.evaluate(key => localStorage.getItem(key), storeKey) === savedByA, 'a tab that was saved over never writes over the newer garden');
+    await clearPopups(tabB);
+    await tabB.waitForTimeout(150);
+    await tabB.evaluate(() => { window.__beforeLoading = true; });
+    await tabB.getByTestId('save-notice-action').click();
+    await tabB.waitForFunction(() => !window.__beforeLoading && window.__PERMAGARDEN_APP__ && window.__PERMAGARDEN_APP__.state && window.__PERMAGARDEN_APP__.state.placed.length === 2, null, { timeout: 15000 });
+    const shown = await tabB.evaluate(() => window.__PERMAGARDEN_APP__.state.placed.map(item => [item.id, item.type, item.x, item.y]));
+    const expected = JSON.parse(savedByA).placed.map(item => [item.id, item.type, item.x, item.y]);
+    check(JSON.stringify(shown) === JSON.stringify(expected), 'loading shows the garden saved in the other tab', { shown, expected });
+    check(await tabB.getByTestId('save-notice').count() === 0, 'after loading, the message is gone');
     await context.close();
   }
 

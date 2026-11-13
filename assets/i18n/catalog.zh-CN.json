@@ -1241,7 +1241,7 @@
     "garden.give": "赠予对象",
     "error.dropOutside": "把它放到绿色地块上，才能种植。",
     "error.seedBankRequired": "🌰 先放置种子库——这里的每种作物都从保存下来的社区种子开始。",
-    "error.saveUnavailable": "⚠ 此浏览器无法保存你的进度。游玩期间请保持此标签页打开。",
+    "error.saveUnavailable": "此浏览器无法保存你的花园。请保持此标签页打开，或把花园保存成文件。",
     "error.seedPacketUsed": "每季可获得一包这种作物的种子——也可以播种你自己保存的种子。播种前先进行季节回合。",
     "error.resources": "参与点数或预算不足——分享真正的盈余、通过挑战学习，或等待社区赠予。",
     "error.kitchenRequired": "🏵 先建造花园厨房——保存收成需要炉灶和架子。",
@@ -1702,6 +1702,10 @@
     "gardenFile.error.newer": "这座花园是由更新版本的游戏保存的。什么都没有改变。",
     "gardenFile.error.read": "无法读取这个文件。什么都没有改变。",
     "gardenFile.error.helper": "游戏无法准备这个文件。请检查网络连接后再试。",
+    "saveNotice.fileAction": "保存成文件",
+    "saveNotice.otherTab": "你的花园已在另一个标签页中更改。在你载入它之前，这里的任何操作都不会保存。",
+    "saveNotice.otherTabAction": "载入最新的花园",
+    "saveNotice.close": "关闭此消息",
     "intro.keepGarden": "你的花园保存在这个浏览器里。为了不丢失或在别的设备上玩，可以通过页眉或菜单里的“花园文件”把它存成文件。"
   },
   "templates": {

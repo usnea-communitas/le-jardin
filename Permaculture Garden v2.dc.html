@@ -904,6 +904,20 @@ html[data-pg-header="tighter"] .pg-header-progress,html[data-pg-header="tighter"
 .pg-ws-langs a{color:#3f5c33;font-weight:800;text-decoration:underline;text-decoration-color:rgba(63,92,51,.4);text-underline-offset:3px}
 .pg-ws-status{min-height:0;margin:0!important;font-size:12px!important;font-weight:700;color:#3f5c33!important}
 .pg-ws-status:empty{display:none}
+/* A save that did not happen is said out loud, with the way out next to it */
+.pg-save-notice{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:65;width:min(560px,calc(100% - 24px));box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:10px 10px 10px 16px;border-radius:14px;background:#2C3A24;color:#F2E9D2;box-shadow:0 14px 32px -12px rgba(0,0,0,.6);animation:riseIn .35s ease}
+.pg-save-notice-text{margin:0;flex:1 1 auto;font-size:13px;font-weight:600;line-height:1.4}
+.pg-save-notice-actions{display:flex;align-items:center;gap:4px;flex:0 0 auto}
+.pg-save-notice-act{min-height:44px;padding:0 14px;border:none;border-radius:10px;background:#F2E9D2;color:#2C3A24;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.pg-save-notice-act:hover{background:#FFFDF6}
+.pg-save-notice-close{width:44px;height:44px;border:none;border-radius:10px;background:transparent;color:#F2E9D2;font:inherit;font-size:22px;line-height:1;cursor:pointer}
+.pg-save-notice-close:hover{background:rgba(242,233,210,.12)}
+.pg-save-notice button:focus-visible{outline:3px solid #E8C477;outline-offset:2px}
+@media (max-width:520px){.pg-save-notice{flex-direction:column;align-items:stretch;padding:12px}.pg-save-notice-actions{justify-content:space-between}.pg-save-notice-act{flex:1 1 auto}}
+/* on a phone the notice sits above the bottom navigation, or beside it when the navigation runs down the side */
+@media (max-width:767px), (max-height:599px) and (max-width:999px){.pg-save-notice{bottom:calc(max(7px,env(safe-area-inset-bottom)) + 72px)}}
+@media (min-width:600px) and (max-height:599px) and (max-width:999px){.pg-save-notice{bottom:max(10px,env(safe-area-inset-bottom));left:calc(50% - 40px);width:min(560px,calc(100% - 104px))}}
+@media (prefers-reduced-motion:reduce){.pg-save-notice{animation:none}}
 .pg-ws-fine{margin:4px 0 0!important;font-size:11.5px!important;color:#655d4b!important}
 .pg-ws-danger{border:1px solid rgba(163,79,50,.42);background:#fff7ef;color:#8c3d21}
 .pg-ws-danger:hover{background:#fbe8da;border-color:#a34f32}
@@ -2800,6 +2814,19 @@ html:lang(zh-CN) .pg-game-shell [style*="text-transform:uppercase"]{letter-spaci
     </div>
   </sc-if>
 
+  <!-- A save that did not happen: the browser refused it, or another tab saved this garden since -->
+  <sc-if value="{{ saveNoticeVisible }}" hint-placeholder-val="{{ false }}">
+    <div class="pg-save-notice" role="alert" data-testid="save-notice">
+      <p class="pg-save-notice-text">{{ saveNoticeText }}</p>
+      <div class="pg-save-notice-actions">
+        <button type="button" class="pg-save-notice-act" data-testid="save-notice-action" sc-camel-on-click="{{ onSaveNoticeAction }}">{{ saveNoticeAction }}</button>
+        <sc-if value="{{ saveNoticeClosable }}" hint-placeholder-val="{{ false }}">
+          <button type="button" class="pg-save-notice-close" data-testid="save-notice-close" aria-label="{{ saveNoticeCloseLabel }}" sc-camel-on-click="{{ onSaveNoticeClose }}">×</button>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
   <!-- The garden in a file: save it, load it on another device (lib/garden-file.js) -->
   <sc-if value="{{ gardenFileVisible }}" hint-placeholder-val="{{ false }}">
     <div class="pg-garden-dialog-backdrop" sc-camel-on-click="{{ onCloseGardenFile }}">
@@ -4539,8 +4566,7 @@ class Component extends DCLogic {
   async saveGardenFile(){
     let api=null;try{api=await this.loadGardenFileApi();}catch(_){}
     if(!api){this.setState({gardenFileNote:this.i18nText('gardenFile.error.helper','The game could not prepare the file. Check the connection and try again.')});return;}
-    this.persist();
-    let stored=null;try{stored=localStorage.getItem(this.STORE);}catch(_){}
+    let stored=null;try{stored=this.saveSnapshot();}catch(_){}
     const versionEl=typeof document!=='undefined'?document.querySelector('[data-pg-version]'):null;
     const text=api.pack(stored,{version:versionEl?versionEl.textContent.trim():'',workshop:!!this.WORKSHOP.enabled});
     if(!text||!(this.state.placed||[]).length){this.setState({gardenFileNote:this.i18nText('gardenFile.nothing','There is no garden to save yet: place a first element.')});return;}
@@ -4574,6 +4600,10 @@ class Component extends DCLogic {
       setTimeout(()=>location.reload(),150);
     };
     reader.readAsText(chosen);
+  }
+  saveNoticeAction(){
+    if(this.state.saveNotice==='tab'){this._replacingGarden=true;this.clearTransientWork();this.stopAllAudio();location.reload();return;}
+    this.openGardenFile(false);
   }
   // Once a garden exists, ask the browser to keep it for good. Firefox would ask the
   // player in a prompt, so it is asked only through the offline download there.
@@ -5222,6 +5252,17 @@ class Component extends DCLogic {
     document.addEventListener('drop',this._dragClear,true);
     this._pageHide=()=>{if(this._reflectionPersistT&&!this._storageUnavailable){this.persist();}};
     window.addEventListener('pagehide',this._pageHide);
+    // Another tab of the game saved this garden (or removed it): stop writing over it and offer to load it.
+    this._otherTabSave=e=>{
+      if(!e||(e.key!==null&&e.key!==this.STORE)){return;}
+      try{if(e.storageArea&&e.storageArea!==window.localStorage){return;}}catch(_){return;}
+      if(this._otherTabChanged||this._replacingGarden||this._workshopLeaving||this._unmounted){return;}
+      // the other tab only wrote back the garden this tab shows: nothing to load
+      try{if(e.newValue!==null&&e.newValue===this.saveSnapshot()){return;}}catch(_){}
+      this._otherTabChanged=true;clearTimeout(this._reflectionPersistT);this._reflectionPersistT=null;
+      this.setState({saveNotice:'tab'});
+    };
+    window.addEventListener('storage',this._otherTabSave);
     try{
       const raw=localStorage.getItem(this.STORE);
       if(raw){
@@ -5375,6 +5416,7 @@ class Component extends DCLogic {
     document.removeEventListener('dragend',this._dragClear,true);
     document.removeEventListener('drop',this._dragClear,true);
     window.removeEventListener('pagehide',this._pageHide);
+    window.removeEventListener('storage',this._otherTabSave);
     this.clearTransientWork();
     this.stopAllAudio();
     if(this._certificateUrl){URL.revokeObjectURL(this._certificateUrl);this._certificateUrl=null;}
@@ -5621,30 +5663,36 @@ class Component extends DCLogic {
     const gate=st.gate;
     return gate&&(gate.status==='won'||gate.status==='lost')?[gate.key,gate.target,gate.status,gate.effectNew?'1':'0'].join('|'):'';
   }
+  // The save as the browser keeps it: written by persist() and carried by the garden file.
+  saveSnapshot(){
+    const s=this.state;
+    const pendingGate=s.gate&&(s.gate.status==='won'||s.gate.status==='lost')?s.gate:null;
+    const pendingGardenReflections=Array.from(new Set([s.gardenReflection,...(s.gardenReflectionQueue||[])].filter(Boolean).map(r=>r.id))).filter(id=>(s.gardenReflectionsSeen||[]).indexOf(id)<0);
+    const pendingGardenWhispers=[s.gardenWhisper,...(s.gardenWhisperQueue||[])].filter(w=>w&&typeof w.key==='string'&&typeof w.text==='string').map(w=>({key:w.key,text:w.text}));
+    const pendingVisit=s.visit&&this.visitDefs[s.visit.key]&&['ask','won','lost'].indexOf(s.visit.status)>=0?{key:s.visit.key,status:s.visit.status,picked:Array.isArray(s.visit.picked)?s.visit.picked:[]}:null;
+    const pendingGuildCards=Array.from(new Set([s.guildCard,...(s.guildCardQueue||[])].filter(Boolean)));
+    const pendingArrivals=Array.from(new Set((s.arrivalQueue||[]).filter(Boolean)));
+    const pendingGardenCinematic=s.gardenCinematic&&this.seasonDefs[s.gardenCinematic.season]?s.gardenCinematic.season:null;
+    const lessonEngine=this.lessonEngine();
+    const livingLessonExperiment=lessonEngine?lessonEngine.sanitizeExperiment(s.livingLessonExperiment):null;
+    const livingLessonHistory=lessonEngine?lessonEngine.sanitizeHistory(s.livingLessonHistory):[];
+    return JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',gardenSize:s.gardenSize||'balanced',gardenWidth:this.clampGardenAxis(s.gardenWidth),gardenHeight:this.clampGardenAxis(s.gardenHeight),insightsExpanded:!!s.insightsExpanded,journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,residentBeatsSeen:s.residentBeatsSeen||[],residentSeasons:s.residentSeasons||{},residentWinters:s.residentWinters||{},pestActive:s.pestActive||null,pestSeasons:s.pestSeasons||{},pestCleared:s.pestCleared||{},pestRelief:s.pestRelief||{},pestBeatsSeen:s.pestBeatsSeen||[],pestLastSettled:(typeof s.pestLastSettled==='number'?s.pestLastSettled:null),pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,livingLessonExperiment:livingLessonExperiment,livingLessonHistory:livingLessonHistory,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},seedStock:s.seedStock||{},unlocksSeen:s.unlocksSeen||[],grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,stallSales:s.stallSales||0,freshSales:s.freshSales||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g});
+  }
   persist(){
     clearTimeout(this._reflectionPersistT);this._reflectionPersistT=null;
     // a workshop that is starting over must not write the old garden back
-    if(this._storageUnavailable||this._workshopLeaving||this._replacingGarden){return false;}
+    // nor a garden that another tab has saved since (the notice offers to load it)
+    if(this._storageUnavailable||this._workshopLeaving||this._replacingGarden||this._otherTabChanged){return false;}
     try{
       const s=this.state;
-      const pendingGate=s.gate&&(s.gate.status==='won'||s.gate.status==='lost')?s.gate:null;
-      const pendingGardenReflections=Array.from(new Set([s.gardenReflection,...(s.gardenReflectionQueue||[])].filter(Boolean).map(r=>r.id))).filter(id=>(s.gardenReflectionsSeen||[]).indexOf(id)<0);
-      const pendingGardenWhispers=[s.gardenWhisper,...(s.gardenWhisperQueue||[])].filter(w=>w&&typeof w.key==='string'&&typeof w.text==='string').map(w=>({key:w.key,text:w.text}));
-      const pendingVisit=s.visit&&this.visitDefs[s.visit.key]&&['ask','won','lost'].indexOf(s.visit.status)>=0?{key:s.visit.key,status:s.visit.status,picked:Array.isArray(s.visit.picked)?s.visit.picked:[]}:null;
-      const pendingGuildCards=Array.from(new Set([s.guildCard,...(s.guildCardQueue||[])].filter(Boolean)));
-      const pendingArrivals=Array.from(new Set((s.arrivalQueue||[]).filter(Boolean)));
-      const pendingGardenCinematic=s.gardenCinematic&&this.seasonDefs[s.gardenCinematic.season]?s.gardenCinematic.season:null;
-      const lessonEngine=this.lessonEngine();
-      const livingLessonExperiment=lessonEngine?lessonEngine.sanitizeExperiment(s.livingLessonExperiment):null;
-      const livingLessonHistory=lessonEngine?lessonEngine.sanitizeHistory(s.livingLessonHistory):[];
-      localStorage.setItem(this.STORE,JSON.stringify({placed:s.placed,shares:s.shares,budget:s.budget,pool:s.pool,goodwill:s.goodwill,given:s.given,awarded:s.awarded,market:s.market,lastCommunityCheck:s.lastCommunityCheck||null,storySeen:!!s.storySeen,introSeen:!!s.introSeen,mode:s.mode||'guided',gardenSize:s.gardenSize||'balanced',gardenWidth:this.clampGardenAxis(s.gardenWidth),gardenHeight:this.clampGardenAxis(s.gardenHeight),insightsExpanded:!!s.insightsExpanded,journeyMoments:s.journeyMoments||[],gardenEffects:s.gardenEffects||{},lastChallengeKey:s.lastChallengeKey||null,pendingGate:pendingGate,gardenReflectionsSeen:s.gardenReflectionsSeen||[],acknowledgedGardenReflectionsV2:s.gardenReflectionsSeen||[],pendingGardenReflections:pendingGardenReflections,pendingGardenWhispers:pendingGardenWhispers,residentBeatsSeen:s.residentBeatsSeen||[],residentSeasons:s.residentSeasons||{},residentWinters:s.residentWinters||{},pestActive:s.pestActive||null,pestSeasons:s.pestSeasons||{},pestCleared:s.pestCleared||{},pestRelief:s.pestRelief||{},pestBeatsSeen:s.pestBeatsSeen||[],pestLastSettled:(typeof s.pestLastSettled==='number'?s.pestLastSettled:null),pendingGuildCards:pendingGuildCards,pendingArrivals:pendingArrivals,pendingGardenCinematic:pendingGardenCinematic,livingLessonExperiment:livingLessonExperiment,livingLessonHistory:livingLessonHistory,communityMemory:s.communityMemory||[],reflectionOpened:!!s.reflectionOpened,reflectionNote:s.reflectionNote||'',endingSeen:!!s.endingSeen,discovered:s.discovered,guildVoicePlayed:!!s.guildVoicePlayed,seenWildlife:s.seenWildlife||[],sharedActs:s.sharedActs||0,rewardedGiftTypes:s.rewardedGiftTypes||[],seasonTurns:s.seasonTurns||0,seedAllowance:s.seedAllowance||{},seedStock:s.seedStock||{},unlocksSeen:s.unlocksSeen||[],grownHarvests:s.grownHarvests||0,preservedCount:s.preservedCount||0,stallSales:s.stallSales||0,freshSales:s.freshSales||0,muted:!!s.muted,playerName:s.playerName||'',season:s.season||'Summer',springBonusDone:!!s.springBonusDone,autumnHarvestDone:!!s.autumnHarvestDone,rakeRewardDone:!!s.rakeRewardDone,springForageDone:!!s.springForageDone,springSprouts:s.springSprouts||0,leafPiles:s.leafPiles||0,cherryPicks:s.cherryPicks||0,returnQueue:s.returnQueue||[],basket:s.basket||{},materials:s.materials||{},harvestEver:!!s.harvestEver,gatesPlayed:s.gatesPlayed||{},guests:s.guests||[],visitsDone:s.visitsDone||{},visitSeason:s.visitSeason||null,pendingVisit:pendingVisit,lastSystemChange:s.lastSystemChange||null,payWith:s.payWith||'shares',_n:this._n,_g:this._g}));
+      localStorage.setItem(this.STORE,this.saveSnapshot());
       this._persistedState=this.PERSIST_KEYS.reduce((snapshot,key)=>{snapshot[key]=this.persistenceValue(s,key);return snapshot;},{});
       if((s.placed||[]).length){this.askToKeepGarden();}
       return true;
     }catch(e){
       this._storageUnavailable=true;
       if(typeof console!=='undefined'&&console.warn){console.warn('[Permaculture Garden] Progress could not be saved in this browser.',e);}
-      if(!this._unmounted){this.setState({toast:this.i18nText('error.saveUnavailable','⚠ This browser could not save your progress. Keep this tab open while you play.')});}
+      if(!this._unmounted){this.setState({saveNotice:'full'});}
       return false;
     }
   }
@@ -5653,7 +5701,7 @@ class Component extends DCLogic {
     return !previous?this.PERSIST_KEYS.slice():this.PERSIST_KEYS.filter(key=>previous[key]!==this.persistenceValue(current,key));
   }
   persistChangedState(current){
-    if(this._storageUnavailable){return;}
+    if(this._storageUnavailable||this._otherTabChanged){return;}
     const changed=this.persistentStateChanges(current);
     if(!changed.length){return;}
     if(changed.length===1&&changed[0]==='reflectionNote'){
@@ -8054,6 +8102,13 @@ class Component extends DCLogic {
         :localText('gardenFile.intro','Your garden is kept only in this browser. Save it as a file to keep it safe or to play on another device, and load it there.'),
       onOpenGardenFile:()=>this.openGardenFile(false),onMenuGardenFile:()=>this.openGardenFile(true),onCloseGardenFile:()=>this.closeGardenFile(),
       onGardenFileSave:()=>this.saveGardenFile(),onGardenFileChoose:()=>this.chooseGardenFile(),onGardenFilePick:(e)=>this.pickGardenFile(e),
+      saveNoticeVisible:!!st.saveNotice,saveNoticeClosable:st.saveNotice==='full',
+      saveNoticeText:st.saveNotice==='tab'
+        ?localText('saveNotice.otherTab','Your garden changed in another tab. Nothing you do here is saved until you load it.')
+        :localText('error.saveUnavailable','This browser could not save your garden. Keep this tab open, or save the garden to a file.'),
+      saveNoticeAction:st.saveNotice==='tab'?localText('saveNotice.otherTabAction','Load the latest garden'):localText('saveNotice.fileAction','Save to a file'),
+      saveNoticeCloseLabel:localText('saveNotice.close','Close this message'),
+      onSaveNoticeAction:()=>this.saveNoticeAction(),onSaveNoticeClose:()=>this.setState({saveNotice:null}),
       onOfflineLocale:(e)=>this.setOfflineChoice({locale:e&&e.target?e.target.value:locale}),
       onOfflineVoice:(e)=>this.setOfflineChoice({voice:!!(e&&e.target&&e.target.checked)}),
       onOfflineMusic:(e)=>this.setOfflineChoice({music:!!(e&&e.target&&e.target.checked)}),
