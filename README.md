@@ -76,10 +76,10 @@ The model cannot invent an action, modify the economy, award points or decide wh
 
 - No provider credential is shipped to the browser; production requests authenticate with Vercel's automatically supplied OIDC token.
 - The model receives only element types, season, relationship metrics, bounded progression counts and a language code. Player name, free-text reflections and the save file never leave the browser.
-- The endpoint rejects requests without a matching `Origin`, regenerates the candidates server-side and validates the structured response before returning it.
+- The endpoint rejects requests without a matching `Origin`, regenerates the candidates server-side and validates the structured response before returning it. The `Origin` check keeps other websites from using a visitor's browser; a script can still send the header, so the limits below and the credit are the real brake. Challenge and guild entries in the snapshot pass only as identifiers (`compost`, `foodForest`), so free text never reaches the prompt.
 - Application code does not log prompts or player state; routing identifiers are hashed.
 - Stable state fingerprints enable caching; the client allows three uncached requests per browser per day, and the function adds a 12-second timeout, a 320-token output cap and its own limits: 6 requests per minute per IP address, 12 per day per client and 240 per day in total, with answers cached for six hours. Those limits and the cache live in the memory of each function instance, so a cold start resets them and concurrent instances count separately: they are a cost brake, not an exact global quota. The hard ceiling is the AI Gateway credit; when it runs out, the endpoint serves the offline lesson.
-- If credit, authentication or the provider is unavailable, the endpoint returns a deterministic lesson without further model cost and without breaking the game.
+- If credit, authentication or the provider is unavailable, the endpoint returns a deterministic lesson without further model cost and without breaking the game. The player then sees the reviewed lesson labelled *Garden wisdom offline — no AI wrote these words*, never an error or the provider's message. `scripts/test-living-lesson-api.mjs` simulates each case: credit used up, a provider limit, a refused token, a server error, a timeout and no network.
 
 ## Localisation
 
