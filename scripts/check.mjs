@@ -21,8 +21,8 @@ const fragment = await readFile(path.join(root, "game.fragment.html"), "utf8");
 const logic = await readFile(path.join(root, LOGIC_FILE), "utf8");
 
 // The game's logic class ships as a script of its own (scripts/game-logic.mjs): the
-// fragment keeps only the stub the runtime compiles, and the shell loads the script,
-// preloaded, before the runtime.
+// fragment keeps only the stub the runtime compiles, and the shell loads the script
+// after the first paint and runs it before the runtime.
 const open = fragment.indexOf('<script type="text/x-dc"');
 const start = fragment.indexOf(">", open) + 1;
 const end = fragment.indexOf("</script>", start);
@@ -33,8 +33,8 @@ if (fragment.slice(start, end).trim() !== LOGIC_STUB) {
   throw new Error(`The game script in game.fragment.html should be the stub that asks ${LOGIC_FILE}.`);
 }
 new Function(logic);
-if (!html.includes(`<link rel="preload" href="${LOGIC_FILE}" as="script">`) || !(html.indexOf(`load("${LOGIC_FILE}")`) > 0 && html.indexOf("await logic;") > 0 && html.indexOf("await logic;") < html.indexOf('await load("vendor/dc-runtime.js")'))) {
-  throw new Error(`index.html should preload ${LOGIC_FILE} and run it before the runtime.`);
+if (html.includes(`<link rel="preload" href="${LOGIC_FILE}"`) || !(html.indexOf(`load("${LOGIC_FILE}")`) > 0 && html.indexOf("await logic;") > 0 && html.indexOf("await logic;") < html.indexOf('await load("vendor/dc-runtime.js")'))) {
+  throw new Error(`index.html should load ${LOGIC_FILE} after the first paint (no preload) and run it before the runtime.`);
 }
 
 const localRefs = new Set();
