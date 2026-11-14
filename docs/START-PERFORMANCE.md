@@ -159,10 +159,24 @@ Lighthouse 12, phone, eight runs each, alternating, against local servers that w
 | Total blocking time, median | 417 ms | 265 ms |
 | First visit (phone) | 657 KiB | 605 KiB |
 
-The blocking time is still above J-12's 200 ms: what is left is the runtime's own
-work on the template (item 3 below) and React's first render with the game's
-`renderVals()` (item 2). The worst run (78) had 642 ms of blocking time in one run
-of eight on a two-core machine; the others scored 85–90.
+The preview deployment against production, ten runs each, alternating (the same
+afternoon this machine scored production about ten points lower than in the
+morning, so the columns compare, not the days):
+
+| | Production (v0.87.0) | Preview |
+|---|---:|---:|
+| Performance, median (worst) | 77 (64) | 87.5 (87) |
+| Total blocking time, median | 426 ms | 266 ms |
+| Largest contentful paint, median | 3.57 s | 3.13 s |
+| Runs with the cover's paragraph as the largest paint | 5 of 10 | none |
+| Transferred | 681 KiB | 628 KiB |
+
+Against J-12: the worst run is now at least 85 (87 on the preview; locally one run
+of eight scored 78 with 642 ms of blocking time on a two-core machine, the others
+85–90), the first visit stays under 700 KiB and every journey passes. The median
+of 90 and the blocking time of 200 ms are not reached yet: what is left is React's
+first render with the game's `renderVals()` (item 2 below) and the runtime's own
+work on the template (item 3).
 
 One more thing was tried and left out: telling V8 to compile all of `game.logic.js`
 while it downloads (the `//# allFunctionsCalledOnLoad` comment) took about
@@ -193,6 +207,11 @@ blocking time did not fall.
 4. **The logic as a real script** (candidate (d)): done on 14 November 2026,
    see above. The runtime itself stays untouched until I3.
 5. **The three scripts in the head without `defer`** (`lib/i18n.js`,
-   `lib/living-lesson.js`, `lib/workshop.js`; Lighthouse estimates 130 ms of
-   render blocking). The boot reads `window.PermacultureI18n` two frames after
-   the first paint, so deferring them needs the boot to wait for them first.
+   `lib/living-lesson.js`, `lib/workshop.js`; Lighthouse estimated 130 ms of
+   render blocking). Tried on 14 November 2026 with the boot waiting for the
+   page to be parsed before it asks for the translations: the boot screen
+   filled sooner (speed index 2.43 → 1.87 s, the largest paint 3.06 → 2.84 s,
+   six runs each), but their work then fell after the first paint, inside the
+   window Lighthouse counts as blocking (265 → 374 ms), and the performance
+   median fell (88.5 → 85.5). Left out while J-12 is judged by Lighthouse; a
+   player would see the boot screen half a second sooner.
