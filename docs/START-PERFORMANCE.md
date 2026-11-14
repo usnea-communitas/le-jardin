@@ -41,6 +41,41 @@ Over the whole start: parsing HTML 136–167 ms, compiling scripts
 decoding does not show. Lighthouse files most of steps 2 and 3 under
 "other" and "unattributable", because code made from text has no file.
 
+## The logic as a script of its own (14 November 2026)
+
+`npm run generate` now writes the game's logic class to `game.logic.js`, wrapped
+in a function with the runtime's three names, and leaves a one-line stub in its
+place in `game.fragment.html` that hands the class to the runtime
+([`scripts/game-logic.mjs`](../scripts/game-logic.mjs)). The canonical source and
+the runtime are unchanged and the class is the same text, so the game behaves the
+same; the unit tests evaluate the shipped file. The browser compiles the script
+while it arrives, away from the main thread, and a returning player's browser can
+keep it compiled. The shell fetches it after the first paint, beside the fragment
+and React: with a preload, Lighthouse counted it among what the first paint waits
+for (first contentful paint 1.0 → 1.8 s).
+
+The trace as above, against a local server, three runs each (main → this change):
+putting the fragment into the page 88–99 → 64–72 ms (the fragment is 288 kB
+instead of 755 kB), the runtime's task 172–231 → 147–175 ms (it no longer compiles
+the logic from text); React's first render (119–156 ms) and the layout after it
+(75–91 ms) are unchanged.
+
+Lighthouse 12, phone, ten runs each, alternating between the live site and the
+preview deployment of this change:
+
+| | Live site (main) | The logic as a script |
+|---|---:|---:|
+| Performance, median (worst) | 86.5 (77) | 93 (78) |
+| Largest contentful paint, median | 3.18 s | 2.61 s |
+| Total blocking time, median | 300 ms | 215 ms |
+| Speed index, median | 2.28 s | 1.67 s |
+| First contentful paint, median | 1.01 s | 1.01 s |
+| First visit | 679 KiB | 680 KiB |
+
+Three runs in ten (four on the live site) still end with the cover's text as the
+largest paint, at 4.2–4.5 s, because that paint waits for the whole game. That is
+item 1 below, and it keeps the worst run under 85.
+
 ## What can be taken away, largest first
 
 1. **The cover waits for the whole game.** Every step above stands between
@@ -53,10 +88,8 @@ decoding does not show. Lighthouse files most of steps 2 and 3 under
    splits the task, which lowers blocking time without saving work.
 3. **The template is parsed twice** (26–35 ms) and its CSS twice
    (11–15 ms): once as the fragment enters the page, once by the runtime.
-4. **The logic as a real script** (candidate (d)): 32–44 ms of compiling on
-   the main thread could move to the browser's background compiler, and a
-   returning player's browser could keep it compiled (another ~60–76 ms on
-   later visits). The runtime itself stays untouched until I3.
+4. **The logic as a real script** (candidate (d)): done on 14 November 2026,
+   see below. The runtime itself stays untouched until I3.
 5. **The three scripts in the head without `defer`** (`lib/i18n.js`,
    `lib/living-lesson.js`, `lib/workshop.js`; Lighthouse estimates 130 ms of
    render blocking). The boot reads `window.PermacultureI18n` two frames after
