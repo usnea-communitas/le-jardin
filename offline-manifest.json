@@ -1,5 +1,5 @@
 {
-  "version": "456f3d073d8e11c6",
+  "version": "26c3994675dc34bd",
   "files": {
     "index.html": [11738,"88e9a000947a3c37"],
     "game.template.js": [239697,"9b658634b72e466c"],
@@ -14,7 +14,7 @@
     "lib/i18n.js": [30176,"9809b33b4df0d955"],
     "lib/living-lesson.js": [21831,"d1adfe3a86658a99"],
     "lib/offline.js": [11857,"c1ec13d29b0a3cf5"],
-    "lib/runtime.js": [9645,"2d14a194ccf0cf7f"],
+    "lib/runtime.js": [9896,"cb20d7bd5ac95b2f"],
     "lib/seasons.js": [10216,"b38e3e8a66f53f52"],
     "lib/wildlife.js": [13828,"6118976db3ae9852"],
     "lib/workshop.js": [11649,"b51a78e8af29dc47"],
