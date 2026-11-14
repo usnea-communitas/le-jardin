@@ -2187,7 +2187,8 @@ class Component extends DCLogic {
     if(!restored){this.capturePreviousState();}
     if(this.WORKSHOP.enabled){const workshopLog=this.readWorkshopLog();if(workshopLog){this.setState({workshopLog:workshopLog});}}
     this.scheduleFitHeader();
-    if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{if(!this._unmounted){this.scheduleFitHeader();}});}
+    // asked once the first render is over: with the fonts already in, document.fonts.ready lays the page out at once
+    this.later(()=>{if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>{if(!this._unmounted){this.scheduleFitHeader();}});}},0);
     this.later(()=>{this.syncResponsiveAccess();this.syncDialogAccess();this.syncAmbientVideoPlayback();},0);
     // the second story picture loads at the first touch or key, not while the cover is still arriving
     this._warmOnInput=()=>{window.removeEventListener('pointerdown',this._warmOnInput,true);window.removeEventListener('keydown',this._warmOnInput,true);this.warmNextStory();};

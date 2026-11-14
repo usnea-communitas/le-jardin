@@ -114,8 +114,8 @@ The game is a local-first static site generated from a single editable source in
 | Path | Role |
 | --- | --- |
 | `Permaculture Garden v2.dc.html` | **The canonical source**: template, styles and the game class, which keeps every word, picture and sound and asks the rule modules. Edit this, then run `npm run generate`. |
-| `index.html`, `game.fragment.html`, `game.logic.js`, `offline-manifest.json` | Generated output — never edit by hand (`sw.js` too gets its version from the build). |
-| `scripts/build.mjs` | Builds the loading shell, the game fragment and the game's logic class (`game.logic.js`) from the source. |
+| `index.html`, `game.fragment.html`, `game.logic.js`, `game.css`, `offline-manifest.json` | Generated output — never edit by hand (`sw.js` too gets its version from the build). |
+| `scripts/build.mjs` | Builds the loading shell, the game fragment, the game's logic class (`game.logic.js`) and its styles (`game.css`) from the source. |
 | `scripts/check.mjs`, `scripts/check-i18n.mjs` | Validate script syntax, local resource references, production invariants and catalogue completeness. |
 | `assets/i18n/audio.cs.json`, `audio.fr.json` | The Garden's 49 recorded lines in Czech and French: file, spoken text and length. `scripts/test-voice.mjs` checks that no recording is missing, that each has a length header and that the subtitles match. |
 | `lib/economy.js`, `lib/community-table.js`, `lib/seasons.js`, `lib/acts.js`, `lib/wildlife.js` | **The rules of the game**: prices and fair-share gifts, the community table, planting and harvest windows, the six acts, and the wild neighbours and pests. Pure functions with unit tests (`npm run test:rules`); how they fit together and how to change a rule is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). |
@@ -139,7 +139,7 @@ Requirements: Node.js 22+ and npm (the API tests use `module.registerHooks`, ava
 
 ```sh
 npm ci
-npm run generate   # rebuild index.html, game.fragment.html and game.logic.js from the canonical source
+npm run generate   # rebuild index.html, game.fragment.html, game.logic.js and game.css from the canonical source
 npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, the rules of the game, workshop mode and guide, offline package, the recorded voice, the garden file, the media budget
 ```
 

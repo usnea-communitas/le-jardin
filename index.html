@@ -63,6 +63,31 @@ x-dc{display:none!important}
     script.onerror = reject;
     document.head.appendChild(script);
   });
+  const sheet = (href) => new Promise((resolve, reject) => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    // a sheet the browser refused (one served as another type, say) still loads, empty
+    link.onload = () => {
+      let rules = 1;
+      try { rules = link.sheet ? link.sheet.cssRules.length : 0; } catch (_) {}
+      if (rules) resolve(); else reject(new Error("The game's styles could not be read"));
+    };
+    link.onerror = reject;
+    document.head.appendChild(link);
+  });
+  // The cover's typefaces are ready before the game draws it, so its words appear once, in their own letters,
+  // not first in a stand-in swapped a moment later. The head preloads their basic Latin files; a language that
+  // needs more letters names them (from its catalogue), and so does the list of languages (docs/START-PERFORMANCE.md).
+  const typefaces = () => {
+    const fonts = document.fonts;
+    if (!fonts || typeof fonts.load !== "function") return Promise.resolve();
+    const letters = " " + ({"cs":"ČčďĚěňŘřŠšťůŽž","pl":"ĄąĆćĘęŁłńŚśźŻż"}[document.documentElement.lang] || "");
+    const i18n = window.PermacultureI18n;
+    const names = i18n && Array.isArray(i18n.LANGUAGE_OPTIONS) ? i18n.LANGUAGE_OPTIONS.map((option) => option.label).join("") : "";
+    const faces = [fonts.load("1em 'Bricolage Grotesque'", letters), fonts.load("1em 'Hanken Grotesk'", letters + names), fonts.load("700 1em 'Hanken Grotesk'", letters + names)];
+    return Promise.race([Promise.all(faces), new Promise((resolve) => setTimeout(resolve, 2500))]).catch(() => {});
+  };
   const translate = (key, fallback) => {
     const i18n = window.PermacultureI18n;
     return i18n && typeof i18n.t === "function" ? i18n.t(key, null, fallback) : fallback;
@@ -98,18 +123,25 @@ x-dc{display:none!important}
   const boot = async () => {
     const i18n = window.PermacultureI18n;
     const localeReady = i18n && typeof i18n.bootstrap === "function" ? i18n.bootstrap() : Promise.resolve();
-    // the game's logic class is a script of its own, so the browser compiles it while it arrives; it is fetched
-    // here, after the first paint, not preloaded: a preload would compete with the paint (docs/START-PERFORMANCE.md)
+    // the game's styles and its logic class are files of their own, so the browser reads each once, while it
+    // arrives; both are fetched here, after the first paint, not preloaded: a preload would compete with the
+    // paint (docs/START-PERFORMANCE.md)
+    const styles = sheet("game.css");
     const logic = load("game.logic.js");
-    logic.catch(() => {}); // awaited below, before the runtime: until then a failure is not an unhandled rejection
+    for (const part of [styles, logic]) part.catch(() => {}); // awaited below, before the runtime: until then a failure is not an unhandled rejection
+    const lettered = Promise.all([styles, localeReady]).then(typefaces, () => {});
     const [response] = await Promise.all([fetch("game.fragment.html"), localeReady, load("vendor/react.production.min.js")]);
     if (!response.ok) throw new Error("Game content could not be loaded");
     if (i18n && typeof i18n.installReact === "function") i18n.installReact(window.React);
-    const [fragment] = await Promise.all([response.text(), load("vendor/react-dom.production.min.js")]);
-    document.body.insertAdjacentHTML("beforeend", fragment);
+    const reactDom = load("vendor/react-dom.production.min.js");
+    reactDom.catch(() => {}); // awaited below, once the template is in the page
+    // the template goes into the page as soon as it is read, in a task of its own, not after React DOM in one long task
+    document.body.insertAdjacentHTML("beforeend", await response.text());
+    await reactDom;
     await parsed;
     if (["PermacultureEconomy","PermacultureCommunityTable","PermacultureSeasons","PermacultureActs","PermacultureWildlife"].some((name) => !window[name])) throw new Error("The rules of the game could not be loaded");
-    await logic;
+    await Promise.all([styles, logic]);
+    await lettered;
     await load("vendor/dc-runtime.js");
   };
   // Playing without a connection (sw.js): a newer build downloaded in the background

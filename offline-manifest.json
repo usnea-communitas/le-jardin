@@ -1,9 +1,10 @@
 {
-  "version": "729f4ed7a4971dee",
+  "version": "1951c8cbdf5581f0",
   "files": {
-    "index.html": [10130,"6dc8aba6c6be07ef"],
-    "game.fragment.html": [288434,"051f3b7c83b0a642"],
-    "game.logic.js": [467193,"7b6a02097a3bdcff"],
+    "index.html": [12196,"b56048ae0b4c6ffd"],
+    "game.fragment.html": [164193,"1e9f9b30d0526b69"],
+    "game.logic.js": [467332,"22d3db78249bc6c9"],
+    "game.css": [124336,"1e6847a570297c25"],
     "manifest.webmanifest": [489,"ca679c347afe18b7"],
     "favicon.ico": [6345,"0338650c17f90aad"],
     "lib/acts.js": [7474,"2e9f19f43c6ae257"],
@@ -529,6 +530,7 @@
       "index.html",
       "game.fragment.html",
       "game.logic.js",
+      "game.css",
       "manifest.webmanifest",
       "favicon.ico",
       "lib/acts.js",

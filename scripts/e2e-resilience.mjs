@@ -176,6 +176,29 @@ try {
     await context.close();
   }
 
+  // The game's styles ship as game.css (scripts/build.mjs): without them the cover
+  // would be drawn unstyled, so the shell offers the retry instead of starting the runtime,
+  // also when the sheet arrives with another type and the browser refuses it.
+  for (const [what, answer] of [
+    ['missing game styles', route => route.fulfill({ status: 503, contentType: 'text/plain', body: 'temporary test outage' })],
+    ['game styles the browser refuses', async route => route.fulfill({ status: 200, contentType: 'application/octet-stream', body: await (await route.fetch()).text() })]
+  ]) {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const page = await context.newPage();
+    await page.route('**/game.css*', answer);
+    await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+    const alert = page.getByRole('alert');
+    await alert.waitFor({ state: 'visible', timeout: 10000 });
+    const recovery = {
+      text: await alert.innerText(),
+      retryVisible: await page.getByRole('button', { name: 'Try again' }).isVisible(),
+      gameStarted: await page.evaluate(() => !!window.__PERMAGARDEN_APP__),
+      runtimeRan: await page.evaluate(() => !!document.querySelector('script[src="vendor/dc-runtime.js"]'))
+    };
+    check(/could not finish loading/i.test(recovery.text) && recovery.retryVisible && !recovery.gameStarted && !recovery.runtimeRan, `${what} show the retry action and the runtime does not start`, recovery);
+    await context.close();
+  }
+
   // The first real action after restoring state must still run all discovery effects.
   {
     const { context, page } = await openState(savedState({
