@@ -11,14 +11,16 @@ pictures, fonts and sound count as they are. Measured on 13 November 2026; the f
 The opening story's cover, before anyone presses a key: the page and the game (its
 template, styles and logic), its rules and runtime, three fonts, the English texts and
 the story's first painting. The interface's small pictures wait until the garden shows
-them (since 14 November 2026; they were 57 KiB of the first visit).
+them (since 14 November 2026; they were 57 KiB of the first visit), and the template
+comes as code with the game's own small runtime instead of HTML and the design canvas's
+runtime (package J-12: 8 KiB less).
 
 | | Now | Limit |
 | --- | ---: | ---: |
-| Phone held upright (the 600 × 900 crop of the first painting) | 605 KiB | 700 KiB |
-| Desktop (the full 1600 × 900 painting) | 787 KiB | 900 KiB |
+| Phone held upright (the 600 × 900 crop of the first painting) | 597 KiB | 700 KiB |
+| Desktop (the full 1600 × 900 painting) | 779 KiB | 900 KiB |
 
-The largest parts are the game itself (`game.logic.js` 135 KiB, `game.fragment.html` 31 KiB
+The largest parts are the game itself (`game.logic.js` 135 KiB, `game.template.js` 37 KiB
 and `game.css` 26 KiB compressed), the first painting (134 KiB on a phone, 316 KiB on a
 desktop), the fonts (128 KiB) and the English texts (48 KiB). The resilience journey
 (`scripts/e2e-resilience.mjs`, part of CI) checks that a browser fetches exactly the files

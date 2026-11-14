@@ -110,16 +110,17 @@ On iPhone and iPad, a game added to the Home Screen keeps its own storage, separ
 
 ## Architecture
 
-The game is a local-first static site generated from a single editable source into a small loading shell and a prebuilt game fragment. One serverless function is the only server boundary.
+The game is a local-first static site generated from a single editable source into a small loading shell, the game's template made into code, its logic class and its styles. One serverless function is the only server boundary.
 
 | Path | Role |
 | --- | --- |
 | `Permaculture Garden v2.dc.html` | **The canonical source**: template, styles and the game class, which keeps every word, picture and sound and asks the rule modules. Edit this, then run `npm run generate`. |
-| `index.html`, `game.fragment.html`, `game.logic.js`, `game.css`, `offline-manifest.json` | Generated output — never edit by hand (`sw.js` too gets its version from the build). |
-| `scripts/build.mjs` | Builds the loading shell, the game fragment, the game's logic class (`game.logic.js`) and its styles (`game.css`) from the source. |
+| `index.html`, `game.template.js`, `game.logic.js`, `game.css`, `offline-manifest.json` | Generated output — never edit by hand (`sw.js` too gets its version from the build). |
+| `scripts/build.mjs`, `scripts/template-compiler.mjs` | Build the loading shell, the game's template as code (`game.template.js`), its logic class (`game.logic.js`) and its styles (`game.css`) from the source. |
 | `scripts/check.mjs`, `scripts/check-i18n.mjs` | Validate script syntax, local resource references, production invariants and catalogue completeness. |
 | `assets/i18n/audio.cs.json`, `audio.fr.json` | The Garden's 49 recorded lines in Czech and French: file, spoken text and length. `scripts/test-voice.mjs` checks that no recording is missing, that each has a length header and that the subtitles match. |
 | `lib/economy.js`, `lib/community-table.js`, `lib/seasons.js`, `lib/acts.js`, `lib/wildlife.js` | **The rules of the game**: prices and fair-share gifts, the community table, planting and harvest windows, the six acts, and the wild neighbours and pests. Pure functions with unit tests (`npm run test:rules`); how they fit together and how to change a rule is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). |
+| `lib/runtime.js` | The game's own runtime: the base of the logic class, the helpers the template's code calls, and the start, which draws the game with React. |
 | `lib/i18n.js` | Runtime localisation: locale detection, catalogue loading, formatting. |
 | `lib/living-lesson.js` | The deterministic experiment engine shared by client and server. |
 | `lib/workshop.js` | Workshop mode: the link, the separate save, the garden at the start of each act and the session log. |
@@ -128,7 +129,7 @@ The game is a local-first static site generated from a single editable source in
 | `offline-manifest.json` | Generated list of every file in the offline package with its size and hash; its version is stamped into `sw.js`. `scripts/offline-manifest.mjs` places every file under `assets/` in a group, and the build stops when a new file belongs to none. |
 | `api/garden-reflection.js` | The protected Vercel Function and the model boundary. |
 | `assets/` | Local WebP art, MP3 audio, fonts, icons, the ambient video and the i18n catalogues. |
-| `vendor/` | Bundled React runtime and the Design Component runtime used by the static game. |
+| `vendor/` | Bundled React and ReactDOM (production builds). |
 | `scripts/e2e-*.mjs` | Playwright browser journeys (see below). |
 | `docs/` | The facilitator guide, the playtest kit, release handoffs, Build Week records and asset provenance. |
 
@@ -140,7 +141,7 @@ Requirements: Node.js 22+ and npm (the API tests use `module.registerHooks`, ava
 
 ```sh
 npm ci
-npm run generate   # rebuild index.html, game.fragment.html, game.logic.js and game.css from the canonical source
+npm run generate   # rebuild index.html, game.template.js, game.logic.js and game.css from the canonical source
 npm test           # structural checks, i18n catalogue checks, Living Lesson engine and API tests, the rules of the game, workshop mode and guide, offline package, the recorded voice, the garden file, the media budget
 ```
 
@@ -180,7 +181,7 @@ Coverage includes adaptive navigation, safe-area and overflow boundaries, 44-pix
 
 `main` deploys to the Vercel project behind <https://permaculture-garden.vercel.app/> with the **Other** framework preset and no custom build command; `vercel.json` only sets security headers and the cache for fonts and media; Vercel installs locked dependencies from `package-lock.json`. The Living Lesson function needs one variable on the Vercel side only, `ANTHROPIC_API_KEY` (a key from the Claude Console workspace whose spend limit caps the cost); nothing is required in the browser. [`.env.example`](.env.example) lists the optional variables for local work.
 
-After every production deployment the *Production smoke test* workflow (`.github/workflows/production-smoke.yml`) runs `npm run test:production` on the deployed commit with `EXPECT_LOCAL_BUILD=1`: the live site must serve exactly that commit's `index.html`, `game.fragment.html` and `game.logic.js`, and the short playthrough must pass without console errors. It never blocks a deploy; a failure shows on the commit and in Actions.
+After every production deployment the *Production smoke test* workflow (`.github/workflows/production-smoke.yml`) runs `npm run test:production` on the deployed commit with `EXPECT_LOCAL_BUILD=1`: the live site must serve exactly that commit's `index.html`, `game.template.js`, `game.logic.js`, `game.css` and `lib/runtime.js`, and the short playthrough must pass without console errors. It never blocks a deploy; a failure shows on the commit and in Actions.
 
 ## Project history
 

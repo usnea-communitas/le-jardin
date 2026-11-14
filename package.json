@@ -35,11 +35,12 @@
     "test:e2e:resident-state": "node scripts/run-local-e2e.mjs scripts/e2e-resident-state.mjs",
     "test:e2e:pest-balance": "node scripts/run-local-e2e.mjs scripts/e2e-pest-balance.mjs",
     "test:rules": "node scripts/test-rules.mjs",
+    "test:template": "node scripts/test-template.mjs",
     "test:score": "node scripts/test-garden-score.mjs",
     "test:translations": "node scripts/test-translations.mjs",
     "translations:export": "node scripts/translations.mjs export",
     "translations:import": "node scripts/translations.mjs import",
-    "test": "npm run check && npm run test:i18n && npm run test:living-lesson && npm run test:rules && npm run test:score && npm run test:translations && npm run test:workshop && npm run test:offline && npm run test:garden-file && npm run test:voice && npm run test:media-budget",
+    "test": "npm run check && npm run test:i18n && npm run test:living-lesson && npm run test:rules && npm run test:template && npm run test:score && npm run test:translations && npm run test:workshop && npm run test:offline && npm run test:garden-file && npm run test:voice && npm run test:media-budget",
     "test:e2e:kitchen": "node scripts/run-local-e2e.mjs scripts/e2e-kitchen-seedbank.mjs",
     "test:e2e:v81": "node scripts/run-local-e2e.mjs scripts/e2e-v81-polish.mjs",
     "test:e2e:v82": "node scripts/run-local-e2e.mjs scripts/e2e-v82-economy-resize.mjs",
@@ -65,6 +66,7 @@
   },
   "devDependencies": {
     "marked": "18.1.2",
+    "parse5": "8.0.1",
     "playwright": "^1.64.1",
     "qrcode-svg": "1.1.0"
   }

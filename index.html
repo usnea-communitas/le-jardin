@@ -24,8 +24,6 @@
 <link rel="preload" href="assets/fonts/048df43a-fe9b-45a8-b411-e39d84d8ca7f.woff2" as="font" type="font/woff2" crossorigin>
 <style id="pg-boot-style">
 html,body{margin:0;min-height:100%;background:#f4efe3}
-/* the raw template waits unseen until dc-runtime replaces it, so it is never laid out */
-x-dc{display:none!important}
 #pg-boot{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:22px;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 50% 42%,#fbf8f1 0,#f4efe3 56%,#e6ddc8 100%);color:#2c3525;font-family:'Hanken Grotesk',sans-serif}
 /* the story's first painting, where the opening story shows it, so the cover follows without a jump and the largest paint does not wait for the game */
 #pg-boot picture,#pg-boot .pg-boot-shade{position:absolute;inset:0;z-index:-1}
@@ -50,10 +48,8 @@ x-dc{display:none!important}
 <script src="lib/seasons.js" defer></script>
 <script src="lib/acts.js" defer></script>
 <script src="lib/wildlife.js" defer></script>
-<link rel="preload" href="game.fragment.html" as="fetch" crossorigin>
 <link rel="preload" href="vendor/react.production.min.js" as="script">
 <link rel="preload" href="vendor/react-dom.production.min.js" as="script">
-<link rel="preload" href="vendor/dc-runtime.js" as="script">
 <script>
 (() => {
   const load = (src) => new Promise((resolve, reject) => {
@@ -123,26 +119,23 @@ x-dc{display:none!important}
   const boot = async () => {
     const i18n = window.PermacultureI18n;
     const localeReady = i18n && typeof i18n.bootstrap === "function" ? i18n.bootstrap() : Promise.resolve();
-    // the game's styles and its logic class are files of their own, so the browser reads each once, while it
-    // arrives; both are fetched here, after the first paint, not preloaded: a preload would compete with the
-    // paint (docs/START-PERFORMANCE.md)
+    // the game's styles, its logic class, its template (made into code by the build) and the runtime that draws
+    // them are files of their own, so the browser reads each once, while it arrives; they are fetched here, after
+    // the first paint, not preloaded: a preload would compete with the paint (docs/START-PERFORMANCE.md)
     const styles = sheet("game.css");
     const logic = load("game.logic.js");
-    for (const part of [styles, logic]) part.catch(() => {}); // awaited below, before the runtime: until then a failure is not an unhandled rejection
+    const template = load("game.template.js");
+    const runtime = load("lib/runtime.js");
+    for (const part of [styles, logic, template, runtime]) part.catch(() => {}); // awaited below, before the start: until then a failure is not an unhandled rejection
     const lettered = Promise.all([styles, localeReady]).then(typefaces, () => {});
-    const [response] = await Promise.all([fetch("game.fragment.html"), localeReady, load("vendor/react.production.min.js")]);
-    if (!response.ok) throw new Error("Game content could not be loaded");
+    await Promise.all([localeReady, load("vendor/react.production.min.js")]);
     if (i18n && typeof i18n.installReact === "function") i18n.installReact(window.React);
-    const reactDom = load("vendor/react-dom.production.min.js");
-    reactDom.catch(() => {}); // awaited below, once the template is in the page
-    // the template goes into the page as soon as it is read, in a task of its own, not after React DOM in one long task
-    document.body.insertAdjacentHTML("beforeend", await response.text());
-    await reactDom;
+    await load("vendor/react-dom.production.min.js");
     await parsed;
     if (["PermacultureEconomy","PermacultureCommunityTable","PermacultureSeasons","PermacultureActs","PermacultureWildlife"].some((name) => !window[name])) throw new Error("The rules of the game could not be loaded");
-    await Promise.all([styles, logic]);
+    await Promise.all([styles, logic, template, runtime]);
     await lettered;
-    await load("vendor/dc-runtime.js");
+    window.PermacultureRuntime.start({ onError: showError });
   };
   // Playing without a connection (sw.js): a newer build downloaded in the background
   // starts now, before the game runs, so a game never changes version while it is played.

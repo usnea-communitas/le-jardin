@@ -2,12 +2,15 @@ import { readFile, readdir, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { buildOfflineManifest, formatOfflineManifest, stampServiceWorker } from "./offline-manifest.mjs";
-import { LOGIC_FILE, LOGIC_GLOBAL, LOGIC_STUB } from "./game-logic.mjs";
+import { parseFragment } from "parse5";
+import { LOGIC_FILE, LOGIC_GLOBAL } from "./game-logic.mjs";
+import { compileTemplate, propsFromDataProps } from "./template-compiler.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourcePath = path.join(root, "Permaculture Garden v2.dc.html");
 const outputPath = path.join(root, "index.html");
-const fragmentPath = path.join(root, "game.fragment.html");
+const TEMPLATE_FILE = "game.template.js";
+const templatePath = path.join(root, TEMPLATE_FILE);
 const logicPath = path.join(root, LOGIC_FILE);
 const STYLES_FILE = "game.css";
 const stylesPath = path.join(root, STYLES_FILE);
@@ -29,6 +32,7 @@ const fontUuids = [
 ];
 
 let html = await readFile(sourcePath, "utf8");
+const source = html;
 
 // The version shown in the palette footer always follows package.json.
 const { version } = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
@@ -55,10 +59,8 @@ if (!ruleGlobals.length) {
 html = html.replace(
   runtimeTag,
   [
-    '<link rel="preload" href="game.fragment.html" as="fetch" crossorigin>',
     '<link rel="preload" href="vendor/react.production.min.js" as="script">',
     '<link rel="preload" href="vendor/react-dom.production.min.js" as="script">',
-    '<link rel="preload" href="vendor/dc-runtime.js" as="script">',
     '<script>',
     '(() => {',
     '  const load = (src) => new Promise((resolve, reject) => {',
@@ -128,26 +130,23 @@ html = html.replace(
     '  const boot = async () => {',
     '    const i18n = window.PermacultureI18n;',
     '    const localeReady = i18n && typeof i18n.bootstrap === "function" ? i18n.bootstrap() : Promise.resolve();',
-    '    // the game\'s styles and its logic class are files of their own, so the browser reads each once, while it',
-    '    // arrives; both are fetched here, after the first paint, not preloaded: a preload would compete with the',
-    '    // paint (docs/START-PERFORMANCE.md)',
+    '    // the game\'s styles, its logic class, its template (made into code by the build) and the runtime that draws',
+    '    // them are files of their own, so the browser reads each once, while it arrives; they are fetched here, after',
+    '    // the first paint, not preloaded: a preload would compete with the paint (docs/START-PERFORMANCE.md)',
     '    const styles = sheet("game.css");',
     '    const logic = load("game.logic.js");',
-    '    for (const part of [styles, logic]) part.catch(() => {}); // awaited below, before the runtime: until then a failure is not an unhandled rejection',
+    '    const template = load("game.template.js");',
+    '    const runtime = load("lib/runtime.js");',
+    '    for (const part of [styles, logic, template, runtime]) part.catch(() => {}); // awaited below, before the start: until then a failure is not an unhandled rejection',
     '    const lettered = Promise.all([styles, localeReady]).then(typefaces, () => {});',
-    '    const [response] = await Promise.all([fetch("game.fragment.html"), localeReady, load("vendor/react.production.min.js")]);',
-    '    if (!response.ok) throw new Error("Game content could not be loaded");',
+    '    await Promise.all([localeReady, load("vendor/react.production.min.js")]);',
     '    if (i18n && typeof i18n.installReact === "function") i18n.installReact(window.React);',
-    '    const reactDom = load("vendor/react-dom.production.min.js");',
-    '    reactDom.catch(() => {}); // awaited below, once the template is in the page',
-    '    // the template goes into the page as soon as it is read, in a task of its own, not after React DOM in one long task',
-    '    document.body.insertAdjacentHTML("beforeend", await response.text());',
-    '    await reactDom;',
+    '    await load("vendor/react-dom.production.min.js");',
     '    await parsed;',
     `    if (${JSON.stringify(ruleGlobals)}.some((name) => !window[name])) throw new Error("The rules of the game could not be loaded");`,
-    '    await Promise.all([styles, logic]);',
+    '    await Promise.all([styles, logic, template, runtime]);',
     '    await lettered;',
-    '    await load("vendor/dc-runtime.js");',
+    '    window.PermacultureRuntime.start({ onError: showError });',
     '  };',
     '  // Playing without a connection (sw.js): a newer build downloaded in the background',
     '  // starts now, before the game runs, so a game never changes version while it is played.',
@@ -201,69 +200,71 @@ if (gameStart < 0 || gameScriptEnd < gameStart) {
   throw new Error("Could not split the game content from the loading shell.");
 }
 const gameEnd = gameScriptEnd + "</script>".length;
-let fragment = html.slice(gameStart, gameEnd);
+const game = html.slice(gameStart, gameEnd);
 
 // The game's logic class (the canonical source's <script type="text/x-dc" data-dc-script>)
 // becomes a script of its own, game.logic.js: the browser compiles a script while it
-// downloads, away from the main thread, and can keep it compiled for a returning player,
-// which code the runtime makes from text (new Function) gets neither of. The runtime is
-// unchanged: it still compiles the script's text, now one line that hands over the class
-// made by game.logic.js with the same three names (docs/START-PERFORMANCE.md).
-const logicOpen = fragment.indexOf('<script type="text/x-dc" data-dc-script');
-const logicStart = fragment.indexOf(">", logicOpen) + 1;
-const logicEnd = fragment.indexOf("</script>", logicStart);
-if (logicOpen < 0 || logicStart < 1 || logicEnd < logicStart || fragment.indexOf('<script type="text/x-dc"', logicEnd) >= 0) {
+// downloads, away from the main thread, and can keep it compiled for a returning player.
+// It defines window.__permagardenLogic(DCLogic, StreamableLogic, React), which returns the
+// class; lib/runtime.js gives it its base, DCLogic, and starts the game with it.
+const logicOpen = game.indexOf('<script type="text/x-dc" data-dc-script');
+const logicStart = game.indexOf(">", logicOpen) + 1;
+const logicEnd = game.indexOf("</script>", logicStart);
+if (logicOpen < 0 || logicStart < 1 || logicEnd < logicStart || game.indexOf('<script type="text/x-dc"', logicEnd) >= 0) {
   throw new Error("Expected exactly one game logic script in the game content.");
 }
-const logicSource = fragment.slice(logicStart, logicEnd);
+const logicSource = game.slice(logicStart, logicEnd);
 const logic = [
   "// Generated by scripts/build.mjs from Permaculture Garden v2.dc.html: the game's logic class.",
-  "// Never edit by hand. The runtime (vendor/dc-runtime.js) asks for it with the stub in game.fragment.html.",
+  "// Never edit by hand. lib/runtime.js starts the game with it and with game.template.js.",
   `window.${LOGIC_GLOBAL} = (function (DCLogic, StreamableLogic, React) {`,
   logicSource,
   ';return (typeof Component!=="undefined"&&Component)||undefined;',
   "});",
   "",
 ].join("\n");
-fragment = fragment.slice(0, logicStart) + "\n" + LOGIC_STUB + "\n" + fragment.slice(logicEnd);
+// The props the canvas gave the logic class as this.props: the defaults of the script's data-props.
+const [logicTag] = parseFragment(game.slice(logicOpen, logicStart) + "</script>").childNodes;
+const props = propsFromDataProps((logicTag.attrs.find((attr) => attr.name === "data-props") || {}).value);
 
 // The game's styles (the <style> blocks in the canonical source's <helmet>) become a
-// stylesheet of its own, game.css, which the shell fetches together with the logic. In the
-// fragment the browser read them twice, when the shell put the template into the page and
-// again when the runtime copied the helmet into the head at the first render, and with
-// them every font they name; and the runtime's passes over the template's text carried
-// them too (docs/START-PERFORMANCE.md).
-const helmetOpen = fragment.indexOf("<helmet>");
-const helmetEnd = fragment.indexOf("</helmet>", helmetOpen);
-if (helmetOpen < 0 || helmetEnd < 0 || fragment.indexOf("<helmet", helmetEnd) >= 0) {
+// stylesheet of its own, game.css, which the shell fetches together with the logic.
+const templateEnd = game.indexOf("</x-dc>");
+let markup = game.slice("<x-dc>".length, templateEnd);
+const helmetOpen = markup.indexOf("<helmet>");
+const helmetEnd = markup.indexOf("</helmet>", helmetOpen);
+if (helmetOpen < 0 || helmetEnd < 0 || markup.indexOf("<helmet", helmetEnd) >= 0) {
   throw new Error("Expected exactly one <helmet> in the game content.");
 }
-const helmet = fragment.slice(helmetOpen + "<helmet>".length, helmetEnd);
+const helmet = markup.slice(helmetOpen + "<helmet>".length, helmetEnd);
 const styleBlocks = [...helmet.matchAll(/<style([^>]*)>([\s\S]*?)<\/style>/g)];
-if (!styleBlocks.length || styleBlocks.some(([, attributes]) => attributes.trim())) {
+if (!styleBlocks.length || styleBlocks.some(([, attributes]) => attributes.trim()) || helmet.replace(/<style[^>]*>[\s\S]*?<\/style>/g, "").trim()) {
   // an attribute such as media would be lost in a plain stylesheet
-  throw new Error("Expected the game's styles as plain <style> blocks in the <helmet>.");
+  throw new Error("Expected the game's styles as plain <style> blocks in the <helmet>, and nothing else there.");
 }
+// the helmet's lines stay as empty lines, so the template's messages name the source's lines
+markup = markup.slice(0, helmetOpen) + "\n".repeat(helmet.split("\n").length - 1) + markup.slice(helmetEnd + "</helmet>".length);
+
+// The template (the rest of <x-dc>) becomes code at build time, game.template.js
+// (scripts/template-compiler.mjs): the browser no longer reads it as HTML, walks and
+// compiles it at every start, and the page needs no runtime that makes code from text.
+const compiled = compileTemplate(markup, {
+  props,
+  firstLine: source.slice(0, source.indexOf("<x-dc>")).split("\n").length,
+  header: [
+    "// Generated by scripts/build.mjs from Permaculture Garden v2.dc.html: the game's template as code",
+    "// (scripts/template-compiler.mjs). Never edit by hand; lib/runtime.js draws it with game.logic.js.",
+  ].join("\n"),
+});
+const template = compiled.code;
 const styles = [
   `/* Generated by scripts/build.mjs from Permaculture Garden v2.dc.html: the game's styles. Never edit by hand. */`,
   ...styleBlocks.map(([, , css]) => css.trim()),
+  ...(compiled.css.length ? ["/* the template's style-hover attributes (scripts/template-compiler.mjs) */", ...compiled.css] : []),
   "",
 ].join("\n");
-if (styles.includes("{{")) {
+if (styleBlocks.some(([, , css]) => css.includes("{{"))) {
   throw new Error(`The game's styles hold a template value, which ${STYLES_FILE} cannot fill in.`);
-}
-const helmetRest = helmet.replace(/<style[^>]*>[\s\S]*?<\/style>/g, "");
-fragment = fragment.slice(0, helmetOpen) + (helmetRest.trim() ? `<helmet>${helmetRest}</helmet>` : "") + fragment.slice(helmetEnd + "</helmet>".length);
-
-// The template waits in the page, unseen, until the runtime reads it, and a picture in it
-// with a fixed address would still be downloaded and decoded there, long before the game
-// shows it. sc-camel-src is the runtime's own spelling of src (the story's frames use it
-// for their addresses): the browser leaves it alone, the rendered picture gets src.
-const tplStart = fragment.indexOf("<x-dc>");
-const tplEnd = fragment.indexOf("</x-dc>");
-fragment = fragment.slice(0, tplStart) + fragment.slice(tplStart, tplEnd).replace(/(<img\b[^>]*?\s)src="(?![^"]*\{\{)/g, '$1sc-camel-src="') + fragment.slice(tplEnd);
-if (/<(?:img|source|video|audio|iframe|object|embed)\b[^>]*\s(?:src|srcset|poster)="/.test(fragment.slice(tplStart, fragment.indexOf("</x-dc>")))) {
-  throw new Error("A picture or media element in the template still downloads before the game shows it.");
 }
 html = html.slice(0, gameStart) + html.slice(gameEnd);
 
@@ -303,14 +304,14 @@ html = html.replace(COVER_LETTERS, JSON.stringify(coverLetters));
 
 // The offline package (lib/offline.js, sw.js): every file with its size and
 // hash, and the build's version stamped into the service worker.
-const offlineManifest = await buildOfflineManifest(root, { "index.html": html, "game.fragment.html": fragment, [LOGIC_FILE]: logic, [STYLES_FILE]: styles });
+const offlineManifest = await buildOfflineManifest(root, { "index.html": html, [TEMPLATE_FILE]: template, [LOGIC_FILE]: logic, [STYLES_FILE]: styles });
 const manifestText = formatOfflineManifest(offlineManifest);
 const workerText = stampServiceWorker(await readFile(workerPath, "utf8"), offlineManifest.version);
 
 if (process.argv.includes("--check")) {
-  const [currentHtml, currentFragment, currentLogic, currentStyles, currentManifest, currentWorker] = await Promise.all([
+  const [currentHtml, currentTemplate, currentLogic, currentStyles, currentManifest, currentWorker] = await Promise.all([
     readFile(outputPath, "utf8"),
-    readFile(fragmentPath, "utf8"),
+    readFile(templatePath, "utf8").catch(() => ""),
     readFile(logicPath, "utf8").catch(() => ""),
     readFile(stylesPath, "utf8").catch(() => ""),
     readFile(manifestPath, "utf8").catch(() => ""),
@@ -318,7 +319,7 @@ if (process.argv.includes("--check")) {
   ]);
   const stale = [];
   if (currentHtml !== html) stale.push(path.relative(root, outputPath));
-  if (currentFragment !== fragment) stale.push(path.relative(root, fragmentPath));
+  if (currentTemplate !== template) stale.push(path.relative(root, templatePath));
   if (currentLogic !== logic) stale.push(path.relative(root, logicPath));
   if (currentStyles !== styles) stale.push(path.relative(root, stylesPath));
   if (currentManifest !== manifestText) stale.push(path.relative(root, manifestPath));
@@ -329,13 +330,13 @@ if (process.argv.includes("--check")) {
   console.log("Generated production files match the canonical source.");
 } else {
   await writeFile(outputPath, html, "utf8");
-  await writeFile(fragmentPath, fragment, "utf8");
+  await writeFile(templatePath, template, "utf8");
   await writeFile(logicPath, logic, "utf8");
   await writeFile(stylesPath, styles, "utf8");
   await writeFile(manifestPath, manifestText, "utf8");
   await writeFile(workerPath, workerText, "utf8");
   console.log(`Built ${path.relative(root, outputPath)} loading shell (${html.length} characters).`);
-  console.log(`Built ${path.relative(root, fragmentPath)} game content (${fragment.length} characters).`);
+  console.log(`Built ${path.relative(root, templatePath)} game template (${template.length} characters; ${compiled.stats.elements} elements, ${compiled.stats.conditions} conditions, ${compiled.stats.loops} lists, ${compiled.stats.functions} functions).`);
   console.log(`Built ${path.relative(root, logicPath)} game logic (${logic.length} characters).`);
   console.log(`Built ${path.relative(root, stylesPath)} game styles (${styles.length} characters).`);
   console.log(`Built ${path.relative(root, manifestPath)}: ${Object.keys(offlineManifest.files).length} files, version ${offlineManifest.version}.`);

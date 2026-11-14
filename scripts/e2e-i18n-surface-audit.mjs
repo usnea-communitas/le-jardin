@@ -221,7 +221,7 @@ page.on("pageerror", error => browserErrors.push(`pageerror: ${error.message}`))
 page.on("console", message => {
   if (
     message.type() === "error" ||
-    (message.type() === "warning" && /\[dc-runtime\]|never resolved/u.test(message.text()))
+    (message.type() === "warning" && /\[dc-runtime\]|\[template\]|never resolved/u.test(message.text()))
   ) browserErrors.push(`console ${message.type()}: ${message.text()}`);
 });
 

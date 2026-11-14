@@ -114,11 +114,11 @@ try {
     await context.close();
   }
 
-  // A fragment outage must leave a useful, keyboard-ready recovery state.
+  // A template outage must leave a useful, keyboard-ready recovery state.
   {
     const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
     const page = await context.newPage();
-    await page.route('**/game.fragment.html*', route => route.fulfill({
+    await page.route('**/game.template.js*', route => route.fulfill({
       status: 503,
       contentType: 'text/plain',
       body: 'temporary test outage'
@@ -132,8 +132,8 @@ try {
       retryVisible: await retry.isVisible(),
       focused: await retry.evaluate(element => element === document.activeElement)
     };
-    check(/could not finish loading/i.test(recovery.text) && recovery.retryVisible, 'a failed fragment shows a clear retry action', recovery);
-    check(recovery.focused, 'the fragment recovery action receives keyboard focus', recovery);
+    check(/could not finish loading/i.test(recovery.text) && recovery.retryVisible, 'a failed template shows a clear retry action', recovery);
+    check(recovery.focused, 'the template recovery action receives keyboard focus', recovery);
     await context.close();
   }
 
@@ -156,12 +156,10 @@ try {
   }
 
   // The game's logic class ships as game.logic.js (scripts/game-logic.mjs): when it
-  // does not arrive, the runtime never starts with a stub that has nothing to hand over.
+  // does not arrive, the game's runtime never starts with nothing to draw.
   {
     const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
     const page = await context.newPage();
-    const runtimeRequests = [];
-    page.on('request', request => { if (request.url().includes('/vendor/dc-runtime.js')) runtimeRequests.push(request.url()); });
     await page.route('**/game.logic.js*', route => route.fulfill({ status: 503, contentType: 'text/plain', body: 'temporary test outage' }));
     await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
     const alert = page.getByRole('alert');
@@ -170,9 +168,33 @@ try {
       text: await alert.innerText(),
       retryVisible: await page.getByRole('button', { name: 'Try again' }).isVisible(),
       gameStarted: await page.evaluate(() => !!window.__PERMAGARDEN_APP__),
-      runtimeRan: await page.evaluate(() => !!document.querySelector('script[src="vendor/dc-runtime.js"]'))
+      runtimeStarted: await page.evaluate(() => !!document.getElementById('pg-root'))
     };
-    check(/could not finish loading/i.test(recovery.text) && recovery.retryVisible && !recovery.gameStarted && !recovery.runtimeRan, 'a missing game logic shows the retry action and the runtime does not start', { ...recovery, runtimeRequests });
+    check(/could not finish loading/i.test(recovery.text) && recovery.retryVisible && !recovery.gameStarted && !recovery.runtimeStarted, 'a missing game logic shows the retry action and the runtime does not start', recovery);
+    await context.close();
+  }
+
+  // An error while the game draws (lib/runtime.js) stops it with the same retry
+  // action, instead of a page that never leaves its boot screen.
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const page = await context.newPage();
+    const errors = [];
+    page.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    await page.route('**/game.template.js*', route => route.fulfill({
+      status: 200,
+      contentType: 'text/javascript',
+      body: 'window.__permagardenTemplate = function () { return { props: {}, render: function () { throw new Error("test drawing error"); } }; };'
+    }));
+    await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+    const alert = page.getByRole('alert').first();
+    await alert.waitFor({ state: 'visible', timeout: 10000 });
+    const recovery = {
+      text: await alert.innerText(),
+      retryVisible: await page.getByRole('button', { name: 'Try again' }).first().isVisible(),
+      logged: errors.some(text => /test drawing error/.test(text))
+    };
+    check(/could not finish loading/i.test(recovery.text) && recovery.retryVisible && recovery.logged, 'an error while the game draws shows the retry action and is logged', recovery);
     await context.close();
   }
 
@@ -193,9 +215,9 @@ try {
       text: await alert.innerText(),
       retryVisible: await page.getByRole('button', { name: 'Try again' }).isVisible(),
       gameStarted: await page.evaluate(() => !!window.__PERMAGARDEN_APP__),
-      runtimeRan: await page.evaluate(() => !!document.querySelector('script[src="vendor/dc-runtime.js"]'))
+      runtimeStarted: await page.evaluate(() => !!document.getElementById('pg-root'))
     };
-    check(/could not finish loading/i.test(recovery.text) && recovery.retryVisible && !recovery.gameStarted && !recovery.runtimeRan, `${what} show the retry action and the runtime does not start`, recovery);
+    check(/could not finish loading/i.test(recovery.text) && recovery.retryVisible && !recovery.gameStarted && !recovery.runtimeStarted, `${what} show the retry action and the runtime does not start`, recovery);
     await context.close();
   }
 

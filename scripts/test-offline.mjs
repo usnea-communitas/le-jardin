@@ -15,20 +15,20 @@ const base = "https://example.test/";
 const manifest = {
   version: "aaaaaaaaaaaaaaaa",
   files: {
-    "index.html": [5, "h-index"], "game.fragment.html": [7, "h-frag"], "assets/a.webp": [3, "h-a"],
+    "index.html": [5, "h-index"], "game.template.js": [7, "h-tpl"], "assets/a.webp": [3, "h-a"],
     "assets/i18n/catalog.en.json": [4, "h-en"], "assets/i18n/catalog.cs.json": [4, "h-cs"], "assets/i18n/catalog.fr.json": [4, "h-fr"], "assets/i18n/catalog.de.json": [4, "h-de"],
     "assets/audio/story/narration-01.mp3": [10, "h-ven"], "assets/audio/story/cs/narration-01.mp3": [11, "h-vcs"], "assets/audio/story/fr/narration-01.mp3": [12, "h-vfr"],
     "assets/audio/music/a.mp3": [20, "h-m"]
   },
   groups: {
-    core: ["index.html", "game.fragment.html", "assets/a.webp"],
+    core: ["index.html", "game.template.js", "assets/a.webp"],
     catalogs: { en: ["assets/i18n/catalog.en.json"], cs: ["assets/i18n/catalog.cs.json"], fr: ["assets/i18n/catalog.fr.json"], de: ["assets/i18n/catalog.de.json"] },
     voice: { en: ["assets/audio/story/narration-01.mp3"], cs: ["assets/audio/story/cs/narration-01.mp3"], fr: ["assets/audio/story/fr/narration-01.mp3"] },
     music: ["assets/audio/music/a.mp3"]
   }
 };
 assert.deepEqual(offline.normalizeSettings({ locale: "xx", voice: 1 }, manifest), { locale: "en", voice: true, music: false });
-assert.deepEqual(offline.filesFor(manifest, { locale: "en" }), ["index.html", "game.fragment.html", "assets/a.webp", "assets/i18n/catalog.en.json"]);
+assert.deepEqual(offline.filesFor(manifest, { locale: "en" }), ["index.html", "game.template.js", "assets/a.webp", "assets/i18n/catalog.en.json"]);
 assert.deepEqual(offline.filesFor(manifest, { locale: "fr", voice: true }).slice(4), ["assets/i18n/catalog.fr.json", "assets/audio/story/fr/narration-01.mp3"], "French plays the French voice, as the game does");
 assert.deepEqual(offline.filesFor(manifest, { locale: "de", voice: true }).slice(4), ["assets/i18n/catalog.de.json", "assets/audio/story/narration-01.mp3"], "German plays the English voice, as the game does");
 assert.ok(offline.filesFor(manifest, { locale: "cs", voice: true, music: true }).includes("assets/audio/story/cs/narration-01.mp3"));
@@ -95,13 +95,13 @@ assert.equal(await offline.isComplete(caches, manifest.version, base, { locale: 
 // a newer build where one file changed: the rest is copied from the older download
 const next = JSON.parse(JSON.stringify(manifest));
 next.version = "bbbbbbbbbbbbbbbb";
-next.files["game.fragment.html"] = [8, "h-frag-2"];
-bodies[base + "game.fragment.html"] = "y".repeat(8);
+next.files["game.template.js"] = [8, "h-tpl-2"];
+bodies[base + "game.template.js"] = "y".repeat(8);
 fetched.length = 0;
 await offline.download({ caches, fetch: fakeFetch, manifest: next, settings: { locale: "cs", voice: true }, base });
-assert.deepEqual(fetched, [base + "game.fragment.html"], "an update fetches only what changed");
+assert.deepEqual(fetched, [base + "game.template.js"], "an update fetches only what changed");
 const nextCache = await caches.open(offline.cacheName(next.version));
-assert.equal(await (await nextCache.match(base + "game.fragment.html")).text(), "yyyyyyyy");
+assert.equal(await (await nextCache.match(base + "game.template.js")).text(), "yyyyyyyy");
 assert.equal((await nextCache.match(base + "assets/i18n/catalog.cs.json")).headers.get(offline.HASH_HEADER), "h-cs");
 assert.ok(await nextCache.match(base + offline.MANIFEST), "the manifest is kept for the sizes without a connection");
 
@@ -129,11 +129,11 @@ assert.equal(await offline.respond(caches, next.version, request(base + "api/gar
 assert.equal(await offline.respond(caches, next.version, request(base + "__offline/status.json"), base), null);
 assert.equal(await offline.respond(caches, next.version, request("https://other.test/index.html"), base), null);
 assert.equal(await offline.respond(caches, "dddddddddddddddd", request(base + "index.html"), base), null);
-const part = await offline.respond(caches, next.version, request(base + "game.fragment.html", { headers: { range: "bytes=2-4" } }), base);
+const part = await offline.respond(caches, next.version, request(base + "game.template.js", { headers: { range: "bytes=2-4" } }), base);
 assert.equal(part.status, 206);
 assert.equal(part.headers.get("content-range"), "bytes 2-4/8");
 assert.equal(await part.text(), "yyy");
-const outside = await offline.respond(caches, next.version, request(base + "game.fragment.html", { headers: { range: "bytes=50-" } }), base);
+const outside = await offline.respond(caches, next.version, request(base + "game.template.js", { headers: { range: "bytes=50-" } }), base);
 assert.equal(outside.status, 416);
 
 // removing deletes the downloads and the choice
@@ -151,7 +151,7 @@ for (const [file, [size]] of Object.entries(real.files)) {
 }
 assert.ok(!Object.keys(real.files).some(f => /\.(webm|mp4)$/.test(f)), "moving pictures stay online");
 assert.deepEqual(Object.keys(real.groups.catalogs).sort(), ["cs", "de", "en", "es", "fr", "pl", "pt-BR", "ru", "zh-CN"]);
-for (const needed of ["index.html", "game.fragment.html", "game.logic.js", "game.css", "lib/offline.js", "lib/i18n.js", "vendor/dc-runtime.js"]) {
+for (const needed of ["index.html", "game.template.js", "game.logic.js", "game.css", "lib/offline.js", "lib/i18n.js", "lib/runtime.js"]) {
   assert.ok(real.groups.core.includes(needed), `the package holds ${needed}`);
 }
 assert.deepEqual(Object.keys(real.groups.voice).sort(), ["cs", "en", "fr"], "the English, Czech and French voices are listed");

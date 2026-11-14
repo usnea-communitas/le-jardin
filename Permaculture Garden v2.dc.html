@@ -24,8 +24,6 @@
 <link rel="preload" href="048df43a-fe9b-45a8-b411-e39d84d8ca7f" as="font" type="font/woff2" crossorigin>
 <style id="pg-boot-style">
 html,body{margin:0;min-height:100%;background:#f4efe3}
-/* the raw template waits unseen until dc-runtime replaces it, so it is never laid out */
-x-dc{display:none!important}
 #pg-boot{position:fixed;inset:0;z-index:99999;display:grid;place-items:center;padding:22px;overflow:hidden;isolation:isolate;background:radial-gradient(circle at 50% 42%,#fbf8f1 0,#f4efe3 56%,#e6ddc8 100%);color:#2c3525;font-family:'Hanken Grotesk',sans-serif}
 /* the story's first painting, where the opening story shows it, so the cover follows without a jump and the largest paint does not wait for the game */
 #pg-boot picture,#pg-boot .pg-boot-shade{position:absolute;inset:0;z-index:-1}
@@ -57,6 +55,15 @@ x-dc{display:none!important}
 <div id="pg-boot" role="status" aria-live="polite"><div class="pg-boot-card"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M13 52c0-25 15-39 43-41-3 28-18 43-43 41z" fill="#dceac7" stroke="#5e7e4a" stroke-width="4" stroke-linejoin="round"></path><path d="M13 52c7-15 17-25 31-31" stroke="#5e7e4a" stroke-width="4" stroke-linecap="round"></path></svg><strong>Le Jardin</strong><span>Preparing Le Jardin…</span></div><picture aria-hidden="true"><source media="(max-aspect-ratio: 3/5)" srcset="assets/story/phone/story-01-menet.webp" type="image/webp"><img class="pg-boot-art" src="assets/story/story-01-menet.webp" alt="" fetchpriority="high" decoding="async"></picture><div class="pg-boot-shade" aria-hidden="true"></div></div>
 <x-dc>
 <helmet>
+<style>
+/* Printing (the workshop's session log, the certificate): colours and pictures as on screen, every
+   animation at its end, no blur. The design canvas's runtime added these rules to every page it drew;
+   the game's own runtime does not, so they are kept here, before the game's own rules. */
+@media print{
+  figure,table{break-inside:avoid}
+  *,*::before,*::after{print-color-adjust:exact;-webkit-print-color-adjust:exact;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;animation-delay:-99s!important;animation-duration:.001s!important;animation-iteration-count:1!important;animation-fill-mode:both!important;animation-play-state:running!important;transition-duration:0s!important}
+}
+</style>
 <style>/* vietnamese */
 @font-face {
   font-family: 'Bricolage Grotesque';

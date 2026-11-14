@@ -13,7 +13,7 @@ const sha256 = buffer => createHash('sha256').update(buffer).digest('hex');
 // The domain can take a moment to point at a new deployment, so it is asked again
 // for up to 90 seconds.
 if (process.env.EXPECT_LOCAL_BUILD === '1') {
-  for (const file of ['index.html', 'game.fragment.html', 'game.logic.js', 'game.css']) {
+  for (const file of ['index.html', 'game.template.js', 'game.logic.js', 'game.css', 'lib/runtime.js']) {
     const local = sha256(await readFile(path.join(root, file)));
     let live = '';
     for (let waited = 0; ; waited += 5000) {

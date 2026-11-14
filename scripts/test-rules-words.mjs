@@ -21,7 +21,7 @@ for (const file of Object.keys(MODULES)) {
   assert.ok(at > 0 && at < runtimeAt, `lib/${file}.js loads, deferred, before the game`);
 }
 const shell = await readFile(path.join(root, "index.html"), "utf8");
-assert.ok(/document\.addEventListener\("DOMContentLoaded", resolve/.test(shell) && shell.indexOf("await parsed;") > 0 && shell.indexOf("await parsed;") < shell.indexOf('await load("vendor/dc-runtime.js")'),
+assert.ok(/document\.addEventListener\("DOMContentLoaded", resolve/.test(shell) && shell.indexOf("await parsed;") > 0 && shell.indexOf("await parsed;") < shell.indexOf("window.PermacultureRuntime.start("),
   "the game starts only after the deferred rule modules have run");
 assert.ok(shell.includes(JSON.stringify(Object.values(MODULES))), "the shell checks every rule module arrived, by its global name");
 

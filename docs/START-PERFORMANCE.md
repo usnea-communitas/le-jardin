@@ -187,6 +187,55 @@ the main thread; a phone has more cores). And React's first render as a transiti
 which React renders in slices of 5 ms, did not shorten the task: the runtime draws
 the whole template in one component's render, which React cannot slice.
 
+## A runtime of the game's own (14 November 2026)
+
+The design canvas's runtime read the template in the browser at every start: it put the
+template's 1,343 elements into the page, read them back, numbered and compiled them (item 3
+below), and at every render it read each `{{ value }}` from its text again. The build now reads
+the template once ([`scripts/template-compiler.mjs`](../scripts/template-compiler.mjs)) and
+writes `game.template.js`: one function for each part of the page that makes React's elements,
+so the browser compiles only the parts it draws, when it first draws them. The game's own
+runtime, `lib/runtime.js` (3 KiB compressed), gives the logic class its base and draws the
+template with it. `vendor/dc-runtime.js` and `game.fragment.html` are gone, the head no longer
+preloads them, and the page makes no code from text. A first visit is 597 KiB on a phone
+instead of 605 KiB.
+
+The elements are the ones the canvas's runtime made, called with the same arguments in the same
+order, which matters because the translations wrap `React.createElement`. The page's DOM was
+compared, in `main` and in this build, after each of the i18n surface audit's 232 scenarios
+(every dialog, challenge, story scene, book page, season and selection) and five more (the
+cover, the offline and garden-file dialogs, the workshop panel): identical in English on a
+desktop and a phone, Czech on a desktop, Polish on a tablet, French in Firefox, Chinese in
+WebKit on a phone and German in workshop mode, apart from the editor's `data-dc-tpl`
+attributes, the root's name and the hover classes' names; the untranslated values the audit
+reports are identical too. One state fails to draw in both (the connection challenge forced with
+no discovered guild, which the game never offers): the canvas's runtime showed a red note
+over a template without values, the game's runtime shows the boot screen's retry card; both
+draw the game again at the next change.
+
+The trace as above (local server, three runs each, `main` → this change): the cover appears
+after 908–1210 → 708–890 ms; the main thread is busy 945–1248 → 717–883 ms until then, of
+which script 365–548 → 215–270 ms, and parsing HTML 107–175 → 61–81 ms. The runtime's long
+task (113–207 ms) is gone; the longest task left is React's first render of the game (92–157 ms).
+
+Lighthouse 12, phone, ten runs each, alternating, against local servers that wait
+40–100 ms before each answer:
+
+| | Before (`main`) | A runtime of the game's own |
+|---|---:|---:|
+| Performance, median (worst) | 69.5 (67) | 87.5 (82) |
+| Total blocking time, median | 393 ms | 137 ms |
+| Largest contentful paint, median | 4.65 s | 3.28 s |
+| First contentful paint, median | 2.34 s | 1.62 s |
+| Speed index, median | 3.51 s | 3.37 s |
+
+The largest paint is the boot screen's title in every run of both (a trace on an emulated
+phone shows no other candidate), so it now comes sooner because the head preloads less.
+Against J-12: the median blocking time is under 200 ms and the first visit under 700 KiB;
+the median of 90 and the worst of 85 are not reached in these runs: what is left is the
+render-blocking scripts in the head (item 5) and React's first render with the game's
+`renderVals()` (item 2).
+
 ## What can be taken away, largest first
 
 1. **The cover waits for the whole game.** Every step above stands between
@@ -204,14 +253,9 @@ the whole template in one component's render, which React cannot slice.
    outside the runtime. (The style and layout React's first render forced, 70–85
    ms, moved to the next frame on 14 November 2026, see above.)
 3. **The runtime's own work on the template**: putting its 1,343 elements into
-   the page, reading them back and compiling them (`stamp`, `collectProps`,
-   `walkElement`), 140–280 ms at the phone's speed. Its CSS is no longer part of
-   it (14 November 2026). The runtime is the one the Claude app's design canvas
-   exported with the game, kept exactly as exported (`THIRD_PARTY_NOTICES.md`,
-   settled on 14 November 2026), so this work is not done by changing it: it
-   needs a runtime of the game's own, ideally one that turns the template into
-   code at build time, which would also let the page forbid evaluating text as
-   code. That is a package of its own.
+   the page, reading them back and compiling them, 140–280 ms at the phone's speed.
+   Done on 14 November 2026 with a runtime of the game's own that turns the template
+   into code at build time, see above.
 4. **The logic as a real script** (candidate (d)): done on 14 November 2026,
    see above, without changing the runtime.
 5. **The three scripts in the head without `defer`** (`lib/i18n.js`,
