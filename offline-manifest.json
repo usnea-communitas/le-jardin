@@ -1,8 +1,8 @@
 {
-  "version": "1951c8cbdf5581f0",
+  "version": "53977a192592dc61",
   "files": {
     "index.html": [12196,"b56048ae0b4c6ffd"],
-    "game.fragment.html": [164193,"1e9f9b30d0526b69"],
+    "game.fragment.html": [164193,"5db68d28fa6bb24a"],
     "game.logic.js": [467332,"22d3db78249bc6c9"],
     "game.css": [124336,"1e6847a570297c25"],
     "manifest.webmanifest": [489,"ca679c347afe18b7"],
