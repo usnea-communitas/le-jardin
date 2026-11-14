@@ -182,15 +182,16 @@ check(failed.every(url => /\.(webm|mp4|mp3)(\?|$)|\/sw\.js(\?|$)/.test(url)), 'o
 
 // ── 3. a newer build is published while the game is open ──
 part = '3. update';
-const fragment = await readFile(path.join(root, 'game.fragment.html'), 'utf8');
+const template = await readFile(path.join(root, 'game.template.js'), 'utf8');
 const oldVersion = await footerVersion();
-const newFragment = fragment.replace(/(<span data-pg-version="true"[^>]*>)[^<]*(<\/span>)/, '$1' + oldVersion + '-next$2');
+const newTemplate = template.replace(/("data-pg-version": "true"[^}]*\},\s*)"[^"]*"/, '$1' + JSON.stringify(oldVersion + '-next'));
+if (newTemplate === template) throw new Error('The version in game.template.js was not found.');
 const digest = text => createHash('sha256').update(text).digest('hex').slice(0, 16);
 const nextManifest = JSON.parse(JSON.stringify(manifest));
-nextManifest.files['game.fragment.html'] = [Buffer.byteLength(newFragment), digest(newFragment)];
+nextManifest.files['game.template.js'] = [Buffer.byteLength(newTemplate), digest(newTemplate)];
 nextManifest.version = digest(manifest.version + '-next');
 const worker = (await readFile(path.join(root, 'sw.js'), 'utf8')).replace(/^const VERSION = "[0-9a-f]+";$/m, `const VERSION = "${nextManifest.version}";`);
-overrides.set('game.fragment.html', Buffer.from(newFragment));
+overrides.set('game.template.js', Buffer.from(newTemplate));
 overrides.set('offline-manifest.json', Buffer.from(JSON.stringify(nextManifest)));
 overrides.set('sw.js', Buffer.from(worker));
 await start();
@@ -198,7 +199,7 @@ requests = [];
 await page.evaluate(async () => { const registration = await navigator.serviceWorker.getRegistration(); await registration.update(); });
 await until(page, async () => { const registration = await navigator.serviceWorker.getRegistration(); return !!(registration && registration.waiting); }, null, 60000);
 const fetchedForUpdate = requests.filter(r => !/^(sw\.js|lib\/offline\.js|offline-manifest\.json)$/.test(r));
-check(fetchedForUpdate.length === 1 && fetchedForUpdate[0] === 'game.fragment.html', 'the newer build downloads in the background, only the file that changed', requests);
+check(fetchedForUpdate.length === 1 && fetchedForUpdate[0] === 'game.template.js', 'the newer build downloads in the background, only the file that changed', requests);
 check(await footerVersion() === oldVersion, 'the game in progress keeps its version while it is played', await footerVersion());
 await tool.click();
 await page.locator('[data-testid="offline-update"]').waitFor({ timeout: 10000 });

@@ -4,6 +4,8 @@ Notable changes to Le Jardin. Version numbers follow the game's internal release
 
 ## Unreleased
 
+- **A runtime of the game's own** (package J-12). The game no longer ships the design canvas's runtime, which read the game's template in the browser at every start (1,343 elements put into the page, read back and compiled, 140–280 ms on a phone) and made code from text. The build now turns the template into code once, `game.template.js` (`scripts/template-compiler.mjs`), and the game's own small runtime, `lib/runtime.js`, draws it with the logic class. The page is the same: its DOM was compared with the previous build after 237 scenarios in six languages, three browser engines and three screen sizes, and only the editor's markers and two names differ. In Lighthouse's phone, the preview deployment against production (ten alternating runs each) has a performance median of 94 instead of 91, the worst run 86 instead of 80 and a median blocking time of 137 instead of 246 ms, which meets all four start goals of J-12; a first visit is 597 KiB instead of 605 KiB. `vendor/dc-runtime.js` and `game.fragment.html` are gone; a state the game cannot draw now shows the boot screen's retry card instead of a red developer note, and the game draws again at the next change. `npm run test:template` pins what each part of the template's language makes.
+
 ## v0.89.0 — 2026-11-14 — the Living Lesson speaks through Claude
 
 The garden's reflections come from Claude Haiku 5.5 through the Claude API, with a monthly spend limit as the hard ceiling, the notices name the Claude design canvas the game began on, and two checks now name their cause.

@@ -165,9 +165,9 @@ try {
   const button = page.getByTestId("living-lesson-button");
   await button.waitFor({ state: "visible" });
   await button.scrollIntoViewIfNeeded();
-  // The production shell streams the game fragment before React finishes binding
-  // every delegated handler. Give that final hydration turn a bounded moment so
-  // the click verifies the real request instead of racing an inert first frame.
+  // On the live site the game's files arrive over a real connection after the
+  // first paint. Give the game's first frames a bounded moment so the click
+  // verifies the real request instead of racing an inert first frame.
   if (!localHarness) await page.waitForTimeout(2000);
   await dismissGardenMessages();
   check(await button.isEnabled(), "Living Lesson unlocks once the garden has enough state to reflect on");

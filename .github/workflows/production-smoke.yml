@@ -2,7 +2,7 @@ name: Production smoke test
 
 # Vercel reports every deployment to GitHub. After a successful production
 # deployment this checks the live domain on the deployed commit: it must serve
-# exactly this commit's index.html and game.fragment.html, and a player must get
+# exactly this commit's index.html and game files, and a player must get
 # from the story cover through the first four acts and a gift to the seasonal
 # challenge without console errors or failed requests. It never calls the
 # Living Lesson API (every model call costs credit), runs after the deploy and

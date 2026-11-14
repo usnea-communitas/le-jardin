@@ -33,7 +33,7 @@ The AI reflection ("Living Lesson") is part of the learning loop, not a chatbot 
 - Six-act learning progression, deterministic scoring; the AI reflection never changes the game rules.
 - Gift economy: community gifts never turn into personal currency.
 - Challenges without timers and without punishing failure.
-- The canonical source is `Permaculture Garden v2.dc.html`; `index.html` and `game.fragment.html` are generated (`npm run generate`) and must not be edited by hand.
+- The canonical source is `Permaculture Garden v2.dc.html`; `index.html`, `game.template.js`, `game.logic.js` and `game.css` are generated (`npm run generate`) and must not be edited by hand.
 - The OpenAI Build Week competition repository, deployment and Devpost entry are frozen historical records and must not be the target of any change.
 - Multiplayer (each player's own garden plus a shared Community Table) is planned; design and implementation are deferred.
 - Privacy: the model receives only an anonymous summary of the garden — never the player's name, free text or saved game. Without a reachable model the game offers an offline lesson.

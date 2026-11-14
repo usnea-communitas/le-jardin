@@ -4,8 +4,7 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import path from "node:path";
 import { createRequire } from "node:module";
-import { createHash } from "node:crypto";
-import { LOGIC_FILE, LOGIC_STUB } from "./game-logic.mjs";
+import { LOGIC_FILE } from "./game-logic.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
@@ -14,53 +13,38 @@ if (!livingLesson || typeof livingLesson.buildCandidates !== "function" || typeo
   throw new Error("Living Lesson engine did not load correctly.");
 }
 require(path.join(root, "api", "garden-reflection.js"));
-// vendor/dc-runtime.js is the Claude design canvas's runtime, redistributed exactly as it
-// came with the export (THIRD_PARTY_NOTICES.md): the game never edits it.
-const RUNTIME_SHA256 = "ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7";
-const runtimeHash = createHash("sha256").update(await readFile(path.join(root, "vendor", "dc-runtime.js"))).digest("hex");
-if (runtimeHash !== RUNTIME_SHA256) {
-  throw new Error("vendor/dc-runtime.js changed. It is the design canvas runtime as exported and is never edited (THIRD_PARTY_NOTICES.md); change the game in the canonical source, lib/ or the build instead.");
-}
 const execFileAsync = promisify(execFile);
 const generated = await execFileAsync(process.execPath, [path.join(root, "scripts", "build.mjs"), "--check"], { cwd: root });
 process.stdout.write(generated.stdout);
 const html = await readFile(path.join(root, "index.html"), "utf8");
-const fragment = await readFile(path.join(root, "game.fragment.html"), "utf8");
+const template = await readFile(path.join(root, "game.template.js"), "utf8");
 const logic = await readFile(path.join(root, LOGIC_FILE), "utf8");
 const styles = await readFile(path.join(root, "game.css"), "utf8");
+const source = await readFile(path.join(root, "Permaculture Garden v2.dc.html"), "utf8");
 
-// The game's logic class ships as a script of its own (scripts/game-logic.mjs): the
-// fragment keeps only the stub the runtime compiles, and the shell loads the script
-// after the first paint and runs it before the runtime.
-const open = fragment.indexOf('<script type="text/x-dc"');
-const start = fragment.indexOf(">", open) + 1;
-const end = fragment.indexOf("</script>", start);
-if (open < 0 || start < 1 || end < 0) {
-  throw new Error("The game script was not found in game.fragment.html.");
-}
-if (fragment.slice(start, end).trim() !== LOGIC_STUB) {
-  throw new Error(`The game script in game.fragment.html should be the stub that asks ${LOGIC_FILE}.`);
-}
+// The game's logic class, its template made into code and the game's own runtime are
+// scripts of their own (scripts/build.mjs, docs/ARCHITECTURE.md): the shell loads them
+// after the first paint, with the styles, and starts the runtime only once all are in.
 new Function(logic);
-// The game's styles ship as game.css (scripts/build.mjs): the template keeps no <style>, the
-// shell fetches the sheet with the logic, after the first paint, and both are in before the runtime.
-if (/<helmet>[\s\S]*?<style/.test(fragment) || !/@font-face/.test(styles) || !styles.includes(".pg-story-cover-card{")) {
-  throw new Error("The game's styles should be in game.css, and none left in game.fragment.html.");
+new Function(template);
+if (!template.includes("window.__permagardenTemplate = function") || /\bnew Function\b|\beval\(/.test(template)) {
+  throw new Error("game.template.js should define window.__permagardenTemplate, and make no code from text.");
 }
-const ready = html.indexOf("await Promise.all([styles, logic]);");
-if (/<link rel="preload" href="game\.(?:logic\.js|css)"/.test(html) || !(html.indexOf(`load("${LOGIC_FILE}")`) > 0 && html.indexOf('sheet("game.css")') > 0 && ready > 0 && ready < html.indexOf('await load("vendor/dc-runtime.js")'))) {
-  throw new Error(`index.html should fetch game.css and ${LOGIC_FILE} after the first paint (no preload) and have both before the runtime.`);
+if (/<helmet>[\s\S]*?<style/.test(template) || !/@font-face/.test(styles) || !styles.includes(".pg-story-cover-card{") || !/@media print\{\s*figure,table/.test(styles)) {
+  throw new Error("The game's styles should be in game.css, the print rules first.");
+}
+const ready = html.indexOf("await Promise.all([styles, logic, template, runtime]);");
+const start = html.indexOf("window.PermacultureRuntime.start({ onError: showError });");
+if (/<link rel="preload" href="(?:game\.(?:logic\.js|template\.js|css)|lib\/runtime\.js)"/.test(html) || !(["sheet(\"game.css\")", `load("${LOGIC_FILE}")`, 'load("game.template.js")', 'load("lib/runtime.js")'].every((part) => html.indexOf(part) > 0) && ready > 0 && ready < start)) {
+  throw new Error(`index.html should fetch game.css, ${LOGIC_FILE}, game.template.js and lib/runtime.js after the first paint (no preload) and have them all before the start.`);
 }
 // The cover's typefaces are asked for before the runtime draws the cover (see build.mjs).
-if (!(html.indexOf("await lettered;") > ready && html.indexOf("await lettered;") < html.indexOf('await load("vendor/dc-runtime.js")'))) {
+if (!(html.indexOf("await lettered;") > ready && html.indexOf("await lettered;") < start)) {
   throw new Error("index.html should have the cover's typefaces ready before the runtime starts.");
 }
-// The template waits in the page unseen: none of its pictures may download before the game shows it.
-const template = fragment.slice(fragment.indexOf("<x-dc>"), fragment.indexOf("</x-dc>"));
-if (/<(?:img|source|video|audio|iframe|object|embed)\b[^>]*\s(?:src|srcset|poster)="/.test(template)) {
-  throw new Error("A picture in game.fragment.html has a src the browser would fetch while the template waits; the build writes sc-camel-src.");
+if (/vendor\/dc-runtime|game\.fragment/.test(html)) {
+  throw new Error("index.html still names the design canvas's runtime or the old game fragment.");
 }
-
 const localRefs = new Set();
 // The boot screen shows the story's first painting from exactly the files the head
 // preloads, so the largest paint does not wait for the game and nothing downloads twice.
@@ -74,7 +58,8 @@ if (!bootSource || !bootImage || !phoneArt || !wideArt || bootSource[2] !== phon
   throw new Error("The boot screen's painting should be the story's first picture the head preloads, for the same screens.");
 }
 
-const production = html + "\n" + fragment + "\n" + logic + "\n" + styles;
+// the template's addresses are read in the source's markup, where they are HTML
+const production = html + "\n" + source.slice(source.indexOf("<x-dc>"), source.indexOf("</x-dc>")) + "\n" + logic + "\n" + styles;
 for (const match of production.matchAll(/(?:src|href)="([^"]+)"/g)) {
   const ref = match[1];
   if (!ref.includes("{{") && !/^(?:https?:|data:|#)/.test(ref)) localRefs.add(ref);
