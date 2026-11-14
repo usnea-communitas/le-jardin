@@ -175,6 +175,9 @@ function compilePath(text, scope) {
 
 // An attribute: one whole {{ value }} keeps the value as it is (an object, a
 // function, true), text around values joins them as text, and the rest is text.
+// As in the canvas, an attribute that begins with {{ and ends with }} is one value
+// even when it holds several, so "{{ a }} {{ b }}" gives nothing: such a label is
+// joined in renderVals(), where its words can be translated as a whole.
 function compileAttribute(raw, scope) {
   const whole = WHOLE_VALUE.exec(raw);
   if (whole) return { code: compileValue(whole[1], scope) };
@@ -220,6 +223,19 @@ class Compiler {
     return this.firstLine - 1 + (at ? at.startLine : 1);
   }
 
+  // Every {{ … }} in a text or an attribute must be something the language can
+  // read: anything else would always be undefined, so it stops the build.
+  readable(text, node, attribute) {
+    for (const found of String(text).matchAll(VALUE)) {
+      const source = found[1];
+      if (compileValue(source) !== UNDEFINED || source.trim() === "undefined") continue;
+      const at = node.sourceCodeLocation;
+      const start = (attribute && at && at.attrs && at.attrs[attribute]) || at;
+      const line = this.firstLine - 1 + (start ? start.startLine : 1) + text.slice(0, found.index).split("\n").length - 1;
+      throw new TemplateError(`Template line ${line}: {{${source}}} can never be read; a value is a name with .name, .0 or [ … ] steps, a comparison, a ! or a literal.`);
+    }
+  }
+
   // A class for each different style-hover (or style-focus, style-before…), in the
   // order the template first uses them, and its rule for game.css.
   pseudoClass(pseudo, css, node) {
@@ -247,8 +263,12 @@ class Compiler {
   }
 
   node(node, scope, depth, place) {
-    if (node.nodeName === "#text") return this.text(node.value, scope, place);
+    if (node.nodeName === "#text") {
+      this.readable(node.value, node);
+      return this.text(node.value, scope, place);
+    }
     if (!node.tagName) return null; // a comment
+    for (const attr of node.attrs || []) this.readable(attr.value, node, attr.name);
     const name = node.tagName.toLowerCase();
     if (name === "sc-for") return this.loop(node, scope, depth, place);
     if (name === "sc-if") return this.condition(node, scope, depth, place);

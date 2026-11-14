@@ -204,6 +204,8 @@ for (const [markup, why] of [
   ['<x-import component="A" from="a.js"></x-import>', /x-import/],
   ["<helmet><meta></helmet>", /helmet/],
   ['<b style-hover="a{b}"></b>', /style-hover holds styles only/],
+  ['<p>\n{{ a + b }}</p>', /line 2: \{\{ a \+ b \}\} can never be read/],
+  ['<b title="{{ a.b-c }}"></b>', /can never be read/],
 ]) {
   assert.throws(() => compileTemplate(markup), (error) => error instanceof TemplateError && why.test(error.message), markup);
 }
