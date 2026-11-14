@@ -25,7 +25,7 @@ The project bundles or installs the following third-party software. Each compone
 - Hanken Grotesk — SIL Open Font License 1.1; copyright and licence text in `licenses/HANKEN_GROTESK_OFL.txt`.
 - Bricolage Grotesque — SIL Open Font License 1.1; copyright and licence text in `licenses/BRICOLAGE_GROTESQUE_OFL.txt`.
 
-The local Design Component runtime in `vendor/dc-runtime.js` is part of the application export produced by the design tool used to author the canonical source; it is redistributed here as part of the exported application. The author retains the source-tool account/project record that authorised its export and use.
+The first version of the canonical source, `Permaculture Garden v2.dc.html`, was designed on the design canvas of the Claude app by Anthropic (claude.ai) and exported from it; everything since has been built on it in this repository with Claude Code and Codex. The Design Component runtime in `vendor/dc-runtime.js` is the canvas runtime that came with that export (13 July 2026). It is redistributed here as part of the exported application, byte for byte as exported: the game does not change it, and `npm test` fails when its checksum changes. The game's own code is the canonical source, `lib/`, `api/` and the build. Anthropic's terms for Claude ([consumer terms](https://www.anthropic.com/legal/consumer-terms), [commercial terms](https://www.anthropic.com/legal/commercial-terms)) assign to the user Anthropic's rights, if any, in outputs, and grant no rights in Anthropic's services themselves. The author keeps the Claude account record of the canvas project that the export came from.
 
 ## Official tool guidance checked on 19 July 2026
 
@@ -36,7 +36,7 @@ The local Design Component runtime in `vendor/dc-runtime.js` is part of the appl
 
 ## Names and trademarks
 
-- OpenAI, GPT, Codex, Vercel, ElevenLabs, Kling, Picsart, Lovable and Erasmus+ are names or marks of their respective owners.
+- Anthropic, Claude, OpenAI, GPT, Codex, Vercel, ElevenLabs, Kling, Picsart, Lovable and Erasmus+ are names or marks of their respective owners.
 - They are referenced only to describe tools or the real historical context. No endorsement is claimed.
 - The demo video shows no third-party logos except where unavoidable for a factual explanation, and contains only project-owned or properly licensed music, imagery and voice work.
 

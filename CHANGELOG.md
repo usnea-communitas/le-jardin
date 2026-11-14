@@ -4,6 +4,8 @@ Notable changes to Le Jardin. Version numbers follow the game's internal release
 
 ## Unreleased
 
+- **Where the game began** (package J-08b). The first version of the canonical source was designed on the design canvas of the Claude app (confirmed by the maintainer on 14 November 2026); `THIRD_PARTY_NOTICES.md` now names it, links Anthropic's terms and says that `vendor/dc-runtime.js` is the canvas runtime that came with the export, redistributed byte for byte as exported. `npm test` keeps it so (its checksum is the one of 13 July 2026), and the README's history, `docs/ARCHITECTURE.md` and `AGENTS.md` say the same.
+
 ## v0.88.0 — 2026-11-14 — a lighter start and the cover in its own letters
 
 The game's styles arrive as a file of their own, the interface pictures come when the garden shows them, and the cover's title and paragraph appear in their own typefaces from the first moment, so the start on a phone is steadier and a first visit lighter.
