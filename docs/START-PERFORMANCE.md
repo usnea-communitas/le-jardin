@@ -178,11 +178,14 @@ of 90 and the blocking time of 200 ms are not reached yet: what is left is React
 first render with the game's `renderVals()` (item 2 below) and the runtime's own
 work on the template (item 3).
 
-One more thing was tried and left out: telling V8 to compile all of `game.logic.js`
-while it downloads (the `//# allFunctionsCalledOnLoad` comment) took about
-100 ms of compiling out of React's first render, but the browser then needed as
-long to finish that compiled code on the main thread when the script ran, so the
-blocking time did not fall.
+Two more things were tried and left out. Telling V8 to compile all of
+`game.logic.js` while it downloads (the `//# allFunctionsCalledOnLoad` comment)
+took about 100 ms of compiling out of React's first render, but the browser then
+needed about as long on the main thread when the script ran, so the blocking time
+did not fall (on this two-core machine the background compiling also competes with
+the main thread; a phone has more cores). And React's first render as a transition,
+which React renders in slices of 5 ms, did not shorten the task: the runtime draws
+the whole template in one component's render, which React cannot slice.
 
 ## What can be taken away, largest first
 
