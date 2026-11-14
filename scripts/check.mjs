@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import path from "node:path";
 import { createRequire } from "node:module";
+import { createHash } from "node:crypto";
 import { LOGIC_FILE, LOGIC_STUB } from "./game-logic.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -13,6 +14,13 @@ if (!livingLesson || typeof livingLesson.buildCandidates !== "function" || typeo
   throw new Error("Living Lesson engine did not load correctly.");
 }
 require(path.join(root, "api", "garden-reflection.js"));
+// vendor/dc-runtime.js is the Claude design canvas's runtime, redistributed exactly as it
+// came with the export (THIRD_PARTY_NOTICES.md): the game never edits it.
+const RUNTIME_SHA256 = "ae4f0ac8449655e17cca1e3b179effcb6817a3b0d8dc47f112a9c39c25c39fd7";
+const runtimeHash = createHash("sha256").update(await readFile(path.join(root, "vendor", "dc-runtime.js"))).digest("hex");
+if (runtimeHash !== RUNTIME_SHA256) {
+  throw new Error("vendor/dc-runtime.js changed. It is the design canvas runtime as exported and is never edited (THIRD_PARTY_NOTICES.md); change the game in the canonical source, lib/ or the build instead.");
+}
 const execFileAsync = promisify(execFile);
 const generated = await execFileAsync(process.execPath, [path.join(root, "scripts", "build.mjs"), "--check"], { cwd: root });
 process.stdout.write(generated.stdout);

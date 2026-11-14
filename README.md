@@ -183,7 +183,7 @@ After every production deployment the *Production smoke test* workflow (`.github
 
 ## Project history
 
-- **Prototype (spring–July 2026)** — a single-file browser prototype with the core placement garden, seasons, guilds, wildlife and sharing.
+- **Prototype (spring–July 2026)** — a single-file browser prototype, designed on the design canvas of the Claude app, with the core placement garden, seasons, guilds, wildlife and sharing.
 - **OpenAI Build Week (13–19 July 2026)** — the prototype was rebuilt into a complete product with Codex as engineering collaborator: the eleven challenges, the cinematic introduction, the organic soundscape, hardened saving and progression, the Living Lesson architecture and the first automated journeys. The entry did not place; the submission text and provenance records are kept in [`docs/build-week/`](docs/build-week/).
 - **Playtest line (v0.78–v0.82, late July 2026)** — nine full language versions, Czech narration, the garden kitchen and seed bank, a rebalanced economy, adjustable garden size, phone and tablet layouts, and a growing set of browser regression journeys. Release notes live in [`docs/handoffs/`](docs/handoffs/) and in [CHANGELOG.md](CHANGELOG.md).
 - **Le Jardin (September 2026 →)** — the repository moved to its current GitHub organisation, the name was unified to *Le Jardin*, the API boundary was hardened and accessibility contrast was improved.
