@@ -52,6 +52,16 @@ if (process.env.EXPECT_LOCAL_BUILD === '1') {
   must(/immutable/.test(fontResponse.headers.get('cache-control') || ''), 'fonts are cached for a year');
   const media = await fetch(new URL('assets/story/share-menet.jpg', baseUrl));
   must(/max-age=86400/.test(media.headers.get('cache-control') || ''), 'media are cached for a day');
+  // The Living Lesson has its Claude API key (package J-09b). Without it the game
+  // quietly serves only the offline lesson, so nothing else would notice. The GET
+  // costs nothing: it asks no model. A server without the function (a local static
+  // build) answers 404 and is left out.
+  const lesson = await fetch(new URL('api/garden-reflection', baseUrl), { headers: { accept: 'application/json', 'cache-control': 'no-cache' } });
+  if (lesson.status !== 404) {
+    const about = await lesson.json().catch(() => ({}));
+    must(lesson.ok && about.model === 'claude-haiku-5-5' && about.auth === 'anthropic-api-key' && about.configured === true,
+      'the Living Lesson asks Claude Haiku 5.5 and has its API key');
+  }
   // The facilitator guides open in the browser's own PDF viewer (package J-03).
   for (const locale of ['en', 'cs', 'fr']) {
     const guide = await fetch(new URL(`docs/facilitator/pdf/le-jardin-facilitator-guide-${locale}.pdf`, baseUrl));
