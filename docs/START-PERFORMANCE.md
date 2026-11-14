@@ -206,9 +206,14 @@ the whole template in one component's render, which React cannot slice.
 3. **The runtime's own work on the template**: putting its 1,343 elements into
    the page, reading them back and compiling them (`stamp`, `collectProps`,
    `walkElement`), 140–280 ms at the phone's speed. Its CSS is no longer part of
-   it (14 November 2026); the rest waits for I3, the decision about the runtime.
+   it (14 November 2026). The runtime is the one the Claude app's design canvas
+   exported with the game, kept exactly as exported (`THIRD_PARTY_NOTICES.md`,
+   settled on 14 November 2026), so this work is not done by changing it: it
+   needs a runtime of the game's own, ideally one that turns the template into
+   code at build time, which would also let the page forbid evaluating text as
+   code. That is a package of its own.
 4. **The logic as a real script** (candidate (d)): done on 14 November 2026,
-   see above. The runtime itself stays untouched until I3.
+   see above, without changing the runtime.
 5. **The three scripts in the head without `defer`** (`lib/i18n.js`,
    `lib/living-lesson.js`, `lib/workshop.js`; Lighthouse estimated 130 ms of
    render blocking). Tried on 14 November 2026 with the boot waiting for the
