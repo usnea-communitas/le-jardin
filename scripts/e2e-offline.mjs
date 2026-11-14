@@ -65,13 +65,27 @@ const context = await browser.newContext({ viewport: { width: 1366, height: 900 
 const page = await context.newPage();
 const errors = [];
 const failed = [];
-page.on('pageerror', error => errors.push('pageerror: ' + error.message));
+// Which part of the journey an error belongs to, so a failure names its moment.
+let part = '1. download';
+page.on('pageerror', error => errors.push(`[${part}] pageerror: ` + error.message));
 // A load that fails is reported here in each browser's words (Firefox: "A ServiceWorker
 // intercepted the request…"); which loads may fail is checked on its own below.
 page.on('console', message => {
-  if (message.type() === 'error' && !/Failed to load resource|net::ERR_|A ServiceWorker intercepted the request and encountered an unexpected error/.test(message.text())) errors.push('console: ' + message.text());
+  if (message.type() === 'error' && !/Failed to load resource|net::ERR_|A ServiceWorker intercepted the request and encountered an unexpected error/.test(message.text())) errors.push(`[${part}] console: ` + message.text());
 });
 page.on('requestfailed', request => failed.push(request.url()));
+// The server is switched off on purpose; a picture still on its way would be cut
+// off and reported as corrupt (Firefox: "Image corrupt or truncated"), so the
+// journey waits until nothing is loading before it stops the server.
+let loading = 0;
+page.on('request', () => { loading += 1; });
+page.on('requestfinished', () => { loading = Math.max(0, loading - 1); });
+page.on('requestfailed', () => { loading = Math.max(0, loading - 1); });
+async function quiet(timeout = 15000) {
+  const end = Date.now() + timeout;
+  while (loading > 0 && Date.now() < end) await new Promise(resolve => setTimeout(resolve, 100));
+  await new Promise(resolve => setTimeout(resolve, 200));
+}
 page.on('dialog', dialog => dialog.accept());
 
 const app = fn => page.evaluate(fn);
@@ -137,6 +151,8 @@ await dialog.waitFor({ state: 'detached' });
 check(await page.evaluate(() => document.activeElement && document.activeElement.dataset.testid === 'offline-open'), 'Escape closes the panel and focus returns to its button');
 
 // ── 2. the server is switched off: the game opens and the first act is played ──
+await quiet();
+part = '2. offline play';
 await stop();
 failed.length = 0;
 await page.reload({ waitUntil: 'load' });
@@ -165,6 +181,7 @@ check(unexpected.length === 0, 'offline, everything the download holds was answe
 check(failed.every(url => /\.(webm|mp4|mp3)(\?|$)|\/sw\.js(\?|$)/.test(url)), 'offline, only sound and moving pictures left out of the download are missing', failed);
 
 // ── 3. a newer build is published while the game is open ──
+part = '3. update';
 const fragment = await readFile(path.join(root, 'game.fragment.html'), 'utf8');
 const oldVersion = await footerVersion();
 const newFragment = fragment.replace(/(<span data-pg-version="true"[^>]*>)[^<]*(<\/span>)/, '$1' + oldVersion + '-next$2');
@@ -190,6 +207,7 @@ await page.keyboard.press('Escape');
 await dialog.waitFor({ state: 'detached' });
 
 // ── 4. the next start uses the newer build, with the same garden ──
+part = '4. newer build';
 await page.reload({ waitUntil: 'load' });
 await page.waitForFunction(next => { const v = document.querySelector('[data-pg-version]'); return v && v.textContent === next; }, oldVersion + '-next', { timeout: 30000 });
 await gardenReady();
@@ -197,6 +215,7 @@ await clearDialogs();
 check(true, 'the next start runs the newer build');
 const after = await app(() => ({ compost: window.__PERMAGARDEN_APP__.state.placed.some(item => item.type === 'compost'), index: window.__PERMAGARDEN_APP__.journeyModel().index }));
 check(after.compost && after.index === 1, 'the update kept the garden in progress and its act', after);
+await quiet();
 await stop();
 await page.reload({ waitUntil: 'load' });
 await gardenReady();
@@ -205,6 +224,7 @@ const caches = await page.evaluate(() => caches.keys());
 check(caches.filter(name => name.startsWith('lj-offline-') && name !== 'lj-offline-settings').length === 1 && caches.includes('lj-offline-' + nextManifest.version), 'the older download was removed after the update', caches);
 
 // ── 5. removing the download ──
+part = '5. removal';
 overrides.clear();
 await start();
 await clearDialogs();
@@ -218,7 +238,7 @@ await context.close();
 // ── 6. a phone in Czech: the menu leads to the panel, and it fits ──
 const phone = await browser.newContext({ viewport: { width: 360, height: 740 }, isMobile: true, hasTouch: true, reducedMotion: 'reduce', locale: 'cs-CZ' });
 const p2 = await phone.newPage();
-p2.on('pageerror', error => errors.push('phone pageerror: ' + error.message));
+p2.on('pageerror', error => errors.push('[6. phone] pageerror: ' + error.message));
 await p2.goto(base + '?lang=cs', { waitUntil: 'load' });
 await p2.getByRole('button', { name: /Přeskočit/ }).filter({ visible: true }).first().click();
 await p2.waitForFunction(() => !!window.__PERMAGARDEN_APP__ && !!document.querySelector('[data-plot]'), null, { timeout: 30000 });
