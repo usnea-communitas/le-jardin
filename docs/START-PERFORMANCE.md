@@ -231,8 +231,22 @@ Lighthouse 12, phone, ten runs each, alternating, against local servers that wai
 
 The largest paint is the boot screen's title in every run of both (a trace on an emulated
 phone shows no other candidate), so it now comes sooner because the head preloads less.
-Against J-12: the median blocking time is under 200 ms and the first visit under 700 KiB;
-the median of 90 and the worst of 85 are not reached in these runs: what is left is the
+
+The preview deployment against production (v0.89.0), ten runs each, alternating, with
+nothing else running on the machine:
+
+| | Production (v0.89.0) | Preview |
+|---|---:|---:|
+| Performance, median (worst) | 91 (80) | 94 (86) |
+| Total blocking time, median (highest) | 246 ms (494 ms) | 137 ms (242 ms) |
+| Largest contentful paint, median | 2.73 s | 2.61 s |
+| Speed index, median | 2.69 s | 2.49 s |
+| Transferred | 629 KiB | 620 KiB |
+
+Against J-12, in this set all four goals are met: a median of 94 (at least 90), the worst
+86 (at least 85), a median blocking time of 137 ms (at most 200 ms) and 620 KiB (at most
+700 KiB), with every journey passing. Against the delayed local servers above the median
+and the worst stay lower, as they do for production; what is left to take is the
 render-blocking scripts in the head (item 5) and React's first render with the game's
 `renderVals()` (item 2).
 
