@@ -8,7 +8,7 @@ import { gzipSync } from "node:zlib";
 
 export const KIB = 1024;
 
-// Limits in KiB. Text (HTML, JavaScript, JSON, SVG) counts as it travels,
+// Limits in KiB. Text (HTML, CSS, JavaScript, JSON, SVG) counts as it travels,
 // compressed; pictures, fonts and sound count as they are.
 export const BUDGET = {
   firstVisitPhone: 700,
@@ -24,11 +24,12 @@ export const BUDGET = {
 };
 
 // What the opening story's cover fetches, before anyone presses a key: the
-// page and the game, its rules and runtime, three fonts, the English texts,
-// four small pictures of the interface and the story's first painting (a
-// 600 × 900 crop on a phone held upright).
+// page and the game (its template, styles and logic), its rules and runtime,
+// three fonts, the English texts and the story's first painting (a 600 × 900
+// crop on a phone held upright). The interface's pictures wait for the garden.
 const FIRST_VISIT_SHARED = [
   "index.html",
+  "game.css",
   "game.fragment.html",
   "game.logic.js",
   "lib/acts.js",
@@ -45,11 +46,7 @@ const FIRST_VISIT_SHARED = [
   "assets/fonts/048df43a-fe9b-45a8-b411-e39d84d8ca7f.woff2",
   "assets/fonts/268f057e-7d88-4bfc-af3c-98d4cd308f56.woff2",
   "assets/fonts/b55210b1-8cf9-41e5-9983-ed758dbf9ceb.woff2",
-  "assets/i18n/catalog.en.json",
-  "assets/ui/divider-vine.webp",
-  "assets/ui/flourish-branch.webp",
-  "assets/ui/icons/garden-voice.svg",
-  "assets/ui/icons/season.svg"
+  "assets/i18n/catalog.en.json"
 ];
 // Fetched by some browsers only (Safari reads the web app manifest at once,
 // Chromium when it needs it): counted in the sum, allowed to be absent.

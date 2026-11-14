@@ -19,6 +19,7 @@ process.stdout.write(generated.stdout);
 const html = await readFile(path.join(root, "index.html"), "utf8");
 const fragment = await readFile(path.join(root, "game.fragment.html"), "utf8");
 const logic = await readFile(path.join(root, LOGIC_FILE), "utf8");
+const styles = await readFile(path.join(root, "game.css"), "utf8");
 
 // The game's logic class ships as a script of its own (scripts/game-logic.mjs): the
 // fragment keeps only the stub the runtime compiles, and the shell loads the script
@@ -33,8 +34,23 @@ if (fragment.slice(start, end).trim() !== LOGIC_STUB) {
   throw new Error(`The game script in game.fragment.html should be the stub that asks ${LOGIC_FILE}.`);
 }
 new Function(logic);
-if (html.includes(`<link rel="preload" href="${LOGIC_FILE}"`) || !(html.indexOf(`load("${LOGIC_FILE}")`) > 0 && html.indexOf("await logic;") > 0 && html.indexOf("await logic;") < html.indexOf('await load("vendor/dc-runtime.js")'))) {
-  throw new Error(`index.html should load ${LOGIC_FILE} after the first paint (no preload) and run it before the runtime.`);
+// The game's styles ship as game.css (scripts/build.mjs): the template keeps no <style>, the
+// shell fetches the sheet with the logic, after the first paint, and both are in before the runtime.
+if (/<helmet>[\s\S]*?<style/.test(fragment) || !/@font-face/.test(styles) || !styles.includes(".pg-story-cover-card{")) {
+  throw new Error("The game's styles should be in game.css, and none left in game.fragment.html.");
+}
+const ready = html.indexOf("await Promise.all([styles, logic]);");
+if (/<link rel="preload" href="game\.(?:logic\.js|css)"/.test(html) || !(html.indexOf(`load("${LOGIC_FILE}")`) > 0 && html.indexOf('sheet("game.css")') > 0 && ready > 0 && ready < html.indexOf('await load("vendor/dc-runtime.js")'))) {
+  throw new Error(`index.html should fetch game.css and ${LOGIC_FILE} after the first paint (no preload) and have both before the runtime.`);
+}
+// The cover's typefaces are asked for before the runtime draws the cover (see build.mjs).
+if (!(html.indexOf("await lettered;") > ready && html.indexOf("await lettered;") < html.indexOf('await load("vendor/dc-runtime.js")'))) {
+  throw new Error("index.html should have the cover's typefaces ready before the runtime starts.");
+}
+// The template waits in the page unseen: none of its pictures may download before the game shows it.
+const template = fragment.slice(fragment.indexOf("<x-dc>"), fragment.indexOf("</x-dc>"));
+if (/<(?:img|source|video|audio|iframe|object|embed)\b[^>]*\s(?:src|srcset|poster)="/.test(template)) {
+  throw new Error("A picture in game.fragment.html has a src the browser would fetch while the template waits; the build writes sc-camel-src.");
 }
 
 const localRefs = new Set();
@@ -50,7 +66,7 @@ if (!bootSource || !bootImage || !phoneArt || !wideArt || bootSource[2] !== phon
   throw new Error("The boot screen's painting should be the story's first picture the head preloads, for the same screens.");
 }
 
-const production = html + "\n" + fragment + "\n" + logic;
+const production = html + "\n" + fragment + "\n" + logic + "\n" + styles;
 for (const match of production.matchAll(/(?:src|href)="([^"]+)"/g)) {
   const ref = match[1];
   if (!ref.includes("{{") && !/^(?:https?:|data:|#)/.test(ref)) localRefs.add(ref);

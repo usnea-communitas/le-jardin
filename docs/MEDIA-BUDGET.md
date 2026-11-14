@@ -3,25 +3,27 @@
 What a first visit may download and how large each kind of media may grow. `npm test`
 checks every line below with `scripts/test-media-budget.mjs` (the limits live in
 `scripts/media-budget.mjs`) and stops the build when one is exceeded, naming it.
-Text (HTML, JavaScript, JSON, SVG) counts as it travels, compressed with gzip;
-pictures, fonts and sound count as they are. Measured on 13 November 2026.
+Text (HTML, CSS, JavaScript, JSON, SVG) counts as it travels, compressed with gzip;
+pictures, fonts and sound count as they are. Measured on 13 November 2026; the first visit on 14 November 2026.
 
 ## A first visit
 
-The opening story's cover, before anyone presses a key: the page and the game, its
-rules and runtime, three fonts, the English texts, four small pictures of the
-interface and the story's first painting.
+The opening story's cover, before anyone presses a key: the page and the game (its
+template, styles and logic), its rules and runtime, three fonts, the English texts and
+the story's first painting. The interface's small pictures wait until the garden shows
+them (since 14 November 2026; they were 57 KiB of the first visit).
 
 | | Now | Limit |
 | --- | ---: | ---: |
-| Phone held upright (the 600 × 900 crop of the first painting) | 657 KiB | 700 KiB |
-| Desktop (the full 1600 × 900 painting) | 839 KiB | 900 KiB |
+| Phone held upright (the 600 × 900 crop of the first painting) | 605 KiB | 700 KiB |
+| Desktop (the full 1600 × 900 painting) | 787 KiB | 900 KiB |
 
-The largest parts are the game itself (`game.logic.js` 135 KiB and `game.fragment.html` 56 KiB compressed), the
-first painting (134 KiB on a phone, 316 KiB on a desktop), the fonts (128 KiB) and the
-English texts (48 KiB). The resilience journey (`scripts/e2e-resilience.mjs`, part of
-CI) checks that a browser fetches exactly the files the budget names, on a phone and
-on a desktop, so this sum stays true when something new loads at the start.
+The largest parts are the game itself (`game.logic.js` 135 KiB, `game.fragment.html` 31 KiB
+and `game.css` 26 KiB compressed), the first painting (134 KiB on a phone, 316 KiB on a
+desktop), the fonts (128 KiB) and the English texts (48 KiB). The resilience journey
+(`scripts/e2e-resilience.mjs`, part of CI) checks that a browser fetches exactly the files
+the budget names, on a phone and on a desktop, so this sum stays true when something new
+loads at the start.
 
 Nothing else loads before the player begins: the story's sound and the other paintings
 come as the story plays, the Garden's voice and the music when they are first heard,
