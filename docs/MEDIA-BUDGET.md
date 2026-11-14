@@ -14,10 +14,10 @@ interface and the story's first painting.
 
 | | Now | Limit |
 | --- | ---: | ---: |
-| Phone held upright (the 600 × 900 crop of the first painting) | 655 KiB | 700 KiB |
-| Desktop (the full 1600 × 900 painting) | 837 KiB | 900 KiB |
+| Phone held upright (the 600 × 900 crop of the first painting) | 657 KiB | 700 KiB |
+| Desktop (the full 1600 × 900 painting) | 839 KiB | 900 KiB |
 
-The largest parts are the game itself (`game.fragment.html`, 190 KiB compressed), the
+The largest parts are the game itself (`game.logic.js` 135 KiB and `game.fragment.html` 56 KiB compressed), the
 first painting (134 KiB on a phone, 316 KiB on a desktop), the fonts (128 KiB) and the
 English texts (48 KiB). The resilience journey (`scripts/e2e-resilience.mjs`, part of
 CI) checks that a browser fetches exactly the files the budget names, on a phone and

@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import path from "node:path";
 import { createRequire } from "node:module";
+import { LOGIC_FILE, LOGIC_STUB } from "./game-logic.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
@@ -17,19 +18,27 @@ const generated = await execFileAsync(process.execPath, [path.join(root, "script
 process.stdout.write(generated.stdout);
 const html = await readFile(path.join(root, "index.html"), "utf8");
 const fragment = await readFile(path.join(root, "game.fragment.html"), "utf8");
+const logic = await readFile(path.join(root, LOGIC_FILE), "utf8");
 
+// The game's logic class ships as a script of its own (scripts/game-logic.mjs): the
+// fragment keeps only the stub the runtime compiles, and the shell loads the script,
+// preloaded, before the runtime.
 const open = fragment.indexOf('<script type="text/x-dc"');
 const start = fragment.indexOf(">", open) + 1;
 const end = fragment.indexOf("</script>", start);
 if (open < 0 || start < 1 || end < 0) {
   throw new Error("The game script was not found in game.fragment.html.");
 }
-
-const gameScript = fragment.slice(start, end);
-new Function(gameScript);
+if (fragment.slice(start, end).trim() !== LOGIC_STUB) {
+  throw new Error(`The game script in game.fragment.html should be the stub that asks ${LOGIC_FILE}.`);
+}
+new Function(logic);
+if (!html.includes(`<link rel="preload" href="${LOGIC_FILE}" as="script">`) || !(html.indexOf(`load("${LOGIC_FILE}")`) > 0 && html.indexOf("await logic;") > 0 && html.indexOf("await logic;") < html.indexOf('await load("vendor/dc-runtime.js")'))) {
+  throw new Error(`index.html should preload ${LOGIC_FILE} and run it before the runtime.`);
+}
 
 const localRefs = new Set();
-const production = html + "\n" + fragment;
+const production = html + "\n" + fragment + "\n" + logic;
 for (const match of production.matchAll(/(?:src|href)="([^"]+)"/g)) {
   const ref = match[1];
   if (!ref.includes("{{") && !/^(?:https?:|data:|#)/.test(ref)) localRefs.add(ref);
@@ -59,5 +68,5 @@ if (missing.length) {
   throw new Error(`Missing local resources:\n${missing.join("\n")}`);
 }
 
-console.log(`Game script syntax OK (${gameScript.length} characters).`);
+console.log(`Game script syntax OK (${LOGIC_FILE}, ${logic.length} characters).`);
 console.log(`Local resource references OK (${localRefs.size} checked).`);

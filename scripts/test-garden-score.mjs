@@ -1,24 +1,20 @@
 // Unit tests for the garden score and the downloadable certificate.
-// The game logic lives in one Design Component class inside the generated game
-// fragment, and asks the rule modules in lib/; both are evaluated here with
-// minimal React and DCLogic stand-ins.
+// The game logic lives in one Design Component class, shipped as game.logic.js
+// (scripts/game-logic.mjs), and asks the rule modules in lib/; both are evaluated
+// here with minimal React and DCLogic stand-ins.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import vm from "node:vm";
+import { loadGameClass } from "./game-logic.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = await readFile(path.join(root, "Permaculture Garden v2.dc.html"), "utf8");
-const fragment = await readFile(path.join(root, "game.fragment.html"), "utf8");
 
 // One formula only: the ring, the reflection card and the certificate must agree.
 assert.equal(source.split("systems.average*.78").length - 1, 1, "The garden score formula must exist exactly once (gardenScore).");
 
-const open = fragment.indexOf('<script type="text/x-dc"');
-const start = fragment.indexOf(">", open) + 1;
-const end = fragment.indexOf("</script>", start);
-assert.ok(open >= 0 && start > 0 && end > start, "The game script was not found in game.fragment.html.");
 
 const React = { createElement: (type, props, ...children) => ({ type, props: { ...(props || {}), children } }) };
 class DCLogic {
@@ -33,7 +29,7 @@ vm.createContext(sandbox);
 for (const [, file] of source.matchAll(/<script src="(lib\/[a-z-]+\.js)"(?: defer)?><\/script>/g)) {
   if (file !== "lib/i18n.js") vm.runInContext(await readFile(path.join(root, file), "utf8"), sandbox, { filename: file });
 }
-vm.runInContext(fragment.slice(start, end) + "\n;globalThis.__GameComponent = Component;", sandbox);
+sandbox.__GameComponent = await loadGameClass(root, sandbox);
 const game = new sandbox.__GameComponent({});
 
 const threeConnections = {

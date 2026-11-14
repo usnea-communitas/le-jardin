@@ -155,6 +155,27 @@ try {
     await context.close();
   }
 
+  // The game's logic class ships as game.logic.js (scripts/game-logic.mjs): when it
+  // does not arrive, the runtime never starts with a stub that has nothing to hand over.
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const page = await context.newPage();
+    const runtimeRequests = [];
+    page.on('request', request => { if (request.url().includes('/vendor/dc-runtime.js')) runtimeRequests.push(request.url()); });
+    await page.route('**/game.logic.js*', route => route.fulfill({ status: 503, contentType: 'text/plain', body: 'temporary test outage' }));
+    await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
+    const alert = page.getByRole('alert');
+    await alert.waitFor({ state: 'visible', timeout: 10000 });
+    const recovery = {
+      text: await alert.innerText(),
+      retryVisible: await page.getByRole('button', { name: 'Try again' }).isVisible(),
+      gameStarted: await page.evaluate(() => !!window.__PERMAGARDEN_APP__),
+      runtimeRan: await page.evaluate(() => !!document.querySelector('script[src="vendor/dc-runtime.js"]'))
+    };
+    check(/could not finish loading/i.test(recovery.text) && recovery.retryVisible && !recovery.gameStarted && !recovery.runtimeRan, 'a missing game logic shows the retry action and the runtime does not start', { ...recovery, runtimeRequests });
+    await context.close();
+  }
+
   // The first real action after restoring state must still run all discovery effects.
   {
     const { context, page } = await openState(savedState({

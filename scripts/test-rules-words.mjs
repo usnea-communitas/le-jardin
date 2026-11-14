@@ -7,10 +7,10 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import vm from "node:vm";
+import { loadGameClass } from "./game-logic.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const source = await readFile(path.join(root, "Permaculture Garden v2.dc.html"), "utf8");
-const fragment = await readFile(path.join(root, "game.fragment.html"), "utf8");
 const MODULES = { economy: "PermacultureEconomy", "community-table": "PermacultureCommunityTable", seasons: "PermacultureSeasons", acts: "PermacultureActs", wildlife: "PermacultureWildlife" };
 
 // The page loads every rule module, deferred so it does not hold up the first
@@ -26,9 +26,6 @@ assert.ok(/document\.addEventListener\("DOMContentLoaded", resolve/.test(shell) 
 assert.ok(shell.includes(JSON.stringify(Object.values(MODULES))), "the shell checks every rule module arrived, by its global name");
 
 // The game, evaluated with its rule modules as in the page
-const open = fragment.indexOf('<script type="text/x-dc"');
-const start = fragment.indexOf(">", open) + 1;
-const end = fragment.indexOf("</script>", start);
 const React = { createElement: (type, props, ...children) => ({ type, props: { ...(props || {}), children } }) };
 class DCLogic {
   constructor(props) { this.props = props || {}; this.state = {}; }
@@ -38,7 +35,7 @@ const sandbox = { React, DCLogic, console, Math, Date, JSON, Intl, URL, setTimeo
 sandbox.window = sandbox;
 vm.createContext(sandbox);
 for (const file of Object.keys(MODULES)) vm.runInContext(await readFile(path.join(root, "lib", file + ".js"), "utf8"), sandbox, { filename: `lib/${file}.js` });
-vm.runInContext(fragment.slice(start, end) + "\n;globalThis.__GameComponent = Component;", sandbox);
+sandbox.__GameComponent = await loadGameClass(root, sandbox);
 const game = new sandbox.__GameComponent({});
 const economy = sandbox.PermacultureEconomy, table = sandbox.PermacultureCommunityTable, seasons = sandbox.PermacultureSeasons, acts = sandbox.PermacultureActs, wildlife = sandbox.PermacultureWildlife;
 assert.equal(game.rules.economy, economy);

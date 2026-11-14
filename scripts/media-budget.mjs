@@ -30,6 +30,7 @@ export const BUDGET = {
 const FIRST_VISIT_SHARED = [
   "index.html",
   "game.fragment.html",
+  "game.logic.js",
   "lib/acts.js",
   "lib/community-table.js",
   "lib/economy.js",

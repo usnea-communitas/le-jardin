@@ -39,10 +39,10 @@ export function groupOf(file) {
   return null;
 }
 
-// generated: the contents of index.html and game.fragment.html as this build
-// makes them (they may not be written yet when the build only checks).
+// generated: the contents of index.html, game.fragment.html and game.logic.js as
+// this build makes them (they may not be written yet when the build only checks).
 export async function buildOfflineManifest(root, generated) {
-  const shell = ["index.html", "game.fragment.html", "manifest.webmanifest", "favicon.ico"];
+  const shell = ["index.html", "game.fragment.html", "game.logic.js", "manifest.webmanifest", "favicon.ico"];
   const lib = (await readdir(path.join(root, "lib"))).filter(f => f.endsWith(".js")).sort().map(f => "lib/" + f);
   const vendor = (await readdir(path.join(root, "vendor"))).filter(f => f.endsWith(".js")).sort().map(f => "vendor/" + f);
   const assets = (await walk(root, "assets")).sort();
