@@ -34,6 +34,9 @@ registerHooks({
 
 const require = createRequire(import.meta.url);
 const LivingLesson = require("../lib/living-lesson.js");
+// The function asks Claude only with a key; the tests never reach the network
+// (the "ai" module is mocked above), so any value will do.
+process.env.ANTHROPIC_API_KEY = "sk-ant-test-key";
 const handler = require("../api/garden-reflection.js");
 
 function response() {
@@ -73,9 +76,11 @@ const snapshot = {
 
 const get = await call("GET", null);
 assert.equal(get.statusCode, 200);
-assert.equal(get.body.model, "openai/gpt-5.6-luna");
-assert.equal(get.body.auth, "vercel-oidc");
-assert.equal(get.body.promptVersion, "living-lesson-v4-locale-contract");
+assert.equal(get.body.model, "claude-haiku-5-5");
+assert.equal(get.body.auth, "anthropic-api-key");
+assert.equal(get.body.configured, true);
+assert.doesNotMatch(JSON.stringify(get.body), /sk-ant/, "the key never appears in a response");
+assert.equal(get.body.promptVersion, "living-lesson-v5-claude");
 assert.deepEqual(get.body.locales, ["en", "cs", "de", "fr", "es", "pt-BR", "pl", "ru", "zh-CN"]);
 
 const method = await call("DELETE", null);
@@ -90,21 +95,15 @@ assert.equal(invalid.statusCode, 400);
 const crossOrigin = await call("POST", { clientId: "garden_12345678", snapshot }, { "content-type": "application/json", origin: "https://attacker.example", host: "garden.example" });
 assert.equal(crossOrigin.statusCode, 403);
 
-const oldOidc = process.env.VERCEL_OIDC_TOKEN;
-const oldGateway = process.env.AI_GATEWAY_API_KEY;
 const oldForcedFallback = process.env.LIVING_LESSON_FORCE_FALLBACK;
-delete process.env.VERCEL_OIDC_TOKEN;
-delete process.env.AI_GATEWAY_API_KEY;
 process.env.LIVING_LESSON_FORCE_FALLBACK = "1";
 const fallback = await call("POST", { clientId: "garden_12345678", snapshot }, { "content-type": "application/json", origin: "https://garden.example", host: "garden.example" });
-if (oldOidc !== undefined) process.env.VERCEL_OIDC_TOKEN = oldOidc;
-if (oldGateway !== undefined) process.env.AI_GATEWAY_API_KEY = oldGateway;
 if (oldForcedFallback === undefined) delete process.env.LIVING_LESSON_FORCE_FALLBACK;
 else process.env.LIVING_LESSON_FORCE_FALLBACK = oldForcedFallback;
 assert.equal(fallback.statusCode, 200);
 assert.equal(fallback.body.ok, true);
 assert.equal(fallback.body.mode, "fallback");
-assert.equal(fallback.body.fallbackReason, "gateway_unavailable");
+assert.equal(fallback.body.fallbackReason, "switched_off");
 assert.ok(fallback.body.lesson.experiment.action.length > 10);
 assert.equal(fallback.headers["Cache-Control"], "no-store");
 
@@ -114,7 +113,7 @@ const localizedFallback = await call("POST", {
   snapshot: { ...snapshot, locale: "zh-Hans-CN" }
 }, { "content-type": "application/json", origin: "https://garden.example", host: "garden.example" });
 delete process.env.LIVING_LESSON_FORCE_FALLBACK;
-assert.equal(localizedFallback.body.lesson.fingerprint.startsWith("living-lesson-v4-locale-contract-"), true);
+assert.equal(localizedFallback.body.lesson.fingerprint.startsWith("living-lesson-v5-claude-"), true);
 assert.equal(localizedFallback.body.lesson.locale, "zh-CN");
 
 const czechSnapshot = { ...snapshot, locale: "cs", harvests: 1 };
@@ -136,7 +135,15 @@ assert.equal(localizedAi.statusCode, 200);
 assert.equal(localizedAi.body.mode, "ai");
 assert.equal(localizedAi.body.lesson.source, "ai");
 assert.equal(localizedAi.body.lesson.locale, "cs");
-assert.equal(localizedAi.body.lesson.promptVersion, "living-lesson-v4-locale-contract");
+assert.equal(localizedAi.body.lesson.promptVersion, "living-lesson-v5-claude");
+assert.equal(localizedAi.body.model, "claude-haiku-5-5");
+const claudeRequest = globalThis.__PG_TEST_LIVING_LESSON_REQUEST__;
+assert.equal(claudeRequest.model.modelId, "claude-haiku-5-5", "the reflection is asked of Claude Haiku 5.5");
+assert.match(claudeRequest.model.provider, /^anthropic\b/, "directly through the Claude API, not a gateway");
+assert.deepEqual(claudeRequest.providerOptions.anthropic.thinking, { type: "disabled" });
+assert.match(claudeRequest.providerOptions.anthropic.metadata.userId, /^[0-9a-f]{24}$/, "only a hashed client id travels with the request");
+assert.equal(claudeRequest.providerOptions.gateway, undefined);
+assert.equal(claudeRequest.maxOutputTokens, 500);
 assert.match(globalThis.__PG_TEST_LIVING_LESSON_REQUEST__.system, /in Czech/);
 assert.match(globalThis.__PG_TEST_LIVING_LESSON_REQUEST__.system, /Return locale exactly as cs\./);
 assert.ok(globalThis.__PG_TEST_LIVING_LESSON_REQUEST__.abortSignal instanceof AbortSignal);
@@ -308,16 +315,20 @@ for (const [index, item] of wrongLanguageCases.entries()) {
   assert.equal(result.body.lesson.locale, item.locale, item.label);
 }
 
-// Gateway outages (J-09a): credit used up, a provider limit, a refused token,
-// a server error, a timeout or no network all end in the reviewed offline
-// lesson with an honest reason code. Nothing of the upstream message reaches
+// Outages (J-09a, J-09b): credit or the workspace's spend limit used up, a
+// provider limit, a refused key, a server error, a timeout or no network all
+// end in the reviewed offline lesson with an honest reason code. Nothing of the upstream message reaches
 // the browser, and an outage is never cached as if it were a model answer.
 const jsonHeaders = { "content-type": "application/json", origin: "https://garden.example", host: "garden.example" };
 const outages = [
   { label: "credit used up", error: Object.assign(new Error("Insufficient credit: secret-team-123"), { statusCode: 402 }), reason: "credit_limit" },
+  { label: "Claude credit too low", error: Object.assign(new Error("Your credit balance is too low to access the Anthropic API. secret-org-123"), { statusCode: 400 }), reason: "credit_limit" },
+  { label: "workspace spend limit reached", error: Object.assign(new Error("You have reached your specified workspace API usage limits. You will regain access on 2026-12-01 at 00:00 UTC."), { statusCode: 400 }), reason: "credit_limit" },
+  { label: "other bad request", error: Object.assign(new Error("messages: upstream rejected the request"), { statusCode: 400 }), reason: "provider_unavailable" },
   { label: "provider rate limit", error: Object.assign(new Error("Too many requests for key sk-test"), { statusCode: 429 }), reason: "provider_rate_limit" },
-  { label: "token refused", error: Object.assign(new Error("Unauthorized OIDC token"), { status: 401 }), reason: "gateway_auth" },
-  { label: "token forbidden", error: Object.assign(new Error("Forbidden"), { statusCode: 403 }), reason: "gateway_auth" },
+  { label: "key refused", error: Object.assign(new Error("Unauthorized: invalid x-api-key sk-ant-test"), { status: 401 }), reason: "provider_auth" },
+  { label: "key forbidden", error: Object.assign(new Error("Forbidden"), { statusCode: 403 }), reason: "provider_auth" },
+  { label: "overloaded", error: Object.assign(new Error("Overloaded"), { statusCode: 529 }), reason: "provider_unavailable" },
   { label: "server error", error: Object.assign(new Error("Internal error at upstream"), { statusCode: 500 }), reason: "provider_unavailable" },
   { label: "gateway timeout", error: Object.assign(new Error("Gateway timeout"), { statusCode: 504 }), reason: "provider_unavailable" },
   { label: "12-second timeout", error: Object.assign(new Error("The operation was aborted due to timeout"), { name: "TimeoutError" }), reason: "provider_unavailable" },
@@ -337,10 +348,10 @@ for (const [index, outage] of outages.entries()) {
   assert.equal(result.body.lesson.locale, "fr", outage.label);
   assert.ok(result.body.lesson.experiment.action.length > 10, outage.label);
   assert.equal(result.headers["Cache-Control"], "no-store", outage.label);
-  assert.doesNotMatch(JSON.stringify(result.body), /secret|sk-test|OIDC|upstream|aborted|ECONNRESET|Insufficient|Unauthorized|Forbidden|Gateway timeout/, outage.label);
+  assert.doesNotMatch(JSON.stringify(result.body), /secret|sk-test|sk-ant|x-api-key|credit balance|usage limits|regain|upstream|aborted|ECONNRESET|Insufficient|Unauthorized|Forbidden|Overloaded|Gateway timeout/, outage.label);
   assert.ok(globalThis.__PG_TEST_LIVING_LESSON_REQUEST__, outage.label + ": the model was asked once");
 
-  // The gateway answers again: the same garden now gets a model lesson, not a cached outage.
+  // Claude answers again: the same garden now gets a model lesson, not a cached outage.
   const candidate = LivingLesson.buildCandidates(LivingLesson.sanitizeSnapshot(outageSnapshot))[0];
   globalThis.__PG_TEST_LIVING_LESSON_OUTPUT__ = {
     locale: "fr",
@@ -376,6 +387,21 @@ for (let index = 0; index < 7; index += 1) {
 assert.equal(limited.body.mode, "fallback");
 assert.equal(limited.body.fallbackReason, "rate_limit");
 assert.equal(globalThis.__PG_TEST_LIVING_LESSON_REQUEST__, undefined, "a limited request never reaches the model");
+
+// Without a key (not set in Vercel yet, or removed) the offline lesson is served
+// at once and the model is never asked.
+clearServerState();
+const savedKey = process.env.ANTHROPIC_API_KEY;
+delete process.env.ANTHROPIC_API_KEY;
+const unconfiguredGet = await call("GET", null);
+assert.equal(unconfiguredGet.body.configured, false);
+const unconfigured = await call("POST", { clientId: "garden_no_key_0001", snapshot }, jsonHeaders);
+process.env.ANTHROPIC_API_KEY = savedKey;
+assert.equal(unconfigured.statusCode, 200);
+assert.equal(unconfigured.body.mode, "fallback");
+assert.equal(unconfigured.body.fallbackReason, "not_configured");
+assert.equal(unconfigured.body.model, null);
+assert.equal(globalThis.__PG_TEST_LIVING_LESSON_REQUEST__, undefined, "without a key the model is never asked");
 
 // Only identifiers of challenges and guilds reach the prompt; free text sent
 // in their place is dropped before the model sees anything.

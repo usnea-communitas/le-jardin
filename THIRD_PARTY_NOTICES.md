@@ -20,7 +20,7 @@ Do not place account receipts, API keys, personal billing data or private genera
 The project bundles or installs the following third-party software. Each component remains under its own licence:
 
 - React and ReactDOM — MIT License, bundled production builds in `vendor/`; licence text in `licenses/REACT_MIT.txt`.
-- Vercel AI SDK (`ai`) — Apache-2.0, installed from the locked npm dependency graph.
+- Vercel AI SDK (`ai`) and its Anthropic provider (`@ai-sdk/anthropic`) — Apache-2.0, installed from the locked npm dependency graph.
 - Zod — MIT License, installed from the locked npm dependency graph.
 - Hanken Grotesk — SIL Open Font License 1.1; copyright and licence text in `licenses/HANKEN_GROTESK_OFL.txt`.
 - Bricolage Grotesque — SIL Open Font License 1.1; copyright and licence text in `licenses/BRICOLAGE_GROTESQUE_OFL.txt`.

@@ -59,6 +59,7 @@
     "test:e2e:garden-file": "node scripts/run-local-e2e.mjs scripts/e2e-garden-file.mjs"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.96",
     "ai": "^7.0.162",
     "zod": "^4.6.7"
   },
