@@ -38,6 +38,18 @@ if (html.includes(`<link rel="preload" href="${LOGIC_FILE}"`) || !(html.indexOf(
 }
 
 const localRefs = new Set();
+// The boot screen shows the story's first painting from exactly the files the head
+// preloads, so the largest paint does not wait for the game and nothing downloads twice.
+const preloadedArt = [...html.matchAll(/<link rel="preload" href="([^"]+)" as="image"[^>]*media="([^"]+)"/g)].map((m) => [m[1], m[2]]);
+const boot = (html.match(/<div id="pg-boot"[\s\S]*?<\/picture>/) || [""])[0];
+const bootSource = boot.match(/<source media="([^"]+)" srcset="([^"]+)"/);
+const bootImage = boot.match(/<img class="pg-boot-art" src="([^"]+)"/);
+const phoneArt = preloadedArt.find(([, media]) => !media.startsWith("not all"));
+const wideArt = preloadedArt.find(([, media]) => media.startsWith("not all"));
+if (!bootSource || !bootImage || !phoneArt || !wideArt || bootSource[2] !== phoneArt[0] || bootSource[1] !== phoneArt[1] || bootImage[1] !== wideArt[0]) {
+  throw new Error("The boot screen's painting should be the story's first picture the head preloads, for the same screens.");
+}
+
 const production = html + "\n" + fragment + "\n" + logic;
 for (const match of production.matchAll(/(?:src|href)="([^"]+)"/g)) {
   const ref = match[1];
