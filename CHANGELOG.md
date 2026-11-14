@@ -4,6 +4,7 @@ Notable changes to Le Jardin. Version numbers follow the game's internal release
 
 ## Unreleased
 
+- **The game's logic as a script of its own** (package J-12). The runtime compiled the game's logic class (466 kB) from text on the main thread, inside the longest task of the start, and a browser cannot keep such code compiled between visits. The build now ships the class as `game.logic.js`, which the browser compiles while it arrives, and leaves a one-line stub in its place that hands the class to the runtime; the runtime and the canonical source are unchanged, and the unit tests evaluate the shipped file. Lighthouse's phone, ten runs each alternating with the live site: performance median 86.5 → 93, the largest paint 3.18 → 2.61 s, blocking time 300 → 215 ms, the first visit unchanged (680 KiB). When `game.logic.js` does not arrive, the retry screen shows (a new resilience check). [`docs/START-PERFORMANCE.md`](docs/START-PERFORMANCE.md) has the measurements.
 - **A garden file chosen too early now waits.** The helper that reads a garden file loads when the dialog opens; a file chosen before it had arrived, which a slow connection makes possible, was refused as unreadable. Loading now waits for the helper, and if it cannot load, the dialog says to check the connection. The garden-file journey holds the helper back to test it, and the Living Lesson journey closes a garden message that opens just before its click (both had failed now and then in CI).
 
 ## v0.86.0 — 2026-11-13 — playing without a connection, the French voice and a garden that stays
