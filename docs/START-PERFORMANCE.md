@@ -76,13 +76,36 @@ Three runs in ten (four on the live site) still end with the cover's text as the
 largest paint, at 4.2–4.5 s, because that paint waits for the whole game. That is
 item 1 below, and it keeps the worst run under 85.
 
+## The story's painting on the boot screen (14 November 2026)
+
+The boot screen shows the story's first painting from the files the head
+already preloads, placed exactly as the opening story places it, with the leaf
+and "Preparing Le Jardin…" on a small card in the cover card's style; the
+painting stays when the cover takes over. A player on a slow connection sees
+the painting as soon as it arrives instead of a cream screen until the whole
+game has rendered.
+
+Lighthouse did not notice. Ten runs each, alternating with the live site:
+performance median 89.5 → 90, worst 78 → 75, largest paint median 2.58 →
+2.60 s, three slow runs in ten in both. A trace shows why: Chrome takes no
+image that covers the whole viewport as a largest-paint candidate (it treats it
+as a background), so the boot painting never counts, and neither does the
+story's own painting. The only candidates are texts: the boot card's title at
+the first paint, and sometimes the cover's paragraph. The cover card rises in
+from transparent (`storyCaption`), and Chrome ignores text painted at opacity
+0, so usually the boot title stays the largest paint. When the main thread is
+busy as the cover renders, its first frame comes mid-animation, the paragraph
+is visible and larger, and the largest paint moves to it (4.3–5.3 s): those
+are the slow runs. Fewer of them needs a lighter render of the cover (items 2 and 3
+and the runtime's own work), not a different picture.
+
 ## What can be taken away, largest first
 
 1. **The cover waits for the whole game.** Every step above stands between
-   the first paint (1.0 s) and the largest one. Painting the story's first
-   picture in `index.html` itself, before the game runs, would let the
-   largest paint happen with the first one. It changes the boot screen (a
-   picture instead of the leaf), so it needs the maintainer's yes.
+   the first paint (1.0 s) and the cover. The boot screen now shows the
+   story's first painting (14 November 2026, see below), so a player sees it
+   long before the game is ready, but Lighthouse's largest paint did not
+   move: Chrome never counts an image that covers the whole viewport.
 2. **Style and layout inside React's first render** (70–85 ms): something in
    the first render asks for layout. Moving that read after the first frame
    splits the task, which lowers blocking time without saving work.
