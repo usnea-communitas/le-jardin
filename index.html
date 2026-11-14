@@ -49,7 +49,6 @@ x-dc{display:none!important}
 <link rel="preload" href="vendor/react.production.min.js" as="script">
 <link rel="preload" href="vendor/react-dom.production.min.js" as="script">
 <link rel="preload" href="vendor/dc-runtime.js" as="script">
-<link rel="preload" href="game.logic.js" as="script">
 <script>
 (() => {
   const load = (src) => new Promise((resolve, reject) => {
@@ -94,7 +93,8 @@ x-dc{display:none!important}
   const boot = async () => {
     const i18n = window.PermacultureI18n;
     const localeReady = i18n && typeof i18n.bootstrap === "function" ? i18n.bootstrap() : Promise.resolve();
-    // the game's logic class is a script of its own, so the browser compiles it while it arrives (docs/START-PERFORMANCE.md)
+    // the game's logic class is a script of its own, so the browser compiles it while it arrives; it is fetched
+    // here, after the first paint, not preloaded: a preload would compete with the paint (docs/START-PERFORMANCE.md)
     const logic = load("game.logic.js");
     logic.catch(() => {}); // awaited below, before the runtime: until then a failure is not an unhandled rejection
     const [response] = await Promise.all([fetch("game.fragment.html"), localeReady, load("vendor/react.production.min.js")]);
