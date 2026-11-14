@@ -64,7 +64,7 @@ Keep the following spellings in every locale:
 
 - **Le Jardin**
 - **Menet**
-- **GPT‑5.6 Luna**
+- **Claude Haiku 5.5**
 - The official title **Permaculture Garden — Le Jardin**
 - Personal names: **Camille, Noa, Léa, Malik, Anaïs, Baptiste**
 - Scientific names such as *Stropharia rugosoannulata*, *Pleurotus ostreatus* and *Agrocybe praecox*
@@ -73,7 +73,7 @@ Rules:
 
 - Do not translate the French article in **Le Jardin**.
 - Do not decline, respell or transliterate **Menet** in visible UI. For speech, follow the pronunciation in the already approved reference narration; do not guess from the target language’s spelling rules.
-- Keep **GPT‑5.6 Luna** together. `GPT‑5.6` is not a generic “AI” label and `Luna` is not translated.
+- Keep **Claude Haiku 5.5** together, with a no-break space before `5.5`. `Claude` is not a generic “AI” label and `Haiku` is not translated. Where a verb agrees with it, Claude is masculine (cs *pomohl*, *navrhl*; pl *zaproponował*; ru *предложил*). Until 14 November 2026 the reflections came from GPT‑5.6 Luna.
 - Personal names retain their accents. A locale may add a pronunciation hint in production notes, never inside player-facing text.
 - Internal IDs, file paths, storage keys, locale codes and API field names are never localized.
 
@@ -241,11 +241,11 @@ These names may stay poetic. Their explanatory text must retain the caveats abou
 | target | cílová hodnota | Zielwert | valeur cible | valor objetivo | meta | целевое значение | 目标值 |
 | check the result | ověřit výsledek | Ergebnis prüfen | vérifier le résultat | comprobar el resultado | verificar o resultado | проверить результат | 检查结果 |
 | reviewed offline lesson | ověřená offline lekce | geprüfte Offline-Lektion | leçon hors ligne validée | lección sin conexión revisada | lição offline revisada | проверенный офлайн-урок | 经审核的离线课程 |
-| suggested by GPT‑5.6 Luna | navrhla GPT‑5.6 Luna | vorgeschlagen von GPT‑5.6 Luna | proposé par GPT‑5.6 Luna | sugerido por GPT‑5.6 Luna | sugerido por GPT‑5.6 Luna | предложено GPT‑5.6 Luna | 由 GPT‑5.6 Luna 建议 |
+| suggested by Claude Haiku 5.5 | navrhl Claude Haiku 5.5 | vorgeschlagen von Claude Haiku 5.5 | proposé par Claude Haiku 5.5 | sugerido por Claude Haiku 5.5 | sugerido por Claude Haiku 5.5 | предложено Claude Haiku 5.5 | 由 Claude Haiku 5.5 建议 |
 
-The title may be translated, but **GPT‑5.6 Luna** is always preserved. Player-facing copy should explain an action and an observable relationship; it should not expose implementation vocabulary such as `state fingerprint`, `structured output`, `cache key`, `token cap` or `fallback candidate`.
+The title may be translated, but **Claude Haiku 5.5** is always preserved. Player-facing copy should explain an action and an observable relationship; it should not expose implementation vocabulary such as `state fingerprint`, `structured output`, `cache key`, `token cap` or `fallback candidate`.
 
-If AI is unavailable, use the localized reviewed lesson without apologetic technical copy. Clearly mark it as available offline; never imply that GPT generated it.
+If AI is unavailable, use the localized reviewed lesson without apologetic technical copy. Clearly mark it as available offline; never imply that Claude generated it.
 
 ## 9. Learning challenges and principles
 

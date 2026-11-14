@@ -72,9 +72,9 @@ if (liveApi) {
           : "I notice one relationship waiting for a helpful neighbour.",
       relationship: "Connected placement helps one element's useful output meet another element's need.",
       question: "What changes when you place the next element for a relationship rather than in isolation?"
-    }, body.snapshot, candidates, { source: "ai", model: "openai/gpt-5.6-luna" });
+    }, body.snapshot, candidates, { source: "ai", model: "claude-haiku-5-5" });
     try {
-      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, mode: "ai", model: "openai/gpt-5.6-luna", lesson }) });
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ ok: true, mode: "ai", model: "claude-haiku-5-5", lesson }) });
     } catch (error) {
       if (raceCall !== 1) throw error;
     }
@@ -146,7 +146,7 @@ try {
       const box = window.__PERMAGARDEN_APP__.state.livingLesson;
       return { status: box && box.status, observation: box && box.lesson && box.lesson.observation };
     });
-    check(raceCalls === 2 && /CURRENT_NEW_REQUEST/.test(raceResult.observation || "") && !/STALE_OLD_REQUEST/.test(raceResult.observation || ""), "closing and reopening Luna cannot leak a stale response into the new lesson", { raceCalls, raceResult });
+    check(raceCalls === 2 && /CURRENT_NEW_REQUEST/.test(raceResult.observation || "") && !/STALE_OLD_REQUEST/.test(raceResult.observation || ""), "closing and reopening the Living Lesson cannot leak a stale response into the new lesson", { raceCalls, raceResult });
     await page.evaluate(({ key, value }) => {
       const app = window.__PERMAGARDEN_APP__;
       app.closeLivingLesson();
@@ -184,18 +184,18 @@ try {
   check(expectedMode === "either" || resolvedMode === expectedMode, "Living Lesson reports the expected inference mode", { expectedMode, resolvedMode, eyebrow });
   if (liveMetadata) {
     check(
-      liveMetadata.model === "openai/gpt-5.6-luna" && liveMetadata.auth === "vercel-oidc",
-      "production API identifies GPT-5.6 Luna and Vercel OIDC",
-      { model: liveMetadata.model, auth: liveMetadata.auth }
+      liveMetadata.model === "claude-haiku-5-5" && liveMetadata.auth === "anthropic-api-key",
+      "production API identifies Claude Haiku 5.5 through the Claude API",
+      { model: liveMetadata.model, auth: liveMetadata.auth, configured: liveMetadata.configured }
     );
   }
   const attribution = dialog.getByTestId("living-lesson-attribution");
   const attributionText = (await attribution.textContent()).trim();
   check(
     resolvedMode === "ai"
-      ? /GPT-5\.6 Luna/.test(attributionText) && (await attribution.getAttribute("data-source")) === "ai"
-      : !/GPT/.test(attributionText) && /offline/i.test(attributionText),
-    "the dialog credits GPT-5.6 Luna only for a lesson the model actually wrote",
+      ? /Claude Haiku\s5\.5/.test(attributionText) && (await attribution.getAttribute("data-source")) === "ai"
+      : !/Claude|GPT/.test(attributionText) && /offline/i.test(attributionText),
+    "the dialog credits Claude Haiku 5.5 only for a lesson the model actually wrote",
     { resolvedMode, attributionText }
   );
   if (resolvedMode === "ai") {
@@ -266,7 +266,7 @@ try {
       const offlineAttribution = dialog.getByTestId("living-lesson-attribution");
       const offlineText = (await offlineAttribution.textContent()).trim();
       check(
-        /Garden wisdom offline/.test(offlineText) && !/GPT/.test(offlineText) && (await offlineAttribution.getAttribute("data-source")) === "offline",
+        /Garden wisdom offline/.test(offlineText) && !/Claude|GPT/.test(offlineText) && (await offlineAttribution.getAttribute("data-source")) === "offline",
         "an offline lesson is labelled Garden wisdom offline and never credits the model",
         { offlineText }
       );

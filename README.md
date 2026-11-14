@@ -67,21 +67,22 @@ The facilitator guide in English, Czech and French — the six acts, the solutio
 
 1. The client derives a bounded, anonymous snapshot of the player's current garden.
 2. `lib/living-lesson.js` generates two to four valid, *measurable* design experiments from that state.
-3. `api/garden-reflection.js` sends the snapshot and the trusted candidates to the model through Vercel AI Gateway.
+3. `api/garden-reflection.js` sends the snapshot and the trusted candidates to Claude Haiku 5.5 through the Claude API (Anthropic).
 4. The model picks one candidate and expresses the current relationships as a first-person garden observation, a concise ecological explanation and one Socratic question — in the player's language.
 5. The player accepts the experiment and changes the real garden.
 6. The deterministic engine — not the model — checks the new state and records the evidence.
 
-The model cannot invent an action, modify the economy, award points or decide whether its own experiment passed. Its output is structured, normalised and matched back to the server-generated candidate list. If live inference is unavailable, a reviewed deterministic lesson keeps the feature useful and is clearly labelled **Garden wisdom offline**; the GPT‑5.6 Luna credit appears only on lessons the model actually wrote.
+The model cannot invent an action, modify the economy, award points or decide whether its own experiment passed. Its output is structured, normalised and matched back to the server-generated candidate list. If live inference is unavailable, a reviewed deterministic lesson keeps the feature useful and is clearly labelled **Garden wisdom offline**; the Claude Haiku 5.5 credit appears only on lessons the model actually wrote. Until 14 November 2026 the reflections came from GPT‑5.6 Luna through Vercel AI Gateway.
 
 **Privacy, safety and cost boundaries**
 
-- No provider credential is shipped to the browser; production requests authenticate with Vercel's automatically supplied OIDC token.
+- No provider credential is shipped to the browser. The function reads the Claude API key from the Vercel environment variable `ANTHROPIC_API_KEY`, created in a Claude Console workspace of its own; without it the endpoint serves the offline lesson.
+- Anthropic does not use inputs and outputs of its API to train its models by default and deletes them within 30 days ([training](https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training), [retention](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data)); the request carries only a hashed client identifier.
 - The model receives only element types, season, relationship metrics, bounded progression counts and a language code. Player name, free-text reflections and the save file never leave the browser.
 - The endpoint rejects requests without a matching `Origin`, regenerates the candidates server-side and validates the structured response before returning it. The `Origin` check keeps other websites from using a visitor's browser; a script can still send the header, so the limits below and the credit are the real brake. Challenge and guild entries in the snapshot pass only as identifiers (`compost`, `foodForest`), so free text never reaches the prompt.
 - Application code does not log prompts or player state; routing identifiers are hashed.
-- Stable state fingerprints enable caching; the client allows three uncached requests per browser per day, and the function adds a 12-second timeout, a 320-token output cap and its own limits: 6 requests per minute per IP address, 12 per day per client and 240 per day in total, with answers cached for six hours. Those limits and the cache live in the memory of each function instance, so a cold start resets them and concurrent instances count separately: they are a cost brake, not an exact global quota. The hard ceiling is the AI Gateway credit; when it runs out, the endpoint serves the offline lesson.
-- If credit, authentication or the provider is unavailable, the endpoint returns a deterministic lesson without further model cost and without breaking the game. The player then sees the reviewed lesson labelled *Garden wisdom offline — no AI wrote these words*, never an error or the provider's message. `scripts/test-living-lesson-api.mjs` simulates each case: credit used up, a provider limit, a refused token, a server error, a timeout and no network.
+- Stable state fingerprints enable caching; the client allows three uncached requests per browser per day, and the function adds a 12-second timeout, a 500-token output cap and its own limits: 6 requests per minute per IP address, 12 per day per client and 240 per day in total, with answers cached for six hours. Those limits and the cache live in the memory of each function instance, so a cold start resets them and concurrent instances count separately: they are a cost brake, not an exact global quota. The hard ceiling is the monthly spend limit of the Claude Console workspace the key belongs to (5 USD); when it is reached, or the credit runs out, the endpoint serves the offline lesson.
+- If credit, authentication or the provider is unavailable, the endpoint returns a deterministic lesson without further model cost and without breaking the game. The player then sees the reviewed lesson labelled *Garden wisdom offline — no AI wrote these words*, never an error or the provider's message. `scripts/test-living-lesson-api.mjs` simulates each case: credit or the spend limit used up, a provider limit, a refused key, a missing key, a server error, a timeout and no network.
 
 ## Localisation
 
@@ -149,7 +150,7 @@ Serve the static build locally:
 node scripts/static-server.mjs 8787
 ```
 
-Then open <http://127.0.0.1:8787/>. The local server has no Vercel Function or OIDC identity, so the Living Lesson intentionally exercises its offline path.
+Then open <http://127.0.0.1:8787/>. The local server has no Vercel Function or Claude API key, so the Living Lesson intentionally exercises its offline path.
 
 ### Browser regression journeys
 
@@ -177,7 +178,7 @@ Coverage includes adaptive navigation, safe-area and overflow boundaries, 44-pix
 
 ## Deployment
 
-`main` deploys to the Vercel project behind <https://permaculture-garden.vercel.app/> with the **Other** framework preset and no custom build command; `vercel.json` only sets security headers and the cache for fonts and media; Vercel installs locked dependencies from `package-lock.json`. The Living Lesson function needs an AI Gateway credential on the Vercel side only (`AI_GATEWAY_API_KEY`, or the platform OIDC token); nothing is required in the browser. [`.env.example`](.env.example) lists the optional variables for local work.
+`main` deploys to the Vercel project behind <https://permaculture-garden.vercel.app/> with the **Other** framework preset and no custom build command; `vercel.json` only sets security headers and the cache for fonts and media; Vercel installs locked dependencies from `package-lock.json`. The Living Lesson function needs one variable on the Vercel side only, `ANTHROPIC_API_KEY` (a key from the Claude Console workspace whose spend limit caps the cost); nothing is required in the browser. [`.env.example`](.env.example) lists the optional variables for local work.
 
 After every production deployment the *Production smoke test* workflow (`.github/workflows/production-smoke.yml`) runs `npm run test:production` on the deployed commit with `EXPECT_LOCAL_BUILD=1`: the live site must serve exactly that commit's `index.html`, `game.fragment.html` and `game.logic.js`, and the short playthrough must pass without console errors. It never blocks a deploy; a failure shows on the commit and in Actions.
 
@@ -210,4 +211,4 @@ Issues and pull requests are welcome — bug reports, translation fixes, accessi
 
 The garden in Menet and the young people who care for it; the Erasmus+ volunteers whose experience inspired the game; Robin Wall Kimmerer's *The Serviceberry* for the idea of a gift economy that shapes the sharing mechanics; and the open-source projects this game is built on.
 
-OpenAI, GPT, Codex, Vercel, ElevenLabs, Kling, Picsart, Lovable and Erasmus+ are names or marks of their respective owners and are referenced only to describe tools or historical context.
+Anthropic, Claude, OpenAI, GPT, Codex, Vercel, ElevenLabs, Kling, Picsart, Lovable and Erasmus+ are names or marks of their respective owners and are referenced only to describe tools or historical context.

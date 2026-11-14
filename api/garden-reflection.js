@@ -1,7 +1,11 @@
 const crypto = require("node:crypto");
 const LivingLesson = require("../lib/living-lesson.js");
 
-const MODEL = "openai/gpt-5.6-luna";
+// Claude Haiku 5.5 through the Claude API, paid from the Claude Console workspace
+// "Le Jardin" (a monthly spend limit there is the hard ceiling). The key lives in
+// the Vercel environment variable ANTHROPIC_API_KEY; without it the endpoint
+// serves the reviewed offline lesson.
+const MODEL = "claude-haiku-5-5";
 const LANGUAGE_NAMES = {
   en: "English",
   cs: "Czech",
@@ -129,7 +133,8 @@ module.exports = async function handler(req, res) {
       model: MODEL,
       promptVersion: LivingLesson.PROMPT_VERSION,
       locales: LivingLesson.SUPPORTED_LOCALES,
-      auth: "vercel-oidc",
+      auth: "anthropic-api-key",
+      configured: Boolean(process.env.ANTHROPIC_API_KEY),
       fallback: true
     });
   }
@@ -159,8 +164,10 @@ module.exports = async function handler(req, res) {
   if (!allowed) return send(res, 200, fallback(snapshot, candidates, "rate_limit"));
 
   if (process.env.LIVING_LESSON_FORCE_FALLBACK === "1") {
-    return send(res, 200, fallback(snapshot, candidates, "gateway_unavailable"));
+    return send(res, 200, fallback(snapshot, candidates, "switched_off"));
   }
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return send(res, 200, fallback(snapshot, candidates, "not_configured"));
 
   const requestAbort = new AbortController();
   const onDisconnect = () => {
@@ -169,7 +176,8 @@ module.exports = async function handler(req, res) {
   if (req.once) req.once("aborted", onDisconnect);
   if (res.once) res.once("close", onDisconnect);
   try {
-    const [{ generateText, Output }, { z }] = await Promise.all([import("ai"), import("zod")]);
+    const [{ generateText, Output }, { createAnthropic }, { z }] = await Promise.all([import("ai"), import("@ai-sdk/anthropic"), import("zod")]);
+    const anthropic = createAnthropic({ apiKey });
     const candidateIds = candidates.map(item => item.id);
     const schema = z.object({
       locale: z.literal(snapshot.locale),
@@ -181,7 +189,7 @@ module.exports = async function handler(req, res) {
     });
     const prompt = JSON.stringify({ snapshot, trustedExperiments: candidates });
     const result = await generateText({
-      model: MODEL,
+      model: anthropic(MODEL),
       output: Output.object({ schema }),
       system: [
         "You are Le Jardin, a poetic but scientifically careful community garden in Menet, France.",
@@ -194,12 +202,15 @@ module.exports = async function handler(req, res) {
         "Avoid praise, guilt, commands outside the chosen experiment, and claims that wildlife is guaranteed. Do not mention JSON, AI, prompts, models or private data."
       ].join(" "),
       prompt,
-      maxOutputTokens: 320,
+      // Claude counts Czech, Russian and Chinese in more tokens than English; 500
+      // leaves room for the longest valid answer (the schema caps its length).
+      maxOutputTokens: 500,
       abortSignal: requestAbort.signal,
       timeout: { totalMs: 12000 },
       providerOptions: {
-        gateway: { only: ["openai"], user: client, tags: ["permaculture-garden", "living-lesson", LivingLesson.PROMPT_VERSION] },
-        openai: { reasoningEffort: "low", textVerbosity: "low", store: false }
+        // No thinking: a short reflection does not need it and it would add
+        // time and cost. The client id is already a one-way hash.
+        anthropic: { thinking: { type: "disabled" }, metadata: { userId: client } }
       }
     });
     if (!result.output || result.output.locale !== snapshot.locale || !outputMatchesLocale(result.output, snapshot.locale)) {
@@ -216,7 +227,12 @@ module.exports = async function handler(req, res) {
   } catch (error) {
     if (requestAbort.signal.aborted || res.destroyed) return;
     const status = Number(error && (error.statusCode || error.status));
-    const reason = error && error.message === "locale_mismatch" ? "locale_mismatch" : status === 402 ? "credit_limit" : status === 429 ? "provider_rate_limit" : status === 401 || status === 403 ? "gateway_auth" : "provider_unavailable";
+    const message = String((error && error.message) || "");
+    // The Claude API answers 400 when the credit or a spend limit is used up
+    // ("Your credit balance is too low…", "You have reached your specified
+    // workspace API usage limits…"); that is the hard ceiling, not a bug.
+    const creditUsedUp = status === 402 || (status === 400 && /credit balance|usage limit|spend limit/i.test(message));
+    const reason = error && error.message === "locale_mismatch" ? "locale_mismatch" : creditUsedUp ? "credit_limit" : status === 429 ? "provider_rate_limit" : status === 401 || status === 403 ? "provider_auth" : "provider_unavailable";
     return send(res, 200, fallback(snapshot, candidates, reason));
   } finally {
     if (req.removeListener) req.removeListener("aborted", onDisconnect);

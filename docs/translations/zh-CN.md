@@ -868,7 +868,7 @@ A second reading on 13 November 2026 compared the Chinese (Simplified) texts wit
 | `livingLesson.card.description` | A short reflection becomes one testable design experiment. The garden rules stay deterministic. | 一次简短的花园观察，会变成一个可验证的设计尝试。游戏规则始终不变。 | livingLesson |
 | `livingLesson.dialog.title` | The garden reflects | 花园的观察 | livingLesson |
 | `livingLesson.dialog.subtitle` | The garden has looked at what you have made and found one thing worth trying. | 花园观察了你目前的设计，发现了一件值得尝试的事。 | livingLesson |
-| `livingLesson.dialog.attribution` | Its words come from GPT-5.6 Luna; the garden’s rules stay its own. | 这些话由 GPT-5.6 Luna 组织，但游戏规则仍由系统决定。 | livingLesson |
+| `livingLesson.dialog.attribution` | Its words come from Claude Haiku 5.5; the garden’s rules stay its own. | 这些话由 Claude Haiku 5.5 组织，但游戏规则仍由系统决定。 | livingLesson |
 | `livingLesson.dialog.offlineAttribution` | Garden wisdom offline — a reviewed lesson from the game itself; no AI wrote these words. | 离线花园智慧——游戏内置、经过审阅的课程；这些文字并非由 AI 撰写。 | livingLesson |
 | `livingLesson.loading` | Listening between the elements… | 倾听花园各部分之间的联系…… | livingLesson |
 | `livingLesson.loading.detail` | The garden is reading relationships, not judging your score. | 花园正在观察各种关系，而不是评判你的分数。 | livingLesson |
@@ -882,7 +882,7 @@ A second reading on 13 November 2026 compared the Chinese (Simplified) texts wit
 | `livingLesson.section.action` | One small action beyond the screen | 屏幕之外的一项小行动 | livingLesson |
 | `livingLesson.section.success` | How you'll know it worked | 如何知道它奏效了 | livingLesson |
 | `livingLesson.trust.summary` | How this reflection is made | 这次观察如何生成 | livingLesson |
-| `livingLesson.trust.detail` | Only a small anonymous snapshot of this garden was used. GPT‑5.6 Luna can shape this reflection, but it cannot change game rules, scores, prices or success conditions. When AI is unavailable, the same feature continues with reviewed garden wisdom. | 这里只使用了花园当前状态的一份简短匿名摘要。GPT‑5.6 Luna 可以组织观察的表达，但无法改变游戏规则、分数、价格或成功条件。AI 不可用时，系统仍会提供事先审核过的朴门永续建议。 | livingLesson |
+| `livingLesson.trust.detail` | Only a small anonymous snapshot of this garden was used. Claude Haiku 5.5 can shape this reflection, but it cannot change game rules, scores, prices or success conditions. When AI is unavailable, the same feature continues with reviewed garden wisdom. | 这里只使用了花园当前状态的一份简短匿名摘要。Claude Haiku 5.5 可以组织观察的表达，但无法改变游戏规则、分数、价格或成功条件。AI 不可用时，系统仍会提供事先审核过的朴门永续建议。 | livingLesson |
 | `livingLesson.try` | Try this experiment → | 尝试这个实验 → | livingLesson |
 | `livingLesson.locked.label` | ✦ Ask after two learning acts | ✦ 完成两个学习步骤后再提问 | livingLesson |
 | `livingLesson.locked.hint` | Finish any two learning acts first, so the garden has something of yours to look at. | 先完成任意两个学习步骤，让花园已经有内容可以观察。 | livingLesson |

@@ -1,6 +1,6 @@
 # Security policy
 
-Le Jardin is a local-first browser game: progress is stored in the player's browser, there are no accounts and no database. The one server component is the Vercel Function `api/garden-reflection.js`, which forwards an anonymous garden snapshot to a language model through Vercel AI Gateway and returns a validated, structured reflection.
+Le Jardin is a local-first browser game: progress is stored in the player's browser, there are no accounts and no database. The one server component is the Vercel Function `api/garden-reflection.js`, which forwards an anonymous garden snapshot to Claude Haiku 5.5 through the Claude API (Anthropic) and returns a validated, structured reflection. The API key is a Vercel environment variable and never reaches the browser.
 
 ## Reporting a vulnerability
 
