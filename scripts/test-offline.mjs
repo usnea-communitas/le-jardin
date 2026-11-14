@@ -151,7 +151,7 @@ for (const [file, [size]] of Object.entries(real.files)) {
 }
 assert.ok(!Object.keys(real.files).some(f => /\.(webm|mp4)$/.test(f)), "moving pictures stay online");
 assert.deepEqual(Object.keys(real.groups.catalogs).sort(), ["cs", "de", "en", "es", "fr", "pl", "pt-BR", "ru", "zh-CN"]);
-for (const needed of ["index.html", "game.fragment.html", "lib/offline.js", "lib/i18n.js", "vendor/dc-runtime.js"]) {
+for (const needed of ["index.html", "game.fragment.html", "game.logic.js", "lib/offline.js", "lib/i18n.js", "vendor/dc-runtime.js"]) {
   assert.ok(real.groups.core.includes(needed), `the package holds ${needed}`);
 }
 assert.deepEqual(Object.keys(real.groups.voice).sort(), ["cs", "en", "fr"], "the English, Czech and French voices are listed");

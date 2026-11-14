@@ -49,6 +49,7 @@ x-dc{display:none!important}
 <link rel="preload" href="vendor/react.production.min.js" as="script">
 <link rel="preload" href="vendor/react-dom.production.min.js" as="script">
 <link rel="preload" href="vendor/dc-runtime.js" as="script">
+<link rel="preload" href="game.logic.js" as="script">
 <script>
 (() => {
   const load = (src) => new Promise((resolve, reject) => {
@@ -93,6 +94,9 @@ x-dc{display:none!important}
   const boot = async () => {
     const i18n = window.PermacultureI18n;
     const localeReady = i18n && typeof i18n.bootstrap === "function" ? i18n.bootstrap() : Promise.resolve();
+    // the game's logic class is a script of its own, so the browser compiles it while it arrives (docs/START-PERFORMANCE.md)
+    const logic = load("game.logic.js");
+    logic.catch(() => {}); // awaited below, before the runtime: until then a failure is not an unhandled rejection
     const [response] = await Promise.all([fetch("game.fragment.html"), localeReady, load("vendor/react.production.min.js")]);
     if (!response.ok) throw new Error("Game content could not be loaded");
     if (i18n && typeof i18n.installReact === "function") i18n.installReact(window.React);
@@ -100,6 +104,7 @@ x-dc{display:none!important}
     document.body.insertAdjacentHTML("beforeend", fragment);
     await parsed;
     if (["PermacultureEconomy","PermacultureCommunityTable","PermacultureSeasons","PermacultureActs","PermacultureWildlife"].some((name) => !window[name])) throw new Error("The rules of the game could not be loaded");
+    await logic;
     await load("vendor/dc-runtime.js");
   };
   // Playing without a connection (sw.js): a newer build downloaded in the background
