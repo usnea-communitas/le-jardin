@@ -336,6 +336,15 @@ try {
         if (name === key) count += 1;
         return original.call(this, name, value);
       };
+      // Which saved keys each save carries, so typing can be told apart from a
+      // durable change that happens to land while the player types.
+      const originalPersist = app.persist;
+      const saves = [];
+      let phase = 'setup';
+      app.persist = function () {
+        saves.push({ phase, changed: app.persistentStateChanges(app.state) });
+        return originalPersist.apply(this, arguments);
+      };
       try {
         await new Promise(resolve => app.setState({ dragType: 'compost', selectedType: 'compost', headerMenuOpen: true }, resolve));
         await new Promise(resolve => setTimeout(resolve, 60));
@@ -353,21 +362,31 @@ try {
         await new Promise(resolve => app.setState(state => ({ gate: { ...state.gate, status: 'won' } }), resolve));
         await new Promise(resolve => setTimeout(resolve, 60));
         const gateResult = count - transient - durable - gateTicks;
+        phase = 'typing';
         for (const note of ['o', 'ob', 'obs', 'obse', 'observe']) {
           await new Promise(resolve => app.setState({ reflectionNote: note }, resolve));
         }
         await new Promise(resolve => setTimeout(resolve, 100));
         const reflectionImmediate = count - transient - durable - gateTicks - gateResult;
+        phase = 'settling';
         await new Promise(resolve => setTimeout(resolve, 500));
         const reflectionSettled = count - transient - durable - gateTicks - gateResult;
-        return { transient, durable, gateTicks, gateResult, reflectionImmediate, reflectionSettled, total: count };
+        // Saves that only the note asked for: none while typing, at most one after
+        // it. A save that also carries another durable change may come at any time
+        // (the game saves those at once and takes the note with them).
+        const noteOnly = item => item.changed.length === 1 && item.changed[0] === 'reflectionNote';
+        const noteOnlyWhileTyping = saves.filter(item => item.phase === 'typing' && noteOnly(item)).length;
+        const noteOnlySaves = saves.filter(item => (item.phase === 'typing' || item.phase === 'settling') && noteOnly(item)).length;
+        const savedNote = (JSON.parse(localStorage.getItem(key) || '{}') || {}).reflectionNote;
+        return { transient, durable, gateTicks, gateResult, reflectionImmediate, reflectionSettled, noteOnlyWhileTyping, noteOnlySaves, savedNote, total: count, saves: saves.filter(item => item.phase === 'typing' || item.phase === 'settling') };
       } finally {
         Storage.prototype.setItem = original;
+        app.persist = originalPersist;
       }
     }, storeKey);
     check(writes.transient === 0 && writes.durable === 1, 'transient UI updates skip storage and one durable change produces one save write', writes);
     check(writes.gateTicks === 0 && writes.gateResult === 1, 'timed challenge ticks do not hammer storage, while a finished result is saved once', writes);
-    check(writes.reflectionImmediate === 0 && writes.reflectionSettled === 1, 'reflection typing is coalesced into one delayed save', writes);
+    check(writes.noteOnlyWhileTyping === 0 && writes.noteOnlySaves <= 1 && writes.savedNote === 'observe', 'reflection typing is coalesced into one delayed save', writes);
     await context.close();
   }
 
